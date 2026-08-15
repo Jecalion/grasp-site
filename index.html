@@ -1,0 +1,206 @@
+<!doctype html>
+<!--
+  The landing page.
+
+  Two audiences, and they want the same thing said plainly: someone deciding
+  whether to install the app, and a partner programme checking that the
+  business behind the app exists and does what it claims. Nothing here is a
+  promise the app does not already keep — an affiliate application that
+  describes a product more capable than the one you ship is a rejection with
+  extra steps.
+
+  The lockup is inline SVG drawn from the same geometry as the app's, so the
+  mark is provably the same object and needs no font, no image, and no
+  request.
+-->
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Grasp — a workout planner that shows its working</title>
+    <meta
+      name="description"
+      content="Grasp plans your session and works out the weights from what you actually lifted — then tells you why it picked them. Works offline. Free."
+    />
+    <meta property="og:title" content="Grasp — a workout planner that shows its working" />
+    <meta
+      property="og:description"
+      content="Plans your session, works out the weights from what you actually lifted, and tells you why. Works offline. Free."
+    />
+    <meta property="og:type" content="website" />
+    <link rel="icon" href="favicon.png" />
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <header class="site">
+      <div class="wrap">
+        <a href="index.html" aria-label="Grasp home">
+          <svg
+            class="lockup"
+            viewBox="-4 25 264 50"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
+            role="img"
+            aria-label="Grasp"
+          >
+            <g stroke="currentColor" stroke-width="8.5" stroke-linecap="round" stroke-linejoin="round">
+              <line x1="10" y1="30" x2="10" y2="70" />
+              <line x1="25" y1="30" x2="25" y2="70" />
+              <line x1="40" y1="30" x2="40" y2="70" />
+              <line x1="55" y1="30" x2="55" y2="70" />
+              <path d="M 112 30 L 93 30 L 93 70 L 112 70 L 112 52 L 103 52" />
+              <path d="M 129 70 L 129 30 L 147 30 L 147 48 L 129 48" />
+              <path d="M 137 48 L 148 70" />
+              <path d="M 165 70 L 165 38 L 174 30 L 183 38 L 183 70" />
+              <path d="M 165 54 L 183 54" />
+              <path d="M 220 30 L 201 30 L 201 50 L 219 50 L 219 70 L 200 70" />
+              <path d="M 237 70 L 237 30 L 255 30 L 255 50 L 237 50" />
+            </g>
+            <!-- The one accent element, exactly as in the app. -->
+            <line
+              x1="1"
+              y1="64"
+              x2="64"
+              y2="36"
+              stroke="var(--accent)"
+              stroke-width="8.5"
+              stroke-linecap="round"
+            />
+          </svg>
+        </a>
+        <nav>
+          <a href="support.html">Support</a>
+          <a href="privacy.html">Privacy</a>
+        </nav>
+      </div>
+    </header>
+
+    <main>
+      <section class="hero">
+        <div class="wrap">
+          <span class="badge">Free · No account needed</span>
+          <h1>A workout planner that shows its working.</h1>
+          <p class="lede">
+            Grasp plans your session before you open it, works out the weights from what you
+            actually lifted last time, and tells you why it picked each one. No subscription, no
+            account, and no signal required.
+          </p>
+          <div class="actions">
+            <a class="cta" href="#coming">Coming to Android</a>
+            <a class="cta secondary" href="support.html">Get in touch</a>
+          </div>
+          <p class="meta">In testing now. iOS to follow.</p>
+        </div>
+      </section>
+
+      <div class="wrap">
+        <h2>Every weight comes with a reason</h2>
+        <p>
+          Most training apps hand you a number and leave you to trust it. When the number is wrong —
+          and sometimes it will be — there is nothing to do but retype it, every set, forever.
+        </p>
+        <p>Grasp shows the reasoning, and lets you disagree in one tap.</p>
+
+        <div class="ledger">
+          <div class="ledger-row">
+            <span class="ledger-name">Leg Press</span>
+            <span class="ledger-figure">65 kg</span>
+          </div>
+          <div class="ledger-row">
+            <p class="ledger-why">Every set reached the top of your range — up 5 kg.</p>
+            <span class="ledger-up">↑ 5 kg</span>
+          </div>
+        </div>
+
+        <p>
+          Five kilograms because that is the smallest step the machine's stack actually has. A
+          barbell moves in 2.5. A dumbbell rack moves in 2. The suggestion is always something you
+          can physically load.
+        </p>
+
+        <h2>What it does</h2>
+        <ul class="points">
+          <li>
+            <h3>Plans around your gym</h3>
+            <p>
+              Tell it what equipment you can reach and it will never suggest a movement you cannot
+              do. Change gyms and today's session rebuilds itself.
+            </p>
+          </li>
+          <li>
+            <h3>Progresses on evidence</h3>
+            <p>
+              Hit the top of your rep range on every set and the weight goes up. Miss it twice and
+              it comes down. That is the whole rule, and you can state it back to us.
+            </p>
+          </li>
+          <li>
+            <h3>Works with no signal</h3>
+            <p>
+              Everything lives on your phone. Gym basements, aeroplanes and dead zones change
+              nothing, because there was never a server in the loop.
+            </p>
+          </li>
+          <li>
+            <h3>Tracks what you have trained</h3>
+            <p>
+              A body map shades each muscle by how recently you worked it, so a week of training
+              reads at a glance instead of needing to be added up.
+            </p>
+          </li>
+          <li>
+            <h3>Times your work and your rest</h3>
+            <p>
+              Rest timers between sets, and interval timers for cardio — two minutes on, one minute
+              off — with a sound at every change so you can put the phone down.
+            </p>
+          </li>
+          <li>
+            <h3>Lets you take your data</h3>
+            <p>
+              Export everything as a spreadsheet or a complete backup, whenever you want, with or
+              without an account.
+            </p>
+          </li>
+        </ul>
+
+        <h2>Not an AI, on purpose</h2>
+        <p>
+          There is no language model deciding what you lift. Grasp's planning is ordinary,
+          inspectable arithmetic: volume targets per muscle, a fatigue model based on what you
+          logged, and a progression rule that fits in a sentence.
+        </p>
+        <p>
+          That is not a limitation we are apologising for. A system that guesses cannot tell you why
+          it guessed, cannot be checked, and cannot run on a phone with no signal. This one can do
+          all three.
+        </p>
+
+        <h2 id="coming">Getting it</h2>
+        <p>
+          Grasp is in testing and heading for Google Play. If you would like to be told when it is
+          out, or you are a gym or a brand interested in working together, email
+          <a href="mailto:grasp@alsouq.tech">grasp@alsouq.tech</a>.
+        </p>
+
+        <hr />
+
+        <p class="meta">
+          Grasp suggests training weights from what you log. It is not medical advice and it cannot
+          see your form or your health. Talk to a doctor before starting a new training programme,
+          particularly if you have an injury or a health condition.
+        </p>
+      </div>
+    </main>
+
+    <footer class="site">
+      <div class="wrap">
+        <span>© 2026 Grasp</span>
+        <span>
+          <a href="privacy.html">Privacy</a> · <a href="support.html">Support</a> ·
+          <a href="mailto:grasp@alsouq.tech">grasp@alsouq.tech</a>
+        </span>
+      </div>
+    </footer>
+  </body>
+</html>

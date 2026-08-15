@@ -1,0 +1,319 @@
+/*
+  Grasp — the website.
+
+  The palette is lifted from apps/mobile/src/theme/tokens.ts rather than from
+  the identity document, for the same reason the app is: those values were
+  measured against every background they land on and the document's were not.
+  If the two ever disagree, tokens.ts wins.
+
+  IBM Plex Sans is served from this folder rather than from Google, and not
+  for performance. A privacy policy that ships the reader's IP address to a
+  third party in order to render itself is a policy that contradicts its own
+  first paragraph. The font is SIL Open Font Licence, so hosting it here is
+  both allowed and the only honest option.
+*/
+
+@font-face {
+  font-family: 'IBM Plex Sans';
+  src: url('fonts/IBMPlexSans_400Regular.woff2') format('woff2');
+  font-weight: 400;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'IBM Plex Sans';
+  src: url('fonts/IBMPlexSans_600SemiBold.woff2') format('woff2');
+  font-weight: 600;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'IBM Plex Sans';
+  src: url('fonts/IBMPlexSans_700Bold.woff2') format('woff2');
+  font-weight: 700;
+  font-display: swap;
+}
+
+:root {
+  --bg: #ffffff;
+  --surface: #f4f5f7;
+  --raised: #e9ebee;
+  --border: #dde0e4;
+  --border-strong: #c2c7ce;
+  --text: #0d0e10;
+  --muted: #4e545b;
+  --faint: #63696f;
+  --accent: #4e7000;
+  --accent-muted: #edf7d0;
+  --on-accent: #ffffff;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --bg: #0d0e10;
+    --surface: #16181b;
+    --raised: #1f2226;
+    --border: #292d32;
+    --border-strong: #3a3f46;
+    --text: #ffffff;
+    --muted: #9ba1a8;
+    --faint: #888e97;
+    --accent: #c6f84e;
+    --accent-muted: #232e10;
+    --on-accent: #0d0e10;
+  }
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--text);
+  /* The system stack is the fallback, not an afterthought: if the font files
+     fail to upload, every page still reads. */
+  font-family: 'IBM Plex Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI',
+    Roboto, Helvetica, Arial, sans-serif;
+  font-size: 17px;
+  line-height: 1.65;
+  -webkit-font-smoothing: antialiased;
+}
+
+.wrap {
+  max-width: 720px;
+  margin: 0 auto;
+  padding: 0 24px;
+}
+
+/* ---------------------------------------------------------------- chrome */
+
+header.site {
+  border-bottom: 1px solid var(--border);
+}
+header.site .wrap {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 24px;
+  padding-top: 20px;
+  padding-bottom: 20px;
+}
+header.site nav {
+  display: flex;
+  gap: 20px;
+  font-size: 15px;
+}
+header.site nav a {
+  color: var(--muted);
+  text-decoration: none;
+}
+header.site nav a:hover {
+  color: var(--text);
+}
+
+/*
+  The lockup. Height is what is set; the artwork is 5.28 times as wide.
+
+  The colour has to be pinned here. The tally and the letters are drawn in
+  `currentColor` so the mark follows the theme, but it sits inside a link, and
+  links are the accent — which turned the entire lockup lime and left the
+  slash, the one element that is *meant* to be the accent, indistinguishable
+  from everything around it.
+*/
+.lockup {
+  display: block;
+  height: 26px;
+  width: auto;
+  color: var(--text);
+}
+
+footer.site {
+  margin-top: 96px;
+  border-top: 1px solid var(--border);
+  padding: 32px 0 64px;
+  color: var(--faint);
+  font-size: 15px;
+}
+footer.site a {
+  color: var(--muted);
+}
+footer.site .wrap {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px 24px;
+  justify-content: space-between;
+}
+
+/* ----------------------------------------------------------------- type */
+
+h1 {
+  font-size: 44px;
+  line-height: 1.1;
+  letter-spacing: -1.2px;
+  font-weight: 700;
+  margin: 0 0 20px;
+}
+h2 {
+  font-size: 26px;
+  line-height: 1.25;
+  letter-spacing: -0.5px;
+  font-weight: 600;
+  margin: 56px 0 12px;
+}
+h3 {
+  font-size: 19px;
+  line-height: 1.35;
+  letter-spacing: -0.2px;
+  font-weight: 600;
+  margin: 32px 0 8px;
+}
+p {
+  margin: 0 0 18px;
+}
+a {
+  color: var(--accent);
+}
+strong {
+  font-weight: 600;
+}
+ul {
+  margin: 0 0 18px;
+  padding-left: 22px;
+}
+li {
+  margin-bottom: 10px;
+}
+hr {
+  border: 0;
+  border-top: 1px solid var(--border);
+  margin: 48px 0;
+}
+.lede {
+  font-size: 21px;
+  line-height: 1.5;
+  color: var(--muted);
+  margin-bottom: 32px;
+}
+.meta {
+  font-size: 15px;
+  color: var(--faint);
+}
+
+/* ------------------------------------------------------------ landing */
+
+.hero {
+  padding: 88px 0 24px;
+}
+
+.badge {
+  display: inline-block;
+  background: var(--accent-muted);
+  color: var(--accent);
+  border-radius: 999px;
+  padding: 6px 14px;
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 0.4px;
+  text-transform: uppercase;
+  margin-bottom: 24px;
+}
+
+.cta {
+  display: inline-block;
+  background: var(--accent);
+  color: var(--on-accent);
+  text-decoration: none;
+  font-weight: 600;
+  font-size: 17px;
+  border-radius: 999px;
+  padding: 15px 32px;
+}
+.cta:hover {
+  opacity: 0.9;
+}
+.cta.secondary {
+  background: transparent;
+  color: var(--text);
+  border: 1px solid var(--border-strong);
+}
+
+.actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-bottom: 12px;
+}
+
+.points {
+  display: grid;
+  gap: 20px;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  margin: 32px 0;
+  padding: 0;
+  list-style: none;
+}
+.points li {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 18px;
+  padding: 22px;
+  margin: 0;
+}
+.points h3 {
+  margin: 0 0 6px;
+  font-size: 17px;
+}
+.points p {
+  margin: 0;
+  font-size: 15px;
+  color: var(--muted);
+}
+
+/* A worked example of the thing the app is actually for. */
+.ledger {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 18px;
+  padding: 22px 24px;
+  margin: 32px 0;
+}
+.ledger-row {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 16px;
+}
+.ledger-name {
+  font-weight: 600;
+}
+.ledger-figure {
+  font-size: 26px;
+  font-weight: 600;
+  font-variant-numeric: tabular-nums;
+  letter-spacing: -0.4px;
+}
+.ledger-why {
+  color: var(--muted);
+  font-size: 15px;
+  margin: 6px 0 0;
+}
+.ledger-up {
+  color: var(--accent);
+  font-weight: 600;
+  font-size: 15px;
+}
+
+@media (max-width: 600px) {
+  h1 {
+    font-size: 34px;
+    letter-spacing: -0.8px;
+  }
+  .hero {
+    padding-top: 56px;
+  }
+  body {
+    font-size: 16px;
+  }
+}
