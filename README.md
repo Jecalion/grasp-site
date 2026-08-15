@@ -11,6 +11,8 @@ style.css       all styling, both light and dark
 theme.js        the light / system / dark switch
 favicon.png     browser tab icon
 fonts/          IBM Plex Sans, self-hosted, with its licence
+CNAME           the custom domain, read by GitHub Pages
+.nojekyll       stop Pages running the files through Jekyll
 ```
 
 ## The theme switch
@@ -28,12 +30,24 @@ before.
 
 ## Deployment
 
-Hostinger pulls this repo into the `grasp.alsouq.tech` document root. Push to
-`main` and the site updates.
+GitHub Pages serves this repository at **https://grasp.alsouq.tech**, from
+`main`, root directory. Push and the site updates a minute or so later.
 
-To set it up in hPanel: **Websites → grasp.alsouq.tech → Advanced → GIT**,
-repository `https://github.com/Jecalion/grasp-site.git`, branch `main`, and an
-empty install path so it deploys to the root of the subdomain.
+Hostinger holds the domain but no longer holds the files. Its Git tool was
+retired from the plan — the hPanel sidebar offers SSH, FTP and a file manager
+and nothing else — and its replacement, Deployments, only applies to Web Apps,
+which this is not. The only thing left in hPanel is one DNS record:
+
+```
+Type   CNAME
+Name   grasp
+Value  jecalion.github.io
+```
+
+`CNAME` in this repository is what tells Pages to answer for that name; delete
+it and the site reverts to `jecalion.github.io/grasp-site`. `.nojekyll` stops
+Pages from running the files through Jekyll, which it does by default and which
+this site has no use for.
 
 ## Why the fonts are here rather than on a CDN
 
