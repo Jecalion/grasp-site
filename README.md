@@ -8,9 +8,23 @@ index.html      landing page
 privacy.html    privacy policy   ← both app stores point at this
 support.html    support and FAQ  ← Apple requires a working support URL
 style.css       all styling, both light and dark
+theme.js        the light / system / dark switch
 favicon.png     browser tab icon
 fonts/          IBM Plex Sans, self-hosted, with its licence
 ```
+
+## The theme switch
+
+Three states. **System** is the default and means exactly the `prefers-color-scheme`
+media query; **Light** and **Dark** override it and are remembered in
+`localStorage` under `grasp-theme`.
+
+`theme.js` is loaded from `<head>` without `defer`, which is deliberate: the
+stored choice has to reach `<html>` before the first paint or every page load
+flashes the wrong colour at the reader. The control itself is built in
+JavaScript rather than written into the three pages, so if scripting is off no
+dead switch appears — the site just follows the operating system, as it did
+before.
 
 ## Deployment
 
