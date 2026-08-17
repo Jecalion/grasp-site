@@ -162,11 +162,36 @@
 
       <h2>What we never collect</h2>
       <p>
-        No advertising identifiers. No analytics or usage tracking. No crash reporting. No location.
-        No microphone, camera, contacts, or calendar access. Grasp does not request these
-        permissions.
+        No advertising identifiers. No analytics or usage tracking. No location. No microphone,
+        camera, contacts, or calendar access. Grasp does not request these permissions.
+      </p>
+      <p>
+        We do not track what you do in the app — which screens you open, how long you spend, what
+        you tap. The only thing recorded automatically is a crash, described below.
       </p>
       <p>We do not sell your data, share it with advertisers, or use it to train anything.</p>
+
+      <h2>If the app crashes</h2>
+      <p>
+        When Grasp fails in a way it cannot recover from, it records what went wrong so it can be
+        fixed: the error message and technical stack trace, which version of the app and which
+        update were running, your platform, operating system version and device model, and when it
+        happened.
+      </p>
+      <p>
+        It does <strong>not</strong> record what you were doing, what you had logged, or anything
+        you typed. It is not a log of your activity — nothing is recorded while the app is working.
+      </p>
+      <p>
+        The report is stored against your account, in the same Supabase database in Frankfurt as
+        your training. <strong>It is not sent to any third party.</strong> Grasp does not use
+        Sentry, Crashlytics, or any other crash-reporting service, so nobody outside this project
+        ever sees it.
+      </p>
+      <p>
+        If a crash happens with no connection, the report waits on your phone and is sent the next
+        time there is one. Deleting your account deletes these along with everything else.
+      </p>
 
       <h2>Deleting your data</h2>
       <p>
