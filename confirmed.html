@@ -1,0 +1,96 @@
+<!doctype html>
+<!--
+  Email confirmed.
+
+  Supabase sends every confirmation email to the project's Site URL. That was
+  never set, so it kept its default of http://localhost:3000 and the link in
+  the email landed people on a page that does not exist on their phone —
+  looking, reasonably, like the app was broken.
+
+  So this page exists to be that destination. It is deliberately a dead end:
+  a phone cannot be pushed back into an app from a browser reliably, and a
+  button that fails half the time is worse than a sentence that always works.
+-->
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Email confirmed — Grasp</title>
+    <meta name="description" content="Your Grasp account is confirmed. Return to the app and sign in." />
+    <link rel="icon" href="favicon.png" />
+    <link rel="stylesheet" href="style.css" />
+    <script src="theme.js"></script>
+  </head>
+  <body>
+    <header class="site">
+      <div class="wrap">
+        <a href="index.html" aria-label="Grasp home">
+          <svg
+            class="lockup"
+            viewBox="-4 25 264 50"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
+            role="img"
+            aria-label="Grasp"
+          >
+            <g stroke="currentColor" stroke-width="8.5" stroke-linecap="round" stroke-linejoin="round">
+              <line x1="10" y1="30" x2="10" y2="70" />
+              <line x1="25" y1="30" x2="25" y2="70" />
+              <line x1="40" y1="30" x2="40" y2="70" />
+              <line x1="55" y1="30" x2="55" y2="70" />
+              <path d="M 112 30 L 93 30 L 93 70 L 112 70 L 112 52 L 103 52" />
+              <path d="M 129 70 L 129 30 L 147 30 L 147 48 L 129 48" />
+              <path d="M 137 48 L 148 70" />
+              <path d="M 165 70 L 165 38 L 174 30 L 183 38 L 183 70" />
+              <path d="M 165 54 L 183 54" />
+              <path d="M 220 30 L 201 30 L 201 50 L 219 50 L 219 70 L 200 70" />
+              <path d="M 237 70 L 237 30 L 255 30 L 255 50 L 237 50" />
+            </g>
+            <line
+              x1="1"
+              y1="64"
+              x2="64"
+              y2="36"
+              stroke="var(--accent)"
+              stroke-width="8.5"
+              stroke-linecap="round"
+            />
+          </svg>
+        </a>
+        <nav>
+          <a href="index.html">Home</a>
+          <a href="privacy.html">Privacy</a>
+        </nav>
+      </div>
+    </header>
+
+    <main class="wrap">
+      <h1>Your email is confirmed</h1>
+      <p>
+        That is the account made. <strong>Go back to Grasp and sign in</strong> with the
+        same email address and password — everything you set up is waiting.
+      </p>
+
+      <h2>Nothing happening?</h2>
+      <p>
+        Close Grasp completely and open it again. If it still will not let you in, the
+        password is the usual culprit rather than the confirmation — the app can send you
+        a new one from the sign-in screen.
+      </p>
+      <p>
+        Still stuck? Write to <a href="mailto:grasp@alsouq.tech">grasp@alsouq.tech</a> and
+        say which email address you signed up with.
+      </p>
+    </main>
+
+    <footer class="site">
+      <div class="wrap">
+        <span>© 2026 Grasp</span>
+        <span>
+          <a href="privacy.html">Privacy</a> · <a href="support.html">Support</a> ·
+          <a href="mailto:grasp@alsouq.tech">grasp@alsouq.tech</a>
+        </span>
+      </div>
+    </footer>
+  </body>
+</html>
