@@ -1,0 +1,137 @@
+<!doctype html>
+<!--
+  The hop between the reset email and the app.
+
+  Supabase answers a reset link with `303 See Other` and
+  `Location: grasp://auth/new-password#...`. Browsers refuse to follow a
+  *server-initiated* redirect into a custom scheme — Chrome on Android and the
+  in-app browsers inside mail clients both block it — so the link did nothing
+  at all. Tapping it produced a blank page and no app.
+
+  A redirect a browser will follow has to be http(s), so this page is that
+  destination. It then opens the app itself, which is a navigation the page
+  started rather than one a server ordered, and browsers allow it.
+
+  The tokens are in the URL fragment, which never leaves the browser and is
+  never sent to this server. They are read here and passed straight along.
+-->
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Reset your password — Grasp</title>
+    <meta name="robots" content="noindex" />
+    <link rel="icon" href="favicon.png" />
+    <link rel="stylesheet" href="style.css" />
+    <script src="theme.js"></script>
+  </head>
+  <body>
+    <header class="site">
+      <div class="wrap">
+        <a href="index.html" aria-label="Grasp home">
+          <svg
+            class="lockup"
+            viewBox="-4 25 264 50"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
+            role="img"
+            aria-label="Grasp"
+          >
+            <g stroke="currentColor" stroke-width="8.5" stroke-linecap="round" stroke-linejoin="round">
+              <line x1="10" y1="30" x2="10" y2="70" />
+              <line x1="25" y1="30" x2="25" y2="70" />
+              <line x1="40" y1="30" x2="40" y2="70" />
+              <line x1="55" y1="30" x2="55" y2="70" />
+              <path d="M 112 30 L 93 30 L 93 70 L 112 70 L 112 52 L 103 52" />
+              <path d="M 129 70 L 129 30 L 147 30 L 147 48 L 129 48" />
+              <path d="M 137 48 L 148 70" />
+              <path d="M 165 70 L 165 38 L 174 30 L 183 38 L 183 70" />
+              <path d="M 165 54 L 183 54" />
+              <path d="M 220 30 L 201 30 L 201 50 L 219 50 L 219 70 L 200 70" />
+              <path d="M 237 70 L 237 30 L 255 30 L 255 50 L 237 50" />
+            </g>
+            <line
+              x1="1"
+              y1="64"
+              x2="64"
+              y2="36"
+              stroke="var(--accent)"
+              stroke-width="8.5"
+              stroke-linecap="round"
+            />
+          </svg>
+        </a>
+        <nav>
+          <a href="index.html">Home</a>
+          <a href="privacy.html">Privacy</a>
+        </nav>
+      </div>
+    </header>
+
+    <main class="wrap">
+      <h1 id="heading">Opening Grasp…</h1>
+      <p id="message">
+        This should take you straight into the app to set a new password.
+      </p>
+
+      <p id="manual" hidden>
+        <a id="open" class="button" href="#">Open Grasp</a>
+      </p>
+
+      <p id="hint" hidden>
+        If nothing happens, make sure Grasp is installed on this phone, then tap the button above.
+        Opening this link on a computer will not work — the reset has to finish on the phone with
+        the app on it.
+      </p>
+    </main>
+
+    <script>
+      (function () {
+        var fragment = window.location.hash.slice(1);
+        var params = new URLSearchParams(fragment);
+        var heading = document.getElementById('heading');
+        var message = document.getElementById('message');
+
+        var failure = params.get('error_description') || params.get('error');
+        if (failure) {
+          // An expired link comes back this way rather than as a failed
+          // request. Saying so here is better than handing the app an error
+          // it can only repeat.
+          heading.textContent = 'That link has expired';
+          message.textContent =
+            'Reset links can only be used once, and they do not last long. Open Grasp and ask for ' +
+            'a new one from the sign-in screen.';
+          return;
+        }
+
+        if (!params.get('access_token')) {
+          heading.textContent = 'Nothing to reset';
+          message.textContent =
+            'This page is the last step of a password reset. Open Grasp and ask for a link from ' +
+            'the sign-in screen.';
+          return;
+        }
+
+        var target = 'grasp://auth/new-password#' + fragment;
+        document.getElementById('open').setAttribute('href', target);
+        document.getElementById('manual').hidden = false;
+        document.getElementById('hint').hidden = false;
+
+        // Attempted automatically, because most of the time it simply works.
+        // The button stays visible regardless: a tap is a user gesture, which
+        // every browser honours, and this redirect is the one that may not be.
+        window.location.href = target;
+      })();
+    </script>
+
+    <footer class="site">
+      <div class="wrap">
+        <span>© 2026 Grasp</span>
+        <span>
+          <a href="privacy.html">Privacy</a> · <a href="support.html">Support</a> ·
+          <a href="mailto:grasp@alsouq.tech">grasp@alsouq.tech</a>
+        </span>
+      </div>
+    </footer>
+  </body>
+</html>
