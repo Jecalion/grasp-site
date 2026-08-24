@@ -1,29 +1,53 @@
 <!doctype html>
 <!--
-  The hop between the reset email and the app.
+  Setting a new password, here rather than in the app.
 
-  Supabase answers a reset link with `303 See Other` and
-  `Location: grasp://auth/new-password#...`. Browsers refuse to follow a
-  *server-initiated* redirect into a custom scheme — Chrome on Android and the
-  in-app browsers inside mail clients both block it — so the link did nothing
-  at all. Tapping it produced a blank page and no app.
+  The first version of this page tried to hand off to `grasp://` and let the
+  app take over. That was the wrong shape: a reset link arrives by email and
+  email gets read on laptops, on other people's phones, and on devices that
+  have never had Grasp installed. Requiring the app to finish made the one
+  thing a locked-out person needs depend on the one thing they may not have.
 
-  A redirect a browser will follow has to be http(s), so this page is that
-  destination. It then opens the app itself, which is a navigation the page
-  started rather than one a server ordered, and browsers allow it.
-
-  The tokens are in the URL fragment, which never leaves the browser and is
-  never sent to this server. They are read here and passed straight along.
+  So the reset completes here. The token is in the URL fragment, which never
+  leaves the browser and is never sent to this server; the password goes
+  straight from this page to Supabase over TLS. Afterwards they sign in to the
+  app normally, with no link and no deep link involved.
 -->
 <html lang="en">
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>Reset your password — Grasp</title>
+    <title>Set a new password — Grasp</title>
     <meta name="robots" content="noindex" />
     <link rel="icon" href="favicon.png" />
     <link rel="stylesheet" href="style.css" />
     <script src="theme.js"></script>
+    <style>
+      .field {
+        display: block;
+        width: 100%;
+        max-width: 420px;
+        padding: 14px 16px;
+        margin: 8px 0 4px;
+        font: inherit;
+        font-size: 17px;
+        color: var(--text);
+        background: var(--surface);
+        border: 1px solid var(--border);
+        border-radius: 12px;
+      }
+      .field:focus {
+        outline: 2px solid var(--accent);
+        outline-offset: 1px;
+      }
+      .note {
+        color: var(--muted);
+        font-size: 15px;
+      }
+      .bad {
+        color: #d24b4b;
+      }
+    </style>
   </head>
   <body>
     <header class="site">
@@ -69,42 +93,55 @@
     </header>
 
     <main class="wrap">
-      <h1 id="heading">Opening Grasp…</h1>
-      <p id="message">
-        This should take you straight into the app to set a new password.
-      </p>
+      <h1 id="heading">Set a new password</h1>
+      <p id="message">Choose something you have not used elsewhere.</p>
 
-      <p id="manual" hidden>
-        <a id="open" class="cta" href="#">Open Grasp</a>
-      </p>
-
-      <p id="hint" hidden>
-        If nothing happens, make sure Grasp is installed on this phone, then tap the button above.
-        Opening this link on a computer will not work — the reset has to finish on the phone with
-        the app on it.
-      </p>
+      <form id="form" hidden>
+        <label for="password" class="note">NEW PASSWORD</label>
+        <input
+          class="field"
+          id="password"
+          type="password"
+          autocomplete="new-password"
+          placeholder="At least 8 characters"
+          minlength="8"
+          required
+        />
+        <p class="note" id="hint">At least 8 characters.</p>
+        <p class="bad" id="error" hidden></p>
+        <p><button class="cta" id="submit" type="submit">Save password</button></p>
+      </form>
     </main>
 
     <script>
       (function () {
-        var fragment = window.location.hash.slice(1);
-        var params = new URLSearchParams(fragment);
+        var PROJECT = 'https://krwwhpdetdcqimaqwphd.supabase.co';
+        // The publishable key. It ships inside every copy of the app already
+        // and is designed to be public; it identifies the project and grants
+        // nothing on its own. The bearer token below is what authorises this.
+        var KEY = 'sb_publishable__b43F0Q1LeDY5eWRQPxAOw_-aAi59eD';
+        var MIN = 8;
+
+        var params = new URLSearchParams(window.location.hash.slice(1));
         var heading = document.getElementById('heading');
         var message = document.getElementById('message');
+        var form = document.getElementById('form');
+        var error = document.getElementById('error');
+        var submit = document.getElementById('submit');
+        var password = document.getElementById('password');
 
         var failure = params.get('error_description') || params.get('error');
         if (failure) {
-          // An expired link comes back this way rather than as a failed
-          // request. Saying so here is better than handing the app an error
-          // it can only repeat.
+          // Expired links come back this way rather than as a failed request.
           heading.textContent = 'That link has expired';
           message.textContent =
-            'Reset links can only be used once, and they do not last long. Open Grasp and ask for ' +
-            'a new one from the sign-in screen.';
+            'Reset links can only be used once, and they do not last long. Open Grasp and ask ' +
+            'for a new one from the sign-in screen.';
           return;
         }
 
-        if (!params.get('access_token')) {
+        var token = params.get('access_token');
+        if (!token) {
           heading.textContent = 'Nothing to reset';
           message.textContent =
             'This page is the last step of a password reset. Open Grasp and ask for a link from ' +
@@ -112,15 +149,59 @@
           return;
         }
 
-        var target = 'grasp://auth/new-password#' + fragment;
-        document.getElementById('open').setAttribute('href', target);
-        document.getElementById('manual').hidden = false;
-        document.getElementById('hint').hidden = false;
+        // The token is in the address bar. Taking it out of the URL means a
+        // shoulder-surfer or a shared screenshot does not hand it over, and
+        // the page keeps its own copy in memory.
+        history.replaceState(null, '', window.location.pathname);
+        form.hidden = false;
 
-        // Attempted automatically, because most of the time it simply works.
-        // The button stays visible regardless: a tap is a user gesture, which
-        // every browser honours, and this redirect is the one that may not be.
-        window.location.href = target;
+        form.addEventListener('submit', function (event) {
+          event.preventDefault();
+          error.hidden = true;
+
+          if (password.value.length < MIN) {
+            error.textContent = 'Passwords need to be at least eight characters.';
+            error.hidden = false;
+            return;
+          }
+
+          submit.disabled = true;
+          submit.textContent = 'Saving…';
+
+          fetch(PROJECT + '/auth/v1/user', {
+            method: 'PUT',
+            headers: {
+              'Content-Type': 'application/json',
+              apikey: KEY,
+              Authorization: 'Bearer ' + token,
+            },
+            body: JSON.stringify({ password: password.value }),
+          })
+            .then(function (response) {
+              return response.json().then(function (body) {
+                return { ok: response.ok, body: body };
+              });
+            })
+            .then(function (result) {
+              if (!result.ok) {
+                throw new Error(
+                  (result.body && (result.body.msg || result.body.message)) ||
+                    'That did not work. Ask for a new link and try again.'
+                );
+              }
+              heading.textContent = 'Password changed';
+              message.textContent =
+                'Open Grasp and sign in with your new password. Everything you have logged is ' +
+                'where you left it.';
+              form.hidden = true;
+            })
+            .catch(function (failed) {
+              error.textContent = failed.message;
+              error.hidden = false;
+              submit.disabled = false;
+              submit.textContent = 'Save password';
+            });
+        });
       })();
     </script>
 
