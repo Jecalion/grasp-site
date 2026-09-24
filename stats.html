@@ -375,29 +375,16 @@
           <!-- Country -->
           <section class="block">
             <div class="eyebrow">Downloads by country</div>
-            <h2>Both stores already know, and it costs nothing</h2>
+            <h2>Where the last 30 days came from</h2>
             <div class="card">
-              <ul class="where">
-                <li>
-                  <span class="tag">Play</span>
-                  <p>
-                    <a href="https://play.google.com/console" target="_blank" rel="noopener">Play Console</a>,
-                    then Statistics, and change the dimension to Country / region.
-                  </p>
-                </li>
-                <li>
-                  <span class="tag">App Store</span>
-                  <p>
-                    <a href="https://appstoreconnect.apple.com" target="_blank" rel="noopener">App Store Connect</a>,
-                    then Analytics, Total Downloads, filtered by Territory.
-                  </p>
-                </li>
-              </ul>
+              <div id="downloads"></div>
             </div>
             <p class="said small">
-              This page cannot show country itself, because Grasp deliberately does not record where
-              anybody is.
+              Grasp records nothing about where anybody is, and will not. These come from Apple and
+              Google, who served the downloads and therefore already know. They are fetched once a
+              day and kept, so a slow store cannot stop this page opening.
             </p>
+            <p class="said small" id="sync-note"></p>
           </section>
         </div>
       </div>
@@ -575,6 +562,7 @@
             { k: 'Active this month', v: o.trained_30d, d: 'trained in 30 days' },
             { k: 'Workouts done', v: o.workouts, d: 'finished, all time' },
             { k: 'Sets logged', v: o.sets, d: 'reps and weights' },
+            { k: 'Store downloads', v: o.downloads_30d == null ? '—' : o.downloads_30d, d: 'last 30 days' },
             { k: 'Crashes, 7 days', v: o.crashes_7d, d: o.crashes_7d === 0 ? 'nothing reported' : 'needs a look' },
           ];
           var tbox = $('tiles');
@@ -729,7 +717,96 @@
             });
           }
 
+          renderDownloads(data.downloads || [], data.store_sync || []);
+
           $('asof').textContent = 'as of ' + new Date(data.generated_at).toLocaleString();
+        }
+
+        /*
+          Country codes are not country names, and shipping a lookup table of
+          two hundred of them would be a lot of bytes to say what the browser
+          already knows. `Intl.DisplayNames` is in every browser this page
+          supports; the fallback is the raw code, which is wrong but readable.
+        */
+        var REGION = (function () {
+          try {
+            return new Intl.DisplayNames(['en'], { type: 'region' });
+          } catch (error) {
+            return null;
+          }
+        }());
+
+        function countryName(code) {
+          if (!REGION) return code;
+          try { return REGION.of(code) || code; } catch (error) { return code; }
+        }
+
+        function renderDownloads(rows, sync) {
+          var box = $('downloads');
+          box.textContent = '';
+
+          if (!rows.length) {
+            var empty = el('p', 'said');
+            empty.textContent = sync.length === 0
+              ? 'Not connected to the stores yet.'
+              : 'No downloads recorded in the last 30 days.';
+            box.appendChild(empty);
+          } else {
+            var total = rows.reduce(function (sum, r) { return sum + Number(r.downloads); }, 0);
+            var table = el('table');
+            var head = el('thead');
+            var headRow = document.createElement('tr');
+            ['Country', 'App Store', 'Play', 'Total'].forEach(function (name, i) {
+              var th = el('th', i === 0 ? null : 'n', name);
+              th.setAttribute('scope', 'col');
+              headRow.appendChild(th);
+            });
+            head.appendChild(headRow);
+            table.appendChild(head);
+
+            var body = el('tbody');
+            rows.forEach(function (r) {
+              var tr = document.createElement('tr');
+              tr.appendChild(el('td', null, countryName(r.country)));
+              tr.appendChild(el('td', 'n', String(r.apple || 0)));
+              tr.appendChild(el('td', 'n', String(r.google || 0)));
+              tr.appendChild(el('td', 'n', String(r.downloads)));
+              body.appendChild(tr);
+            });
+            var sum = document.createElement('tr');
+            var label = el('td', null, 'Total');
+            label.style.fontWeight = '600';
+            sum.appendChild(label);
+            sum.appendChild(el('td', 'n', String(rows.reduce(function (a, r) { return a + Number(r.apple || 0); }, 0))));
+            sum.appendChild(el('td', 'n', String(rows.reduce(function (a, r) { return a + Number(r.google || 0); }, 0))));
+            var grand = el('td', 'n', String(total));
+            grand.style.fontWeight = '600';
+            sum.appendChild(grand);
+            body.appendChild(sum);
+            table.appendChild(body);
+
+            var wrap = el('div', 'tablebox');
+            wrap.appendChild(table);
+            box.appendChild(wrap);
+          }
+
+          /*
+            Say when each store last answered. A sync that has quietly stopped
+            leaves numbers that still look plausible, which is the failure
+            worth naming out loud rather than discovering in a month.
+          */
+          var note = $('sync-note');
+          if (!sync.length) {
+            note.textContent = 'Neither store is connected yet.';
+            return;
+          }
+          note.textContent = sync.map(function (s) {
+            var who = s.source === 'apple' ? 'App Store' : 'Play';
+            if (s.last_error) return who + ': failing — ' + s.last_error;
+            if (!s.last_ok_at) return who + ': never succeeded';
+            var days = Math.floor((Date.now() - new Date(s.last_ok_at).getTime()) / 86400000);
+            return who + ': updated ' + (days <= 0 ? 'today' : days === 1 ? 'yesterday' : days + ' days ago');
+          }).join('  ·  ');
         }
 
         function barList(rows, labelOf, valueOf, peak, into) {
