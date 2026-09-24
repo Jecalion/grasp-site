@@ -1,0 +1,896 @@
+<!doctype html>
+<!--
+  The dashboard.
+
+  This file is served from GitHub Pages, so it is public and must behave as
+  though a stranger has it open — because one can. Nothing here is a secret:
+  the only key in the page is the publishable key that already ships inside
+  the Android and iOS apps, and every number on screen arrives from the
+  `stats` edge function, which checks the caller's token against a list of
+  admins before the service role touches anything.
+
+  So the worst a stranger can do with this file is look at a sign-in form.
+
+  No Supabase client library, and not to save bytes. The site self-hosts its
+  typeface rather than asking Google for it, on the grounds that a page which
+  ships the reader's address to a third party in order to render itself is a
+  page that contradicts the policy beside it. Two `fetch` calls do everything
+  a library would do here, so there is no reason to make an exception.
+-->
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Grasp — dashboard</title>
+    <meta name="robots" content="noindex, nofollow" />
+    <meta name="description" content="Private dashboard for Grasp." />
+    <link rel="icon" href="favicon.png" />
+    <link rel="stylesheet" href="style.css" />
+    <script src="theme.js"></script>
+    <style>
+      /*
+        Everything below is the dashboard's own. The palette, the typeface and
+        the page furniture all come from style.css, so this file only adds the
+        shapes that do not exist anywhere else on the site.
+      */
+
+      /*
+        `hidden` has to win. Every panel below sets a `display`, and a class
+        that sets one beats the attribute on specificity alone — which showed
+        as the whole empty dashboard rendering underneath the sign-in form.
+      */
+      [hidden] { display: none !important; }
+
+      .dash { display: flex; flex-direction: column; gap: 42px; }
+
+      .dashhead { display: flex; flex-wrap: wrap; align-items: baseline; gap: 10px 16px; }
+      .dashhead h1 { margin: 0; font-size: 1.6rem; }
+      .asof {
+        margin-inline-start: auto;
+        display: inline-flex; align-items: center; gap: 10px;
+        color: var(--faint); font-size: 0.82rem;
+      }
+      .refresh {
+        font: inherit; font-size: 0.82rem;
+        background: var(--surface); color: var(--text);
+        border: 1px solid var(--border); border-radius: 999px;
+        padding: 5px 13px; cursor: pointer;
+      }
+      .refresh:hover { border-color: var(--border-strong); }
+      .refresh[disabled] { opacity: 0.55; cursor: default; }
+
+      /* ---- sign in ---- */
+
+      .gate {
+        max-width: 25rem; margin: 6vh auto 0;
+        background: var(--surface);
+        border: 1px solid var(--border);
+        border-radius: 14px;
+        padding: 26px;
+        display: flex; flex-direction: column; gap: 14px;
+      }
+      .gate h1 { margin: 0; font-size: 1.25rem; }
+      .gate p { margin: 0; color: var(--muted); font-size: 0.9rem; }
+      .gate label { display: flex; flex-direction: column; gap: 5px; font-size: 0.84rem; color: var(--muted); }
+      .gate input {
+        font: inherit;
+        background: var(--bg); color: var(--text);
+        border: 1px solid var(--border); border-radius: 8px;
+        padding: 10px 12px;
+      }
+      .gate input:focus-visible { outline: 2px solid var(--accent); outline-offset: 1px; }
+      .gate button[type='submit'] {
+        font: inherit; font-weight: 600;
+        background: var(--accent); color: var(--on-accent);
+        border: 0; border-radius: 999px; padding: 11px 18px; cursor: pointer;
+      }
+      .gate button[type='submit'][disabled] { opacity: 0.6; cursor: default; }
+
+      .problem {
+        background: var(--raised);
+        border-inline-start: 3px solid #c2333a;
+        border-radius: 6px;
+        padding: 10px 12px;
+        font-size: 0.85rem;
+        color: var(--text);
+      }
+      :root[data-theme='dark'] .problem { border-inline-start-color: #ff5a5f; }
+      @media (prefers-color-scheme: dark) {
+        :root:not([data-theme='light']) .problem { border-inline-start-color: #ff5a5f; }
+      }
+
+      /* ---- section furniture ---- */
+
+      .block { display: flex; flex-direction: column; gap: 14px; }
+      .eyebrow {
+        font-size: 0.7rem; font-weight: 600;
+        letter-spacing: 0.12em; text-transform: uppercase;
+        color: var(--faint);
+        display: flex; align-items: center; gap: 10px;
+      }
+      .eyebrow::after { content: ''; flex: 1; height: 1px; background: var(--border); }
+      .block h2 { margin: 0; font-size: 1.12rem; }
+      .said { margin: 0; color: var(--muted); font-size: 0.88rem; max-width: 64ch; }
+      .said.small { font-size: 0.81rem; color: var(--faint); }
+
+      .card {
+        background: var(--surface);
+        border: 1px solid var(--border);
+        border-radius: 12px;
+        padding: 18px;
+      }
+
+      /* ---- tiles ---- */
+
+      /*
+        Separate cards rather than one grid divided by its own background
+        showing through the gaps. That trick is tidier when the tiles happen to
+        fill the last row and obviously broken when they do not — seven tiles
+        in a four-wide grid left a bare border-coloured block sitting where an
+        eighth would go.
+      */
+      .tiles {
+        display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+        gap: 12px;
+      }
+      .tile {
+        background: var(--surface);
+        border: 1px solid var(--border); border-radius: 12px;
+        padding: 16px; display: flex; flex-direction: column; gap: 3px;
+      }
+      .tile .k { font-size: 0.7rem; letter-spacing: 0.07em; text-transform: uppercase; color: var(--faint); }
+      .tile .v { font-size: 1.9rem; font-weight: 700; line-height: 1.1; font-variant-numeric: tabular-nums; }
+      .tile .d { font-size: 0.78rem; color: var(--muted); }
+      .tile.lead .v { color: var(--accent); }
+
+      /* ---- funnel ---- */
+
+      .rung { padding: 11px 0; display: flex; flex-direction: column; gap: 6px; }
+      .rung .row { display: flex; align-items: baseline; gap: 12px; }
+      .rung .nm { font-weight: 600; font-size: 0.92rem; }
+      .rung .n { margin-inline-start: auto; font-weight: 700; font-variant-numeric: tabular-nums; }
+      .rung .pc { color: var(--faint); font-size: 0.78rem; font-variant-numeric: tabular-nums; min-width: 4ch; text-align: end; }
+      .track { height: 12px; background: var(--raised); border-radius: 3px; overflow: hidden; }
+      .track i { display: block; height: 100%; background: var(--accent); border-radius: 3px; }
+
+      .gap {
+        display: flex; align-items: center; gap: 9px;
+        margin-inline-start: 5px; padding: 3px 0 3px 10px;
+        border-inline-start: 2px solid var(--border);
+        font-size: 0.79rem; color: var(--muted);
+      }
+      .gap b { font-variant-numeric: tabular-nums; color: var(--text); }
+      .gap.worst { border-inline-start-color: #c2333a; }
+      .gap.worst b { color: #c2333a; }
+      :root[data-theme='dark'] .gap.worst { border-inline-start-color: #ff5a5f; }
+      :root[data-theme='dark'] .gap.worst b { color: #ff5a5f; }
+      @media (prefers-color-scheme: dark) {
+        :root:not([data-theme='light']) .gap.worst { border-inline-start-color: #ff5a5f; }
+        :root:not([data-theme='light']) .gap.worst b { color: #ff5a5f; }
+      }
+
+      /* ---- chart ---- */
+
+      .chartbox { overflow-x: auto; }
+      .chart { width: 100%; min-width: 540px; height: auto; display: block; }
+      .legend { display: flex; flex-wrap: wrap; gap: 16px; margin-top: 12px; font-size: 0.78rem; color: var(--muted); }
+      .legend span { display: inline-flex; align-items: center; gap: 7px; }
+      .swatch { width: 11px; height: 11px; border-radius: 2px; background: var(--accent); }
+      .swatch.line { height: 3px; width: 16px; border-radius: 2px; background: var(--text); }
+
+      /* ---- tables and bars ---- */
+
+      .tablebox { overflow-x: auto; }
+      table { border-collapse: collapse; width: 100%; min-width: 460px; font-size: 0.86rem; }
+      th, td { text-align: start; padding: 9px 12px; border-bottom: 1px solid var(--border); }
+      thead th {
+        font-size: 0.68rem; letter-spacing: 0.07em; text-transform: uppercase;
+        color: var(--faint); font-weight: 600; white-space: nowrap;
+      }
+      td.n, th.n { text-align: end; font-variant-numeric: tabular-nums; }
+      tbody tr:last-child td { border-bottom: 0; }
+      .cell { display: inline-block; min-width: 2.4ch; padding: 2px 7px; border-radius: 5px; }
+
+      .pair { display: grid; grid-template-columns: repeat(auto-fit, minmax(290px, 1fr)); gap: 18px; align-items: start; }
+
+      .bars { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 9px; }
+      .bars li { display: grid; grid-template-columns: minmax(7rem, auto) 1fr auto; align-items: center; gap: 10px; }
+      .bars .l { font-size: 0.84rem; color: var(--muted); }
+      .bars .b { height: 8px; background: var(--raised); border-radius: 2px; overflow: hidden; }
+      .bars .b i { display: block; height: 100%; background: var(--accent); border-radius: 2px; }
+      .bars .v { font-size: 0.82rem; font-variant-numeric: tabular-nums; min-width: 2.5ch; text-align: end; }
+
+      .grp + .grp { margin-top: 15px; padding-top: 14px; border-top: 1px solid var(--border); }
+      .grp .gh { font-size: 0.68rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--faint); margin-bottom: 9px; }
+
+      /* ---- crashes ---- */
+
+      .pill {
+        display: inline-flex; align-items: center; gap: 6px;
+        font-size: 0.7rem; letter-spacing: 0.05em; text-transform: uppercase; font-weight: 600;
+        border-radius: 999px; padding: 4px 11px;
+        background: var(--accent-muted); color: var(--accent);
+      }
+      .crash { padding: 11px 0; border-bottom: 1px solid var(--border); display: flex; flex-direction: column; gap: 4px; }
+      .crash:last-child { border-bottom: 0; padding-bottom: 0; }
+      .crash .msg { font-size: 0.83rem; word-break: break-word; }
+      .crash .meta { font-size: 0.77rem; color: var(--faint); display: flex; flex-wrap: wrap; gap: 3px 14px; }
+
+      .where { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 13px; }
+      .where li { display: grid; grid-template-columns: auto 1fr; gap: 12px; align-items: start; }
+      .where .tag {
+        font-size: 0.68rem; letter-spacing: 0.05em; text-transform: uppercase; font-weight: 600;
+        background: var(--raised); color: var(--muted);
+        border-radius: 5px; padding: 3px 9px; white-space: nowrap;
+      }
+      .where p { margin: 0; font-size: 0.88rem; }
+
+      .skeleton { color: var(--faint); font-size: 0.9rem; padding: 40px 0; text-align: center; }
+
+      @media (prefers-reduced-motion: no-preference) {
+        .track i, .bars .b i { transition: width 0.5s cubic-bezier(0.22, 0.61, 0.36, 1); }
+      }
+    </style>
+  </head>
+  <body>
+    <header class="site">
+      <div class="wrap">
+        <a href="index.html" aria-label="Grasp home">
+          <svg
+            class="lockup"
+            viewBox="-4 25 264 50"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
+            role="img"
+            aria-label="Grasp"
+          >
+            <g stroke="currentColor" stroke-width="8.5" stroke-linecap="round" stroke-linejoin="round">
+              <line x1="10" y1="30" x2="10" y2="70" />
+              <line x1="25" y1="30" x2="25" y2="70" />
+              <line x1="40" y1="30" x2="40" y2="70" />
+              <line x1="55" y1="30" x2="55" y2="70" />
+            </g>
+            <line x1="1" y1="64" x2="64" y2="36" stroke="var(--accent)" stroke-width="8.5" stroke-linecap="round" />
+          </svg>
+        </a>
+        <nav>
+          <a href="support.html">Support</a>
+          <a href="privacy.html">Privacy</a>
+        </nav>
+      </div>
+    </header>
+
+    <main>
+      <div class="wrap">
+        <!-- Sign in. The only thing a stranger ever sees. -->
+        <form class="gate" id="gate" hidden autocomplete="on">
+          <h1>Dashboard</h1>
+          <p>Sign in with the Grasp account that is on the admin list.</p>
+          <div class="problem" id="gate-problem" hidden></div>
+          <label for="email">
+            Email
+            <input id="email" name="email" type="email" autocomplete="username" required />
+          </label>
+          <label for="password">
+            Password
+            <input id="password" name="password" type="password" autocomplete="current-password" required />
+          </label>
+          <button type="submit" id="gate-go">Sign in</button>
+        </form>
+
+        <div class="skeleton" id="loading">Loading the numbers…</div>
+
+        <div class="dash" id="dash" hidden>
+          <div class="dashhead">
+            <h1>Dashboard</h1>
+            <span class="asof">
+              <span id="asof"></span>
+              <button class="refresh" id="refresh" type="button">Refresh</button>
+              <button class="refresh" id="signout" type="button">Sign out</button>
+            </span>
+          </div>
+
+          <div class="problem" id="dash-problem" hidden></div>
+
+          <!-- Headline -->
+          <section class="block">
+            <div class="eyebrow">Where things stand</div>
+            <div class="tiles" id="tiles"></div>
+            <p class="said small" id="excluded-note"></p>
+          </section>
+
+          <!-- Funnel -->
+          <section class="block">
+            <div class="eyebrow">From sign-up to habit</div>
+            <h2>Everyone who made an account, and how far they got</h2>
+            <div class="card"><div id="funnel"></div></div>
+            <p class="said" id="funnel-read"></p>
+          </section>
+
+          <!-- Activity -->
+          <section class="block">
+            <div class="eyebrow">Last 60 days</div>
+            <h2>Workouts finished, by day</h2>
+            <div class="card">
+              <div class="chartbox">
+                <svg class="chart" id="chart" viewBox="0 0 780 220" role="img" aria-labelledby="chart-alt"></svg>
+              </div>
+              <p id="chart-alt" class="said small" style="margin-top: 10px"></p>
+              <div class="legend">
+                <span><i class="swatch"></i> Workouts finished</span>
+                <span><i class="swatch line"></i> People who trained</span>
+              </div>
+            </div>
+          </section>
+
+          <!-- Retention -->
+          <section class="block">
+            <div class="eyebrow">By sign-up week</div>
+            <h2>Does anybody come back?</h2>
+            <div class="card">
+              <div class="tablebox">
+                <table>
+                  <thead>
+                    <tr>
+                      <th scope="col">Signed up week of</th>
+                      <th scope="col" class="n">People</th>
+                      <th scope="col" class="n">Trained week 1</th>
+                      <th scope="col" class="n">Still week 2</th>
+                      <th scope="col" class="n">Still after a month</th>
+                    </tr>
+                  </thead>
+                  <tbody id="retention"></tbody>
+                </table>
+              </div>
+            </div>
+          </section>
+
+          <!-- Choices and kinds -->
+          <section class="block">
+            <div class="eyebrow">What people pick</div>
+            <div class="pair">
+              <div class="card">
+                <h2 style="font-size: 0.95rem; margin-bottom: 12px">Answers given during onboarding</h2>
+                <div id="choices"></div>
+              </div>
+              <div class="card">
+                <h2 style="font-size: 0.95rem; margin-bottom: 12px">Which workouts get finished</h2>
+                <ul class="bars" id="kinds"></ul>
+              </div>
+            </div>
+          </section>
+
+          <!-- Crashes -->
+          <section class="block">
+            <div class="eyebrow">Stability</div>
+            <div class="card">
+              <div style="display: flex; flex-wrap: wrap; align-items: center; gap: 10px; margin-bottom: 12px">
+                <h2 style="font-size: 0.95rem; margin: 0">Crashes</h2>
+                <span class="pill" id="crash-pill"></span>
+              </div>
+              <div id="crashes"></div>
+            </div>
+          </section>
+
+          <!-- Country -->
+          <section class="block">
+            <div class="eyebrow">Downloads by country</div>
+            <h2>Both stores already know, and it costs nothing</h2>
+            <div class="card">
+              <ul class="where">
+                <li>
+                  <span class="tag">Play</span>
+                  <p>
+                    <a href="https://play.google.com/console" target="_blank" rel="noopener">Play Console</a>,
+                    then Statistics, and change the dimension to Country / region.
+                  </p>
+                </li>
+                <li>
+                  <span class="tag">App Store</span>
+                  <p>
+                    <a href="https://appstoreconnect.apple.com" target="_blank" rel="noopener">App Store Connect</a>,
+                    then Analytics, Total Downloads, filtered by Territory.
+                  </p>
+                </li>
+              </ul>
+            </div>
+            <p class="said small">
+              This page cannot show country itself, because Grasp deliberately does not record where
+              anybody is.
+            </p>
+          </section>
+        </div>
+      </div>
+    </main>
+
+    <footer class="site">
+      <div class="wrap">
+        <span>© 2026 Grasp</span>
+        <span>
+          <a href="privacy.html">Privacy</a> · <a href="support.html">Support</a> ·
+          <a href="mailto:grasp@alsouq.tech">grasp@alsouq.tech</a>
+        </span>
+      </div>
+    </footer>
+
+    <script>
+      (function () {
+        'use strict';
+
+        /*
+          Both of these are public. The URL is a hostname and the key is the
+          publishable one that already ships inside the app; neither grants any
+          read of anybody's data on its own, which is the whole reason the
+          numbers come through an edge function instead of straight from the
+          database.
+        */
+        var SUPABASE_URL = 'https://krwwhpdetdcqimaqwphd.supabase.co';
+        var PUBLISHABLE_KEY = 'sb_publishable__b43F0Q1LeDY5eWRQPxAOw_-aAi59eD';
+
+        var STORE_KEY = 'grasp-dash-session';
+
+        var MONTHS = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+        var SVGNS = 'http://www.w3.org/2000/svg';
+
+        /* Database words are not reader's words. */
+        var LABELS = {
+          hypertrophy: 'Build muscle',
+          strength: 'Get stronger',
+          fat_loss: 'Lose fat',
+          general_fitness: 'General fitness',
+          auto: 'Automatic',
+          recovered: 'Recovered muscles',
+          full_body: 'Full body',
+          upper_lower: 'Upper / lower',
+          push_pull_legs: 'Push / pull / legs',
+          upper: 'Upper',
+          lower: 'Lower',
+          push: 'Push',
+          pull: 'Pull',
+          legs: 'Legs',
+          cardio: 'Cardio',
+          custom: 'Own choice',
+          beginner: 'Beginner',
+          intermediate: 'Intermediate',
+          advanced: 'Advanced',
+          kg: 'Kilograms',
+          lb: 'Pounds',
+          'not answered': 'Not answered',
+        };
+
+        function label(value) {
+          if (LABELS[value]) return LABELS[value];
+          if (/^\d+$/.test(value)) return value + (value === '1' ? ' day' : ' days');
+          return value.charAt(0).toUpperCase() + value.slice(1).replace(/_/g, ' ');
+        }
+
+        var $ = function (id) { return document.getElementById(id); };
+
+        function el(tag, cls, text) {
+          var n = document.createElement(tag);
+          if (cls) n.className = cls;
+          if (text !== undefined) n.textContent = text;
+          return n;
+        }
+
+        function svg(tag, attrs) {
+          var n = document.createElementNS(SVGNS, tag);
+          for (var k in attrs) if (Object.prototype.hasOwnProperty.call(attrs, k)) n.setAttribute(k, attrs[k]);
+          return n;
+        }
+
+        /* ---- session, kept only in this browser ---- */
+
+        function saveSession(s) {
+          try { localStorage.setItem(STORE_KEY, JSON.stringify(s)); } catch (e) { /* private mode */ }
+        }
+        function loadSession() {
+          try {
+            var raw = localStorage.getItem(STORE_KEY);
+            return raw ? JSON.parse(raw) : null;
+          } catch (e) { return null; }
+        }
+        function clearSession() {
+          try { localStorage.removeItem(STORE_KEY); } catch (e) { /* nothing to do */ }
+        }
+
+        function authFetch(path, body) {
+          return fetch(SUPABASE_URL + '/auth/v1/' + path, {
+            method: 'POST',
+            headers: { apikey: PUBLISHABLE_KEY, 'Content-Type': 'application/json' },
+            body: JSON.stringify(body),
+          });
+        }
+
+        function signIn(email, password) {
+          return authFetch('token?grant_type=password', { email: email, password: password })
+            .then(function (r) { return r.json().then(function (j) { return { ok: r.ok, body: j }; }); });
+        }
+
+        function refreshSession(token) {
+          return authFetch('token?grant_type=refresh_token', { refresh_token: token })
+            .then(function (r) { return r.json().then(function (j) { return { ok: r.ok, body: j }; }); });
+        }
+
+        /*
+          Ask the function for the numbers, refreshing the token once if it has
+          expired. One retry and no more: a loop here would hammer the endpoint
+          on a password change and never tell anybody why.
+        */
+        function loadStats(retry) {
+          var session = loadSession();
+          if (!session || !session.access_token) return Promise.reject(new Error('signed-out'));
+
+          return fetch(SUPABASE_URL + '/functions/v1/stats', {
+            method: 'POST',
+            headers: {
+              apikey: PUBLISHABLE_KEY,
+              Authorization: 'Bearer ' + session.access_token,
+              'Content-Type': 'application/json',
+            },
+          }).then(function (r) {
+            if (r.status === 401 && !retry && session.refresh_token) {
+              return refreshSession(session.refresh_token).then(function (out) {
+                if (!out.ok || !out.body.access_token) {
+                  clearSession();
+                  throw new Error('signed-out');
+                }
+                saveSession(out.body);
+                return loadStats(true);
+              });
+            }
+            return r.json().then(function (j) {
+              if (!r.ok) throw new Error(j.error || 'Could not load the numbers.');
+              return j;
+            });
+          });
+        }
+
+        /* ---- screens ---- */
+
+        function showGate(message) {
+          $('loading').hidden = true;
+          $('dash').hidden = true;
+          $('gate').hidden = false;
+          var p = $('gate-problem');
+          if (message) { p.textContent = message; p.hidden = false; } else { p.hidden = true; }
+        }
+
+        function showDash() {
+          $('loading').hidden = true;
+          $('gate').hidden = true;
+          $('dash').hidden = false;
+        }
+
+        /* ---- rendering ---- */
+
+        function render(data) {
+          var o = data.overview;
+
+          /* Tiles */
+          var tiles = [
+            { k: 'Accounts', v: o.accounts, d: o.accounts_7d + ' in the last 7 days', lead: true },
+            { k: 'Finished set-up', v: o.onboarded, d: (o.accounts - o.onboarded) + ' stopped part-way' },
+            { k: 'Have trained', v: o.trained_ever, d: o.trained_7d + ' in the last 7 days' },
+            { k: 'Active this month', v: o.trained_30d, d: 'trained in 30 days' },
+            { k: 'Workouts done', v: o.workouts, d: 'finished, all time' },
+            { k: 'Sets logged', v: o.sets, d: 'reps and weights' },
+            { k: 'Crashes, 7 days', v: o.crashes_7d, d: o.crashes_7d === 0 ? 'nothing reported' : 'needs a look' },
+          ];
+          var tbox = $('tiles');
+          tbox.textContent = '';
+          tiles.forEach(function (t) {
+            var box = el('div', 'tile' + (t.lead ? ' lead' : ''));
+            box.appendChild(el('span', 'k', t.k));
+            box.appendChild(el('span', 'v', String(t.v)));
+            box.appendChild(el('span', 'd', t.d));
+            tbox.appendChild(box);
+          });
+
+          $('excluded-note').textContent =
+            'Your own accounts and the test rigs are left out of every figure on this page. ' +
+            'Edit analytics.excluded_users in Supabase to change who counts.';
+
+          /* Funnel */
+          var funnel = data.funnel || [];
+          var top = funnel.length ? funnel[0].people : 0;
+          /*
+            The worst step is the one that loses the most *people*, not the
+            highest percentage. By share, three people failing to reach a
+            fifth workout is a 100% drop and wins every time — which pointed
+            the reader at the smallest group on the page while a step losing
+            eleven sat above it unremarked.
+          */
+          var worst = -1, worstLost = 0;
+          funnel.forEach(function (s, i) {
+            if (i === 0) return;
+            var lost = funnel[i - 1].people - s.people;
+            if (lost > worstLost) { worstLost = lost; worst = i; }
+          });
+
+          var fbox = $('funnel');
+          fbox.textContent = '';
+          funnel.forEach(function (s, i) {
+            if (i > 0) {
+              var prev = funnel[i - 1].people;
+              var lost = prev - s.people;
+              if (lost > 0) {
+                var g = el('div', 'gap' + (i === worst ? ' worst' : ''));
+                g.appendChild(el('b', null, '−' + lost));
+                g.appendChild(el('span', null,
+                  (lost === 1 ? 'person' : 'people') + ' stopped here, ' +
+                  Math.round((lost / prev) * 100) + '% of the step before'));
+                fbox.appendChild(g);
+              }
+            }
+            var rung = el('div', 'rung');
+            var row = el('div', 'row');
+            row.appendChild(el('span', 'nm', s.stage));
+            row.appendChild(el('span', 'n', String(s.people)));
+            row.appendChild(el('span', 'pc', top ? Math.round((s.people / top) * 100) + '%' : '0%'));
+            rung.appendChild(row);
+            var track = el('div', 'track');
+            var fill = document.createElement('i');
+            fill.style.width = (top ? (s.people / top) * 100 : 0) + '%';
+            track.appendChild(fill);
+            rung.appendChild(track);
+            fbox.appendChild(rung);
+          });
+
+          if (worst > 0) {
+            var a = funnel[worst - 1], b = funnel[worst];
+            $('funnel-read').textContent =
+              'The biggest single loss is between "' + a.stage.toLowerCase() + '" and "' +
+              b.stage.toLowerCase() + '": ' + (a.people - b.people) + ' of ' + a.people +
+              ' stop there. That step is where an hour of work buys the most.';
+          } else {
+            $('funnel-read').textContent = 'Nobody has dropped out yet.';
+          }
+
+          /* Chart */
+          drawChart(data.daily || []);
+
+          /* Retention */
+          var rbody = $('retention');
+          rbody.textContent = '';
+          (data.retention || []).forEach(function (r) {
+            var tr = document.createElement('tr');
+            tr.appendChild(el('td', null, prettyWeek(r.cohort)));
+            [['signed_up', false], ['week_1', true], ['week_2', true], ['after_month', true]].forEach(function (pair) {
+              var td = el('td', 'n');
+              var value = r[pair[0]];
+              if (pair[1] && r.signed_up > 0 && value > 0) {
+                var cell = el('span', 'cell', String(value));
+                var strength = Math.min(1, value / r.signed_up);
+                cell.style.background = 'var(--accent-muted)';
+                cell.style.opacity = String(0.45 + strength * 0.55);
+                td.appendChild(cell);
+              } else {
+                td.textContent = String(value);
+              }
+              tr.appendChild(td);
+            });
+            rbody.appendChild(tr);
+          });
+
+          /* Choices */
+          var grouped = {};
+          var order = [];
+          (data.choices || []).forEach(function (c) {
+            if (!grouped[c.question]) { grouped[c.question] = []; order.push(c.question); }
+            grouped[c.question].push(c);
+          });
+          var cbox = $('choices');
+          cbox.textContent = '';
+          order.forEach(function (q) {
+            var rows = grouped[q].sort(function (x, y) { return y.people - x.people; });
+            var peak = rows.reduce(function (m, r) { return Math.max(m, r.people); }, 1);
+            var wrap = el('div', 'grp');
+            wrap.appendChild(el('div', 'gh', q));
+            wrap.appendChild(barList(rows, function (r) { return label(String(r.answer)); },
+              function (r) { return r.people; }, peak));
+            cbox.appendChild(wrap);
+          });
+
+          /* Kinds */
+          var kinds = data.kinds || [];
+          var kpeak = kinds.reduce(function (m, r) { return Math.max(m, r.finished); }, 1);
+          var kbox = $('kinds');
+          kbox.textContent = '';
+          barList(kinds, function (r) { return label(String(r.split)); },
+            function (r) { return r.finished; }, kpeak, kbox);
+
+          /* Crashes */
+          var crashes = data.crashes || [];
+          var realOnes = crashes.filter(function (c) { return !c.emulator_only; });
+          var pill = $('crash-pill');
+          pill.textContent = crashes.length === 0
+            ? 'Nothing reported'
+            : realOnes.length === 0
+              ? 'No real-user crashes'
+              : realOnes.length + (realOnes.length === 1 ? ' needs a look' : ' need a look');
+
+          var xbox = $('crashes');
+          xbox.textContent = '';
+          if (crashes.length === 0) {
+            xbox.appendChild(el('p', 'said', 'No crash has ever been reported.'));
+          } else {
+            crashes.forEach(function (c) {
+              var row = el('div', 'crash');
+              row.appendChild(el('div', 'msg', c.message));
+              var meta = el('div', 'meta');
+              meta.appendChild(el('span', null, c.times + (c.times === 1 ? ' time' : ' times')));
+              meta.appendChild(el('span', null, c.people + (c.people === 1 ? ' person' : ' people')));
+              meta.appendChild(el('span', null, 'last seen ' + prettyDay(c.last_seen)));
+              if (c.versions) meta.appendChild(el('span', null, 'version ' + c.versions));
+              meta.appendChild(el('span', null, c.emulator_only ? 'emulator only' : (c.devices || 'real device')));
+              row.appendChild(meta);
+              xbox.appendChild(row);
+            });
+          }
+
+          $('asof').textContent = 'as of ' + new Date(data.generated_at).toLocaleString();
+        }
+
+        function barList(rows, labelOf, valueOf, peak, into) {
+          var ul = into || el('ul', 'bars');
+          rows.forEach(function (r) {
+            var li = document.createElement('li');
+            li.appendChild(el('span', 'l', labelOf(r)));
+            var bar = el('span', 'b');
+            var i = document.createElement('i');
+            i.style.width = ((valueOf(r) / peak) * 100) + '%';
+            bar.appendChild(i);
+            li.appendChild(bar);
+            li.appendChild(el('span', 'v', String(valueOf(r))));
+            ul.appendChild(li);
+          });
+          return ul;
+        }
+
+        function prettyWeek(iso) {
+          var d = new Date(iso + 'T00:00:00');
+          return d.getDate() + ' ' + MONTHS[d.getMonth()];
+        }
+        function prettyDay(iso) {
+          var d = new Date(iso);
+          return d.getDate() + ' ' + MONTHS[d.getMonth()];
+        }
+
+        function drawChart(daily) {
+          var root = $('chart');
+          root.textContent = '';
+          if (!daily.length) return;
+
+          var W = 780, H = 220;
+          var padL = 32, padR = 14, padT = 14, padB = 30;
+          var plotW = W - padL - padR;
+          var plotH = H - padT - padB;
+
+          var peak = daily.reduce(function (m, d) { return Math.max(m, d.done, d.people); }, 0);
+          var max = Math.max(4, Math.ceil((peak + 1) / 2) * 2);
+          var slot = plotW / daily.length;
+          var barW = Math.max(3, slot - 3.2);
+          var y = function (v) { return padT + plotH - (v / max) * plotH; };
+
+          var ticks = [0, max / 2, max];
+          ticks.forEach(function (t) {
+            root.appendChild(svg('line', {
+              x1: padL, x2: W - padR, y1: y(t), y2: y(t),
+              stroke: 'var(--border)', 'stroke-width': 1,
+            }));
+            var lab = svg('text', {
+              x: padL - 8, y: y(t) + 4, 'text-anchor': 'end',
+              fill: 'var(--faint)', 'font-size': 11,
+            });
+            lab.textContent = String(t);
+            root.appendChild(lab);
+          });
+
+          daily.forEach(function (d, i) {
+            var day = new Date(d.day + 'T00:00:00');
+            if (day.getDate() === 1 || i === 0) {
+              var t = svg('text', {
+                x: padL + i * slot + barW / 2, y: H - 10, 'text-anchor': 'middle',
+                fill: 'var(--faint)', 'font-size': 11,
+              });
+              t.textContent = MONTHS[day.getMonth()];
+              root.appendChild(t);
+            }
+            if (!d.done) return;
+            var bar = svg('rect', {
+              x: padL + i * slot, y: y(d.done), width: barW, height: (d.done / max) * plotH,
+              rx: 1.5, fill: 'var(--accent)',
+            });
+            var title = svg('title');
+            title.textContent = day.getDate() + ' ' + MONTHS[day.getMonth()] + ': ' + d.done +
+              (d.done === 1 ? ' workout' : ' workouts') + ', ' + d.people +
+              (d.people === 1 ? ' person' : ' people');
+            bar.appendChild(title);
+            root.appendChild(bar);
+          });
+
+          /* People who trained, as a line, so the two are comparable at a glance. */
+          var points = daily.map(function (d, i) {
+            return (padL + i * slot + barW / 2) + ',' + y(d.people);
+          });
+          root.appendChild(svg('polyline', {
+            points: points.join(' '), fill: 'none',
+            stroke: 'var(--text)', 'stroke-width': 1.4,
+            'stroke-linejoin': 'round', 'stroke-opacity': 0.55,
+          }));
+
+          root.appendChild(svg('line', {
+            x1: padL, x2: W - padR, y1: y(0), y2: y(0),
+            stroke: 'var(--border-strong)', 'stroke-width': 1,
+          }));
+
+          var total = daily.reduce(function (s, d) { return s + d.done; }, 0);
+          var busiest = daily.reduce(function (b, d) { return d.done > b.done ? d : b; }, daily[0]);
+          $('chart-alt').textContent =
+            total + ' workouts finished across the last 60 days. Busiest day: ' +
+            prettyWeek(busiest.day) + ', with ' + busiest.done + '.';
+        }
+
+        /* ---- wiring ---- */
+
+        function attempt() {
+          $('loading').hidden = false;
+          loadStats(false)
+            .then(function (data) { render(data); showDash(); })
+            .catch(function (error) {
+              if (error.message === 'signed-out') { showGate(null); return; }
+              /* Signed in but refused, or the server is unwell. Say which. */
+              showGate(error.message);
+              clearSession();
+            });
+        }
+
+        $('gate').addEventListener('submit', function (event) {
+          event.preventDefault();
+          var button = $('gate-go');
+          button.disabled = true;
+          button.textContent = 'Signing in…';
+          signIn($('email').value.trim(), $('password').value)
+            .then(function (out) {
+              button.disabled = false;
+              button.textContent = 'Sign in';
+              if (!out.ok || !out.body.access_token) {
+                showGate(out.body.error_description || out.body.msg || 'That did not work.');
+                return;
+              }
+              saveSession(out.body);
+              $('password').value = '';
+              attempt();
+            })
+            .catch(function () {
+              button.disabled = false;
+              button.textContent = 'Sign in';
+              showGate('Could not reach the server.');
+            });
+        });
+
+        $('refresh').addEventListener('click', function () {
+          var b = $('refresh');
+          b.disabled = true;
+          b.textContent = 'Refreshing…';
+          loadStats(false)
+            .then(function (data) { render(data); })
+            .catch(function (error) {
+              var p = $('dash-problem');
+              p.textContent = error.message === 'signed-out' ? 'Signed out.' : error.message;
+              p.hidden = false;
+            })
+            .then(function () { b.disabled = false; b.textContent = 'Refresh'; });
+        });
+
+        $('signout').addEventListener('click', function () {
+          clearSession();
+          showGate(null);
+        });
+
+        attempt();
+      })();
+    </script>
+  </body>
+</html>
