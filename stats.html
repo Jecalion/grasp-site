@@ -834,14 +834,39 @@
 
         /* ---- wiring ---- */
 
+        /**
+         * A message worth reading.
+         *
+         * `fetch` rejects with "Failed to fetch" for every reason a request
+         * never left the browser — offline, a blocked domain, a CORS header
+         * one word short — and none of those are things the reader did.
+         */
+        function readable(error) {
+          var message = (error && error.message) || String(error);
+          if (/failed to fetch|networkerror|load failed/i.test(message)) {
+            return navigator.onLine === false
+              ? 'You appear to be offline.'
+              : 'Could not reach the server. This is not your password — the ' +
+                'request never left the browser. An ad blocker or a VPN will ' +
+                'do it; so will the server being down.';
+          }
+          return message;
+        }
+
         function attempt() {
           $('loading').hidden = false;
           loadStats(false)
             .then(function (data) { render(data); showDash(); })
             .catch(function (error) {
               if (error.message === 'signed-out') { showGate(null); return; }
-              /* Signed in but refused, or the server is unwell. Say which. */
-              showGate(error.message);
+              /*
+                Signed in but refused, or the server is unreachable. Say which,
+                in words that suggest what to do about it. A browser reports a
+                blocked or failed request as "Failed to fetch", which reads to
+                anybody sensible as "your password was wrong" — it is the one
+                message here that must not be passed through untranslated.
+              */
+              showGate(readable(error));
               clearSession();
             });
         }
@@ -863,10 +888,10 @@
               $('password').value = '';
               attempt();
             })
-            .catch(function () {
+            .catch(function (error) {
               button.disabled = false;
               button.textContent = 'Sign in';
-              showGate('Could not reach the server.');
+              showGate(readable(error));
             });
         });
 
@@ -878,7 +903,7 @@
             .then(function (data) { render(data); })
             .catch(function (error) {
               var p = $('dash-problem');
-              p.textContent = error.message === 'signed-out' ? 'Signed out.' : error.message;
+              p.textContent = error.message === 'signed-out' ? 'Signed out.' : readable(error);
               p.hidden = false;
             })
             .then(function () { b.disabled = false; b.textContent = 'Refresh'; });
