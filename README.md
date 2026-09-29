@@ -10,6 +10,8 @@ support.html    support and FAQ  ← Apple requires a working support URL
 style.css       all styling, both light and dark
 theme.js        the light / system / dark switch
 favicon.png     browser tab icon
+img/            app screenshots (WebP, from the store captures) and Apple's
+                official App Store badge, unmodified, as its guidelines require
 fonts/          IBM Plex Sans, self-hosted, with its licence
 CNAME           the custom domain, read by GitHub Pages
 .nojekyll       stop Pages running the files through Jekyll
