@@ -1,4 +1,4 @@
-<!doctype html>
+﻿<!doctype html>
 <!--
   The landing page.
 
@@ -126,9 +126,44 @@
       <section class="stats" aria-label="Grasp in numbers">
         <div class="wrap wide stats-row">
           <div><strong>600+</strong><span>exercises, most of them animated</span></div>
-          <div><strong>15</strong><span>languages, Arabic included</span></div>
+          <div><a class="stat-link" href="#languages"><strong>15</strong><span>languages, Arabic included</span></a></div>
           <div><strong>0</strong><span>ads, subscriptions or paid tiers</span></div>
           <div><strong>Offline</strong><span>no signal needed after sign-in</span></div>
+        </div>
+      </section>
+
+      <!--
+        The same fifteen, flags and all, as the app's own language picker
+        (apps/mobile/src/i18n/languages.ts in the app repository). Each name
+        is written in its own language, so each carries its own lang. Flags
+        are flag-icons (MIT, img/flags/LICENSE.txt), because emoji flags
+        render as two letters on Windows.
+      -->
+      <section class="languages" id="languages">
+        <div class="wrap wide">
+          <span class="kicker">In your language</span>
+          <h2>Speaks 15 languages</h2>
+          <p class="languages-lede">
+            The screens, the exercise names and their step-by-step instructions, not just the
+            menus. Arabic reads right to left, the way it should.
+          </p>
+          <ul class="flag-grid">
+            <li><img src="img/flags/gb.svg" alt="" width="36" height="27" /><span lang="en">English</span></li>
+            <li><img src="img/flags/sa.svg" alt="" width="36" height="27" /><span lang="ar" dir="rtl">العربية</span></li>
+            <li><img src="img/flags/fr.svg" alt="" width="36" height="27" /><span lang="fr">Français</span></li>
+            <li><img src="img/flags/de.svg" alt="" width="36" height="27" /><span lang="de">Deutsch</span></li>
+            <li><img src="img/flags/es.svg" alt="" width="36" height="27" /><span lang="es">Español</span></li>
+            <li><img src="img/flags/it.svg" alt="" width="36" height="27" /><span lang="it">Italiano</span></li>
+            <li><img src="img/flags/tr.svg" alt="" width="36" height="27" /><span lang="tr">Türkçe</span></li>
+            <li><img src="img/flags/pl.svg" alt="" width="36" height="27" /><span lang="pl">Polski</span></li>
+            <li><img src="img/flags/ru.svg" alt="" width="36" height="27" /><span lang="ru">Русский</span></li>
+            <li><img src="img/flags/in.svg" alt="" width="36" height="27" /><span lang="hi">हिन्दी</span></li>
+            <li><img src="img/flags/cn.svg" alt="" width="36" height="27" /><span lang="zh">中文</span></li>
+            <li><img src="img/flags/kr.svg" alt="" width="36" height="27" /><span lang="ko">한국어</span></li>
+            <li><img src="img/flags/jp.svg" alt="" width="36" height="27" /><span lang="ja">日本語</span></li>
+            <li><img src="img/flags/id.svg" alt="" width="36" height="27" /><span lang="id">Bahasa Indonesia</span></li>
+            <li><img src="img/flags/br.svg" alt="" width="36" height="27" /><span lang="pt">Português</span></li>
+          </ul>
         </div>
       </section>
 
@@ -144,6 +179,70 @@
             </p>
           </div>
           <div class="feature-shot"><div class="phone"><img src="img/screen-home.webp" alt="Grasp's workout screen: nine exercises planned for a full-body muscle-building session, each with its weight" width="540" height="1200" loading="lazy" /></div></div>
+        </section>
+
+        <!--
+          Equipment, shown the way the app asks for it: tick what you have.
+          The pictures are RepDB's equipment set (licensed for use in Grasp's
+          own web pages; not to be redistributed as an asset pack). Home and
+          Gym are two saved setups, as in the app. Without JavaScript the
+          Home setup simply shows, ticked.
+        -->
+        <section class="equipment" aria-labelledby="equipment-title">
+          <div class="equipment-head">
+            <div>
+              <span class="kicker">Equipment</span>
+              <h2 id="equipment-title">Tick what you have. It plans with nothing else.</h2>
+              <p>
+                A few dumbbells at home, a full rack at the gym, a band in a hotel room: save a setup
+                for each place and switch in one tap. Grasp only plans exercises you can do with
+                what is ticked, and rebuilds today's session when you switch.
+              </p>
+            </div>
+            <div class="setups" role="tablist" aria-label="Saved setups" hidden>
+              <button type="button" role="tab" data-setup="home" aria-selected="true">Home</button>
+              <button type="button" role="tab" data-setup="gym" aria-selected="false">Gym</button>
+            </div>
+          </div>
+          <ul class="kit" data-setup="home">
+            <li data-in="home gym"><img src="img/equipment/dumbbell.webp" alt="" width="160" height="160" loading="lazy" /><span>Dumbbells</span></li>
+            <li data-in="home gym"><img src="img/equipment/kettlebell.webp" alt="" width="160" height="160" loading="lazy" /><span>Kettlebell</span></li>
+            <li data-in="home gym"><img src="img/equipment/resistance-band.webp" alt="" width="160" height="160" loading="lazy" /><span>Resistance band</span></li>
+            <li data-in="home gym"><img src="img/equipment/pull-up-bar.webp" alt="" width="160" height="160" loading="lazy" /><span>Pull-up bar</span></li>
+            <li data-in="home gym"><img src="img/equipment/flat-bench.webp" alt="" width="160" height="160" loading="lazy" /><span>Flat bench</span></li>
+            <li data-in="gym"><img src="img/equipment/barbell.webp" alt="" width="160" height="160" loading="lazy" /><span>Barbell</span></li>
+            <li data-in="gym"><img src="img/equipment/cable.webp" alt="" width="160" height="160" loading="lazy" /><span>Cable machine</span></li>
+            <li data-in="gym"><img src="img/equipment/leg-press.webp" alt="" width="160" height="160" loading="lazy" /><span>Leg press</span></li>
+            <li data-in="gym"><img src="img/equipment/smith-machine.webp" alt="" width="160" height="160" loading="lazy" /><span>Smith machine</span></li>
+            <li data-in="gym"><img src="img/equipment/treadmill.webp" alt="" width="160" height="160" loading="lazy" /><span>Treadmill</span></li>
+          </ul>
+          <p class="meta kit-note">
+            <span data-note="home">Home: 5 of 58 pieces ticked, so every exercise is one you can do there.</span>
+            <span data-note="gym" hidden>Gym: everything ticked, so the whole library is open.</span>
+            Over 50 kinds of equipment to choose from.
+          </p>
+          <script>
+            (function () {
+              var kit = document.querySelector('.kit');
+              var tabs = document.querySelectorAll('.setups [data-setup]');
+              var notes = document.querySelectorAll('.kit-note [data-note]');
+              function show(setup) {
+                kit.setAttribute('data-setup', setup);
+                tabs.forEach(function (t) {
+                  t.setAttribute('aria-selected', t.getAttribute('data-setup') === setup ? 'true' : 'false');
+                });
+                notes.forEach(function (n) {
+                  n.hidden = n.getAttribute('data-note') !== setup;
+                });
+              }
+              tabs.forEach(function (t) {
+                t.addEventListener('click', function () {
+                  show(t.getAttribute('data-setup'));
+                });
+              });
+              document.querySelector('.setups').hidden = false;
+            })();
+          </script>
         </section>
 
         <section class="feature flip">

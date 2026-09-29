@@ -1,4 +1,4 @@
-# grasp.alsouq.tech
+﻿# grasp.alsouq.tech
 
 The Grasp website. Three static pages, no build step, no dependencies —
 whatever is on the `main` branch is what the site serves.
@@ -12,6 +12,9 @@ theme.js        the light / system / dark switch
 favicon.png     browser tab icon
 img/            app screenshots (WebP, from the store captures) and Apple's
                 official App Store badge, unmodified, as its guidelines require
+img/flags/      the app's 15 language flags (flag-icons, MIT; licence beside them)
+img/equipment/  equipment pictures from RepDB, licensed for Grasp's own pages only:
+                do not copy them anywhere else or add them in bulk
 fonts/          IBM Plex Sans, self-hosted, with its licence
 CNAME           the custom domain, read by GitHub Pages
 .nojekyll       stop Pages running the files through Jekyll
