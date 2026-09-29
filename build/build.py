@@ -153,9 +153,9 @@ def render(template: str, code: str, rtl: bool, s: dict, keys: set) -> str:
 
 
 def main() -> None:
-    with open(os.path.join(HERE, "template.html"), encoding="utf-8") as f:
+    with open(os.path.join(HERE, "template.html"), encoding="utf-8-sig") as f:
         template = f.read()
-    with open(os.path.join(HERE, "i18n", "en.json"), encoding="utf-8") as f:
+    with open(os.path.join(HERE, "i18n", "en.json"), encoding="utf-8-sig") as f:
         keys = {k for k in json.load(f) if not k.startswith("_")}
     only = sys.argv[1:]
     for code, _, _, rtl in LANGS:
@@ -165,7 +165,7 @@ def main() -> None:
         if not os.path.exists(src):
             print(f"skip {code}: no {code}.json yet")
             continue
-        with open(src, encoding="utf-8") as f:
+        with open(src, encoding="utf-8-sig") as f:
             strings = json.load(f)
         page = render(template, code, rtl, strings, keys)
         out = os.path.join(ROOT, "index.html") if code == "en" else os.path.join(ROOT, code, "index.html")
