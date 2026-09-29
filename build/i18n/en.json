@@ -86,5 +86,24 @@
     "leg_press_machine": "Leg press",
     "smith_machine": "Smith machine",
     "treadmill": "Treadmill"
-  }
+  },
+  "nav_faq": "FAQ",
+  "faq_kicker": "Questions",
+  "faq_title": "Common questions",
+  "faq1_q": "Is Grasp free?",
+  "faq1_a": "Yes. Grasp is completely free: no ads, no subscription, no paid tier and nothing to unlock.",
+  "faq2_q": "Does Grasp work without internet?",
+  "faq2_a": "Yes. Your workout and your weights are worked out on your phone, so it works in a gym with no signal. Only the first sign-up needs internet. The account is there to back up your training.",
+  "faq3_q": "Which languages does Grasp support?",
+  "faq3_a": "15: English, Arabic, French, German, Spanish, Italian, Turkish, Polish, Russian, Hindi, Chinese, Korean, Japanese, Indonesian and Portuguese. That includes the exercise names and the step-by-step instructions.",
+  "faq4_q": "Can I train at home with just dumbbells?",
+  "faq4_a": "Yes. Tick the equipment you have and Grasp only plans exercises you can do with it. Save a setup for home, the gym or a hotel and switch in one tap.",
+  "faq5_q": "How does Grasp pick my weights?",
+  "faq5_a": "From what you logged last time. Reach the top of your rep range on every set and the weight goes up. Miss it twice and it comes down. You can change any weight in one tap.",
+  "faq6_q": "Does Grasp use AI?",
+  "faq6_a": "No. It uses simple rules that run on your phone, which is why it works offline.",
+  "faq7_q": "Is Grasp on Android?",
+  "faq7_a": "Grasp is on iPhone now, and Android is coming soon. Email grasp@alsouq.tech to be told when it is out.",
+  "faq8_q": "Does Grasp track me?",
+  "faq8_a": "No. Grasp does not use advertising identifiers, analytics or usage tracking, and it does not ask for your location, contacts or microphone. The camera only opens when you take a photo for a share card."
 }

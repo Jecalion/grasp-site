@@ -85,5 +85,24 @@
     "leg_press_machine": "Mesin Leg Press",
     "smith_machine": "Smith Machine",
     "treadmill": "Treadmill"
-  }
+  },
+  "nav_faq": "FAQ",
+  "faq_kicker": "Pertanyaan",
+  "faq_title": "Yang sering ditanyakan",
+  "faq1_q": "Apakah Grasp gratis?",
+  "faq1_a": "Iya. Grasp gratis sepenuhnya: tanpa iklan, tanpa langganan, tanpa paket berbayar, tanpa fitur terkunci.",
+  "faq2_q": "Apakah Grasp bisa dipakai tanpa internet?",
+  "faq2_a": "Bisa. Latihan dan bebanmu dihitung di ponsel, jadi tetap jalan di gym yang tidak ada sinyal. Internet cuma perlu waktu pertama daftar. Akunnya buat mencadangkan latihanmu.",
+  "faq3_q": "Grasp tersedia dalam bahasa apa saja?",
+  "faq3_a": "15 bahasa: Inggris, Arab, Prancis, Jerman, Spanyol, Italia, Turki, Polandia, Rusia, Hindi, Mandarin, Korea, Jepang, Indonesia, dan Portugis. Termasuk nama gerakan dan petunjuk langkah demi langkahnya.",
+  "faq4_q": "Bisa latihan di rumah cuma pakai dumbbell?",
+  "faq4_a": "Bisa. Centang alat yang kamu punya, dan Grasp cuma menyusun gerakan yang bisa kamu lakukan dengan alat itu. Simpan alat untuk rumah, gym, atau hotel, lalu ganti dengan sekali ketuk.",
+  "faq5_q": "Bagaimana Grasp menentukan beban saya?",
+  "faq5_a": "Dari yang kamu catat terakhir kali. Kalau kamu mencapai batas atas rep di semua set, bebannya naik. Gagal dua kali, bebannya turun. Beban apa pun bisa kamu ganti dengan sekali ketuk.",
+  "faq6_q": "Apakah Grasp pakai AI?",
+  "faq6_a": "Tidak. Grasp pakai aturan sederhana yang jalan di ponselmu, makanya bisa offline.",
+  "faq7_q": "Apakah Grasp ada di Android?",
+  "faq7_a": "Grasp sekarang ada di iPhone, dan versi Android segera hadir. Email ke grasp@alsouq.tech, nanti kami kabari kalau sudah rilis.",
+  "faq8_q": "Apakah Grasp melacak saya?",
+  "faq8_a": "Tidak. Grasp tidak memakai ID iklan, analitik, atau pelacakan penggunaan, dan tidak meminta akses lokasi, kontak, atau mikrofonmu. Kamera cuma terbuka saat kamu mengambil foto untuk kartu berbagi."
 }

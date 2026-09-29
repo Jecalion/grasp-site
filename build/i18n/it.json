@@ -2,13 +2,11 @@
   "title": "Grasp — allenamento pronto, carichi calcolati",
   "description": "Grasp ti prepara l'allenamento e calcola i carichi da quello che hai sollevato davvero. Gratis su iPhone, niente pubblicità, funziona offline.",
   "og_description": "Allenamento pronto e carichi calcolati da quello che hai sollevato davvero. Gratis su iPhone. Niente pubblicità. Funziona offline.",
-
   "home_aria": "Home di Grasp",
   "nav_features": "Funzioni",
   "nav_support": "Assistenza",
   "nav_privacy": "Privacy",
   "language": "Lingua",
-
   "hero_badge": "Gratis · Niente pubblicità · Funziona offline",
   "hero_h1_before": "Il tuo allenamento, pronto.",
   "hero_h1_highlight": "I tuoi carichi, calcolati.",
@@ -19,7 +17,6 @@
   "coming_soon": "In arrivo",
   "android_aria": "Versione per Android in arrivo",
   "hero_meta": "Gratis su iPhone, in 15 lingue. Niente abbonamento, niente da sbloccare.",
-
   "stats_aria": "Grasp in numeri",
   "stat1_num": "600+",
   "stat1_text": "esercizi, la maggior parte animati",
@@ -29,16 +26,13 @@
   "stat3_text": "pubblicità, abbonamenti o versioni a pagamento",
   "stat4_num": "Offline",
   "stat4_text": "dopo l'accesso non serve campo",
-
   "lang_kicker": "Nella tua lingua",
   "lang_title": "Parla 15 lingue",
   "lang_lede": "Non solo i menu: ogni schermata, ogni nome di esercizio e le sue istruzioni passo passo.",
-
   "plan_kicker": "Pianificazione",
   "plan_title": "Il tuo prossimo allenamento, già pronto",
   "plan_body": "Digli il tuo obiettivo, quanti giorni ti alleni, quanto dura una seduta e che attrezzatura hai davvero a disposizione. Non ti proporrà mai un movimento che non puoi fare. Salva l'attrezzatura di ogni posto in cui ti alleni. Cambi palestra? La seduta di oggi si rifà.",
   "plan_alt": "La schermata dell'allenamento di Grasp: nove esercizi per una seduta full body per mettere massa, ognuno con il suo carico",
-
   "equip_kicker": "Attrezzatura",
   "equip_title": "Spunta quello che hai. Usa solo quello.",
   "equip_body": "Qualche manubrio a casa, un rack completo in palestra, un elastico in albergo: salva l'attrezzatura di ogni posto e passa dall'uno all'altro con un tocco. Grasp ti propone solo esercizi che puoi fare con quello che hai spuntato, e quando cambi rifà la seduta di oggi.",
@@ -48,7 +42,6 @@
   "equip_note_home": "Casa: 5 attrezzi spuntati su 58, quindi ogni esercizio lo puoi fare lì.",
   "equip_note_gym": "Palestra: tutto spuntato, hai tutta la libreria a disposizione.",
   "equip_note_tail": "Oltre 50 tipi di attrezzi tra cui scegliere.",
-
   "prog_kicker": "Progressione",
   "prog_title": "I tuoi carichi crescono con te",
   "prog_body1": "Arrivi in cima al range di ripetizioni in ogni serie? Il carico sale. Un carico non ti convince? Lo cambi con un tocco.",
@@ -56,39 +49,31 @@
   "prog_ledger_why": "Tutte le serie in cima al range — si sale di 5 kg.",
   "prog_body2": "Se non ci arrivi due volte, scende. Qui sono 5 kg perché è il salto più piccolo della macchina. Le serie di riscaldamento sono calcolate dal tuo carico di lavoro, e il timer di recupero parte da solo.",
   "prog_alt": "Un esercizio in Grasp: l'animazione del movimento, le serie di riscaldamento e il carico dell'ultima volta",
-
   "rec_kicker": "Recupero",
   "rec_title": "Vedi cosa deve recuperare",
   "rec_body": "La mappa del corpo colora ogni muscolo in base a quando l'hai allenato l'ultima volta. Vedi la settimana a colpo d'occhio, senza fare conti. E il colore sbiadisce man mano che il muscolo recupera.",
   "rec_alt": "La mappa del corpo di Grasp, con in evidenza i muscoli allenati oggi",
-
   "vol_kicker": "Volume",
   "vol_title": "Obiettivi settimanali per gruppo muscolare",
   "vol_body": "Le serie vengono contate rispetto a un obiettivo settimanale per ogni gruppo muscolare, e l'obiettivo puoi cambiarlo. Vedi dove è andato il tuo sforzo questa settimana e cosa manca ancora.",
   "vol_alt": "Gli obiettivi settimanali di Grasp: serie fatte per gruppo muscolare rispetto all'obiettivo",
-
   "int_kicker": "Timer",
   "int_title": "Intervalli per tutto quello che va a round",
   "int_body": "Corda, sprint, plank: lavoro e recupero li conta lui, con un suono a ogni cambio. Così puoi mettere giù il telefono. Salva i tuoi preset. Tra una serie e l'altra, il timer di recupero suona e fa il conto alla rovescia nelle notifiche.",
   "int_alt": "Il timer a intervalli di Grasp con le impostazioni di lavoro, recupero e round",
-
   "log_kicker": "Storico",
   "log_title": "Ogni seduta, sul calendario",
   "log_body": "Tutto resta sul tuo telefono e funziona senza campo. L'account serve solo per il backup, nel caso perdessi il telefono. Esporta tutto come foglio di calcolo o backup completo quando vuoi. È il tuo allenamento, in un formato che puoi aprire.",
   "log_alt": "Il diario di allenamento di Grasp sul calendario",
-
   "ai_kicker": "Per scelta",
   "ai_title": "Non è un'IA",
   "ai_p1": "Nessun modello linguistico decide cosa sollevi. Grasp usa calcoli semplici che puoi controllare: obiettivi di volume per muscolo, una stima della fatica da quello che hai registrato e una regola di progressione che sta in una frase.",
   "ai_p2": "Un sistema che tira a indovinare non si può controllare, e non funziona su un telefono senza campo. Grasp sì.",
-
   "final_title": "Scarica Grasp",
   "final_lede": "Gratis su iPhone. Niente pubblicità, niente abbonamento, niente da sbloccare.",
   "final_meta_html": "Hai Android? Scrivi a {email} e ti avvisiamo appena esce. Palestre e brand che vogliono collaborare con noi: stesso indirizzo.",
-
   "disclaimer": "Grasp propone i carichi in base a quello che registri. Non è un parere medico e non può vedere la tua tecnica né la tua salute. Parla con un medico prima di iniziare un nuovo programma di allenamento, soprattutto se hai un infortunio o un problema di salute.",
   "footer_note": "Le pagine di assistenza e privacy sono in inglese.",
-
   "equipment": {
     "dumbbell": "Manubri",
     "kettlebell": "Kettlebell",
@@ -100,5 +85,24 @@
     "leg_press_machine": "Leg press",
     "smith_machine": "Multipower",
     "treadmill": "Tapis roulant"
-  }
+  },
+  "nav_faq": "FAQ",
+  "faq_kicker": "Domande",
+  "faq_title": "Domande frequenti",
+  "faq1_q": "Grasp è gratis?",
+  "faq1_a": "Sì. Grasp è completamente gratis: niente pubblicità, niente abbonamento, niente versione a pagamento e niente da sbloccare.",
+  "faq2_q": "Grasp funziona senza internet?",
+  "faq2_a": "Sì. L'allenamento e i carichi vengono calcolati sul telefono, quindi funziona anche in una palestra senza campo. Internet serve solo per la prima registrazione. L'account serve per fare il backup dei tuoi allenamenti.",
+  "faq3_q": "In che lingue è disponibile Grasp?",
+  "faq3_a": "15: inglese, arabo, francese, tedesco, spagnolo, italiano, turco, polacco, russo, hindi, cinese, coreano, giapponese, indonesiano e portoghese. Anche i nomi degli esercizi e le istruzioni passo passo.",
+  "faq4_q": "Posso allenarmi a casa solo con i manubri?",
+  "faq4_a": "Sì. Spunta l'attrezzatura che hai e Grasp ti propone solo esercizi che puoi fare con quella. Salva un profilo per casa, palestra o albergo e passa dall'uno all'altro con un tocco.",
+  "faq5_q": "Come fa Grasp a calcolare i miei carichi?",
+  "faq5_a": "Da quello che hai registrato l'ultima volta. Arrivi in cima al range di ripetizioni in ogni serie? Il carico sale. Non ci arrivi due volte? Scende. Puoi cambiare qualsiasi carico con un tocco.",
+  "faq6_q": "Grasp usa l'IA?",
+  "faq6_a": "No. Usa regole semplici che girano sul telefono, ed è per questo che funziona offline.",
+  "faq7_q": "Grasp c'è per Android?",
+  "faq7_a": "Per ora Grasp è su iPhone, e Android è in arrivo. Scrivi a grasp@alsouq.tech e ti avvisiamo appena esce.",
+  "faq8_q": "Grasp mi traccia?",
+  "faq8_a": "No. Grasp non usa identificativi pubblicitari, analytics o tracciamento dell'utilizzo, e non chiede la tua posizione, i tuoi contatti o il microfono. La fotocamera si apre solo quando scatti una foto per una card da condividere."
 }

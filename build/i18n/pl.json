@@ -85,5 +85,24 @@
     "leg_press_machine": "Suwnica",
     "smith_machine": "Maszyna Smitha",
     "treadmill": "Bieżnia"
-  }
+  },
+  "nav_faq": "FAQ",
+  "faq_kicker": "Pytania",
+  "faq_title": "Częste pytania",
+  "faq1_q": "Czy Grasp jest darmowy?",
+  "faq1_a": "Tak. Grasp jest całkowicie za darmo: bez reklam, bez subskrypcji, bez płatnej wersji i nic nie trzeba odblokowywać.",
+  "faq2_q": "Czy Grasp działa bez internetu?",
+  "faq2_a": "Tak. Trening i ciężary są liczone na twoim telefonie, więc działa też na siłowni bez zasięgu. Internet jest potrzebny tylko przy pierwszej rejestracji. Konto służy do kopii zapasowej twoich treningów.",
+  "faq3_q": "W jakich językach jest Grasp?",
+  "faq3_a": "W 15: angielskim, arabskim, francuskim, niemieckim, hiszpańskim, włoskim, tureckim, polskim, rosyjskim, hindi, chińskim, koreańskim, japońskim, indonezyjskim i portugalskim. Razem z nazwami ćwiczeń i instrukcjami krok po kroku.",
+  "faq4_q": "Czy mogę ćwiczyć w domu tylko z hantlami?",
+  "faq4_a": "Tak. Zaznacz sprzęt, który masz, a Grasp da ci tylko ćwiczenia, które na nim zrobisz. Zapisz zestaw dla domu, siłowni albo hotelu i przełączaj jednym dotknięciem.",
+  "faq5_q": "Jak Grasp dobiera mi ciężary?",
+  "faq5_a": "Na podstawie tego, co zapisałeś ostatnio. Dobijesz do górnej granicy powtórzeń w każdej serii, ciężar idzie w górę. Dwa razy nie dobijesz, idzie w dół. Każdy ciężar zmienisz jednym dotknięciem.",
+  "faq6_q": "Czy Grasp używa AI?",
+  "faq6_a": "Nie. Opiera się na prostych zasadach liczonych na twoim telefonie, dlatego działa offline.",
+  "faq7_q": "Czy Grasp jest na Androida?",
+  "faq7_a": "Grasp jest teraz na iPhonie, a wersja na Androida będzie wkrótce. Napisz na grasp@alsouq.tech, a damy znać, jak wyjdzie.",
+  "faq8_q": "Czy Grasp mnie śledzi?",
+  "faq8_a": "Nie. Grasp nie używa identyfikatorów reklamowych, analityki ani śledzenia użycia i nie prosi o dostęp do lokalizacji, kontaktów ani mikrofonu. Aparat włącza się tylko wtedy, gdy robisz zdjęcie do karty do udostępnienia."
 }

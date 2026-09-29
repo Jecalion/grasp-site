@@ -27,6 +27,7 @@
     <link rel="canonical" href="{{canonical}}" />
 {{alternates}}
     <link rel="icon" href="/favicon.png" />
+{{jsonld}}
     <link rel="stylesheet" href="/style.css" />
     <script src="/theme.js"></script>
     <script src="/lang.js" defer></script>
@@ -62,6 +63,7 @@
         </a>
         <nav>
           <a href="#features" class="nav-extra">{{nav_features}}</a>
+          <a href="#faq" class="nav-extra">{{nav_faq}}</a>
           <a href="/support.html">{{nav_support}}</a>
           <a href="/privacy.html">{{nav_privacy}}</a>
         </nav>
@@ -221,6 +223,19 @@
           <h2>{{ai_title}}</h2>
           <p>{{ai_p1}}</p>
           <p>{{ai_p2}}</p>
+        </div>
+      </section>
+
+      <!--
+        Worded the way people ask a search box or an AI assistant, with
+        short factual answers that can be quoted as they stand. The same
+        questions go into the FAQPage structured data in <head>.
+      -->
+      <section class="faq" id="faq">
+        <div class="wrap">
+          <span class="kicker">{{faq_kicker}}</span>
+          <h2>{{faq_title}}</h2>
+{{faq_list}}
         </div>
       </section>
 

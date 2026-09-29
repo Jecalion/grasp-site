@@ -85,5 +85,24 @@
     "leg_press_machine": "Leg Press Makinesi",
     "smith_machine": "Smith Makinesi",
     "treadmill": "Koşu Bandı"
-  }
+  },
+  "nav_faq": "SSS",
+  "faq_kicker": "Sorular",
+  "faq_title": "Sık sorulan sorular",
+  "faq1_q": "Grasp ücretsiz mi?",
+  "faq1_a": "Evet. Grasp tamamen ücretsiz: reklam yok, abonelik yok, ücretli paket yok, kilidini açman gereken bir şey yok.",
+  "faq2_q": "Grasp internetsiz çalışıyor mu?",
+  "faq2_a": "Evet. Antrenmanın ve ağırlıkların telefonunda hesaplanır, yani telefonun çekmediği bir salonda da çalışır. İnternet sadece ilk kayıtta lazım. Hesap da antrenmanlarını yedeklemek için var.",
+  "faq3_q": "Grasp hangi dilleri destekliyor?",
+  "faq3_a": "15 dil: İngilizce, Arapça, Fransızca, Almanca, İspanyolca, İtalyanca, Türkçe, Lehçe, Rusça, Hintçe, Çince, Korece, Japonca, Endonezce ve Portekizce. Hareketlerin adları ve adım adım anlatımları da dahil.",
+  "faq4_q": "Evde sadece dambılla antrenman yapabilir miyim?",
+  "faq4_a": "Evet. Elindeki ekipmanı işaretle, Grasp sadece onlarla yapabileceğin hareketleri planlar. Ev, salon ya da otel için ekipmanını kaydet, tek dokunuşla aralarında geç.",
+  "faq5_q": "Grasp kaldıracağım ağırlığı nasıl hesaplıyor?",
+  "faq5_a": "Geçen sefer kaydettiklerine bakarak. Bütün setlerde tekrar aralığının üst sınırına ulaşırsan ağırlık artar. İki kez ulaşamazsan düşer. Her ağırlığı tek dokunuşla değiştirebilirsin.",
+  "faq6_q": "Grasp yapay zeka kullanıyor mu?",
+  "faq6_a": "Hayır. Telefonunda çalışan basit kurallar kullanır. İnternetsiz çalışmasının sebebi de bu.",
+  "faq7_q": "Grasp Android'de var mı?",
+  "faq7_a": "Grasp şu an iPhone'da, Android de yakında geliyor. Çıkınca haber almak için grasp@alsouq.tech adresine yaz.",
+  "faq8_q": "Grasp beni takip ediyor mu?",
+  "faq8_a": "Hayır. Grasp reklam kimliği, analitik ya da kullanım takibi kullanmaz; konumunu, rehberini ya da mikrofonunu da istemez. Kamera sadece paylaşım kartı için fotoğraf çektiğinde açılır."
 }

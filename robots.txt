@@ -1,0 +1,14 @@
+# Grasp — grasp.alsouq.tech
+#
+# Everyone is welcome to read and index the site, search engines and AI
+# assistants alike: being found and quoted correctly is the point.
+# The only pages kept out are ones that make no sense on their own: the
+# sign-in dashboard and the one-time email and password-reset landings.
+
+User-agent: *
+Allow: /
+Disallow: /stats.html
+Disallow: /reset.html
+Disallow: /confirmed.html
+
+Sitemap: https://grasp.alsouq.tech/sitemap.xml

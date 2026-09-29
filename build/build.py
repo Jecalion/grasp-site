@@ -113,6 +113,79 @@ def kit(s: dict) -> str:
     return f'          <ul class="kit" data-setup="home">\n{items}\n          </ul>'
 
 
+FAQ_COUNT = 8
+
+
+def faq_list(esc: dict) -> str:
+    """Native <details>: the answers are in the page for crawlers and screen
+    readers, closed until opened, and need no script."""
+    items = "\n".join(
+        f'            <details><summary>{esc[f"faq{i}_q"]}</summary><p>{esc[f"faq{i}_a"]}</p></details>'
+        for i in range(1, FAQ_COUNT + 1)
+    )
+    return f'          <div class="faq-list">\n{items}\n          </div>'
+
+
+def jsonld(code: str, s: dict) -> str:
+    """What the page is, for search engines and the AI answers built on them:
+    the app (name, platform, price, languages, where to get it) and the FAQ.
+    Only facts the store listing states; no ratings, because there are none
+    to cite yet."""
+    app = {
+        "@context": "https://schema.org",
+        "@type": "MobileApplication",
+        "name": "Grasp: Workout Planner",
+        "alternateName": "Grasp",
+        "description": s["description"],
+        "operatingSystem": "iOS",
+        "applicationCategory": "HealthApplication",
+        "applicationSubCategory": "Fitness",
+        "inLanguage": [c for c, *_ in LANGS],
+        "url": SITE + path_for(code),
+        "downloadUrl": STORE,
+        "installUrl": STORE,
+        "image": f"{SITE}/img/screens/{code}/home.webp",
+        "screenshot": [f"{SITE}/img/screens/{code}/{n}.webp" for n in ("home", "exercise", "body", "goals")],
+        "offers": {"@type": "Offer", "price": "0", "priceCurrency": "USD"},
+        "publisher": {"@type": "Organization", "name": "Grasp", "url": SITE + "/", "email": "grasp@alsouq.tech"},
+    }
+    faq = {
+        "@context": "https://schema.org",
+        "@type": "FAQPage",
+        "inLanguage": code,
+        "mainEntity": [
+            {"@type": "Question", "name": s[f"faq{i}_q"],
+             "acceptedAnswer": {"@type": "Answer", "text": s[f"faq{i}_a"]}}
+            for i in range(1, FAQ_COUNT + 1)
+        ],
+    }
+
+    def block(data: dict) -> str:
+        # </ cannot appear inside a script element; escape it the JSON way.
+        text = json.dumps(data, ensure_ascii=False, indent=2).replace("</", "<\\/")
+        return '    <script type="application/ld+json">\n' + text + "\n    </script>"
+
+    return block(app) + "\n" + block(faq)
+
+
+def sitemap() -> str:
+    """Every language's landing page, each listing all of its alternates, plus
+    the two English pages the stores link to."""
+    alts = "\n".join(
+        f'    <xhtml:link rel="alternate" hreflang="{c}" href="{SITE}{path_for(c)}"/>' for c, *_ in LANGS
+    ) + f'\n    <xhtml:link rel="alternate" hreflang="x-default" href="{SITE}/"/>'
+    urls = "\n".join(
+        f"  <url>\n    <loc>{SITE}{path_for(c)}</loc>\n{alts}\n  </url>" for c, *_ in LANGS
+    )
+    extra = "\n".join(f"  <url>\n    <loc>{SITE}/{p}</loc>\n  </url>" for p in ("support.html", "privacy.html"))
+    return (
+        '<?xml version="1.0" encoding="UTF-8"?>\n'
+        '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" '
+        'xmlns:xhtml="http://www.w3.org/1999/xhtml">\n'
+        f"{urls}\n{extra}\n</urlset>\n"
+    )
+
+
 def render(template: str, code: str, rtl: bool, s: dict, keys: set) -> str:
     missing = keys - set(s)
     if missing:
@@ -138,6 +211,8 @@ def render(template: str, code: str, rtl: bool, s: dict, keys: set) -> str:
         "get": get_block(esc, center=False, lazy=False),
         "get_center": get_block(esc, center=True, lazy=True),
         "footer_note_block": f'        <span class="footer-note">{note}</span>' if note else "",
+        "faq_list": faq_list(esc),
+        "jsonld": jsonld(code, s),
     }
     out = template
     # Chinese and Japanese put no space between words, and the first half of
@@ -173,6 +248,10 @@ def main() -> None:
         with open(out, "w", encoding="utf-8", newline="\n") as f:
             f.write(page)
         print("wrote", os.path.relpath(out, ROOT))
+    if not only:
+        with open(os.path.join(ROOT, "sitemap.xml"), "w", encoding="utf-8", newline="\n") as f:
+            f.write(sitemap())
+        print("wrote sitemap.xml")
 
 
 if __name__ == "__main__":
