@@ -1,0 +1,106 @@
+{
+  "_note": "English source for the landing page. Every other file in this folder has exactly these keys. Keys ending in _html may contain the {email} placeholder, nothing else. Brand names stay as they are: Grasp, App Store, iPhone, Android.",
+
+  "title": "Grasp — a workout planner that shows its working",
+  "description": "Grasp plans your session and works out the weights from what you actually lifted — then tells you why it picked them. Free on iPhone, works offline, no ads.",
+  "og_description": "Plans your session, works out the weights from what you actually lifted, and tells you why. Free on iPhone. Works offline. No ads.",
+
+  "home_aria": "Grasp home",
+  "nav_features": "Features",
+  "nav_support": "Support",
+  "nav_privacy": "Privacy",
+  "language": "Language",
+
+  "hero_badge": "Free · No ads · Works offline",
+  "hero_h1_before": "A workout planner that",
+  "hero_h1_highlight": "shows its working.",
+  "hero_lede": "Grasp plans your session around your goal and your gym, works out the weights from what you actually lifted last time, and tells you why it picked each one.",
+  "store_aria": "Download Grasp on the App Store",
+  "store_alt": "Download on the App Store",
+  "android": "Android",
+  "coming_soon": "Coming soon",
+  "android_aria": "Android version coming soon",
+  "hero_meta": "Free on iPhone, in 15 languages. No subscription, nothing to unlock.",
+
+  "stats_aria": "Grasp in numbers",
+  "stat1_num": "600+",
+  "stat1_text": "exercises, most of them animated",
+  "stat2_num": "15",
+  "stat2_text": "languages, Arabic included",
+  "stat3_num": "0",
+  "stat3_text": "ads, subscriptions or paid tiers",
+  "stat4_num": "Offline",
+  "stat4_text": "no signal needed after sign-in",
+
+  "lang_kicker": "In your language",
+  "lang_title": "Speaks 15 languages",
+  "lang_lede": "The screens, the exercise names and their step-by-step instructions, not just the menus. Arabic reads right to left, the way it should.",
+
+  "plan_kicker": "Planning",
+  "plan_title": "Your next workout, built for you",
+  "plan_body": "Tell it your goal, how many days you train, how long a session is and what equipment you can actually reach. It will never suggest a movement you cannot do. Save a setup for every place you train, and switching gyms rebuilds today's session.",
+  "plan_alt": "Grasp's workout screen: nine exercises planned for a full-body muscle-building session, each with its weight",
+
+  "equip_kicker": "Equipment",
+  "equip_title": "Tick what you have. It plans with nothing else.",
+  "equip_body": "A few dumbbells at home, a full rack at the gym, a band in a hotel room: save a setup for each place and switch in one tap. Grasp only plans exercises you can do with what is ticked, and rebuilds today's session when you switch.",
+  "equip_tabs_aria": "Saved setups",
+  "equip_home": "Home",
+  "equip_gym": "Gym",
+  "equip_note_home": "Home: 5 of 58 pieces ticked, so every exercise is one you can do there.",
+  "equip_note_gym": "Gym: everything ticked, so the whole library is open.",
+  "equip_note_tail": "Over 50 kinds of equipment to choose from.",
+
+  "prog_kicker": "Progression",
+  "prog_title": "Every weight comes with a reason",
+  "prog_body1": "Most training apps hand you a number and leave you to trust it. Grasp shows the reasoning, and lets you disagree in one tap.",
+  "prog_ledger_name": "Leg Press",
+  "prog_ledger_why": "Every set reached the top of your range — up 5 kg.",
+  "prog_body2": "Hit the top of your rep range on every set and the weight goes up; miss it twice and it comes down. Five kilograms here because that is the smallest step the machine's stack has. Warm-up sets are worked out from your working weight, and the rest timer starts itself.",
+  "prog_alt": "An exercise in Grasp: an animation of the movement, warm-up sets, and last time's weight",
+
+  "rec_kicker": "Recovery",
+  "rec_title": "See what needs rest",
+  "rec_body": "A body map shades each muscle by how recently you worked it, so a week of training reads at a glance instead of needing to be added up. Muscles fade as they recover.",
+  "rec_alt": "Grasp's body map, with the muscles trained today highlighted",
+
+  "vol_kicker": "Volume",
+  "vol_title": "Weekly targets, per muscle group",
+  "vol_body": "Sets are counted against a weekly target for each muscle group, and you can change the target. You can see where the week's effort went, and what is still short.",
+  "vol_alt": "Grasp's weekly targets: sets done per muscle group against a target",
+
+  "int_kicker": "Timers",
+  "int_title": "Intervals for anything in rounds",
+  "int_body": "Rope, sprints, planks: work and rest, counted for you, with a sound at every change so you can put the phone down. Save your own presets. Between sets, the rest timer rings and counts down in the notification shade.",
+  "int_alt": "Grasp's interval timer with work, rest and round settings",
+
+  "log_kicker": "History",
+  "log_title": "Every session, on the calendar",
+  "log_body": "Everything lives on your phone and works with no signal. An account only backs your training up so it survives a lost phone. Export everything as a spreadsheet or a complete backup whenever you want. It is your training, in a format you can open.",
+  "log_alt": "Grasp's training log on a calendar",
+
+  "ai_kicker": "On purpose",
+  "ai_title": "Not an AI",
+  "ai_p1": "There is no language model deciding what you lift. Grasp's planning is ordinary, inspectable arithmetic: volume targets per muscle, a fatigue model based on what you logged, and a progression rule that fits in a sentence.",
+  "ai_p2": "A system that guesses cannot tell you why it guessed, cannot be checked, and cannot run on a phone with no signal. This one can do all three.",
+
+  "final_title": "Get Grasp",
+  "final_lede": "Free on iPhone. No ads, no subscription, nothing to unlock.",
+  "final_meta_html": "On Android? Email {email} and we will tell you when it is out. Gyms and brands interested in working together, same address.",
+
+  "disclaimer": "Grasp suggests training weights from what you log. It is not medical advice and it cannot see your form or your health. Talk to a doctor before starting a new training program, particularly if you have an injury or a health condition.",
+  "footer_note": "",
+
+  "equipment": {
+    "dumbbell": "Dumbbells",
+    "kettlebell": "Kettlebell",
+    "resistance_band": "Resistance band",
+    "pullup_bar": "Pull-up bar",
+    "flat_bench": "Flat bench",
+    "barbell": "Barbell",
+    "cable_machine": "Cable machine",
+    "leg_press_machine": "Leg press",
+    "smith_machine": "Smith machine",
+    "treadmill": "Treadmill"
+  }
+}

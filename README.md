@@ -4,7 +4,10 @@ The Grasp website. Three static pages, no build step, no dependencies —
 whatever is on the `main` branch is what the site serves.
 
 ```
-index.html      landing page
+index.html      landing page (English; generated, see below)
+<lang>/         the landing page in each other language (generated)
+build/          template, translations and the script that writes the pages
+lang.js         offers the reader's own language, once
 privacy.html    privacy policy   ← both app stores point at this
 support.html    support and FAQ  ← Apple requires a working support URL
 style.css       all styling, both light and dark
@@ -19,6 +22,39 @@ fonts/          IBM Plex Sans, self-hosted, with its licence
 CNAME           the custom domain, read by GitHub Pages
 .nojekyll       stop Pages running the files through Jekyll
 ```
+
+## The landing page, in fifteen languages
+
+`index.html` (English, at `/`) and `<lang>/index.html` for the other
+fourteen are **generated**. Do not edit them by hand:
+
+```
+build/template.html     the page, with {{keys}} where text goes
+build/i18n/<lang>.json  the text, one file per language, same keys as en.json
+build/build.py          writes the fifteen pages
+```
+
+```bash
+python build/build.py          # every language
+python build/build.py ar de    # just these
+```
+
+The languages, their order, native names and flags are the app's own
+(`apps/mobile/src/i18n/languages.ts` in the app repository). The
+translations follow each language's app strings and store listing, so a set,
+a session and every piece of equipment are called what the app calls them;
+equipment names are copied from `packages/content/src/names-<lang>.ts`. A
+language file with a missing key stops the build rather than shipping English
+mid-page.
+
+Screenshots are per language, in `img/screens/<lang>/`, from the store
+captures. Arabic is right to left and uses the app's face, Noto Kufi Arabic
+(`fonts/`, SIL OFL), fetched only by pages that contain Arabic. `lang.js`
+offers a reader their own language with a slim bar, once; it never
+redirects.
+
+Privacy and support stay in English, and each translated page says so in its
+footer.
 
 ## The theme switch
 

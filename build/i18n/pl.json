@@ -1,0 +1,104 @@
+{
+  "title": "Grasp — planer treningów, który pokazuje, jak liczy",
+  "description": "Grasp planuje Twoją sesję i wylicza ciężary z tego, co faktycznie podniosłeś — a potem mówi, dlaczego je wybrał. Za darmo na iPhonie, działa offline, bez reklam.",
+  "og_description": "Planuje sesję, wylicza ciężary z tego, co faktycznie podniosłeś, i mówi dlaczego. Za darmo na iPhonie. Działa offline. Bez reklam.",
+
+  "home_aria": "Grasp — strona główna",
+  "nav_features": "Funkcje",
+  "nav_support": "Pomoc",
+  "nav_privacy": "Prywatność",
+  "language": "Język",
+
+  "hero_badge": "Za darmo · Bez reklam · Działa offline",
+  "hero_h1_before": "Planer treningów, który",
+  "hero_h1_highlight": "pokazuje, jak liczy.",
+  "hero_lede": "Grasp układa sesję pod Twój cel i Twoją siłownię, wylicza ciężary z tego, co faktycznie podniosłeś ostatnim razem, i mówi, dlaczego wybrał każdy z nich.",
+  "store_aria": "Pobierz Grasp z App Store",
+  "store_alt": "Pobierz z App Store",
+  "android": "Android",
+  "coming_soon": "Wkrótce",
+  "android_aria": "Wersja na Androida już wkrótce",
+  "hero_meta": "Za darmo na iPhonie, w 15 językach. Bez subskrypcji, nic do odblokowania.",
+
+  "stats_aria": "Grasp w liczbach",
+  "stat1_num": "600+",
+  "stat1_text": "ćwiczeń, większość z animacją",
+  "stat2_num": "15",
+  "stat2_text": "języków, w tym arabski",
+  "stat3_num": "0",
+  "stat3_text": "reklam, subskrypcji i płatnych wersji",
+  "stat4_num": "Offline",
+  "stat4_text": "po zalogowaniu zasięg nie jest potrzebny",
+
+  "lang_kicker": "W Twoim języku",
+  "lang_title": "Mówi w 15 językach",
+  "lang_lede": "Ekrany, nazwy ćwiczeń i instrukcje krok po kroku, a nie tylko menu. Arabski czyta się od prawej do lewej, tak jak należy.",
+
+  "plan_kicker": "Planowanie",
+  "plan_title": "Twój następny trening, ułożony dla Ciebie",
+  "plan_body": "Powiedz mu, jaki masz cel, ile dni w tygodniu trenujesz, ile trwa sesja i jaki sprzęt naprawdę masz pod ręką. Nigdy nie zaproponuje ruchu, którego nie możesz zrobić. Zapisz zestaw dla każdego miejsca, w którym trenujesz, a zmiana siłowni ułoży dzisiejszą sesję od nowa.",
+  "plan_alt": "Ekran treningu w Grasp: dziewięć ćwiczeń zaplanowanych na sesję całego ciała pod budowę mięśni, każde z ciężarem",
+
+  "equip_kicker": "Sprzęt",
+  "equip_title": "Zaznacz, co masz. Grasp planuje tylko z tym.",
+  "equip_body": "Kilka hantli w domu, pełny stojak na siłowni, guma w pokoju hotelowym: zapisz zestaw dla każdego miejsca i przełączaj jednym dotknięciem. Grasp planuje tylko ćwiczenia, które zrobisz tym, co jest zaznaczone, a po przełączeniu układa dzisiejszą sesję od nowa.",
+  "equip_tabs_aria": "Zapisane zestawy",
+  "equip_home": "Dom",
+  "equip_gym": "Siłownia",
+  "equip_note_home": "Dom: zaznaczone 5 z 58 elementów, więc każde ćwiczenie da się tam zrobić.",
+  "equip_note_gym": "Siłownia: wszystko zaznaczone, więc cała biblioteka jest dostępna.",
+  "equip_note_tail": "Do wyboru ponad 50 rodzajów sprzętu.",
+
+  "prog_kicker": "Progresja",
+  "prog_title": "Każdy ciężar ma swoje uzasadnienie",
+  "prog_body1": "Większość aplikacji treningowych podaje liczbę i każe Ci jej zaufać. Grasp pokazuje tok rozumowania i pozwala się nie zgodzić jednym dotknięciem.",
+  "prog_ledger_name": "Suwnica",
+  "prog_ledger_why": "Każda seria sięgnęła górnej granicy, więc jest o 5 kg więcej.",
+  "prog_body2": "Jeśli w każdej serii dojdziesz do górnej granicy zakresu powtórzeń, ciężar idzie w górę; jeśli dwa razy nie dojdziesz, idzie w dół. Tutaj o pięć kilogramów, bo to najmniejszy skok, na jaki pozwala stos obciążenia tej maszyny. Serie rozgrzewkowe są wyliczane z ciężaru roboczego, a timer przerwy włącza się sam.",
+  "prog_alt": "Ćwiczenie w Grasp: animacja ruchu, serie rozgrzewkowe i ciężar z ostatniego razu",
+
+  "rec_kicker": "Regeneracja",
+  "rec_title": "Zobacz, co potrzebuje odpoczynku",
+  "rec_body": "Mapa ciała cieniuje każdy mięsień według tego, jak niedawno go trenowałeś, więc tydzień treningu odczytasz jednym spojrzeniem, zamiast go sumować. Mięśnie gasną, gdy się regenerują.",
+  "rec_alt": "Mapa ciała w Grasp z podświetlonymi mięśniami trenowanymi dzisiaj",
+
+  "vol_kicker": "Objętość",
+  "vol_title": "Cele tygodniowe na grupę mięśniową",
+  "vol_body": "Serie są liczone wobec tygodniowego celu dla każdej grupy mięśniowej, a cel możesz zmienić. Widzisz, gdzie poszła praca w tym tygodniu i czego jeszcze brakuje.",
+  "vol_alt": "Tygodniowe cele w Grasp: serie zrobione na grupę mięśniową wobec celu",
+
+  "int_kicker": "Timery",
+  "int_title": "Interwały do wszystkiego, co idzie rundami",
+  "int_body": "Skakanka, sprinty, planki: praca i przerwa liczone za Ciebie, z dźwiękiem przy każdej zmianie, więc możesz odłożyć telefon. Zapisz własne ustawienia. Między seriami timer przerwy dzwoni i odlicza na pasku powiadomień.",
+  "int_alt": "Timer interwałowy w Grasp z ustawieniami pracy, przerwy i rund",
+
+  "log_kicker": "Historia",
+  "log_title": "Każda sesja w kalendarzu",
+  "log_body": "Wszystko jest w Twoim telefonie i działa bez zasięgu. Konto służy tylko do kopii zapasowej treningu, żeby przetrwał zgubiony telefon. Wyeksportuj wszystko jako arkusz albo pełną kopię, kiedy tylko chcesz. To Twój trening, w formacie, który możesz otworzyć.",
+  "log_alt": "Dziennik treningów w Grasp w widoku kalendarza",
+
+  "ai_kicker": "Celowo",
+  "ai_title": "To nie jest AI",
+  "ai_p1": "Żaden model językowy nie decyduje, co podnosisz. Planowanie w Grasp to zwykła arytmetyka, którą można sprawdzić: cele objętości na mięsień, model zmęczenia oparty na tym, co zapisałeś, i reguła progresji, która mieści się w jednym zdaniu.",
+  "ai_p2": "System, który zgaduje, nie powie, dlaczego tak zgadł, nie da się go sprawdzić i nie zadziała na telefonie bez zasięgu. Ten potrafi każdą z tych trzech rzeczy.",
+
+  "final_title": "Pobierz Grasp",
+  "final_lede": "Za darmo na iPhonie. Bez reklam, bez subskrypcji, nic do odblokowania.",
+  "final_meta_html": "Masz Androida? Napisz na {email}, a damy znać, gdy wersja będzie gotowa. Siłownie i marki zainteresowane współpracą: ten sam adres.",
+
+  "disclaimer": "Grasp proponuje ciężary treningowe na podstawie tego, co zapisujesz. To nie jest porada medyczna i Grasp nie widzi Twojej techniki ani Twojego zdrowia. Porozmawiaj z lekarzem przed rozpoczęciem nowego programu treningowego, zwłaszcza jeśli masz kontuzję lub problem zdrowotny.",
+  "footer_note": "Strony pomocy i prywatności są po angielsku.",
+
+  "equipment": {
+    "dumbbell": "Hantle",
+    "kettlebell": "Kettlebell",
+    "resistance_band": "Gumy oporowe",
+    "pullup_bar": "Drążek",
+    "flat_bench": "Ławka płaska",
+    "barbell": "Sztanga",
+    "cable_machine": "Wyciąg",
+    "leg_press_machine": "Suwnica",
+    "smith_machine": "Maszyna Smitha",
+    "treadmill": "Bieżnia"
+  }
+}
