@@ -1,4 +1,4 @@
-/*
+﻿/*
   Grasp — the website.
 
   The palette is lifted from apps/mobile/src/theme/tokens.ts rather than from
@@ -60,6 +60,7 @@
   --accent: #4e7000;
   --accent-muted: #edf7d0;
   --on-accent: #ffffff;
+  --glow: rgba(160, 210, 40, 0.28);
 }
 
 @media (prefers-color-scheme: dark) {
@@ -76,6 +77,7 @@
     --accent: #c6f84e;
     --accent-muted: #232e10;
     --on-accent: #0d0e10;
+    --glow: rgba(198, 248, 78, 0.16);
   }
 }
 
@@ -92,6 +94,7 @@
   --accent: #c6f84e;
   --accent-muted: #232e10;
   --on-accent: #0d0e10;
+  --glow: rgba(198, 248, 78, 0.16);
 }
 
 *,
@@ -382,6 +385,328 @@ hr {
   color: var(--accent);
   font-weight: 600;
   font-size: 15px;
+}
+
+/* ------------------------------------------------------ landing, v2 */
+
+/*
+  The landing page is wider than the reading pages: it is laid out, not read
+  top to bottom. The other pages keep the 720px measure. The phones are
+  dark in both themes, because the app is.
+*/
+.wrap.wide {
+  max-width: 1120px;
+}
+/* The glows behind the phones reach past the edge on purpose; clip, not
+   hidden, so this does not become a scroll container. */
+.landing main {
+  overflow-x: clip;
+}
+
+.landing .hero {
+  position: relative;
+  overflow: hidden;
+  padding: 72px 0 40px;
+}
+/* The lime glow the store screenshots and the TikTok videos use, so the
+   three read as one brand. */
+.landing .hero::before {
+  content: '';
+  position: absolute;
+  inset: -20% -10% auto 35%;
+  height: 120%;
+  background: radial-gradient(closest-side, var(--glow), transparent 70%);
+  pointer-events: none;
+}
+.hero-grid {
+  position: relative;
+  display: grid;
+  grid-template-columns: 1.05fr 1fr;
+  gap: 48px;
+  align-items: center;
+}
+.landing h1 {
+  font-size: 56px;
+  letter-spacing: -1.8px;
+  line-height: 1.04;
+}
+.hl {
+  color: var(--accent);
+}
+.landing .lede {
+  max-width: 520px;
+}
+
+.get {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 14px;
+  margin-bottom: 16px;
+}
+.get.center {
+  justify-content: center;
+}
+.store-badge {
+  display: inline-block;
+  line-height: 0;
+  border-radius: 12px;
+  transition: transform 0.15s ease;
+}
+.store-badge:hover {
+  transform: translateY(-2px);
+}
+.store-badge:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 3px;
+}
+.store-badge img {
+  height: 60px;
+  width: auto;
+}
+.soon {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  height: 60px;
+  padding: 0 18px 0 14px;
+  border: 1px dashed var(--border-strong);
+  border-radius: 12px;
+  color: var(--muted);
+}
+.soon svg {
+  width: 26px;
+  height: 26px;
+  color: var(--faint);
+}
+.soon strong {
+  display: block;
+  color: var(--text);
+  font-size: 16px;
+  line-height: 1.1;
+}
+.soon small {
+  display: block;
+  font-size: 13px;
+  line-height: 1.2;
+}
+
+/* A phone: the screenshot inside a bezel. */
+.phone {
+  position: relative;
+  border-radius: 34px;
+  padding: 8px;
+  background: #1c1e22;
+  border: 1px solid #3a3f46;
+  box-shadow: 0 30px 60px -20px rgba(0, 0, 0, 0.45), 0 0 0 1px rgba(0, 0, 0, 0.2);
+}
+.phone img {
+  display: block;
+  width: 100%;
+  height: auto;
+  border-radius: 27px;
+}
+
+.hero-phones {
+  position: relative;
+  height: 560px;
+}
+.hero-phones .phone {
+  position: absolute;
+  width: 230px;
+  top: 50%;
+  left: 50%;
+}
+.hero-phones .front {
+  z-index: 2;
+  transform: translate(-50%, -50%);
+}
+.hero-phones .back {
+  z-index: 1;
+  opacity: 0.92;
+}
+.hero-phones .left {
+  transform: translate(-112%, -46%) rotate(-8deg) scale(0.86);
+}
+.hero-phones .right {
+  transform: translate(12%, -46%) rotate(8deg) scale(0.86);
+}
+
+.stats {
+  border-top: 1px solid var(--border);
+  border-bottom: 1px solid var(--border);
+  background: var(--surface);
+}
+.stats-row {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 24px;
+  padding-top: 28px;
+  padding-bottom: 28px;
+}
+.stats-row strong {
+  display: block;
+  font-size: 34px;
+  line-height: 1.1;
+  letter-spacing: -0.8px;
+  color: var(--text);
+}
+.stats-row span {
+  font-size: 15px;
+  color: var(--muted);
+}
+
+.kicker {
+  display: inline-block;
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 0.6px;
+  text-transform: uppercase;
+  color: var(--accent);
+  margin-bottom: 6px;
+}
+
+.feature {
+  display: grid;
+  grid-template-columns: 1fr 300px;
+  gap: 72px;
+  align-items: center;
+  padding: 72px 0;
+  border-bottom: 1px solid var(--border);
+}
+.feature:last-child {
+  border-bottom: 0;
+}
+.feature.flip {
+  grid-template-columns: 300px 1fr;
+}
+.feature.flip .feature-copy {
+  order: 2;
+}
+.feature h2 {
+  font-size: 34px;
+  letter-spacing: -0.8px;
+  margin: 0 0 14px;
+}
+.feature-copy {
+  max-width: 560px;
+}
+.feature-copy p {
+  color: var(--muted);
+}
+.feature-shot {
+  position: relative;
+}
+.feature-shot::before {
+  content: '';
+  position: absolute;
+  inset: 10% -25%;
+  background: radial-gradient(closest-side, var(--glow), transparent 75%);
+}
+.feature .ledger {
+  margin: 24px 0;
+}
+
+.principle {
+  margin-top: 24px;
+  padding: 72px 0;
+  background: var(--surface);
+  border-top: 1px solid var(--border);
+  border-bottom: 1px solid var(--border);
+}
+.principle h2 {
+  margin-top: 0;
+  font-size: 34px;
+  letter-spacing: -0.8px;
+}
+
+.final {
+  text-align: center;
+  padding: 88px 0 40px;
+}
+.final h2 {
+  margin-top: 0;
+  font-size: 40px;
+  letter-spacing: -1px;
+}
+.final .get {
+  margin: 28px 0 20px;
+}
+.disclaimer {
+  margin-top: 40px;
+  text-align: center;
+}
+
+@media (max-width: 900px) {
+  .hero-grid {
+    grid-template-columns: 1fr;
+    gap: 16px;
+  }
+  .landing h1 {
+    font-size: 42px;
+    letter-spacing: -1.2px;
+  }
+  .hero-phones {
+    height: 460px;
+  }
+  .hero-phones .phone {
+    width: 190px;
+  }
+  .stats-row {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  .feature,
+  .feature.flip {
+    grid-template-columns: 1fr;
+    gap: 32px;
+    padding: 56px 0;
+  }
+  .feature.flip .feature-copy {
+    order: 0;
+  }
+  .feature-shot {
+    width: 240px;
+    margin: 0 auto;
+  }
+}
+
+@media (max-width: 600px) {
+  .landing h1 {
+    font-size: 36px;
+    letter-spacing: -0.9px;
+  }
+  .hero-phones {
+    height: 380px;
+  }
+  .hero-phones .phone {
+    width: 158px;
+    border-radius: 26px;
+    padding: 6px;
+  }
+  .hero-phones .phone img {
+    border-radius: 21px;
+  }
+  .feature h2,
+  .principle h2 {
+    font-size: 28px;
+  }
+  .final h2 {
+    font-size: 32px;
+  }
+  .stats-row strong {
+    font-size: 28px;
+  }
+  .store-badge img {
+    height: 52px;
+  }
+  .soon {
+    height: 52px;
+  }
+  /* Four links will not fit beside the logo and the theme switch on a phone;
+     Features is a jump within this page, so it is the one that goes. */
+  .nav-extra {
+    display: none;
+  }
 }
 
 @media (max-width: 600px) {
