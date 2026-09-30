@@ -386,6 +386,50 @@
             </p>
             <p class="said small" id="sync-note"></p>
           </section>
+
+          <!-- Website -->
+          <section class="block">
+            <div class="eyebrow">Website</div>
+            <h2>Visits to grasp.alsouq.tech</h2>
+            <div class="tiles" id="web-tiles"></div>
+            <div class="card">
+              <div class="chartbox">
+                <svg class="chart" id="web-chart" viewBox="0 0 780 220" role="img" aria-labelledby="web-chart-alt"></svg>
+              </div>
+              <p id="web-chart-alt" class="said small" style="margin-top: 10px"></p>
+              <div class="legend">
+                <span><i class="swatch"></i> Page views</span>
+                <span><i class="swatch line"></i> App Store button presses</span>
+              </div>
+            </div>
+            <div class="pair">
+              <div class="card">
+                <h2 style="font-size: 0.95rem; margin-bottom: 12px">Where visitors came from</h2>
+                <ul class="bars" id="web-sources"></ul>
+              </div>
+              <div class="card">
+                <h2 style="font-size: 0.95rem; margin-bottom: 12px">Countries</h2>
+                <ul class="bars" id="web-countries"></ul>
+              </div>
+            </div>
+            <div class="pair">
+              <div class="card">
+                <h2 style="font-size: 0.95rem; margin-bottom: 12px">Pages</h2>
+                <ul class="bars" id="web-pages"></ul>
+              </div>
+              <div class="card">
+                <h2 style="font-size: 0.95rem; margin-bottom: 12px">Devices</h2>
+                <ul class="bars" id="web-devices"></ul>
+              </div>
+            </div>
+            <p class="said small">
+              Last 30 days. Counted without cookies or visitor ids: every view is an anonymous tally,
+              so these are page views, not people. Nothing is sent from browsers that ask not to be
+              tracked. Your own visits from this browser stop counting once you have signed in here.
+              "Direct" means no referring site, which includes most visits from apps like TikTok and
+              WhatsApp. Add <code>?ref=tiktok</code> (or any source name) to a link to see it here.
+            </p>
+          </section>
         </div>
       </div>
     </main>
@@ -718,6 +762,7 @@
           }
 
           renderDownloads(data.downloads || [], data.store_sync || []);
+          renderWeb(data.web || null);
 
           $('asof').textContent = 'as of ' + new Date(data.generated_at).toLocaleString();
         }
@@ -809,6 +854,81 @@
           }).join('  ·  ');
         }
 
+        /*
+          The website's own traffic, from the `hit` counter. Views are page
+          loads, not people: there is no visitor id to count people with, by
+          design, so the page says "views" everywhere and never "visitors".
+        */
+        var LANG_NAMES = {
+          '/': 'English', '/ar/': 'Arabic', '/fr/': 'French', '/de/': 'German', '/es/': 'Spanish',
+          '/it/': 'Italian', '/tr/': 'Turkish', '/pl/': 'Polish', '/ru/': 'Russian', '/hi/': 'Hindi',
+          '/zh/': 'Chinese', '/ko/': 'Korean', '/ja/': 'Japanese', '/id/': 'Indonesian',
+          '/pt/': 'Portuguese', '/support.html': 'Support', '/privacy.html': 'Privacy',
+        };
+
+        var SOURCE_NAMES = {
+          tiktok: 'TikTok', instagram: 'Instagram', facebook: 'Facebook', x: 'X', youtube: 'YouTube',
+          snapchat: 'Snapchat', reddit: 'Reddit', chatgpt: 'ChatGPT', perplexity: 'Perplexity',
+          copilot: 'Copilot', gemini: 'Gemini', claude: 'Claude', google: 'Google', bing: 'Bing',
+          'other search': 'Other search engines', 'app store': 'App Store', 'product hunt': 'Product Hunt',
+          alternativeto: 'AlternativeTo', whatsapp: 'WhatsApp', direct: 'Direct', other: 'Other sites',
+        };
+
+        function renderWeb(web) {
+          var ids = ['web-sources', 'web-countries', 'web-pages', 'web-devices'];
+          if (!web) {
+            $('web-tiles').textContent = '';
+            ids.forEach(function (id) { $(id).textContent = ''; });
+            $('web-chart-alt').textContent = 'The website counter is not connected yet.';
+            return;
+          }
+          var t = web.totals || {};
+          var rate = t.views_30d ? Math.round((t.clicks_30d / t.views_30d) * 1000) / 10 + '%' : '—';
+          var tiles = [
+            { k: 'Page views today', v: t.views_today || 0, d: 'since midnight UTC', lead: true },
+            { k: 'Page views, 7 days', v: t.views_7d || 0, d: (t.views_30d || 0) + ' in 30 days' },
+            { k: 'App Store presses', v: t.clicks_30d || 0, d: (t.clicks_7d || 0) + ' in the last 7 days' },
+            { k: 'Press rate', v: rate, d: 'of page views, 30 days' },
+          ];
+          var box = $('web-tiles');
+          box.textContent = '';
+          tiles.forEach(function (x) {
+            var tile = el('div', 'tile' + (x.lead ? ' lead' : ''));
+            tile.appendChild(el('span', 'k', x.k));
+            tile.appendChild(el('span', 'v', String(x.v)));
+            tile.appendChild(el('span', 'd', x.d));
+            box.appendChild(tile);
+          });
+
+          var daily = (web.daily || []).map(function (d) { return { day: d.day, done: d.views, people: d.clicks }; });
+          drawChart(daily, {
+            root: 'web-chart', alt: 'web-chart-alt',
+            words: ['view', 'views', 'App Store press', 'App Store presses'],
+            period: 'the last 30 days',
+          });
+
+          var lists = [
+            ['web-sources', web.sources, function (r) { return SOURCE_NAMES[r.name] || label(String(r.name)); }],
+            ['web-countries', web.countries, function (r) { return r.name === '??' ? 'Unknown' : countryName(r.name); }],
+            ['web-pages', web.pages, function (r) { return LANG_NAMES[r.name] || r.name; }],
+            ['web-devices', web.devices, function (r) { return label(String(r.name)); }],
+          ];
+          lists.forEach(function (l) {
+            var ul = $(l[0]);
+            ul.textContent = '';
+            var rows = l[1] || [];
+            if (!rows.length) {
+              ul.appendChild(el('li', 'said', 'No visits yet.'));
+              return;
+            }
+            var peak = rows.reduce(function (m, r) { return Math.max(m, Number(r.views)); }, 1);
+            barList(rows, function (r) {
+              var clicks = Number(r.clicks) ? ' · ' + r.clicks + ' pressed' : '';
+              return l[2](r) + clicks;
+            }, function (r) { return Number(r.views); }, peak, ul);
+          });
+        }
+
         function barList(rows, labelOf, valueOf, peak, into) {
           var ul = into || el('ul', 'bars');
           rows.forEach(function (r) {
@@ -834,8 +954,11 @@
           return d.getDate() + ' ' + MONTHS[d.getMonth()];
         }
 
-        function drawChart(daily) {
-          var root = $('chart');
+        /* Workouts by default; the website section passes its own ids and words. */
+        function drawChart(daily, o) {
+          o = o || {};
+          var words = o.words || ['workout', 'workouts', 'person', 'people'];
+          var root = $(o.root || 'chart');
           root.textContent = '';
           if (!daily.length) return;
 
@@ -880,9 +1003,9 @@
               rx: 1.5, fill: 'var(--accent)',
             });
             var title = svg('title');
-            title.textContent = day.getDate() + ' ' + MONTHS[day.getMonth()] + ': ' + d.done +
-              (d.done === 1 ? ' workout' : ' workouts') + ', ' + d.people +
-              (d.people === 1 ? ' person' : ' people');
+            title.textContent = day.getDate() + ' ' + MONTHS[day.getMonth()] + ': ' + d.done + ' ' +
+              (d.done === 1 ? words[0] : words[1]) + ', ' + d.people + ' ' +
+              (d.people === 1 ? words[2] : words[3]);
             bar.appendChild(title);
             root.appendChild(bar);
           });
@@ -904,9 +1027,9 @@
 
           var total = daily.reduce(function (s, d) { return s + d.done; }, 0);
           var busiest = daily.reduce(function (b, d) { return d.done > b.done ? d : b; }, daily[0]);
-          $('chart-alt').textContent =
-            total + ' workouts finished across the last 60 days. Busiest day: ' +
-            prettyWeek(busiest.day) + ', with ' + busiest.done + '.';
+          $(o.alt || 'chart-alt').textContent =
+            total + ' ' + (total === 1 ? words[0] : words[1]) + ' ' + (o.root ? 'across ' + o.period : 'finished across the last 60 days') +
+            '. Busiest day: ' + prettyWeek(busiest.day) + ', with ' + busiest.done + '.';
         }
 
         /* ---- wiring ---- */
@@ -933,7 +1056,12 @@
         function attempt() {
           $('loading').hidden = false;
           loadStats(false)
-            .then(function (data) { render(data); showDash(); })
+            .then(function (data) {
+              render(data);
+              showDash();
+              /* hit.js reads this: the owner's own visits stop counting on this browser. */
+              try { localStorage.setItem('grasp-no-count', '1'); } catch (e) { /* private mode */ }
+            })
             .catch(function (error) {
               if (error.message === 'signed-out') { showGate(null); return; }
               /*
