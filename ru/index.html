@@ -10,17 +10,17 @@
 
   Everything is served from this site: screenshots (img/screens/<lang>, from
   the store captures), flags (flag-icons, MIT), equipment (RepDB, licensed for
-  Grasp's own pages only), fonts. Apple's badge is Apple's own file,
-  unmodified. Android has no badge because there is no Play listing yet.
+  Grasp's own pages only), fonts. Apple's and Google's badges are their own files,
+  unmodified.
 -->
 <html lang="ru" dir="ltr">
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>Grasp — тренировка готова, веса посчитаны</title>
-    <meta name="description" content="Grasp собирает тебе тренировку и считает веса по тому, что ты реально поднял. Бесплатно на iPhone, работает офлайн, без рекламы." />
+    <meta name="description" content="Grasp собирает тебе тренировку и считает веса по тому, что ты реально поднял. Бесплатно на Android и iPhone, работает офлайн, без рекламы." />
     <meta property="og:title" content="Grasp — тренировка готова, веса посчитаны" />
-    <meta property="og:description" content="Собирает тренировку и считает веса по тому, что ты реально поднял. Бесплатно на iPhone. Работает офлайн. Без рекламы." />
+    <meta property="og:description" content="Собирает тренировку и считает веса по тому, что ты реально поднял. Бесплатно на Android и iPhone. Работает офлайн. Без рекламы." />
     <meta property="og:type" content="website" />
     <meta property="og:url" content="https://grasp.alsouq.tech/ru/" />
     <meta property="og:image" content="https://grasp.alsouq.tech/img/screens/ru/home.webp" />
@@ -48,8 +48,8 @@
   "@type": "MobileApplication",
   "name": "Grasp: Workout Planner",
   "alternateName": "Grasp",
-  "description": "Grasp собирает тебе тренировку и считает веса по тому, что ты реально поднял. Бесплатно на iPhone, работает офлайн, без рекламы.",
-  "operatingSystem": "iOS",
+  "description": "Grasp собирает тебе тренировку и считает веса по тому, что ты реально поднял. Бесплатно на Android и iPhone, работает офлайн, без рекламы.",
+  "operatingSystem": "Android, iOS",
   "applicationCategory": "HealthApplication",
   "applicationSubCategory": "Fitness",
   "inLanguage": [
@@ -70,8 +70,8 @@
     "pt"
   ],
   "url": "https://grasp.alsouq.tech/ru/",
-  "downloadUrl": "https://apps.apple.com/app/id6804474068",
-  "installUrl": "https://apps.apple.com/app/id6804474068",
+  "downloadUrl": ["https://apps.apple.com/app/id6804474068", "https://play.google.com/store/apps/details?id=com.graspapp.mobile"],
+  "installUrl": ["https://apps.apple.com/app/id6804474068", "https://play.google.com/store/apps/details?id=com.graspapp.mobile"],
   "image": "https://grasp.alsouq.tech/img/screens/ru/home.webp",
   "screenshot": [
     "https://grasp.alsouq.tech/img/screens/ru/home.webp",
@@ -151,7 +151,7 @@
       "name": "Grasp есть на Android?",
       "acceptedAnswer": {
         "@type": "Answer",
-        "text": "Сейчас Grasp есть на iPhone, а версия для Android скоро выйдет. Напиши на grasp@alsouq.tech, и мы сообщим, когда она появится."
+        "text": "Да. Grasp бесплатно доступен в Google Play для Android и в App Store для iPhone."
       }
     },
     {
@@ -237,9 +237,9 @@
             <p class="lede">Скажи, какая у тебя цель и на чём ты можешь заниматься, и Grasp соберёт тренировку. Веса он считает по тому, что ты поднял в прошлый раз.</p>
             <div class="get">
               <a class="store-badge" href="https://apps.apple.com/app/id6804474068" aria-label="Скачать Grasp в App Store"><img src="/img/app-store-badge.svg" alt="Загрузите в App Store" width="180" height="60" /></a>
-              <span class="soon" aria-label="Версия для Android скоро"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path fill="currentColor" d="M17.6 9.48l1.84-3.18a.38.38 0 0 0-.66-.38l-1.87 3.23a11.4 11.4 0 0 0-9.82 0L5.22 5.92a.38.38 0 0 0-.66.38L6.4 9.48A10.8 10.8 0 0 0 1 18h22a10.8 10.8 0 0 0-5.4-8.52zM7 15.25a1.25 1.25 0 1 1 0-2.5 1.25 1.25 0 0 1 0 2.5zm10 0a1.25 1.25 0 1 1 0-2.5 1.25 1.25 0 0 1 0 2.5z"/></svg><span><strong>Android</strong><small>Скоро</small></span></span>
+              <a class="store-badge play" href="https://play.google.com/store/apps/details?id=com.graspapp.mobile" aria-label="Скачать Grasp в Google Play"><img src="/img/google-play-badge.png" alt="Get it on Google Play" width="231" height="89" /></a>
             </div>
-            <p class="meta">Бесплатно на iPhone, на 15 языках. Без подписки, всё открыто сразу.</p>
+            <p class="meta">Бесплатно на Android и iPhone, на 15 языках. Без подписки, всё открыто сразу.</p>
           </div>
 
           <div class="hero-phones" aria-hidden="true">
@@ -429,7 +429,7 @@
             <details><summary>Можно тренироваться дома только с гантелями?</summary><p>Да. Отметь, какое оборудование у тебя есть, и Grasp даст только те упражнения, которые с ним можно сделать. Сохрани набор для дома, зала или отеля и переключайся одним нажатием.</p></details>
             <details><summary>Как Grasp подбирает мне веса?</summary><p>По тому, что ты записал в прошлый раз. Дошёл до верха диапазона повторов во всех подходах — вес растёт. Дважды не дотянул — снижается. Любой вес можно поменять одним нажатием.</p></details>
             <details><summary>Grasp использует ИИ?</summary><p>Нет. Он считает по простым правилам прямо на телефоне, поэтому и работает офлайн.</p></details>
-            <details><summary>Grasp есть на Android?</summary><p>Сейчас Grasp есть на iPhone, а версия для Android скоро выйдет. Напиши на grasp@alsouq.tech, и мы сообщим, когда она появится.</p></details>
+            <details><summary>Grasp есть на Android?</summary><p>Да. Grasp бесплатно доступен в Google Play для Android и в App Store для iPhone.</p></details>
             <details><summary>Grasp следит за мной?</summary><p>Нет. Grasp не использует рекламные идентификаторы, аналитику или отслеживание использования и не просит доступ к геолокации, контактам или микрофону. Камера открывается, только когда ты делаешь фото для карточки, которой хочешь поделиться.</p></details>
           </div>
         </div>
@@ -438,12 +438,12 @@
       <section class="final" id="get">
         <div class="wrap">
           <h2>Скачай Grasp</h2>
-          <p>Бесплатно на iPhone. Без рекламы, без подписки, всё открыто сразу.</p>
+          <p>Бесплатно на Android и iPhone. Без рекламы, без подписки, всё открыто сразу.</p>
             <div class="get center">
               <a class="store-badge" href="https://apps.apple.com/app/id6804474068" aria-label="Скачать Grasp в App Store"><img src="/img/app-store-badge.svg" alt="Загрузите в App Store" width="180" height="60" loading="lazy" /></a>
-              <span class="soon" aria-label="Версия для Android скоро"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path fill="currentColor" d="M17.6 9.48l1.84-3.18a.38.38 0 0 0-.66-.38l-1.87 3.23a11.4 11.4 0 0 0-9.82 0L5.22 5.92a.38.38 0 0 0-.66.38L6.4 9.48A10.8 10.8 0 0 0 1 18h22a10.8 10.8 0 0 0-5.4-8.52zM7 15.25a1.25 1.25 0 1 1 0-2.5 1.25 1.25 0 0 1 0 2.5zm10 0a1.25 1.25 0 1 1 0-2.5 1.25 1.25 0 0 1 0 2.5z"/></svg><span><strong>Android</strong><small>Скоро</small></span></span>
+              <a class="store-badge play" href="https://play.google.com/store/apps/details?id=com.graspapp.mobile" aria-label="Скачать Grasp в Google Play"><img src="/img/google-play-badge.png" alt="Get it on Google Play" width="231" height="89" loading="lazy" /></a>
             </div>
-          <p class="meta">У тебя Android? Напиши на <a href="mailto:grasp@alsouq.tech">grasp@alsouq.tech</a>, и мы сообщим, когда выйдет. Залам и брендам для сотрудничества — тот же адрес.</p>
+          <p class="meta">Есть вопросы? Напиши на <a href="mailto:grasp@alsouq.tech">grasp@alsouq.tech</a>. Залам и брендам для сотрудничества — тот же адрес.</p>
         </div>
       </section>
 

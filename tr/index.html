@@ -10,17 +10,17 @@
 
   Everything is served from this site: screenshots (img/screens/<lang>, from
   the store captures), flags (flag-icons, MIT), equipment (RepDB, licensed for
-  Grasp's own pages only), fonts. Apple's badge is Apple's own file,
-  unmodified. Android has no badge because there is no Play listing yet.
+  Grasp's own pages only), fonts. Apple's and Google's badges are their own files,
+  unmodified.
 -->
 <html lang="tr" dir="ltr">
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>Grasp — antrenmanın hazır, ağırlıkların hesaplandı</title>
-    <meta name="description" content="Grasp antrenmanını hazırlar, ağırlıkları da gerçekten kaldırdıklarına göre hesaplar. iPhone&#x27;da ücretsiz, reklamsız, internetsiz de çalışır." />
+    <meta name="description" content="Grasp antrenmanını hazırlar, ağırlıkları da gerçekten kaldırdıklarına göre hesaplar. Android ve iPhone&#x27;da ücretsiz, reklamsız, internetsiz de çalışır." />
     <meta property="og:title" content="Grasp — antrenmanın hazır, ağırlıkların hesaplandı" />
-    <meta property="og:description" content="Antrenmanını hazırlar, ağırlıkları gerçekten kaldırdıklarına göre hesaplar. iPhone&#x27;da ücretsiz. İnternetsiz çalışır. Reklam yok." />
+    <meta property="og:description" content="Antrenmanını hazırlar, ağırlıkları gerçekten kaldırdıklarına göre hesaplar. Android ve iPhone&#x27;da ücretsiz. İnternetsiz çalışır. Reklam yok." />
     <meta property="og:type" content="website" />
     <meta property="og:url" content="https://grasp.alsouq.tech/tr/" />
     <meta property="og:image" content="https://grasp.alsouq.tech/img/screens/tr/home.webp" />
@@ -48,8 +48,8 @@
   "@type": "MobileApplication",
   "name": "Grasp: Workout Planner",
   "alternateName": "Grasp",
-  "description": "Grasp antrenmanını hazırlar, ağırlıkları da gerçekten kaldırdıklarına göre hesaplar. iPhone'da ücretsiz, reklamsız, internetsiz de çalışır.",
-  "operatingSystem": "iOS",
+  "description": "Grasp antrenmanını hazırlar, ağırlıkları da gerçekten kaldırdıklarına göre hesaplar. Android ve iPhone'da ücretsiz, reklamsız, internetsiz de çalışır.",
+  "operatingSystem": "Android, iOS",
   "applicationCategory": "HealthApplication",
   "applicationSubCategory": "Fitness",
   "inLanguage": [
@@ -70,8 +70,8 @@
     "pt"
   ],
   "url": "https://grasp.alsouq.tech/tr/",
-  "downloadUrl": "https://apps.apple.com/app/id6804474068",
-  "installUrl": "https://apps.apple.com/app/id6804474068",
+  "downloadUrl": ["https://apps.apple.com/app/id6804474068", "https://play.google.com/store/apps/details?id=com.graspapp.mobile"],
+  "installUrl": ["https://apps.apple.com/app/id6804474068", "https://play.google.com/store/apps/details?id=com.graspapp.mobile"],
   "image": "https://grasp.alsouq.tech/img/screens/tr/home.webp",
   "screenshot": [
     "https://grasp.alsouq.tech/img/screens/tr/home.webp",
@@ -151,7 +151,7 @@
       "name": "Grasp Android'de var mı?",
       "acceptedAnswer": {
         "@type": "Answer",
-        "text": "Grasp şu an iPhone'da, Android de yakında geliyor. Çıkınca haber almak için grasp@alsouq.tech adresine yaz."
+        "text": "Evet. Grasp, Android için Google Play'de, iPhone için App Store'da ücretsiz."
       }
     },
     {
@@ -237,9 +237,9 @@
             <p class="lede">Hedefini ve elindeki ekipmanı söyle, Grasp antrenmanını hazırlasın. Ağırlıkları da geçen sefer kaldırdıklarına göre hesaplar.</p>
             <div class="get">
               <a class="store-badge" href="https://apps.apple.com/app/id6804474068" aria-label="Grasp&#x27;i App Store&#x27;dan indir"><img src="/img/app-store-badge.svg" alt="App Store&#x27;dan İndirin" width="180" height="60" /></a>
-              <span class="soon" aria-label="Android sürümü yakında"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path fill="currentColor" d="M17.6 9.48l1.84-3.18a.38.38 0 0 0-.66-.38l-1.87 3.23a11.4 11.4 0 0 0-9.82 0L5.22 5.92a.38.38 0 0 0-.66.38L6.4 9.48A10.8 10.8 0 0 0 1 18h22a10.8 10.8 0 0 0-5.4-8.52zM7 15.25a1.25 1.25 0 1 1 0-2.5 1.25 1.25 0 0 1 0 2.5zm10 0a1.25 1.25 0 1 1 0-2.5 1.25 1.25 0 0 1 0 2.5z"/></svg><span><strong>Android</strong><small>Yakında</small></span></span>
+              <a class="store-badge play" href="https://play.google.com/store/apps/details?id=com.graspapp.mobile" aria-label="Grasp&#x27;i Google Play&#x27;den indir"><img src="/img/google-play-badge.png" alt="Get it on Google Play" width="231" height="89" /></a>
             </div>
-            <p class="meta">iPhone&#x27;da ücretsiz, 15 dilde. Abonelik yok, kilitli özellik yok.</p>
+            <p class="meta">Android ve iPhone&#x27;da ücretsiz, 15 dilde. Abonelik yok, kilitli özellik yok.</p>
           </div>
 
           <div class="hero-phones" aria-hidden="true">
@@ -429,7 +429,7 @@
             <details><summary>Evde sadece dambılla antrenman yapabilir miyim?</summary><p>Evet. Elindeki ekipmanı işaretle, Grasp sadece onlarla yapabileceğin hareketleri planlar. Ev, salon ya da otel için ekipmanını kaydet, tek dokunuşla aralarında geç.</p></details>
             <details><summary>Grasp kaldıracağım ağırlığı nasıl hesaplıyor?</summary><p>Geçen sefer kaydettiklerine bakarak. Bütün setlerde tekrar aralığının üst sınırına ulaşırsan ağırlık artar. İki kez ulaşamazsan düşer. Her ağırlığı tek dokunuşla değiştirebilirsin.</p></details>
             <details><summary>Grasp yapay zeka kullanıyor mu?</summary><p>Hayır. Telefonunda çalışan basit kurallar kullanır. İnternetsiz çalışmasının sebebi de bu.</p></details>
-            <details><summary>Grasp Android&#x27;de var mı?</summary><p>Grasp şu an iPhone&#x27;da, Android de yakında geliyor. Çıkınca haber almak için grasp@alsouq.tech adresine yaz.</p></details>
+            <details><summary>Grasp Android&#x27;de var mı?</summary><p>Evet. Grasp, Android için Google Play&#x27;de, iPhone için App Store&#x27;da ücretsiz.</p></details>
             <details><summary>Grasp beni takip ediyor mu?</summary><p>Hayır. Grasp reklam kimliği, analitik ya da kullanım takibi kullanmaz; konumunu, rehberini ya da mikrofonunu da istemez. Kamera sadece paylaşım kartı için fotoğraf çektiğinde açılır.</p></details>
           </div>
         </div>
@@ -438,12 +438,12 @@
       <section class="final" id="get">
         <div class="wrap">
           <h2>Grasp&#x27;i indir</h2>
-          <p>iPhone&#x27;da ücretsiz. Reklam yok, abonelik yok, kilitli özellik yok.</p>
+          <p>Android ve iPhone&#x27;da ücretsiz. Reklam yok, abonelik yok, kilitli özellik yok.</p>
             <div class="get center">
               <a class="store-badge" href="https://apps.apple.com/app/id6804474068" aria-label="Grasp&#x27;i App Store&#x27;dan indir"><img src="/img/app-store-badge.svg" alt="App Store&#x27;dan İndirin" width="180" height="60" loading="lazy" /></a>
-              <span class="soon" aria-label="Android sürümü yakında"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path fill="currentColor" d="M17.6 9.48l1.84-3.18a.38.38 0 0 0-.66-.38l-1.87 3.23a11.4 11.4 0 0 0-9.82 0L5.22 5.92a.38.38 0 0 0-.66.38L6.4 9.48A10.8 10.8 0 0 0 1 18h22a10.8 10.8 0 0 0-5.4-8.52zM7 15.25a1.25 1.25 0 1 1 0-2.5 1.25 1.25 0 0 1 0 2.5zm10 0a1.25 1.25 0 1 1 0-2.5 1.25 1.25 0 0 1 0 2.5z"/></svg><span><strong>Android</strong><small>Yakında</small></span></span>
+              <a class="store-badge play" href="https://play.google.com/store/apps/details?id=com.graspapp.mobile" aria-label="Grasp&#x27;i Google Play&#x27;den indir"><img src="/img/google-play-badge.png" alt="Get it on Google Play" width="231" height="89" loading="lazy" /></a>
             </div>
-          <p class="meta">Android mi kullanıyorsun? <a href="mailto:grasp@alsouq.tech">grasp@alsouq.tech</a> adresine yaz, çıkınca haber verelim. Birlikte çalışmak isteyen salonlar ve markalar da aynı adrese yazabilir.</p>
+          <p class="meta">Sorularını <a href="mailto:grasp@alsouq.tech">grasp@alsouq.tech</a> adresine yazabilirsin. Birlikte çalışmak isteyen salonlar ve markalar da aynı adrese yazabilir.</p>
         </div>
       </section>
 

@@ -10,17 +10,17 @@
 
   Everything is served from this site: screenshots (img/screens/<lang>, from
   the store captures), flags (flag-icons, MIT), equipment (RepDB, licensed for
-  Grasp's own pages only), fonts. Apple's badge is Apple's own file,
-  unmodified. Android has no badge because there is no Play listing yet.
+  Grasp's own pages only), fonts. Apple's and Google's badges are their own files,
+  unmodified.
 -->
 <html lang="ko" dir="ltr">
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>Grasp — 운동은 짜 주고, 무게는 계산해 줘요</title>
-    <meta name="description" content="Grasp는 운동을 짜 주고, 지난번에 실제로 든 무게로 이번 무게를 계산해 줘요. iPhone에서 무료, 오프라인에서도 되고, 광고도 없어요." />
+    <meta name="description" content="Grasp는 운동을 짜 주고, 지난번에 실제로 든 무게로 이번 무게를 계산해 줘요. Android와 iPhone에서 무료, 오프라인에서도 되고, 광고도 없어요." />
     <meta property="og:title" content="Grasp — 운동은 짜 주고, 무게는 계산해 줘요" />
-    <meta property="og:description" content="운동은 짜 주고, 무게는 지난번 기록으로 계산해 줘요. iPhone에서 무료. 오프라인에서도 돼요. 광고 없음." />
+    <meta property="og:description" content="운동은 짜 주고, 무게는 지난번 기록으로 계산해 줘요. Android와 iPhone에서 무료. 오프라인에서도 돼요. 광고 없음." />
     <meta property="og:type" content="website" />
     <meta property="og:url" content="https://grasp.alsouq.tech/ko/" />
     <meta property="og:image" content="https://grasp.alsouq.tech/img/screens/ko/home.webp" />
@@ -48,8 +48,8 @@
   "@type": "MobileApplication",
   "name": "Grasp: Workout Planner",
   "alternateName": "Grasp",
-  "description": "Grasp는 운동을 짜 주고, 지난번에 실제로 든 무게로 이번 무게를 계산해 줘요. iPhone에서 무료, 오프라인에서도 되고, 광고도 없어요.",
-  "operatingSystem": "iOS",
+  "description": "Grasp는 운동을 짜 주고, 지난번에 실제로 든 무게로 이번 무게를 계산해 줘요. Android와 iPhone에서 무료, 오프라인에서도 되고, 광고도 없어요.",
+  "operatingSystem": "Android, iOS",
   "applicationCategory": "HealthApplication",
   "applicationSubCategory": "Fitness",
   "inLanguage": [
@@ -70,8 +70,8 @@
     "pt"
   ],
   "url": "https://grasp.alsouq.tech/ko/",
-  "downloadUrl": "https://apps.apple.com/app/id6804474068",
-  "installUrl": "https://apps.apple.com/app/id6804474068",
+  "downloadUrl": ["https://apps.apple.com/app/id6804474068", "https://play.google.com/store/apps/details?id=com.graspapp.mobile"],
+  "installUrl": ["https://apps.apple.com/app/id6804474068", "https://play.google.com/store/apps/details?id=com.graspapp.mobile"],
   "image": "https://grasp.alsouq.tech/img/screens/ko/home.webp",
   "screenshot": [
     "https://grasp.alsouq.tech/img/screens/ko/home.webp",
@@ -151,7 +151,7 @@
       "name": "Grasp Android 버전 있어요?",
       "acceptedAnswer": {
         "@type": "Answer",
-        "text": "Grasp는 지금 iPhone용으로 나와 있고, Android는 곧 나와요. grasp@alsouq.tech로 메일 주시면 출시될 때 알려 드릴게요."
+        "text": "네. Android는 Google Play, iPhone은 App Store에서 무료로 받을 수 있어요."
       }
     },
     {
@@ -237,9 +237,9 @@
             <p class="lede">목표와 쓸 수 있는 기구만 알려 주면 Grasp가 운동을 짜 줘요. 무게는 지난번에 실제로 든 무게로 계산해요.</p>
             <div class="get">
               <a class="store-badge" href="https://apps.apple.com/app/id6804474068" aria-label="App Store에서 Grasp 다운로드"><img src="/img/app-store-badge.svg" alt="App Store에서 다운로드" width="180" height="60" /></a>
-              <span class="soon" aria-label="Android 버전 출시 예정"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path fill="currentColor" d="M17.6 9.48l1.84-3.18a.38.38 0 0 0-.66-.38l-1.87 3.23a11.4 11.4 0 0 0-9.82 0L5.22 5.92a.38.38 0 0 0-.66.38L6.4 9.48A10.8 10.8 0 0 0 1 18h22a10.8 10.8 0 0 0-5.4-8.52zM7 15.25a1.25 1.25 0 1 1 0-2.5 1.25 1.25 0 0 1 0 2.5zm10 0a1.25 1.25 0 1 1 0-2.5 1.25 1.25 0 0 1 0 2.5z"/></svg><span><strong>Android</strong><small>출시 예정</small></span></span>
+              <a class="store-badge play" href="https://play.google.com/store/apps/details?id=com.graspapp.mobile" aria-label="Google Play에서 Grasp 받기"><img src="/img/google-play-badge.png" alt="Get it on Google Play" width="231" height="89" /></a>
             </div>
-            <p class="meta">iPhone에서 무료, 15개 언어 지원. 구독 없고, 잠긴 기능도 없어요.</p>
+            <p class="meta">Android와 iPhone에서 무료, 15개 언어 지원. 구독 없고, 잠긴 기능도 없어요.</p>
           </div>
 
           <div class="hero-phones" aria-hidden="true">
@@ -429,7 +429,7 @@
             <details><summary>덤벨만으로 홈트 할 수 있어요?</summary><p>네. 가진 기구를 체크하면 Grasp가 그 기구로 할 수 있는 운동만 짜 줘요. 집, 헬스장, 호텔별로 설정을 저장해 두고 탭 한 번으로 바꿀 수 있어요.</p></details>
             <details><summary>Grasp는 무게를 어떻게 정해요?</summary><p>지난번에 기록한 걸로요. 모든 세트에서 목표 횟수를 다 채우면 무게가 올라가요. 두 번 못 채우면 내려가요. 어떤 무게든 탭 한 번으로 바꿀 수 있어요.</p></details>
             <details><summary>Grasp는 AI를 써요?</summary><p>아니요. 휴대폰에서 돌아가는 간단한 규칙을 써요. 그래서 오프라인에서도 돼요.</p></details>
-            <details><summary>Grasp Android 버전 있어요?</summary><p>Grasp는 지금 iPhone용으로 나와 있고, Android는 곧 나와요. grasp@alsouq.tech로 메일 주시면 출시될 때 알려 드릴게요.</p></details>
+            <details><summary>Grasp Android 버전 있어요?</summary><p>네. Android는 Google Play, iPhone은 App Store에서 무료로 받을 수 있어요.</p></details>
             <details><summary>Grasp가 나를 추적해요?</summary><p>아니요. Grasp는 광고 식별자, 분석 도구, 사용 추적을 쓰지 않고, 위치, 연락처, 마이크 권한도 요청하지 않아요. 카메라는 공유 카드에 쓸 사진을 찍을 때만 열려요.</p></details>
           </div>
         </div>
@@ -438,12 +438,12 @@
       <section class="final" id="get">
         <div class="wrap">
           <h2>Grasp 다운로드</h2>
-          <p>iPhone에서 무료. 광고 없고, 구독 없고, 잠긴 기능도 없어요.</p>
+          <p>Android와 iPhone에서 무료. 광고 없고, 구독 없고, 잠긴 기능도 없어요.</p>
             <div class="get center">
               <a class="store-badge" href="https://apps.apple.com/app/id6804474068" aria-label="App Store에서 Grasp 다운로드"><img src="/img/app-store-badge.svg" alt="App Store에서 다운로드" width="180" height="60" loading="lazy" /></a>
-              <span class="soon" aria-label="Android 버전 출시 예정"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path fill="currentColor" d="M17.6 9.48l1.84-3.18a.38.38 0 0 0-.66-.38l-1.87 3.23a11.4 11.4 0 0 0-9.82 0L5.22 5.92a.38.38 0 0 0-.66.38L6.4 9.48A10.8 10.8 0 0 0 1 18h22a10.8 10.8 0 0 0-5.4-8.52zM7 15.25a1.25 1.25 0 1 1 0-2.5 1.25 1.25 0 0 1 0 2.5zm10 0a1.25 1.25 0 1 1 0-2.5 1.25 1.25 0 0 1 0 2.5z"/></svg><span><strong>Android</strong><small>출시 예정</small></span></span>
+              <a class="store-badge play" href="https://play.google.com/store/apps/details?id=com.graspapp.mobile" aria-label="Google Play에서 Grasp 받기"><img src="/img/google-play-badge.png" alt="Get it on Google Play" width="231" height="89" loading="lazy" /></a>
             </div>
-          <p class="meta">Android 쓰세요? <a href="mailto:grasp@alsouq.tech">grasp@alsouq.tech</a>로 메일 주시면 출시될 때 알려 드릴게요. 제휴에 관심 있는 헬스장이나 브랜드도 같은 주소로 연락 주세요.</p>
+          <p class="meta">궁금한 점이 있으면 <a href="mailto:grasp@alsouq.tech">grasp@alsouq.tech</a>로 메일 주세요. 제휴에 관심 있는 헬스장이나 브랜드도 같은 주소로 연락 주세요.</p>
         </div>
       </section>
 

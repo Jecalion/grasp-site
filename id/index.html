@@ -10,17 +10,17 @@
 
   Everything is served from this site: screenshots (img/screens/<lang>, from
   the store captures), flags (flag-icons, MIT), equipment (RepDB, licensed for
-  Grasp's own pages only), fonts. Apple's badge is Apple's own file,
-  unmodified. Android has no badge because there is no Play listing yet.
+  Grasp's own pages only), fonts. Apple's and Google's badges are their own files,
+  unmodified.
 -->
 <html lang="id" dir="ltr">
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>Grasp — latihanmu siap, bebannya sudah dihitung</title>
-    <meta name="description" content="Grasp menyusun latihanmu dan menghitung beban dari yang benar-benar kamu angkat. Gratis di iPhone, bisa offline, tanpa iklan." />
+    <meta name="description" content="Grasp menyusun latihanmu dan menghitung beban dari yang benar-benar kamu angkat. Gratis di Android dan iPhone, bisa offline, tanpa iklan." />
     <meta property="og:title" content="Grasp — latihanmu siap, bebannya sudah dihitung" />
-    <meta property="og:description" content="Menyusun latihanmu dan menghitung beban dari yang benar-benar kamu angkat. Gratis di iPhone. Bisa offline. Tanpa iklan." />
+    <meta property="og:description" content="Menyusun latihanmu dan menghitung beban dari yang benar-benar kamu angkat. Gratis di Android dan iPhone. Bisa offline. Tanpa iklan." />
     <meta property="og:type" content="website" />
     <meta property="og:url" content="https://grasp.alsouq.tech/id/" />
     <meta property="og:image" content="https://grasp.alsouq.tech/img/screens/id/home.webp" />
@@ -48,8 +48,8 @@
   "@type": "MobileApplication",
   "name": "Grasp: Workout Planner",
   "alternateName": "Grasp",
-  "description": "Grasp menyusun latihanmu dan menghitung beban dari yang benar-benar kamu angkat. Gratis di iPhone, bisa offline, tanpa iklan.",
-  "operatingSystem": "iOS",
+  "description": "Grasp menyusun latihanmu dan menghitung beban dari yang benar-benar kamu angkat. Gratis di Android dan iPhone, bisa offline, tanpa iklan.",
+  "operatingSystem": "Android, iOS",
   "applicationCategory": "HealthApplication",
   "applicationSubCategory": "Fitness",
   "inLanguage": [
@@ -70,8 +70,8 @@
     "pt"
   ],
   "url": "https://grasp.alsouq.tech/id/",
-  "downloadUrl": "https://apps.apple.com/app/id6804474068",
-  "installUrl": "https://apps.apple.com/app/id6804474068",
+  "downloadUrl": ["https://apps.apple.com/app/id6804474068", "https://play.google.com/store/apps/details?id=com.graspapp.mobile"],
+  "installUrl": ["https://apps.apple.com/app/id6804474068", "https://play.google.com/store/apps/details?id=com.graspapp.mobile"],
   "image": "https://grasp.alsouq.tech/img/screens/id/home.webp",
   "screenshot": [
     "https://grasp.alsouq.tech/img/screens/id/home.webp",
@@ -151,7 +151,7 @@
       "name": "Apakah Grasp ada di Android?",
       "acceptedAnswer": {
         "@type": "Answer",
-        "text": "Grasp sekarang ada di iPhone, dan versi Android segera hadir. Email ke grasp@alsouq.tech, nanti kami kabari kalau sudah rilis."
+        "text": "Ya. Grasp gratis di Google Play untuk Android dan di App Store untuk iPhone."
       }
     },
     {
@@ -237,9 +237,9 @@
             <p class="lede">Kasih tahu tujuanmu dan alat yang kamu punya, Grasp yang susun latihannya. Bebannya dihitung dari yang kamu angkat terakhir kali.</p>
             <div class="get">
               <a class="store-badge" href="https://apps.apple.com/app/id6804474068" aria-label="Unduh Grasp di App Store"><img src="/img/app-store-badge.svg" alt="Unduh di App Store" width="180" height="60" /></a>
-              <span class="soon" aria-label="Versi Android segera hadir"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path fill="currentColor" d="M17.6 9.48l1.84-3.18a.38.38 0 0 0-.66-.38l-1.87 3.23a11.4 11.4 0 0 0-9.82 0L5.22 5.92a.38.38 0 0 0-.66.38L6.4 9.48A10.8 10.8 0 0 0 1 18h22a10.8 10.8 0 0 0-5.4-8.52zM7 15.25a1.25 1.25 0 1 1 0-2.5 1.25 1.25 0 0 1 0 2.5zm10 0a1.25 1.25 0 1 1 0-2.5 1.25 1.25 0 0 1 0 2.5z"/></svg><span><strong>Android</strong><small>Segera hadir</small></span></span>
+              <a class="store-badge play" href="https://play.google.com/store/apps/details?id=com.graspapp.mobile" aria-label="Unduh Grasp di Google Play"><img src="/img/google-play-badge.png" alt="Get it on Google Play" width="231" height="89" /></a>
             </div>
-            <p class="meta">Gratis di iPhone, dalam 15 bahasa. Tanpa langganan, tanpa fitur terkunci.</p>
+            <p class="meta">Gratis di Android dan iPhone, dalam 15 bahasa. Tanpa langganan, tanpa fitur terkunci.</p>
           </div>
 
           <div class="hero-phones" aria-hidden="true">
@@ -429,7 +429,7 @@
             <details><summary>Bisa latihan di rumah cuma pakai dumbbell?</summary><p>Bisa. Centang alat yang kamu punya, dan Grasp cuma menyusun gerakan yang bisa kamu lakukan dengan alat itu. Simpan alat untuk rumah, gym, atau hotel, lalu ganti dengan sekali ketuk.</p></details>
             <details><summary>Bagaimana Grasp menentukan beban saya?</summary><p>Dari yang kamu catat terakhir kali. Kalau kamu mencapai batas atas rep di semua set, bebannya naik. Gagal dua kali, bebannya turun. Beban apa pun bisa kamu ganti dengan sekali ketuk.</p></details>
             <details><summary>Apakah Grasp pakai AI?</summary><p>Tidak. Grasp pakai aturan sederhana yang jalan di ponselmu, makanya bisa offline.</p></details>
-            <details><summary>Apakah Grasp ada di Android?</summary><p>Grasp sekarang ada di iPhone, dan versi Android segera hadir. Email ke grasp@alsouq.tech, nanti kami kabari kalau sudah rilis.</p></details>
+            <details><summary>Apakah Grasp ada di Android?</summary><p>Ya. Grasp gratis di Google Play untuk Android dan di App Store untuk iPhone.</p></details>
             <details><summary>Apakah Grasp melacak saya?</summary><p>Tidak. Grasp tidak memakai ID iklan, analitik, atau pelacakan penggunaan, dan tidak meminta akses lokasi, kontak, atau mikrofonmu. Kamera cuma terbuka saat kamu mengambil foto untuk kartu berbagi.</p></details>
           </div>
         </div>
@@ -438,12 +438,12 @@
       <section class="final" id="get">
         <div class="wrap">
           <h2>Unduh Grasp</h2>
-          <p>Gratis di iPhone. Tanpa iklan, tanpa langganan, tanpa fitur terkunci.</p>
+          <p>Gratis di Android dan iPhone. Tanpa iklan, tanpa langganan, tanpa fitur terkunci.</p>
             <div class="get center">
               <a class="store-badge" href="https://apps.apple.com/app/id6804474068" aria-label="Unduh Grasp di App Store"><img src="/img/app-store-badge.svg" alt="Unduh di App Store" width="180" height="60" loading="lazy" /></a>
-              <span class="soon" aria-label="Versi Android segera hadir"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path fill="currentColor" d="M17.6 9.48l1.84-3.18a.38.38 0 0 0-.66-.38l-1.87 3.23a11.4 11.4 0 0 0-9.82 0L5.22 5.92a.38.38 0 0 0-.66.38L6.4 9.48A10.8 10.8 0 0 0 1 18h22a10.8 10.8 0 0 0-5.4-8.52zM7 15.25a1.25 1.25 0 1 1 0-2.5 1.25 1.25 0 0 1 0 2.5zm10 0a1.25 1.25 0 1 1 0-2.5 1.25 1.25 0 0 1 0 2.5z"/></svg><span><strong>Android</strong><small>Segera hadir</small></span></span>
+              <a class="store-badge play" href="https://play.google.com/store/apps/details?id=com.graspapp.mobile" aria-label="Unduh Grasp di Google Play"><img src="/img/google-play-badge.png" alt="Get it on Google Play" width="231" height="89" loading="lazy" /></a>
             </div>
-          <p class="meta">Pakai Android? Email kami di <a href="mailto:grasp@alsouq.tech">grasp@alsouq.tech</a>, nanti kami kabari kalau sudah rilis. Gym dan brand yang mau kerja sama, kirim ke alamat yang sama.</p>
+          <p class="meta">Ada pertanyaan? Email kami di <a href="mailto:grasp@alsouq.tech">grasp@alsouq.tech</a>. Gym dan brand yang mau kerja sama, kirim ke alamat yang sama.</p>
         </div>
       </section>
 

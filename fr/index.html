@@ -10,17 +10,17 @@
 
   Everything is served from this site: screenshots (img/screens/<lang>, from
   the store captures), flags (flag-icons, MIT), equipment (RepDB, licensed for
-  Grasp's own pages only), fonts. Apple's badge is Apple's own file,
-  unmodified. Android has no badge because there is no Play listing yet.
+  Grasp's own pages only), fonts. Apple's and Google's badges are their own files,
+  unmodified.
 -->
 <html lang="fr" dir="ltr">
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>Grasp — ta séance prête, tes charges calculées</title>
-    <meta name="description" content="Grasp prépare ta séance et calcule tes charges d&#x27;après ce que tu as vraiment soulevé. Gratuit sur iPhone, sans pub, et ça marche hors ligne." />
+    <meta name="description" content="Grasp prépare ta séance et calcule tes charges d&#x27;après ce que tu as vraiment soulevé. Gratuit sur Android et iPhone, sans pub, et ça marche hors ligne." />
     <meta property="og:title" content="Grasp — ta séance prête, tes charges calculées" />
-    <meta property="og:description" content="Ta séance prête, et tes charges calculées d&#x27;après ce que tu as vraiment soulevé. Gratuit sur iPhone. Sans pub. Marche hors ligne." />
+    <meta property="og:description" content="Ta séance prête, et tes charges calculées d&#x27;après ce que tu as vraiment soulevé. Gratuit sur Android et iPhone. Sans pub. Marche hors ligne." />
     <meta property="og:type" content="website" />
     <meta property="og:url" content="https://grasp.alsouq.tech/fr/" />
     <meta property="og:image" content="https://grasp.alsouq.tech/img/screens/fr/home.webp" />
@@ -48,8 +48,8 @@
   "@type": "MobileApplication",
   "name": "Grasp: Workout Planner",
   "alternateName": "Grasp",
-  "description": "Grasp prépare ta séance et calcule tes charges d'après ce que tu as vraiment soulevé. Gratuit sur iPhone, sans pub, et ça marche hors ligne.",
-  "operatingSystem": "iOS",
+  "description": "Grasp prépare ta séance et calcule tes charges d'après ce que tu as vraiment soulevé. Gratuit sur Android et iPhone, sans pub, et ça marche hors ligne.",
+  "operatingSystem": "Android, iOS",
   "applicationCategory": "HealthApplication",
   "applicationSubCategory": "Fitness",
   "inLanguage": [
@@ -70,8 +70,8 @@
     "pt"
   ],
   "url": "https://grasp.alsouq.tech/fr/",
-  "downloadUrl": "https://apps.apple.com/app/id6804474068",
-  "installUrl": "https://apps.apple.com/app/id6804474068",
+  "downloadUrl": ["https://apps.apple.com/app/id6804474068", "https://play.google.com/store/apps/details?id=com.graspapp.mobile"],
+  "installUrl": ["https://apps.apple.com/app/id6804474068", "https://play.google.com/store/apps/details?id=com.graspapp.mobile"],
   "image": "https://grasp.alsouq.tech/img/screens/fr/home.webp",
   "screenshot": [
     "https://grasp.alsouq.tech/img/screens/fr/home.webp",
@@ -151,7 +151,7 @@
       "name": "Grasp est sur Android ?",
       "acceptedAnswer": {
         "@type": "Answer",
-        "text": "Grasp est sur iPhone pour l'instant, et Android arrive bientôt. Écris à grasp@alsouq.tech et on te prévient dès que c'est dispo."
+        "text": "Oui. Grasp est gratuit sur Google Play pour Android et sur l'App Store pour iPhone."
       }
     },
     {
@@ -237,9 +237,9 @@
             <p class="lede">Dis-lui ton objectif et le matériel que tu as, il te prépare la séance. Tes charges, il les calcule d&#x27;après ce que tu as vraiment soulevé la dernière fois.</p>
             <div class="get">
               <a class="store-badge" href="https://apps.apple.com/app/id6804474068" aria-label="Télécharger Grasp dans l&#x27;App Store"><img src="/img/app-store-badge.svg" alt="Télécharger dans l&#x27;App Store" width="180" height="60" /></a>
-              <span class="soon" aria-label="Version Android bientôt dispo"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path fill="currentColor" d="M17.6 9.48l1.84-3.18a.38.38 0 0 0-.66-.38l-1.87 3.23a11.4 11.4 0 0 0-9.82 0L5.22 5.92a.38.38 0 0 0-.66.38L6.4 9.48A10.8 10.8 0 0 0 1 18h22a10.8 10.8 0 0 0-5.4-8.52zM7 15.25a1.25 1.25 0 1 1 0-2.5 1.25 1.25 0 0 1 0 2.5zm10 0a1.25 1.25 0 1 1 0-2.5 1.25 1.25 0 0 1 0 2.5z"/></svg><span><strong>Android</strong><small>Bientôt dispo</small></span></span>
+              <a class="store-badge play" href="https://play.google.com/store/apps/details?id=com.graspapp.mobile" aria-label="Télécharger Grasp sur Google Play"><img src="/img/google-play-badge.png" alt="Get it on Google Play" width="231" height="89" /></a>
             </div>
-            <p class="meta">Gratuit sur iPhone, en 15 langues. Pas d&#x27;abonnement, rien à débloquer.</p>
+            <p class="meta">Gratuit sur Android et iPhone, en 15 langues. Pas d&#x27;abonnement, rien à débloquer.</p>
           </div>
 
           <div class="hero-phones" aria-hidden="true">
@@ -429,7 +429,7 @@
             <details><summary>Je peux m&#x27;entraîner à la maison avec juste des haltères ?</summary><p>Oui. Coche le matériel que tu as, et Grasp ne te prévoit que des exercices faisables avec. Enregistre ton matériel pour la maison, la salle ou l&#x27;hôtel, et passe de l&#x27;un à l&#x27;autre en un tap.</p></details>
             <details><summary>Comment Grasp calcule mes charges ?</summary><p>D&#x27;après ce que tu as noté la dernière fois. Tu atteins le haut de ta fourchette de reps sur toutes les séries ? La charge monte. Tu n&#x27;y arrives pas deux fois ? Elle redescend. Tu peux changer n&#x27;importe quelle charge en un tap.</p></details>
             <details><summary>Grasp utilise l&#x27;IA ?</summary><p>Non. Il utilise des règles simples qui tournent sur ton téléphone, c&#x27;est pour ça qu&#x27;il marche hors ligne.</p></details>
-            <details><summary>Grasp est sur Android ?</summary><p>Grasp est sur iPhone pour l&#x27;instant, et Android arrive bientôt. Écris à grasp@alsouq.tech et on te prévient dès que c&#x27;est dispo.</p></details>
+            <details><summary>Grasp est sur Android ?</summary><p>Oui. Grasp est gratuit sur Google Play pour Android et sur l&#x27;App Store pour iPhone.</p></details>
             <details><summary>Est-ce que Grasp me piste ?</summary><p>Non. Grasp n&#x27;utilise ni identifiant publicitaire, ni outil d&#x27;analyse, ni suivi d&#x27;utilisation, et il ne demande pas ta position, tes contacts ou ton micro. L&#x27;appareil photo s&#x27;ouvre seulement quand tu prends une photo pour une carte à partager.</p></details>
           </div>
         </div>
@@ -438,12 +438,12 @@
       <section class="final" id="get">
         <div class="wrap">
           <h2>Télécharge Grasp</h2>
-          <p>Gratuit sur iPhone. Pas de pub, pas d&#x27;abonnement, rien à débloquer.</p>
+          <p>Gratuit sur Android et iPhone. Pas de pub, pas d&#x27;abonnement, rien à débloquer.</p>
             <div class="get center">
               <a class="store-badge" href="https://apps.apple.com/app/id6804474068" aria-label="Télécharger Grasp dans l&#x27;App Store"><img src="/img/app-store-badge.svg" alt="Télécharger dans l&#x27;App Store" width="180" height="60" loading="lazy" /></a>
-              <span class="soon" aria-label="Version Android bientôt dispo"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path fill="currentColor" d="M17.6 9.48l1.84-3.18a.38.38 0 0 0-.66-.38l-1.87 3.23a11.4 11.4 0 0 0-9.82 0L5.22 5.92a.38.38 0 0 0-.66.38L6.4 9.48A10.8 10.8 0 0 0 1 18h22a10.8 10.8 0 0 0-5.4-8.52zM7 15.25a1.25 1.25 0 1 1 0-2.5 1.25 1.25 0 0 1 0 2.5zm10 0a1.25 1.25 0 1 1 0-2.5 1.25 1.25 0 0 1 0 2.5z"/></svg><span><strong>Android</strong><small>Bientôt dispo</small></span></span>
+              <a class="store-badge play" href="https://play.google.com/store/apps/details?id=com.graspapp.mobile" aria-label="Télécharger Grasp sur Google Play"><img src="/img/google-play-badge.png" alt="Get it on Google Play" width="231" height="89" loading="lazy" /></a>
             </div>
-          <p class="meta">Tu es sur Android ? Écris à <a href="mailto:grasp@alsouq.tech">grasp@alsouq.tech</a> et on te prévient dès que c&#x27;est dispo. Une salle ou une marque qui veut travailler avec nous ? Même adresse.</p>
+          <p class="meta">Une question ? Écris à <a href="mailto:grasp@alsouq.tech">grasp@alsouq.tech</a>. Une salle ou une marque qui veut travailler avec nous ? Même adresse.</p>
         </div>
       </section>
 

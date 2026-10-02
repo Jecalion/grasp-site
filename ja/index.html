@@ -10,17 +10,17 @@
 
   Everything is served from this site: screenshots (img/screens/<lang>, from
   the store captures), flags (flag-icons, MIT), equipment (RepDB, licensed for
-  Grasp's own pages only), fonts. Apple's badge is Apple's own file,
-  unmodified. Android has no badge because there is no Play listing yet.
+  Grasp's own pages only), fonts. Apple's and Google's badges are their own files,
+  unmodified.
 -->
 <html lang="ja" dir="ltr">
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>Grasp — メニューを組んで、重量まで計算</title>
-    <meta name="description" content="Grasp はメニューを組んで、前回実際に挙げた重量から今回の重量を計算します。iPhone で無料、オフラインでも使えて、広告なし。" />
+    <meta name="description" content="Grasp はメニューを組んで、前回実際に挙げた重量から今回の重量を計算します。Android と iPhone で無料、オフラインでも使えて、広告なし。" />
     <meta property="og:title" content="Grasp — メニューを組んで、重量まで計算" />
-    <meta property="og:description" content="メニューを組んで、前回の重量から今回の重量を計算。iPhone で無料。オフラインでも使えます。広告なし。" />
+    <meta property="og:description" content="メニューを組んで、前回の重量から今回の重量を計算。Android と iPhone で無料。オフラインでも使えます。広告なし。" />
     <meta property="og:type" content="website" />
     <meta property="og:url" content="https://grasp.alsouq.tech/ja/" />
     <meta property="og:image" content="https://grasp.alsouq.tech/img/screens/ja/home.webp" />
@@ -48,8 +48,8 @@
   "@type": "MobileApplication",
   "name": "Grasp: Workout Planner",
   "alternateName": "Grasp",
-  "description": "Grasp はメニューを組んで、前回実際に挙げた重量から今回の重量を計算します。iPhone で無料、オフラインでも使えて、広告なし。",
-  "operatingSystem": "iOS",
+  "description": "Grasp はメニューを組んで、前回実際に挙げた重量から今回の重量を計算します。Android と iPhone で無料、オフラインでも使えて、広告なし。",
+  "operatingSystem": "Android, iOS",
   "applicationCategory": "HealthApplication",
   "applicationSubCategory": "Fitness",
   "inLanguage": [
@@ -70,8 +70,8 @@
     "pt"
   ],
   "url": "https://grasp.alsouq.tech/ja/",
-  "downloadUrl": "https://apps.apple.com/app/id6804474068",
-  "installUrl": "https://apps.apple.com/app/id6804474068",
+  "downloadUrl": ["https://apps.apple.com/app/id6804474068", "https://play.google.com/store/apps/details?id=com.graspapp.mobile"],
+  "installUrl": ["https://apps.apple.com/app/id6804474068", "https://play.google.com/store/apps/details?id=com.graspapp.mobile"],
   "image": "https://grasp.alsouq.tech/img/screens/ja/home.webp",
   "screenshot": [
     "https://grasp.alsouq.tech/img/screens/ja/home.webp",
@@ -151,7 +151,7 @@
       "name": "Grasp は Android でも使えますか？",
       "acceptedAnswer": {
         "@type": "Answer",
-        "text": "今は iPhone で使えます。Android 版は近日公開です。grasp@alsouq.tech までメールをいただければ、リリースしたらお知らせします。"
+        "text": "はい。Android は Google Play、iPhone は App Store から無料で使えます。"
       }
     },
     {
@@ -237,9 +237,9 @@
             <p class="lede">目標と使える器具を教えるだけで、Grasp がメニューを組みます。重量は、前回実際に挙げた重さから計算します。</p>
             <div class="get">
               <a class="store-badge" href="https://apps.apple.com/app/id6804474068" aria-label="App Store で Grasp をダウンロード"><img src="/img/app-store-badge.svg" alt="App Store からダウンロード" width="180" height="60" /></a>
-              <span class="soon" aria-label="Android 版は近日公開"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path fill="currentColor" d="M17.6 9.48l1.84-3.18a.38.38 0 0 0-.66-.38l-1.87 3.23a11.4 11.4 0 0 0-9.82 0L5.22 5.92a.38.38 0 0 0-.66.38L6.4 9.48A10.8 10.8 0 0 0 1 18h22a10.8 10.8 0 0 0-5.4-8.52zM7 15.25a1.25 1.25 0 1 1 0-2.5 1.25 1.25 0 0 1 0 2.5zm10 0a1.25 1.25 0 1 1 0-2.5 1.25 1.25 0 0 1 0 2.5z"/></svg><span><strong>Android</strong><small>近日公開</small></span></span>
+              <a class="store-badge play" href="https://play.google.com/store/apps/details?id=com.graspapp.mobile" aria-label="Google Play で Grasp を入手"><img src="/img/google-play-badge.png" alt="Get it on Google Play" width="231" height="89" /></a>
             </div>
-            <p class="meta">iPhone で無料、15 言語に対応。サブスクなし、ロックされた機能もなし。</p>
+            <p class="meta">Android と iPhone で無料、15 言語に対応。サブスクなし、ロックされた機能もなし。</p>
           </div>
 
           <div class="hero-phones" aria-hidden="true">
@@ -429,7 +429,7 @@
             <details><summary>ダンベルだけで家トレできますか？</summary><p>はい。持っている器具にチェックすれば、Grasp はその器具でできる種目だけでメニューを組みます。自宅、ジム、ホテルごとに設定を保存して、ワンタップで切り替えられます。</p></details>
             <details><summary>Grasp の重量はどうやって決まるんですか？</summary><p>前回の記録からです。全セットで回数の上限に届いたら、重量が上がります。2 回届かなければ下がります。どの重量もワンタップで変えられます。</p></details>
             <details><summary>Grasp は AI を使っていますか？</summary><p>いいえ。スマホの中で動くシンプルなルールを使っています。だからオフラインでも使えます。</p></details>
-            <details><summary>Grasp は Android でも使えますか？</summary><p>今は iPhone で使えます。Android 版は近日公開です。grasp@alsouq.tech までメールをいただければ、リリースしたらお知らせします。</p></details>
+            <details><summary>Grasp は Android でも使えますか？</summary><p>はい。Android は Google Play、iPhone は App Store から無料で使えます。</p></details>
             <details><summary>Grasp はトラッキングしますか？</summary><p>しません。Grasp は広告 ID、アナリティクス、利用状況のトラッキングを使っていません。位置情報、連絡先、マイクへのアクセスも求めません。カメラが開くのは、シェアカード用に写真を撮るときだけです。</p></details>
           </div>
         </div>
@@ -438,12 +438,12 @@
       <section class="final" id="get">
         <div class="wrap">
           <h2>Grasp をダウンロード</h2>
-          <p>iPhone で無料。広告なし、サブスクなし、ロックされた機能もなし。</p>
+          <p>Android と iPhone で無料。広告なし、サブスクなし、ロックされた機能もなし。</p>
             <div class="get center">
               <a class="store-badge" href="https://apps.apple.com/app/id6804474068" aria-label="App Store で Grasp をダウンロード"><img src="/img/app-store-badge.svg" alt="App Store からダウンロード" width="180" height="60" loading="lazy" /></a>
-              <span class="soon" aria-label="Android 版は近日公開"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path fill="currentColor" d="M17.6 9.48l1.84-3.18a.38.38 0 0 0-.66-.38l-1.87 3.23a11.4 11.4 0 0 0-9.82 0L5.22 5.92a.38.38 0 0 0-.66.38L6.4 9.48A10.8 10.8 0 0 0 1 18h22a10.8 10.8 0 0 0-5.4-8.52zM7 15.25a1.25 1.25 0 1 1 0-2.5 1.25 1.25 0 0 1 0 2.5zm10 0a1.25 1.25 0 1 1 0-2.5 1.25 1.25 0 0 1 0 2.5z"/></svg><span><strong>Android</strong><small>近日公開</small></span></span>
+              <a class="store-badge play" href="https://play.google.com/store/apps/details?id=com.graspapp.mobile" aria-label="Google Play で Grasp を入手"><img src="/img/google-play-badge.png" alt="Get it on Google Play" width="231" height="89" loading="lazy" /></a>
             </div>
-          <p class="meta">Android をお使いの方は、<a href="mailto:grasp@alsouq.tech">grasp@alsouq.tech</a> までメールをください。リリースしたらお知らせします。一緒に何かやりたいジムやブランドの方も、同じアドレスへどうぞ。</p>
+          <p class="meta">ご質問は <a href="mailto:grasp@alsouq.tech">grasp@alsouq.tech</a> までメールでどうぞ。一緒に何かやりたいジムやブランドの方も、同じアドレスへどうぞ。</p>
         </div>
       </section>
 

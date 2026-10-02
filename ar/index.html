@@ -10,15 +10,15 @@
 
   Everything is served from this site: screenshots (img/screens/<lang>, from
   the store captures), flags (flag-icons, MIT), equipment (RepDB, licensed for
-  Grasp's own pages only), fonts. Apple's badge is Apple's own file,
-  unmodified. Android has no badge because there is no Play listing yet.
+  Grasp's own pages only), fonts. Apple's and Google's badges are their own files,
+  unmodified.
 -->
 <html lang="ar" dir="rtl">
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>Grasp — تمرينك جاهز، وأوزانك محسوبة</title>
-    <meta name="description" content="Grasp يجهّز لك تمرينك ويحسب أوزانك من اللي رفعته آخر مرة. مجاني على آيفون، بدون إعلانات، ويشتغل بدون نت." />
+    <meta name="description" content="Grasp يجهّز لك تمرينك ويحسب أوزانك من اللي رفعته آخر مرة. مجاني على أندرويد وآيفون، بدون إعلانات، ويشتغل بدون نت." />
     <meta property="og:title" content="Grasp — تمرينك جاهز، وأوزانك محسوبة" />
     <meta property="og:description" content="يجهّز لك تمرينك ويحسب أوزانك من آخر مرة. مجاني، بدون إعلانات، ويشتغل بدون نت." />
     <meta property="og:type" content="website" />
@@ -48,8 +48,8 @@
   "@type": "MobileApplication",
   "name": "Grasp: Workout Planner",
   "alternateName": "Grasp",
-  "description": "Grasp يجهّز لك تمرينك ويحسب أوزانك من اللي رفعته آخر مرة. مجاني على آيفون، بدون إعلانات، ويشتغل بدون نت.",
-  "operatingSystem": "iOS",
+  "description": "Grasp يجهّز لك تمرينك ويحسب أوزانك من اللي رفعته آخر مرة. مجاني على أندرويد وآيفون، بدون إعلانات، ويشتغل بدون نت.",
+  "operatingSystem": "Android, iOS",
   "applicationCategory": "HealthApplication",
   "applicationSubCategory": "Fitness",
   "inLanguage": [
@@ -70,8 +70,8 @@
     "pt"
   ],
   "url": "https://grasp.alsouq.tech/ar/",
-  "downloadUrl": "https://apps.apple.com/app/id6804474068",
-  "installUrl": "https://apps.apple.com/app/id6804474068",
+  "downloadUrl": ["https://apps.apple.com/app/id6804474068", "https://play.google.com/store/apps/details?id=com.graspapp.mobile"],
+  "installUrl": ["https://apps.apple.com/app/id6804474068", "https://play.google.com/store/apps/details?id=com.graspapp.mobile"],
   "image": "https://grasp.alsouq.tech/img/screens/ar/home.webp",
   "screenshot": [
     "https://grasp.alsouq.tech/img/screens/ar/home.webp",
@@ -151,7 +151,7 @@
       "name": "هل هو متوفر على أندرويد؟",
       "acceptedAnswer": {
         "@type": "Answer",
-        "text": "الحين على آيفون، وأندرويد قريباً. راسلنا على grasp@alsouq.tech ونعلمك أول ما ينزل."
+        "text": "إيه، Grasp متوفر مجاناً على Google Play للأندرويد وعلى App Store للآيفون."
       }
     },
     {
@@ -237,9 +237,9 @@
             <p class="lede">قوله وش هدفك ووش الأجهزة اللي عندك، ويجهّز لك التمرين. وأوزانك يحسبها من اللي رفعته آخر مرة.</p>
             <div class="get">
               <a class="store-badge" href="https://apps.apple.com/app/id6804474068" aria-label="حمّل Grasp من App Store"><img src="/img/app-store-badge.svg" alt="حمّله من App Store" width="180" height="60" /></a>
-              <span class="soon" aria-label="نسخة أندرويد قريباً"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path fill="currentColor" d="M17.6 9.48l1.84-3.18a.38.38 0 0 0-.66-.38l-1.87 3.23a11.4 11.4 0 0 0-9.82 0L5.22 5.92a.38.38 0 0 0-.66.38L6.4 9.48A10.8 10.8 0 0 0 1 18h22a10.8 10.8 0 0 0-5.4-8.52zM7 15.25a1.25 1.25 0 1 1 0-2.5 1.25 1.25 0 0 1 0 2.5zm10 0a1.25 1.25 0 1 1 0-2.5 1.25 1.25 0 0 1 0 2.5z"/></svg><span><strong>أندرويد</strong><small>قريباً</small></span></span>
+              <a class="store-badge play" href="https://play.google.com/store/apps/details?id=com.graspapp.mobile" aria-label="حمّل Grasp من Google Play"><img src="/img/google-play-badge.png" alt="Get it on Google Play" width="231" height="89" /></a>
             </div>
-            <p class="meta">مجاني على آيفون، وبـ 15 لغة. بدون اشتراك، وما فيه شيء مقفول.</p>
+            <p class="meta">مجاني على أندرويد وآيفون، وبـ 15 لغة. بدون اشتراك، وما فيه شيء مقفول.</p>
           </div>
 
           <div class="hero-phones" aria-hidden="true">
@@ -429,7 +429,7 @@
             <details><summary>أقدر أتمرن في البيت بدمبل بس؟</summary><p>إيه. حدّد الأجهزة اللي عندك، وGrasp ما يرتّب لك إلا تمارين تقدر تسويها فيها. واحفظ أجهزة البيت والنادي والفندق وبدّل بينها بضغطة.</p></details>
             <details><summary>كيف يحسب أوزاني؟</summary><p>من اللي سجّلته آخر مرة. توصل لأعلى التكرارات في كل الجلسات يزيد الوزن، وما توصل مرتين ينزل. وأي وزن تقدر تغيّره بضغطة.</p></details>
             <details><summary>هل فيه ذكاء اصطناعي؟</summary><p>لا. يشتغل بقواعد بسيطة على جوالك، وعشان كذا يشتغل بدون نت.</p></details>
-            <details><summary>هل هو متوفر على أندرويد؟</summary><p>الحين على آيفون، وأندرويد قريباً. راسلنا على grasp@alsouq.tech ونعلمك أول ما ينزل.</p></details>
+            <details><summary>هل هو متوفر على أندرويد؟</summary><p>إيه، Grasp متوفر مجاناً على Google Play للأندرويد وعلى App Store للآيفون.</p></details>
             <details><summary>هل يتتبعني؟</summary><p>لا. Grasp ما يستخدم معرّفات إعلانية ولا تحليلات ولا تتبع استخدام، وما يطلب موقعك ولا جهات اتصالك ولا المايك. والكاميرا تفتح بس لما تصوّر صورة لبطاقة المشاركة.</p></details>
           </div>
         </div>
@@ -438,12 +438,12 @@
       <section class="final" id="get">
         <div class="wrap">
           <h2>حمّل Grasp</h2>
-          <p>مجاني على آيفون. بدون إعلانات، بدون اشتراك، وما فيه شيء مقفول.</p>
+          <p>مجاني على أندرويد وآيفون. بدون إعلانات، بدون اشتراك، وما فيه شيء مقفول.</p>
             <div class="get center">
               <a class="store-badge" href="https://apps.apple.com/app/id6804474068" aria-label="حمّل Grasp من App Store"><img src="/img/app-store-badge.svg" alt="حمّله من App Store" width="180" height="60" loading="lazy" /></a>
-              <span class="soon" aria-label="نسخة أندرويد قريباً"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path fill="currentColor" d="M17.6 9.48l1.84-3.18a.38.38 0 0 0-.66-.38l-1.87 3.23a11.4 11.4 0 0 0-9.82 0L5.22 5.92a.38.38 0 0 0-.66.38L6.4 9.48A10.8 10.8 0 0 0 1 18h22a10.8 10.8 0 0 0-5.4-8.52zM7 15.25a1.25 1.25 0 1 1 0-2.5 1.25 1.25 0 0 1 0 2.5zm10 0a1.25 1.25 0 1 1 0-2.5 1.25 1.25 0 0 1 0 2.5z"/></svg><span><strong>أندرويد</strong><small>قريباً</small></span></span>
+              <a class="store-badge play" href="https://play.google.com/store/apps/details?id=com.graspapp.mobile" aria-label="حمّل Grasp من Google Play"><img src="/img/google-play-badge.png" alt="Get it on Google Play" width="231" height="89" loading="lazy" /></a>
             </div>
-          <p class="meta">جوالك أندرويد؟ راسلنا على <a href="mailto:grasp@alsouq.tech">grasp@alsouq.tech</a> ونعلمك أول ما ينزل. ولو أنت نادي أو براند وتبي تتعاون معنا، نفس الإيميل.</p>
+          <p class="meta">عندك سؤال؟ راسلنا على <a href="mailto:grasp@alsouq.tech">grasp@alsouq.tech</a>. ولو أنت نادي أو براند وتبي تتعاون معنا، نفس الإيميل.</p>
         </div>
       </section>
 

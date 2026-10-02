@@ -1,13 +1,13 @@
 # Grasp: Workout Planner
 
-> Grasp is a free workout planner and logger for iPhone. It plans each workout around your goal, your schedule and the equipment you have, and works out your weights from what you logged last time. It is free, with no ads, no subscription and no paid tier, and it works offline after the first sign-up. It is available in 15 languages. An Android version is coming soon.
+> Grasp is a free workout planner and logger for Android and iPhone. It plans each workout around your goal, your schedule and the equipment you have, and works out your weights from what you logged last time. It is free, with no ads, no subscription and no paid tier, and it works offline after the first sign-up. It is available in 15 languages. An Android version is coming soon.
 
 Also listed on the App Store as "Grasp: Workout Planner & Log". Several unrelated apps are called Grasp; this one is the workout planner.
 
 ## Facts
 
 - Price: free. No ads, no subscription, no paid tier, nothing to unlock.
-- Platform: iPhone (App Store). Android: coming soon, not yet released.
+- Platform: Android (Google Play: https://play.google.com/store/apps/details?id=com.graspapp.mobile) and iPhone (App Store: https://apps.apple.com/app/id6804474068).
 - Offline: planning and weight suggestions run on the phone. Only the first sign-up needs internet; the account backs up training so it survives a lost phone.
 - Languages: English, Arabic, French, German, Spanish, Italian, Turkish, Polish, Russian, Hindi, Chinese, Korean, Japanese, Indonesian, Portuguese. Screens, exercise names and step-by-step instructions are translated.
 - Exercises: 600+, most of them animated, with the muscles they work.

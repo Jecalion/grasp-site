@@ -486,6 +486,12 @@ hr {
   height: 60px;
   width: auto;
 }
+/* Google's badge carries its own transparent margin (41 of 250 px on every
+   side). Trimmed here so the visible badge is the same 60 px as Apple's. */
+.store-badge.play img {
+  height: 89px;
+  margin: -14.6px;
+}
 .soon {
   display: inline-flex;
   align-items: center;
