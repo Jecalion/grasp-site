@@ -1225,3 +1225,126 @@ h2,
     font-size: 16px;
   }
 }
+
+/* ------------------------------------------------- app screens in HTML */
+
+/*
+  Screens drawn in HTML rather than photographed, for features that would
+  otherwise need a screenshot per language. Dark in both themes, like the
+  app and the phones around the real screenshots. Colours are the app's own
+  (apps/mobile/src/theme/tokens.ts): lime for Grasp, violet for routines.
+*/
+.mock-screen {
+  --m-bg: #0d0e10;
+  --m-card: #16181b;
+  --m-raised: #1f2226;
+  --m-line: #292d32;
+  --m-text: #ffffff;
+  --m-muted: #9ba1a8;
+  --m-lime: #c6f84e;
+  --m-violet: #b9acff;
+  --m-violet-bg: #231f3d;
+  aspect-ratio: 540 / 1200;
+  border-radius: 27px;
+  background: var(--m-bg);
+  color: var(--m-text);
+  padding: 22px 14px 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  font-size: 12px;
+  line-height: 1.3;
+  overflow: hidden;
+}
+.mock-screen strong { font-weight: 600; }
+.mock-screen small { display: block; color: var(--m-muted); font-size: 11px; }
+.ms-switch {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  background: var(--m-card);
+  border: 1px solid var(--m-line);
+  border-radius: 999px;
+  padding: 3px;
+  font-weight: 600;
+  text-align: center;
+}
+.ms-switch span { padding: 7px 4px; border-radius: 999px; color: var(--m-muted); }
+.ms-switch .on { background: var(--m-violet-bg); color: var(--m-violet); }
+.ms-head strong { display: block; font-size: 18px; letter-spacing: -0.3px; }
+.ms-card {
+  background: var(--m-card);
+  border: 1px solid var(--m-line);
+  border-radius: 14px;
+  padding: 10px 11px;
+}
+.ms-ex { display: flex; justify-content: space-between; align-items: baseline; gap: 8px; margin-bottom: 6px; }
+.ms-ex strong { font-size: 13px; }
+.ms-table { display: flex; flex-direction: column; gap: 2px; }
+.ms-row {
+  display: grid;
+  grid-template-columns: 1fr 1.2fr 1.2fr 1.2fr;
+  align-items: center;
+  text-align: center;
+  padding: 5px 0;
+  border-top: 1px solid var(--m-line);
+  font-variant-numeric: tabular-nums;
+}
+.ms-th { border-top: 0; color: var(--m-muted); font-size: 10px; font-weight: 600; letter-spacing: 0.4px; }
+.ms-type { color: var(--m-muted); }
+.ms-type.on {
+  justify-self: center;
+  min-width: 22px;
+  padding: 1px 6px;
+  border-radius: 6px;
+  background: var(--m-violet-bg);
+  color: var(--m-violet);
+  font-weight: 600;
+}
+.ms-grasp { color: var(--m-muted); }
+.ms-superset {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  padding-inline-start: 12px;
+  border-inline-start: 2px solid var(--m-violet);
+}
+.ms-label { color: var(--m-violet); font-size: 10px; font-weight: 700; letter-spacing: 0.6px; }
+.ms-line { display: flex; flex-direction: column; gap: 2px; }
+.ms-button {
+  margin-top: auto;
+  background: var(--m-lime);
+  color: #0d0e10;
+  font-weight: 700;
+  text-align: center;
+  border-radius: 999px;
+  padding: 11px;
+  font-size: 13px;
+}
+.ms-banner {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  background: #232e10;
+  border: 1px solid var(--m-lime);
+  border-radius: 14px;
+  padding: 11px 12px;
+}
+.ms-banner svg { width: 26px; height: 26px; flex: none; color: var(--m-lime); }
+.ms-banner strong { display: block; font-size: 13px; color: var(--m-lime); }
+.ms-set {
+  display: grid;
+  grid-template-columns: 22px 1fr 22px;
+  align-items: center;
+  padding: 7px 4px;
+  border-top: 1px solid var(--m-line);
+  font-variant-numeric: tabular-nums;
+}
+.ms-set .ms-mark { color: var(--m-muted); justify-self: end; }
+.ms-set svg { width: 16px; height: 16px; display: block; }
+.ms-set.pr { background: #232e10; border-radius: 8px; border-top-color: transparent; }
+.ms-set.pr .ms-mark { color: var(--m-lime); }
+.ms-summary .ms-label { color: var(--m-lime); display: block; margin-bottom: 4px; }
+.ms-rec { display: flex; justify-content: space-between; padding: 6px 0; border-top: 1px solid var(--m-line); }
+.ms-rec span { color: var(--m-muted); }
+.ms-label { text-transform: uppercase; }
