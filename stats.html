@@ -850,7 +850,6 @@
         var ui = {
           tab: 'overview',
           growthMode: null,
-          mapSource: null,
           mapRegion: 'world',
           mapPick: null,
           peopleFilter: null,
@@ -1084,17 +1083,9 @@
             return { source: r[0], day: dayFromIso(r[1]), country: r[2], n: +r[3] || 0 };
           }).filter(function (r) { return r.day != null; });
 
-          /* The app's own counter: [day, event, platform, version, update, language, country, signed in, n]. */
-          var app = (v2.app_daily || []).filter(Array.isArray).map(function (r) {
-            return {
-              day: dayFromIso(r[0]), ev: r[1], plat: plat(r[2]), ver: String(r[3] || ''), upd: String(r[4] || ''),
-              lang: String(r[5] || ''), country: String(r[6] || '??'), signed: !!r[7], n: +r[8] || 0,
-            };
-          }).filter(function (r) { return r.day != null; });
-
           return {
             hasV2: !!raw.v2, now: now, users: users, byKey: byKey, sessions: sessions,
-            crashes: crashes, exercises: exercises, store: store, app: app,
+            crashes: crashes, exercises: exercises, store: store,
             storeSync: raw.store_sync || [], web: raw.web || null,
           };
         }
@@ -1166,8 +1157,6 @@
             inP: function (d) { return d != null && d >= start - len && d <= start - 1; },
           };
           SC.joined = users.filter(function (u) { return SC.inR(u.cDay); });
-          /* Counted per phone, not per account, so the test-accounts switch has nothing to hide here. */
-          SC.app = M.app.filter(function (r) { return ctl.platform === 'all' || r.plat === ctl.platform; });
           return SC;
         }
 
@@ -1909,10 +1898,10 @@
             out.push({ warn: true, text: crashes.length + ' ' + plural(crashes.length, 'crash', 'crashes') + ' ' + period + ', most on version ' + tv });
           }
 
-          var inst = { ios: 0, android: 0 };
-          S.app.forEach(function (r) { if (r.ev === 'install' && S.inR(r.day) && inst[r.plat] != null) inst[r.plat] += r.n; });
-          if (inst.ios + inst.android) {
-            out.push({ text: fmtN(inst.ios + inst.android) + ' new ' + plural(inst.ios + inst.android, 'install') + ' ' + period + ' (iPhone ' + fmtN(inst.ios) + ' · Android ' + fmtN(inst.android) + ')' });
+          var inst = { apple: 0, google: 0 };
+          M.store.forEach(function (r) { if (S.inR(r.day) && inst[r.source] != null) inst[r.source] += r.n; });
+          if (inst.apple + inst.google) {
+            out.push({ text: fmtN(inst.apple + inst.google) + ' ' + plural(inst.apple + inst.google, 'download') + ' ' + period + ' (App Store ' + fmtN(inst.apple) + ' · Google Play ' + fmtN(inst.google) + ')' });
           }
           if (!M.store.length) out.push({ text: 'Store downloads aren\'t connected' });
           return out;
@@ -1924,7 +1913,6 @@
            ================================================================= */
 
         function rGrowth(p, S) {
-          appBox(p, S);
           var mode = ui.growthMode || autoMode(S.len);
           var B = buckets(S.start, S.end, mode);
           var n = B.list.length;
@@ -2005,11 +1993,9 @@
         /*
           Where installs come from, on a map.
 
-          Two sources, never added together because they overlap: the stores'
-          own download counts (App Store and Google Play, a day or so late, and
-          the most complete), and the app's own install counter (instant, but
-          only from phones that have the update carrying it). The platform
-          filter picks the store: iPhone means the App Store, Android Google Play.
+          Downloads as the App Store and Google Play report them, about a day
+          late. The platform filter picks the store: iPhone means the App
+          Store, Android Google Play.
         */
         var WORLD = null, WORLD_LOADING = null;
         function loadWorld() {
@@ -2022,7 +2008,7 @@
           return WORLD_LOADING;
         }
 
-        function mapCounts(S, source) {
+        function mapCounts(S) {
           var by = {}, split = {};
           function add(cc, n, part) {
             if (!cc || cc === '??' || cc === 'ZZ') cc = '??';
@@ -2030,41 +2016,30 @@
             if (!split[cc]) split[cc] = { a: 0, b: 0 };
             split[cc][part] += n;
           }
-          if (source === 'app') {
-            S.app.forEach(function (r) {
-              if (r.ev === 'install' && S.inR(r.day)) add(r.country, r.n, r.plat === 'ios' ? 'a' : 'b');
-            });
-          } else {
-            M.store.forEach(function (r) {
-              if (!S.inR(r.day)) return;
-              if (ctl.platform === 'ios' && r.source !== 'apple') return;
-              if (ctl.platform === 'android' && r.source !== 'google') return;
-              if (ctl.platform === 'unknown') return;
-              add(String(r.country || '').toUpperCase(), r.n, r.source === 'apple' ? 'a' : 'b');
-            });
-          }
+          M.store.forEach(function (r) {
+            if (!S.inR(r.day)) return;
+            if (ctl.platform === 'ios' && r.source !== 'apple') return;
+            if (ctl.platform === 'android' && r.source !== 'google') return;
+            if (ctl.platform === 'unknown') return;
+            add(String(r.country || '').toUpperCase(), r.n, r.source === 'apple' ? 'a' : 'b');
+          });
           return { by: by, split: split };
         }
 
         function mapBox(p, S) {
-          var hasStore = M.store.length > 0, hasApp = M.app.length > 0;
-          var source = ui.mapSource || (hasStore || !hasApp ? 'stores' : 'app');
-          var data = mapCounts(S, source);
+          var data = mapCounts(S);
           var total = 0, places = 0;
           Object.keys(data.by).forEach(function (k) { total += data.by[k]; if (k !== '??') places++; });
 
           var c = card(p, 'Installs around the world',
-            total ? fmtN(total) + ' ' + plural(total, source === 'app' ? 'install' : 'download') + ' · ' + places + ' ' + plural(places, 'country', 'countries') : '');
+            total ? fmtN(total) + ' ' + plural(total, 'download') + ' · ' + places + ' ' + plural(places, 'country', 'countries') : '');
 
           var tools = el('div', 'map-tools');
-          tools.appendChild(segmented([['stores', 'Store downloads'], ['app', 'App counter']], source, function (v) { ui.mapSource = v; ui.mapPick = null; renderActive(); }, 'Source'));
           tools.appendChild(segmented([['world', 'World'], ['me', 'Middle East'], ['eu', 'Europe'], ['am', 'Americas'], ['as', 'Asia'], ['af', 'Africa']], ui.mapRegion, function (v) { ui.mapRegion = v; renderActive(); }, 'Region'));
           c.appendChild(tools);
 
-          if (source === 'stores' && !hasStore) {
+          if (!M.store.length) {
             c.appendChild(el('p', 'said', 'Store downloads are not connected yet.'));
-          } else if (source === 'app' && !hasApp) {
-            c.appendChild(el('p', 'said', 'The app starts counting with the update that carries the counter.'));
           } else if (!total) {
             c.appendChild(el('p', 'said', 'None in this range.'));
           }
@@ -2077,7 +2052,7 @@
 
           var max = 0;
           Object.keys(data.by).forEach(function (k) { if (k !== '??' && data.by[k] > max) max = data.by[k]; });
-          var partA = source === 'app' ? 'iPhone' : 'App Store', partB = source === 'app' ? 'Android' : 'Google Play';
+          var partA = 'App Store', partB = 'Google Play';
 
           function tipFor(cc) {
             var n = data.by[cc] || 0, sp = data.split[cc] || { a: 0, b: 0 };
@@ -2099,7 +2074,7 @@
             if (!w) { wrap.appendChild(el('p', 'said', 'The map did not load.')); return; }
             var vb = ui.mapRegion !== 'world' && w.r[ui.mapRegion] ? w.r[ui.mapRegion] : [0, 0, w.w, w.h];
             var root = svg('svg', { viewBox: vb.join(' '), class: 'map', role: 'img',
-              'aria-label': 'Map of ' + (source === 'app' ? 'installs' : 'store downloads') + ' by country' });
+              'aria-label': 'Map of store downloads by country' });
             Object.keys(w.c).forEach(function (cc) {
               var n = data.by[cc] || 0;
               var path = svg('path', { d: w.c[cc] });
@@ -2132,65 +2107,6 @@
               };
             }));
           }
-        }
-
-        /*
-          The app counts itself: one signal per phone per day, and one more the
-          first time a fresh install opens. No ids, so a phone is never followed
-          from one day to the next: these are counts, not people.
-        */
-        function appBox(p, S) {
-          var c = card(p, 'App installs and opens', 'counted by the app · no ids');
-          if (!M.app.length) {
-            c.appendChild(el('p', 'said', 'Nothing yet. Phones start counting once they have the update that carries the counter; existing users are never counted as installs.'));
-            return;
-          }
-          var mode = autoMode(S.len);
-          var B = buckets(S.start, S.end, mode);
-          var n = B.list.length;
-          var inst = { ios: zeros(n), android: zeros(n) };
-          var opens = zeros(n);
-          S.app.forEach(function (r) {
-            var i = B.index(r.day);
-            if (i < 0) return;
-            if (r.ev === 'install') { if (inst[r.plat]) inst[r.plat][i] += r.n; } else opens[i] += r.n;
-          });
-          /* No line before the counter existed: that was not zero phones. */
-          var from = M.app[0].day;
-          var perDay = opens.map(function (v, i) {
-            var b = B.list[i];
-            if (b.b < from) return null;
-            return Math.round((v / (b.b - Math.max(b.a, from) + 1)) * 10) / 10;
-          });
-          plot(c, {
-            buckets: B.list,
-            series: ['ios', 'android'].map(function (pl) { return { name: PLAT[pl].name + ' installs', color: PLAT[pl].color, values: inst[pl], keep: true }; }),
-            right: { name: 'Phones opening the app a day', color: 'var(--text)', values: perDay, opacity: 0.6, width: 1.6, axisNote: 'right axis', fmt: fmt1 },
-            label: 'App installs per ' + (mode === 'week' ? 'week' : 'day') + ' by platform, and phones opening the app',
-          });
-
-          /* Which code phones run: the store build itself, or an update on top of it. Read from the newest day in range. */
-          var last = -1;
-          S.app.forEach(function (r) { if (r.ev === 'open' && S.inR(r.day) && r.day > last) last = r.day; });
-          var r1 = row(p);
-          var c1 = card(r1, 'What phones run', last < 0 ? '' : 'on ' + dayLabel(last));
-          var vers = {}, total = 0;
-          S.app.forEach(function (r) {
-            if (r.ev !== 'open' || r.day !== last) return;
-            var key = r.ver + (r.upd === 'embedded' || !r.upd ? ' · store build' : ' · update ' + r.upd.slice(0, 8));
-            vers[key] = (vers[key] || 0) + r.n;
-            total += r.n;
-          });
-          hbars(c1, Object.keys(vers).sort(function (a, b) { return vers[b] - vers[a]; }).map(function (v) {
-            return { label: v, value: vers[v], sub: pctS(vers[v], total) };
-          }), { emptyText: 'No phone opened the app in this range.' });
-
-          var c2 = card(r1, 'Where installs come from', 'country from the phone\'s time zone');
-          var cc = {};
-          S.app.forEach(function (r) { if (r.ev === 'install' && S.inR(r.day)) cc[r.country] = (cc[r.country] || 0) + r.n; });
-          hbars(c2, Object.keys(cc).sort(function (a, b) { return cc[b] - cc[a]; }).slice(0, 10).map(function (x) {
-            return { label: countryName(x), value: cc[x] };
-          }), { emptyText: 'No installs in this range.' });
         }
 
         function funnelBox(box, users) {
@@ -3492,16 +3408,6 @@
               if (nn) demoStore.push([x[0], isoDay(todayUtc - sd), x[1], nn]);
             });
           }
-          var appDaily = [];
-          for (var ad = 20; ad >= 0; ad--) {
-            var dIso = isoDay(todayUtc - ad);
-            ['ios', 'android'].forEach(function (apl) {
-              var installs = int(0, apl === 'ios' ? 4 : 6);
-              if (installs) appDaily.push([dIso, 'install', apl, '0.3.1', 'embedded', 'en', wpick([['SA', 5], ['US', 2], ['GB', 1], ['AE', 1]]), false, installs]);
-              appDaily.push([dIso, 'open', apl, '0.3.1', ad < 6 ? 'a1b2c3d4-0000-4000-8000-000000000001' : '7a254e49-865f-47a2-8ccb-aa0f181e06bc', 'en', 'SA', true, int(8, 22)]);
-              appDaily.push([dIso, 'open', apl, '0.3.0', 'embedded', 'ar', 'SA', false, int(1, 6)]);
-            });
-          }
           for (var d = 29; d >= 0; d--) daily.push({ day: isoDay(todayUtc - d), views: int(20, 140), clicks: int(0, 9) });
           var views30 = sum(daily.map(function (x) { return x.views; }));
           var clicks30 = sum(daily.map(function (x) { return x.clicks; }));
@@ -3519,7 +3425,7 @@
               pages: [{ name: '/', views: 900, clicks: 50 }, { name: '/ar/', views: 410, clicks: 22 }, { name: '/get/', views: 120, clicks: 0 }, { name: '/support.html', views: 60, clicks: 0 }],
               devices: [{ name: 'iphone', views: 820, clicks: 51 }, { name: 'android', views: 560, clicks: 18 }, { name: 'desktop', views: 190, clicks: 7 }],
             },
-            v2: { generated_at: iso(now), users: users, sessions: sessions, exercises: exercises, store_daily: demoStore, crash_rows: crashRows, app_daily: appDaily },
+            v2: { generated_at: iso(now), users: users, sessions: sessions, exercises: exercises, store_daily: demoStore, crash_rows: crashRows },
           };
         }
 
