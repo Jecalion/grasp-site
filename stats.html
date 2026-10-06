@@ -1782,22 +1782,27 @@
             var w = per(c.day);
             if (w >= 0) { k.cr[w]++; if (!w) sp.cr[B.index(c.day)]++; }
           });
-          k.inst = [0, 0]; k.opens = [0, 0]; sp.inst = zeros(n); sp.opens = zeros(n);
-          S.app.forEach(function (r) {
+          /*
+            Downloads, as the App Store and Google Play report them: the
+            complete number, about a day late. The platform filter picks the
+            store. The countries tile counts where they came from.
+          */
+          k.dl = [0, 0]; sp.dl = zeros(n);
+          var places = [new Set(), new Set()], firstSeen = {};
+          M.store.forEach(function (r) {
+            if (ctl.platform === 'ios' && r.source !== 'apple') return;
+            if (ctl.platform === 'android' && r.source !== 'google') return;
+            if (ctl.platform === 'unknown') return;
             var w = per(r.day);
             if (w < 0) return;
-            var key = r.ev === 'install' ? 'inst' : 'opens';
-            k[key][w] += r.n;
-            if (!w) sp[key][B.index(r.day)] += r.n;
+            k.dl[w] += r.n;
+            if (r.country && r.country !== 'ZZ') places[w].add(r.country);
+            if (!w) { var j = B.index(r.day); sp.dl[j] += r.n; firstSeen[r.country] = Math.min(firstSeen[r.country] == null ? j : firstSeen[r.country], j); }
           });
-          /* Phones a day: the counter only exists from its first row, so average over the days it has run. */
-          var appFrom = M.app.length ? M.app[0].day : null;
-          function daysCounted(a, b) { return appFrom == null ? 0 : Math.max(0, b - Math.max(a, appFrom) + 1); }
-          var dc = [daysCounted(S.start, S.end), daysCounted(S.pstart, S.pend)];
-          var perDay = [dc[0] ? k.opens[0] / dc[0] : null, dc[1] ? k.opens[1] / dc[1] : null];
-          /* Before the counter ran there is nothing to compare with, which is not the same as zero. */
-          var appNote = appFrom == null ? { text: 'counting from the next update', dir: null }
-            : appFrom > S.pstart && showDeltaOK() ? { text: 'counting since ' + dayLabel(appFrom), dir: null } : null;
+          /* Countries reached so far, bucket by bucket. */
+          sp.pl = zeros(n);
+          Object.keys(firstSeen).forEach(function (cc) { for (var j = firstSeen[cc]; j < n; j++) sp.pl[j]++; });
+          var storeNote = M.store.length ? null : { text: 'stores not connected', dir: null };
 
           var showDelta = ctl.range !== 'all';
           function delta(cur, prev, isMinutes) {
@@ -1816,8 +1821,8 @@
           var grid = el('div', 'tiles kpis');
           p.appendChild(grid);
           var kpis = [
-            ['App installs', appFrom == null ? '—' : fmtN(k.inst[0]), appNote || delta(k.inst[0], k.inst[1]), sp.inst, true],
-            ['Phones a day', perDay[0] == null ? '—' : fmt1(perDay[0]), appNote || delta(perDay[0], perDay[1]), sp.opens],
+            ['Downloads', M.store.length ? fmtN(k.dl[0]) : '—', storeNote || delta(k.dl[0], k.dl[1]), sp.dl, true],
+            ['Countries', M.store.length ? fmtN(places[0].size) : '—', storeNote || { text: places[1].size + ' in previous period', dir: null }, sp.pl],
             ['New accounts', fmtN(k.neu[0]), delta(k.neu[0], k.neu[1]), sp.neu],
             ['Activated', fmtN(k.act[0]), delta(k.act[0], k.act[1]), sp.act],
             ['Active users', fmtN(k.au[0].size), delta(k.au[0].size, k.au[1].size), sp.au.map(function (s) { return s.size; })],
