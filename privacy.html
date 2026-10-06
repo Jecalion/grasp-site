@@ -69,7 +69,7 @@
 
     <main class="wrap" style="padding-top: 56px">
       <h1>Privacy Policy</h1>
-      <p class="meta" style="margin-top: -8px">Last updated: 3 October 2026</p>
+      <p class="meta" style="margin-top: -8px">Last updated: 6 October 2026</p>
 
       <p class="lede">
         Grasp is a workout planner and logger. This policy explains exactly what it stores, where,
@@ -91,7 +91,8 @@
             no connection at all.
           </p>
           <p style="margin-top: 10px">
-            The app has <strong>no advertising, no analytics, and no tracking</strong>. We do not sell
+            The app has <strong>no advertising and no tracking</strong>. It counts how many phones open
+            it each day, anonymously, with nothing that leads back to you (see below). We do not sell
             or share your data with anyone.
           </p>
           <p style="margin-top: 10px">
@@ -207,12 +208,13 @@
 
       <h2>What we never collect</h2>
       <p>
-        No advertising identifiers. No analytics or usage tracking. No location. No microphone,
+        No advertising identifiers. No usage tracking. No location. No microphone,
         camera, contacts, or calendar access. Grasp does not request these permissions.
       </p>
       <p>
         We do not track what you do in the app — which screens you open, how long you spend, what
-        you tap. The only thing recorded automatically is a crash, described below.
+        you tap. Only two things are recorded automatically: a crash, and an anonymous daily count
+        of phones that opened the app, both described below.
       </p>
       <p>
         The two setup questions above are the exception, and the difference is worth stating: they
@@ -230,7 +232,7 @@
       </p>
       <p>
         It does <strong>not</strong> record what you were doing, what you had logged, or anything
-        you typed. It is not a log of your activity — nothing is recorded while the app is working.
+        you typed. It is not a log of your activity.
       </p>
       <p>
         The report is stored against your account, in the same Supabase database in Frankfurt as
@@ -241,6 +243,27 @@
       <p>
         If a crash happens with no connection, the report waits on your phone and is sent the next
         time there is one. Deleting your account deletes these along with everything else.
+      </p>
+
+      <h2>How many phones use Grasp</h2>
+      <p>
+        Once a day, when you open the app, it adds one to a daily tally so we know how many phones
+        use Grasp. What it sends is:
+      </p>
+      <ul>
+        <li>iPhone or Android</li>
+        <li>which version of the app and which update are running</li>
+        <li>the app's language</li>
+        <li>roughly which country, worked out from the phone's time zone, not your IP address</li>
+        <li>whether you are signed in</li>
+        <li>the first time a new install opens, that it is new</li>
+      </ul>
+      <p>
+        Nothing else. <strong>No device id, no account, no advertising id</strong>, and the IP
+        address the request comes from is not stored. Two days from the same phone are two anonymous
+        counts that cannot be linked to each other or to you. The phone keeps only the date it last
+        counted itself, so that it counts once a day. The tallies are kept in the same EU-hosted
+        database as your backups, and only we can see them.
       </p>
 
       <h2>Deleting your data</h2>
