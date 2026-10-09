@@ -33,11 +33,13 @@
       .r-head p { margin: 0; color: var(--muted, #8a8f95); font-size: 0.85rem; }
       .r-head h1 { margin: 2px 0 0; font-size: 1.6rem; line-height: 1.2; overflow-wrap: anywhere; }
       .r-list { list-style: none; margin: 0; padding: 0; border: 1px solid var(--border, #2a2d31); border-radius: 14px; overflow: hidden; }
-      .r-list li { display: flex; gap: 12px; justify-content: space-between; align-items: baseline; padding: 14px 16px; }
+      .r-list li { margin: 0; display: flex; gap: 12px; justify-content: space-between; align-items: baseline; padding: 14px 16px; }
       .r-list li + li { border-top: 1px solid var(--border, #2a2d31); }
       .r-list .n { font-weight: 600; overflow-wrap: anywhere; }
       .r-list .s { color: var(--muted, #8a8f95); white-space: nowrap; font-variant-numeric: tabular-nums; }
       .r-list .pair { color: var(--accent, #c6f432); margin-inline-end: 6px; }
+      .r-list li.h { background: var(--surface-2, rgba(255,255,255,0.04)); }
+      .r-list li.h .n { font-size: 1.05em; }
       .r-open { display: block; text-align: center; padding: 15px 18px; border-radius: 999px; font-weight: 700; text-decoration: none;
         background: var(--accent, #c6f432); color: var(--on-accent, #0d0e10); }
       .r-get { display: grid; gap: 10px; justify-items: center; text-align: center; }
@@ -64,7 +66,7 @@
         <div class="r-head">
           <img src="/favicon.png" alt="" width="56" height="56" />
           <div>
-            <p data-en="A routine shared with you" data-ar="روتين شاركه معك أحدهم">A routine shared with you</p>
+            <p id="kind" data-en="A routine shared with you" data-ar="روتين شاركه معك أحدهم">A routine shared with you</p>
             <h1 id="name">…</h1>
           </div>
         </div>
@@ -126,40 +128,65 @@
           body: JSON.stringify({ p_code: code }),
         })
           .then(function (r) { return r.ok ? r.json() : null; })
-          .then(function (routine) {
-            if (!routine || !Array.isArray(routine.exercises)) {
+          .then(function (shared) {
+            // A routine, or a folder of them ({kind: 'folder', routines: [...]}).
+            var folder = shared && shared.kind === 'folder' && Array.isArray(shared.routines);
+            var routines = folder ? shared.routines : shared ? [shared] : [];
+            routines = routines.filter(function (r) { return r && Array.isArray(r.exercises); });
+            if (routines.length === 0) {
               open.hidden = true;
               say('This link does not work any more.', 'هذا الرابط لم يعد يعمل.');
               return;
             }
-            nameEl.textContent = String(routine.name || '');
-            document.title = String(routine.name || 'Routine') + ' · Grasp';
+            if (folder) {
+              document.getElementById('kind').textContent = ar ? 'برنامج شاركه معك أحدهم' : 'A program shared with you';
+            }
+            nameEl.textContent = String(shared.name || '');
+            document.title = String(shared.name || 'Routine') + ' · Grasp';
             var list = document.getElementById('list');
-            routine.exercises.slice(0, 60).forEach(function (e) {
+            function row(name, detail, heading) {
               var li = document.createElement('li');
+              if (heading) li.className = 'h';
               var n = document.createElement('span');
               n.className = 'n';
-              if (e.superset) {
-                var pair = document.createElement('span');
-                pair.className = 'pair';
-                pair.textContent = '⟷';
-                pair.title = ar ? 'سوبر سِت' : 'Superset';
-                n.appendChild(pair);
-              }
-              n.appendChild(document.createTextNode(String(e.name || '')));
+              n.appendChild(name);
               var s = document.createElement('span');
               s.className = 's';
-              var sets = Number(e.sets) || 1;
-              if (e.durationSeconds) {
-                var sec = Number(e.durationSeconds);
-                s.textContent = sets + ' × ' + (sec < 60 ? sec + 's' : Math.round(sec / 60) + ' min');
-              } else {
-                var lo = Number(e.repMin), hi = Number(e.repMax);
-                s.textContent = sets + ' × ' + (lo === hi ? lo : lo + '–' + hi);
-              }
+              s.textContent = detail;
               li.appendChild(n);
               li.appendChild(s);
               list.appendChild(li);
+            }
+            routines.slice(0, 30).forEach(function (routine) {
+              if (folder) {
+                var count = routine.exercises.length;
+                row(
+                  document.createTextNode(String(routine.name || '')),
+                  ar ? count + ' تمارين' : count + (count === 1 ? ' exercise' : ' exercises'),
+                  true
+                );
+              }
+              routine.exercises.slice(0, 60).forEach(function (e) {
+                var n = document.createDocumentFragment();
+                if (e.superset) {
+                  var pair = document.createElement('span');
+                  pair.className = 'pair';
+                  pair.textContent = '⟷';
+                  pair.title = ar ? 'سوبر سِت' : 'Superset';
+                  n.appendChild(pair);
+                }
+                n.appendChild(document.createTextNode(String(e.name || '')));
+                var sets = Number(e.sets) || 1;
+                var detail;
+                if (e.durationSeconds) {
+                  var sec = Number(e.durationSeconds);
+                  detail = sets + ' × ' + (sec < 60 ? sec + 's' : Math.round(sec / 60) + ' min');
+                } else {
+                  var lo = Number(e.repMin), hi = Number(e.repMax);
+                  detail = sets + ' × ' + (lo === hi ? lo : lo + '–' + hi);
+                }
+                row(n, detail, false);
+              });
             });
             list.hidden = false;
           })
