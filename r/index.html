@@ -1,0 +1,173 @@
+<!doctype html>
+<!--
+  grasp.alsouq.tech/r/?c=<code> — a routine somebody shared from the app.
+
+  Shows what the routine is, with a button that opens it in Grasp
+  (grasp://r/<code>, the app's own screen for saving it) and the store
+  badges for anyone who does not have the app yet.
+
+  The routine is read through public.get_shared_routine with the publishable
+  key, the same one the app ships with. What comes back is only the plan:
+  exercise names, sets, reps. Every value is written with textContent, never
+  as HTML, because anyone can share a routine and so anyone could write one.
+
+  Hand-written, not generated: build/build.py does not touch this folder.
+-->
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>A routine on Grasp</title>
+    <meta name="description" content="A workout routine shared from Grasp. Open it in the app to save it and start training." />
+    <meta name="robots" content="noindex" />
+    <meta property="og:title" content="A workout routine, shared on Grasp" />
+    <meta property="og:description" content="Open it in Grasp to save it and train it. Free on iPhone and Android." />
+    <meta property="og:image" content="https://grasp.alsouq.tech/img/screens/en/home.webp" />
+    <link rel="icon" href="/favicon.png" />
+    <link rel="stylesheet" href="/style.css" />
+    <style>
+      .r { min-height: 100vh; display: grid; place-items: start center; padding: 40px 16px; }
+      .r-card { display: grid; gap: 18px; width: 100%; max-width: 30rem; }
+      .r-head { display: flex; gap: 14px; align-items: center; }
+      .r-head img { width: 56px; height: 56px; border-radius: 14px; flex: none; }
+      .r-head p { margin: 0; color: var(--muted, #8a8f95); font-size: 0.85rem; }
+      .r-head h1 { margin: 2px 0 0; font-size: 1.6rem; line-height: 1.2; overflow-wrap: anywhere; }
+      .r-list { list-style: none; margin: 0; padding: 0; border: 1px solid var(--border, #2a2d31); border-radius: 14px; overflow: hidden; }
+      .r-list li { display: flex; gap: 12px; justify-content: space-between; align-items: baseline; padding: 14px 16px; }
+      .r-list li + li { border-top: 1px solid var(--border, #2a2d31); }
+      .r-list .n { font-weight: 600; overflow-wrap: anywhere; }
+      .r-list .s { color: var(--muted, #8a8f95); white-space: nowrap; font-variant-numeric: tabular-nums; }
+      .r-list .pair { color: var(--accent, #c6f432); margin-inline-end: 6px; }
+      .r-open { display: block; text-align: center; padding: 15px 18px; border-radius: 999px; font-weight: 700; text-decoration: none;
+        background: var(--accent, #c6f432); color: var(--on-accent, #0d0e10); }
+      .r-get { display: grid; gap: 10px; justify-items: center; text-align: center; }
+      .r-get p { margin: 0; color: var(--muted, #8a8f95); }
+      .r-badges { display: flex; flex-wrap: wrap; gap: 12px; justify-content: center; align-items: center; }
+      .r-badges img { height: 50px; width: auto; }
+      .r-badges .play img { height: 74px; margin: -12px; }
+      .r-msg { text-align: center; color: var(--muted, #8a8f95); }
+      [hidden] { display: none !important; }
+    </style>
+    <script>
+      (function () {
+        if (/^ar\b/i.test(navigator.language || '')) {
+          document.documentElement.lang = 'ar';
+          document.documentElement.dir = 'rtl';
+        }
+      })();
+    </script>
+    <script src="/theme.js"></script>
+  </head>
+  <body>
+    <main class="r">
+      <div class="r-card">
+        <div class="r-head">
+          <img src="/favicon.png" alt="" width="56" height="56" />
+          <div>
+            <p data-en="A routine shared with you" data-ar="روتين شاركه معك أحدهم">A routine shared with you</p>
+            <h1 id="name">…</h1>
+          </div>
+        </div>
+
+        <p class="r-msg" id="msg" hidden></p>
+        <ul class="r-list" id="list" hidden></ul>
+
+        <a class="r-open" id="open" href="#" hidden data-en="Open in Grasp" data-ar="افتحه في Grasp">Open in Grasp</a>
+
+        <div class="r-get">
+          <p data-en="Don't have Grasp? It's free, with no ads." data-ar="ما عندك Grasp؟ مجاني وبدون إعلانات.">Don't have Grasp? It's free, with no ads.</p>
+          <div class="r-badges">
+            <a class="store-badge" id="ios" href="https://apps.apple.com/app/id6804474068" aria-label="Download Grasp on the App Store"><img src="/img/app-store-badge.svg" alt="Download on the App Store" width="180" height="60" /></a>
+            <a class="store-badge play" id="android" href="https://play.google.com/store/apps/details?id=com.graspapp.mobile" aria-label="Get Grasp on Google Play"><img src="/img/google-play-badge.png" alt="Get it on Google Play" width="231" height="89" /></a>
+          </div>
+        </div>
+      </div>
+    </main>
+    <script>
+      (function () {
+        var ar = document.documentElement.lang === 'ar';
+        if (ar) {
+          document.querySelectorAll('[data-ar]').forEach(function (el) {
+            el.textContent = el.getAttribute('data-ar');
+          });
+        }
+
+        // Only the store for this phone, when we can tell which phone it is.
+        var ua = navigator.userAgent || '';
+        var ios = /iPhone|iPad|iPod/.test(ua) || (/Macintosh/.test(ua) && navigator.maxTouchPoints > 1);
+        var android = /Android/i.test(ua);
+        if (ios) document.getElementById('android').hidden = true;
+        if (android) document.getElementById('ios').hidden = true;
+
+        var nameEl = document.getElementById('name');
+        var msg = document.getElementById('msg');
+        function say(en, arText) {
+          nameEl.textContent = '';
+          msg.textContent = ar ? arText : en;
+          msg.hidden = false;
+        }
+
+        var code = (new URLSearchParams(location.search).get('c') || '').toLowerCase();
+        if (!/^[a-z0-9]{6,12}$/.test(code)) {
+          say('This link is incomplete.', 'هذا الرابط ناقص.');
+          return;
+        }
+
+        var open = document.getElementById('open');
+        open.href = 'grasp://r/' + code;
+        open.hidden = false;
+
+        fetch('https://krwwhpdetdcqimaqwphd.supabase.co/rest/v1/rpc/get_shared_routine', {
+          method: 'POST',
+          headers: {
+            apikey: 'sb_publishable__b43F0Q1LeDY5eWRQPxAOw_-aAi59eD',
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({ p_code: code }),
+        })
+          .then(function (r) { return r.ok ? r.json() : null; })
+          .then(function (routine) {
+            if (!routine || !Array.isArray(routine.exercises)) {
+              open.hidden = true;
+              say('This link does not work any more.', 'هذا الرابط لم يعد يعمل.');
+              return;
+            }
+            nameEl.textContent = String(routine.name || '');
+            document.title = String(routine.name || 'Routine') + ' · Grasp';
+            var list = document.getElementById('list');
+            routine.exercises.slice(0, 60).forEach(function (e) {
+              var li = document.createElement('li');
+              var n = document.createElement('span');
+              n.className = 'n';
+              if (e.superset) {
+                var pair = document.createElement('span');
+                pair.className = 'pair';
+                pair.textContent = '⟷';
+                pair.title = ar ? 'سوبر سِت' : 'Superset';
+                n.appendChild(pair);
+              }
+              n.appendChild(document.createTextNode(String(e.name || '')));
+              var s = document.createElement('span');
+              s.className = 's';
+              var sets = Number(e.sets) || 1;
+              if (e.durationSeconds) {
+                var sec = Number(e.durationSeconds);
+                s.textContent = sets + ' × ' + (sec < 60 ? sec + 's' : Math.round(sec / 60) + ' min');
+              } else {
+                var lo = Number(e.repMin), hi = Number(e.repMax);
+                s.textContent = sets + ' × ' + (lo === hi ? lo : lo + '–' + hi);
+              }
+              li.appendChild(n);
+              li.appendChild(s);
+              list.appendChild(li);
+            });
+            list.hidden = false;
+          })
+          .catch(function () {
+            say('Could not load the routine. Check your connection and refresh.', 'تعذّر تحميل الروتين. تأكد من الاتصال وحدّث الصفحة.');
+          });
+      })();
+    </script>
+    <script src="/hit.js"></script>
+  </body>
+</html>
