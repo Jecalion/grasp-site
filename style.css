@@ -1348,3 +1348,127 @@ h2,
 .ms-rec { display: flex; justify-content: space-between; padding: 6px 0; border-top: 1px solid var(--m-line); }
 .ms-rec span { color: var(--m-muted); }
 .ms-label { text-transform: uppercase; }
+
+/*
+  Grasp, the gorilla coach, around the page: in front of the phones in the
+  hero with his first line, beside every feature picture, and above the
+  final call. Positioned with logical properties so Arabic mirrors itself.
+*/
+.grasp-hero {
+  position: absolute;
+  z-index: 3;
+  margin: 0;
+  bottom: -6px;
+  inset-inline-start: 0;
+  width: 200px;
+}
+.grasp-hero-img {
+  display: block;
+  width: 100%;
+  height: auto;
+  filter: drop-shadow(0 18px 24px rgba(0, 0, 0, 0.35));
+}
+.grasp-hero .bubble {
+  position: absolute;
+  bottom: 100%;
+  inset-inline-start: 58%;
+  width: max-content;
+  max-width: 220px;
+  margin-bottom: -4px;
+  padding: 10px 14px;
+  border-radius: 16px;
+  border-end-start-radius: 4px;
+  background: var(--accent);
+  color: #0d0e10;
+  font-size: 16px;
+  font-weight: 700;
+  line-height: 1.25;
+  box-shadow: 0 10px 24px -10px rgba(0, 0, 0, 0.4);
+}
+@media (prefers-color-scheme: light) {
+  :root:not([data-theme='dark']) .grasp-hero .bubble {
+    background: #c6f84e;
+  }
+}
+:root[data-theme='light'] .grasp-hero .bubble {
+  background: #c6f84e;
+}
+.grasp-pose {
+  position: absolute;
+  z-index: 2;
+  bottom: -18px;
+  inset-inline-end: -84px;
+  width: 46%;
+  height: auto;
+  filter: drop-shadow(0 14px 18px rgba(0, 0, 0, 0.3));
+  pointer-events: none;
+}
+.feature.flip .grasp-pose {
+  inset-inline-end: auto;
+  inset-inline-start: -84px;
+}
+.grasp-final {
+  display: block;
+  width: 150px;
+  height: auto;
+  margin: 0 auto 8px;
+}
+
+@media (max-width: 900px) {
+  .grasp-hero {
+    width: 150px;
+    inset-inline-start: 4%;
+  }
+  .grasp-hero .bubble {
+    font-size: 14px;
+    max-width: 180px;
+  }
+  .grasp-pose,
+  .feature.flip .grasp-pose {
+    inset-inline-start: auto;
+    inset-inline-end: -64px;
+    width: 42%;
+  }
+}
+@media (max-width: 600px) {
+  .grasp-hero {
+    width: 118px;
+    inset-inline-start: 0;
+  }
+  .grasp-hero .bubble {
+    font-size: 13px;
+    padding: 8px 11px;
+    max-width: 150px;
+  }
+  .grasp-pose,
+  .feature.flip .grasp-pose {
+    inset-inline-end: -52px;
+    width: 40%;
+  }
+}
+
+/*
+  The header on a phone: two rows. Logo, language and theme on the first, the
+  links on the second. One row only fitted in some languages; in Russian,
+  German, French and others the links pushed the theme switch off the edge
+  and the whole page scrolled sideways.
+*/
+@media (max-width: 600px) {
+  header.site .wrap {
+    flex-wrap: wrap;
+    row-gap: 12px;
+    padding-top: 14px;
+    padding-bottom: 12px;
+  }
+  header.site nav,
+  [dir='rtl'] header.site nav {
+    order: 3;
+    width: 100%;
+    margin: 0;
+    flex-wrap: wrap;
+    row-gap: 6px;
+  }
+  .lang-switch {
+    margin-inline-start: auto;
+  }
+}
