@@ -15,7 +15,7 @@ Also listed on the App Store as "Grasp: Workout Planner & Log". Several unrelate
 - Weights: from your own logs. Reach the top of your rep range on every set and the weight goes up; miss it twice and it comes down. Warm-up sets are worked out from the working weight. Any weight can be changed in one tap.
 - Also: rest timer, interval timer with presets, a body map of what you trained recently, weekly set targets per muscle group, calendar log, export as a spreadsheet or full backup, share cards.
 - Not AI: planning uses simple rules on the device, not a language model.
-- Privacy: no advertising identifiers, analytics or usage tracking; does not ask for location, contacts or microphone.
+- Privacy: no advertising identifiers or ad tracking. Records which screens and features are used (PostHog), never weights or health data, and can be switched off in the app. Does not ask for location, contacts or microphone.
 - Not medical advice.
 
 ## Links
