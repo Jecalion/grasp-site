@@ -1641,3 +1641,8 @@ h2,
     font-size: 15px;
   }
 }
+
+/* A line a language leaves out: Grasp says less in some places. */
+main p:empty {
+  display: none;
+}
