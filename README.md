@@ -17,6 +17,8 @@ img/            app screenshots (WebP, from the store captures) and Apple's and
                 Google's official store badges, unmodified, as their guidelines require
 img/flags/      the app's 15 language flags (flag-icons, MIT; licence beside them)
 img/gym/        Grasp in the gym, realistic (ChatGPT), full size and -sm for phones
+img/og/         link previews (1200x630), one per language and get.jpg for /get;
+                made by build/og.py from the headlines
 img/equipment/  equipment pictures from RepDB, licensed for Grasp's own pages only:
                 do not copy them anywhere else or add them in bulk
 fonts/          IBM Plex Sans, self-hosted, with its licence
