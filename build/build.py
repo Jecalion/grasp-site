@@ -69,9 +69,10 @@ ICONS = {
 # The realistic Grasp in the gym (img/gym/, from ChatGPT), each photo at full
 # size and at 820 px wide (-sm) for phones: full-size width and height.
 GYM = {
-    "bench": (1672, 941), "battle-ropes": (1672, 941), "chalk": (1260, 2239), "deadlift": (2560, 1441),
-    "leg-day": (1916, 821), "mirror": (1122, 1402), "phone": (1254, 1254), "pull-up": (1122, 1402),
-    "record": (1536, 1024), "squat": (1122, 1402),
+    "battle-ropes": (1672, 941), "chalk": (1260, 2239),
+    "leg-day": (1916, 821), "mirror": (1122, 1402), "phone": (1254, 1254),
+    "record": (1536, 1024), "squat": (1122, 1402), "band": (1122, 1402), "pull-up-front": (1122, 1402),
+    "kettlebell": (2560, 1441), "dips": (1122, 1402), "jump-rope": (1122, 1402),
 }
 
 
@@ -107,13 +108,13 @@ def gym_photo(name: str, position: str) -> str:
 
 
 def hero_photo() -> str:
-    """Full bleed behind the hero text: the wide deadlift on a desktop, the
+    """Full bleed behind the hero text: the wide kettlebell swing on a desktop, the
     tall chalk shot on a phone. style.css mirrors it for Arabic, so Grasp
     stands on the side the text does not."""
     return (
         '        <picture class="hero-photo">'
         f'<source media="(max-width: 700px)" srcset="{gym_srcset("chalk")}" sizes="100vw" width="1260" height="2239" />'
-        f'<img src="/img/gym/deadlift.webp" srcset="{gym_srcset("deadlift")}" sizes="100vw" alt="" '
+        f'<img src="/img/gym/kettlebell.webp" srcset="{gym_srcset("kettlebell")}" sizes="100vw" alt="" '
         'width="2560" height="1441" fetchpriority="high" /></picture>'
     )
 
