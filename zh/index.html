@@ -237,9 +237,11 @@
     </header>
 
     <main>
-      <section class="hero">
+      <section class="hero gym-hero">
+        <picture class="hero-photo"><source media="(max-width: 700px)" srcset="/img/gym/chalk-sm.webp" width="820" height="1457" /><img src="/img/gym/deadlift.webp" srcset="/img/gym/deadlift-sm.webp 820w, /img/gym/deadlift.webp 1672w" sizes="100vw" alt="" width="1672" height="941" fetchpriority="high" /></picture>
         <div class="wrap wide hero-grid">
           <div class="hero-copy">
+            <p class="hero-bubble">我是格拉斯<br />你的新教练</p>
             <span class="badge">免费 · 无广告 · 离线可用</span>
             <h1>训练帮你排好，<span class="hl">重量帮你算好。</span></h1>
             <p class="lede">告诉 Grasp 你的目标和手边的器材，它帮你排好训练。重量按你上次实际举起的来算。</p>
@@ -248,13 +250,6 @@
               <a class="store-badge play" href="https://play.google.com/store/apps/details?id=com.graspapp.mobile" aria-label="在 Google Play 下载 Grasp"><img src="/img/google-play-badge.png" alt="Get it on Google Play" width="231" height="89" /></a>
             </div>
             <p class="meta">Android 和 iPhone 免费，支持 15 种语言。不用订阅，没有要解锁的功能。</p>
-          </div>
-
-          <div class="hero-phones">
-            <div class="phone back left" aria-hidden="true"><img src="/img/screens/zh/body.webp" alt="" width="540" height="1200" /></div>
-            <div class="phone back right" aria-hidden="true"><img src="/img/screens/zh/summary.webp" alt="" width="540" height="1200" /></div>
-            <div class="phone front" aria-hidden="true"><img src="/img/screens/zh/home.webp" alt="" width="540" height="1200" /></div>
-            <figure class="grasp-hero"><img class="grasp-hero-img" src="/img/grasp/waving-big.webp" alt="" width="280" height="408" /><figcaption class="bubble">我是格拉斯<br />你的新教练</figcaption></figure>
           </div>
         </div>
       </section>
@@ -294,13 +289,13 @@
       </section>
 
       <div id="features" class="wrap wide">
-        <section class="feature">
+        <section class="feature gym-feature">
           <div class="feature-copy">
             <span class="kicker">训练安排</span>
             <h2>下一次训练，帮你排好了</h2>
             <p>告诉它你的目标、每周练几天、每次练多久、手边有哪些器材。你做不了的动作，它不会推荐。每个训练地点都能存一套配置。换个健身房，今天的训练就重新排。</p>
           </div>
-          <div class="feature-shot"><div class="phone"><img src="/img/screens/zh/home.webp" alt="Grasp 训练页面：一次全身增肌训练排了八个动作，每个都标好重量" width="540" height="1200" loading="lazy" /></div><img class="grasp-pose" src="/img/grasp/explain-plan.webp" alt="" width="376" height="441" loading="lazy" /></div>
+          <div class="feature-shot gym-shot"><img class="gym" src="/img/gym/bench.webp" srcset="/img/gym/bench-sm.webp 820w, /img/gym/bench.webp 1672w" sizes="(max-width: 900px) 80vw, 400px" alt="" width="1672" height="941" loading="lazy" style="object-position: 60% 50%" /><div class="phone"><img src="/img/screens/zh/home.webp" alt="Grasp 训练页面：一次全身增肌训练排了八个动作，每个都标好重量" width="540" height="1200" loading="lazy" /></div></div>
         </section>
 
         <section class="equipment" aria-labelledby="equipment-title">
@@ -356,14 +351,14 @@
           </script>
         </section>
 
-        <section class="feature flip">
+        <section class="feature gym-feature flip">
           <div class="feature-copy">
             <span class="kicker">训练计划</span>
             <h2>你自己的训练计划，每一组都由你定</h2>
             <p>想按自己的计划练？建一个训练计划，每一组都按你的想法设：热身组、正式组、递减组或做到力竭，固定次数或一个次数范围，还有你自己的休息时间。重量照样由 Grasp 按你上次的训练填好，任何数字都能改。</p>
             <p>把动作组成超级组，拖动就能排好顺序。Grasp 计划和你的训练计划之间一点就能切换；某次训练和计划不一样时，由你决定计划要不要跟着改。</p>
           </div>
-          <div class="feature-shot"><div class="phone"><div class="mock-screen" role="img" aria-label="Grasp 里的一个训练计划：杠铃卧推 按组设置，一组热身、两组正式组和一组递减组，然后是 绳索夹胸 和 哑铃侧平举 的超级组">
+          <div class="feature-shot gym-shot"><img class="gym" src="/img/gym/mirror.webp" srcset="/img/gym/mirror-sm.webp 820w, /img/gym/mirror.webp 1122w" sizes="(max-width: 900px) 80vw, 400px" alt="" width="1122" height="1402" loading="lazy" style="object-position: 50% 50%" /><div class="phone"><div class="mock-screen" role="img" aria-label="Grasp 里的一个训练计划：杠铃卧推 按组设置，一组热身、两组正式组和一组递减组，然后是 绳索夹胸 和 哑铃侧平举 的超级组">
             <div class="ms-switch"><span>Grasp 计划</span><span class="on">我的训练计划</span></div>
             <div class="ms-head"><strong>推日</strong><small>动作是你的，重量由 Grasp 定</small></div>
             <div class="ms-card">
@@ -380,10 +375,10 @@
             </div>
             <div class="ms-card ms-line"><strong>哑铃肩推</strong><small dir="ltr">3 × 8–12 · 22.5 kg</small></div>
             <div class="ms-button">开始训练计划</div>
-          </div></div><img class="grasp-pose" src="/img/grasp/coach.webp" alt="" width="351" height="445" loading="lazy" /></div>
+          </div></div></div>
         </section>
 
-        <section class="feature">
+        <section class="feature gym-feature">
           <div class="feature-copy">
             <span class="kicker">进阶</span>
             <h2>重量跟着你一起涨</h2>
@@ -400,17 +395,17 @@
             </div>
             <p>两次没做到，就减重。这里加 5 kg，是因为这台器械最小就差这么多。热身组按你的工作重量算好，休息计时器自动开始。</p>
           </div>
-          <div class="feature-shot"><div class="phone"><img src="/img/screens/zh/exercise.webp" alt="Grasp 里的一个动作：动作动画、热身组和上次的重量" width="540" height="1200" loading="lazy" /></div><img class="grasp-pose" src="/img/grasp/deadlift-heavy.webp" alt="" width="483" height="385" loading="lazy" /></div>
+          <div class="feature-shot gym-shot"><img class="gym" src="/img/gym/squat.webp" srcset="/img/gym/squat-sm.webp 820w, /img/gym/squat.webp 1122w" sizes="(max-width: 900px) 80vw, 400px" alt="" width="1122" height="1402" loading="lazy" style="object-position: 50% 50%" /><div class="phone"><img src="/img/screens/zh/exercise.webp" alt="Grasp 里的一个动作：动作动画、热身组和上次的重量" width="540" height="1200" loading="lazy" /></div></div>
         </section>
 
-        <section class="feature flip">
+        <section class="feature gym-feature flip">
           <div class="feature-copy">
             <span class="kicker">个人纪录</span>
             <h2>每一个个人纪录，都会标出来</h2>
             <p>举起最重的重量、刷新最佳估算极限、做出最大的一组，或者做出比以往更多的次数，记录这一组时 Grasp 就会马上标出来。</p>
             <p>训练小结会列出你这次刷新的所有纪录。纪录是根据你记录的组算出来的，所以改正一组输错的数据，纪录也会跟着改正。</p>
           </div>
-          <div class="feature-shot"><div class="phone"><div class="mock-screen" role="img" aria-label="Grasp 里的新个人纪录：杠铃卧推 85 kg 做 6 次、引体向上 12 次，每项都标有奖杯，还有四项纪录的小结">
+          <div class="feature-shot gym-shot"><img class="gym" src="/img/gym/record.webp" srcset="/img/gym/record-sm.webp 820w, /img/gym/record.webp 1536w" sizes="(max-width: 900px) 80vw, 400px" alt="" width="1536" height="1024" loading="lazy" style="object-position: 62% 50%" /><div class="phone"><div class="mock-screen" role="img" aria-label="Grasp 里的新个人纪录：杠铃卧推 85 kg 做 6 次、引体向上 12 次，每项都标有奖杯，还有四项纪录的小结">
             <div class="ms-banner"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path fill="currentColor" d="M7 3h10v2h3v3a4 4 0 0 1-4 4h-.3A5 5 0 0 1 13 14.9V17h3v2H8v-2h3v-2.1A5 5 0 0 1 8.3 12H8a4 4 0 0 1-4-4V5h3V3zm0 4H6v1a2 2 0 0 0 1 1.7V7zm10 0v2.7A2 2 0 0 0 18 8V7h-1z"/></svg><div><strong>新的个人纪录</strong><small>最大重量：85 kg，之前 82.5 kg</small></div></div>
             <div class="ms-card">
               <div class="ms-ex"><strong>杠铃卧推</strong></div>
@@ -425,61 +420,61 @@
               <div class="ms-rec"><span>最大重量</span><strong dir="auto">85 kg</strong></div><div class="ms-rec"><span>最佳估算极限</span><strong dir="auto">102 kg</strong></div><div class="ms-rec"><span>最大单组</span><strong dir="auto">510 kg</strong></div><div class="ms-rec"><span>最多次数</span><strong dir="auto">12 次</strong></div>
             </div>
             <div class="ms-button">结束训练</div>
-          </div></div><img class="grasp-pose" src="/img/grasp/trophy.webp" alt="" width="278" height="467" loading="lazy" /></div>
+          </div></div></div>
         </section>
 
-        <section class="feature">
+        <section class="feature gym-feature">
           <div class="feature-copy">
             <span class="kicker">回顾</span>
             <h2>你的这个月 用数字说话</h2>
             <p>每月 1 号，上个月会变成几张卡片送到：练了几天、多少小时、举了多少重量、进步最大的一项、练得最多的部位，并和前一个月对比。格拉斯在每张卡片上都有话说，还有年度回顾。</p>
           </div>
-          <div class="feature-shot"><div class="phone"><img src="/img/screens/zh/recap.webp" alt="你的这个月 用数字说话" width="540" height="1200" loading="lazy" /></div><img class="grasp-pose" src="/img/grasp/dance.webp" alt="" width="223" height="344" loading="lazy" /></div>
+          <div class="feature-shot gym-shot"><img class="gym" src="/img/gym/pull-up.webp" srcset="/img/gym/pull-up-sm.webp 820w, /img/gym/pull-up.webp 1122w" sizes="(max-width: 900px) 80vw, 400px" alt="" width="1122" height="1402" loading="lazy" style="object-position: 50% 50%" /><div class="phone"><img src="/img/screens/zh/recap.webp" alt="你的这个月 用数字说话" width="540" height="1200" loading="lazy" /></div></div>
         </section>
 
-        <section class="feature flip">
+        <section class="feature gym-feature flip">
           <div class="feature-copy">
             <span class="kicker">分享</span>
             <h2>把你的成绩 晒给大家看</h2>
             <p>练完把这次训练做成一张适合发快拍的卡片分享出去。破了纪录，格拉斯会举着奖杯出现在卡片上。训练计划也能用链接发给朋友，对方直接在 Grasp 里打开。</p>
           </div>
-          <div class="feature-shot"><div class="phone"><img src="/img/screens/zh/share.webp" alt="把你的成绩 晒给大家看" width="540" height="1200" loading="lazy" /></div><img class="grasp-pose" src="/img/grasp/phone-wave.webp" alt="" width="325" height="228" loading="lazy" /></div>
+          <div class="feature-shot gym-shot"><img class="gym" src="/img/gym/phone.webp" srcset="/img/gym/phone-sm.webp 820w, /img/gym/phone.webp 1254w" sizes="(max-width: 900px) 80vw, 400px" alt="" width="1254" height="1254" loading="lazy" style="object-position: 50% 50%" /><div class="phone"><img src="/img/screens/zh/share.webp" alt="把你的成绩 晒给大家看" width="540" height="1200" loading="lazy" /></div></div>
         </section>
 
-        <section class="feature">
+        <section class="feature gym-feature">
           <div class="feature-copy">
             <span class="kicker">恢复</span>
             <h2>看看哪里该休息了</h2>
             <p>身体图按每块肌肉上次练的时间来上色，一周练了什么一眼就清楚。肌肉恢复得越好，颜色越淡。</p>
           </div>
-          <div class="feature-shot"><div class="phone"><img src="/img/screens/zh/body.webp" alt="Grasp 身体图，今天练过的肌肉高亮显示" width="540" height="1200" loading="lazy" /></div><img class="grasp-pose" src="/img/grasp/banana-lounge.webp" alt="" width="332" height="249" loading="lazy" /></div>
+          <div class="feature-shot gym-shot"><img class="gym" src="/img/gym/leg-day.webp" srcset="/img/gym/leg-day-sm.webp 820w, /img/gym/leg-day.webp 1916w" sizes="(max-width: 900px) 80vw, 400px" alt="" width="1916" height="821" loading="lazy" style="object-position: 24% 50%" /><div class="phone"><img src="/img/screens/zh/body.webp" alt="Grasp 身体图，今天练过的肌肉高亮显示" width="540" height="1200" loading="lazy" /></div></div>
         </section>
 
-        <section class="feature flip">
+        <section class="feature gym-feature flip">
           <div class="feature-copy">
             <span class="kicker">训练量</span>
             <h2>每个肌群，都有每周目标</h2>
             <p>每个肌群的组数都对着每周目标来算，目标可以自己改。这周练了哪、还差哪些，一看就知道。</p>
           </div>
-          <div class="feature-shot"><div class="phone"><img src="/img/screens/zh/goals.webp" alt="Grasp 每周目标：各肌群已完成组数和目标对比" width="540" height="1200" loading="lazy" /></div><img class="grasp-pose" src="/img/grasp/counting.webp" alt="" width="217" height="343" loading="lazy" /></div>
+          <div class="feature-shot gym-shot"><img class="gym" src="/img/gym/deadlift.webp" srcset="/img/gym/deadlift-sm.webp 820w, /img/gym/deadlift.webp 1672w" sizes="(max-width: 900px) 80vw, 400px" alt="" width="1672" height="941" loading="lazy" style="object-position: 79% 50%" /><div class="phone"><img src="/img/screens/zh/goals.webp" alt="Grasp 每周目标：各肌群已完成组数和目标对比" width="540" height="1200" loading="lazy" /></div></div>
         </section>
 
-        <section class="feature">
+        <section class="feature gym-feature">
           <div class="feature-copy">
             <span class="kicker">计时器</span>
             <h2>按轮练的，都能用间歇计时</h2>
             <p>跳绳、冲刺、平板支撑：练多久、歇多久，它替你数。每次切换都有提示音，手机放下就行。可以保存自己的预设。组间休息计时器到点会响，还会在通知栏倒计时。</p>
           </div>
-          <div class="feature-shot"><div class="phone"><img src="/img/screens/zh/intervals.webp" alt="Grasp 间歇计时器，可设置运动时间、休息时间和轮数" width="540" height="1200" loading="lazy" /></div><img class="grasp-pose" src="/img/grasp/jump-rope.webp" alt="" width="296" height="364" loading="lazy" /></div>
+          <div class="feature-shot gym-shot"><img class="gym" src="/img/gym/battle-ropes.webp" srcset="/img/gym/battle-ropes-sm.webp 820w, /img/gym/battle-ropes.webp 1672w" sizes="(max-width: 900px) 80vw, 400px" alt="" width="1672" height="941" loading="lazy" style="object-position: 17% 50%" /><div class="phone"><img src="/img/screens/zh/intervals.webp" alt="Grasp 间歇计时器，可设置运动时间、休息时间和轮数" width="540" height="1200" loading="lazy" /></div></div>
         </section>
 
-        <section class="feature flip">
+        <section class="feature gym-feature flip">
           <div class="feature-copy">
             <span class="kicker">记录</span>
             <h2>每次训练，都在日历上</h2>
             <p>所有数据都存在你手机上，没信号也能用。账号只是用来备份，手机丢了训练记录也还在。想导出随时导出，表格或完整备份都行。你的训练记录，用你自己打得开的格式。</p>
           </div>
-          <div class="feature-shot"><div class="phone"><img src="/img/screens/zh/log.webp" alt="Grasp 日历上的训练记录" width="540" height="1200" loading="lazy" /></div><img class="grasp-pose" src="/img/grasp/calendar.webp" alt="" width="253" height="348" loading="lazy" /></div>
+          <div class="feature-shot gym-shot"><img class="gym" src="/img/gym/chalk.webp" srcset="/img/gym/chalk-sm.webp 820w, /img/gym/chalk.webp 941w" sizes="(max-width: 900px) 80vw, 400px" alt="" width="941" height="1672" loading="lazy" style="object-position: 50% 50%" /><div class="phone"><img src="/img/screens/zh/log.webp" alt="Grasp 日历上的训练记录" width="540" height="1200" loading="lazy" /></div></div>
         </section>
       </div>
 
@@ -517,7 +512,6 @@
 
       <section class="final" id="get">
         <div class="wrap">
-          <img class="grasp-final" src="/img/grasp/waving.webp" alt="" width="244" height="347" loading="lazy" />
           <h2>下载 Grasp</h2>
           <p>Android 和 iPhone 免费。没广告，不用订阅，没有要解锁的功能。</p>
             <div class="get center">

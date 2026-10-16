@@ -1472,3 +1472,172 @@ h2,
     margin-inline-start: auto;
   }
 }
+
+/*
+  Grasp in the gym: photos, so they keep their own dark, blue-lit look in
+  both themes. The hero is one dark band whatever the theme, with its own
+  colours; the feature panels are photos with the phone over their edge.
+*/
+.gym-hero {
+  --text: #ffffff;
+  --muted: #c3c8ce;
+  --faint: #a3a9b0;
+  --accent: #c6f84e;
+  --accent-muted: rgba(198, 248, 78, 0.14);
+  --border-strong: #4a5058;
+  color-scheme: dark;
+  color: var(--text);
+  background: #07090c;
+  display: flex;
+  align-items: center;
+  min-height: clamp(560px, 84vh, 800px);
+}
+.landing .gym-hero {
+  padding: 96px 0 88px;
+}
+.landing .gym-hero::before {
+  display: none;
+}
+.hero-photo img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: 78% 40%;
+}
+/* The dark side the text sits on, and a fade into the page below. */
+.gym-hero::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background:
+    linear-gradient(90deg, rgba(7, 9, 12, 0.94) 0%, rgba(7, 9, 12, 0.8) 34%, rgba(7, 9, 12, 0) 66%),
+    linear-gradient(0deg, rgba(7, 9, 12, 0.7) 0%, rgba(7, 9, 12, 0) 22%);
+  pointer-events: none;
+}
+[dir='rtl'] .hero-photo img {
+  transform: scaleX(-1);
+}
+[dir='rtl'] .gym-hero::after {
+  background:
+    linear-gradient(270deg, rgba(7, 9, 12, 0.94) 0%, rgba(7, 9, 12, 0.8) 34%, rgba(7, 9, 12, 0) 66%),
+    linear-gradient(0deg, rgba(7, 9, 12, 0.7) 0%, rgba(7, 9, 12, 0) 22%);
+}
+.gym-hero .hero-grid {
+  z-index: 1;
+  display: block;
+  width: 100%;
+}
+.gym-hero .hero-copy {
+  max-width: 580px;
+}
+.gym-hero .lede {
+  color: var(--muted);
+}
+.gym-hero .badge {
+  background: var(--accent-muted);
+  color: var(--accent);
+}
+.gym-hero .soon {
+  background: rgba(7, 9, 12, 0.5);
+}
+/* Grasp's first line, said towards him. */
+.hero-bubble {
+  display: block;
+  width: fit-content;
+  margin: 0 0 22px;
+  padding: 10px 16px;
+  border-radius: 18px;
+  border-end-end-radius: 4px;
+  background: #c6f84e;
+  color: #0d0e10;
+  font-size: 17px;
+  font-weight: 700;
+  line-height: 1.25;
+  box-shadow: 0 12px 30px -12px rgba(198, 248, 78, 0.45);
+}
+
+.feature.gym-feature {
+  grid-template-columns: 1fr 400px;
+  gap: 104px;
+}
+.feature.gym-feature.flip {
+  grid-template-columns: 400px 1fr;
+}
+.gym-shot {
+  aspect-ratio: 4 / 5;
+  max-width: 100%;
+}
+.gym-shot::before {
+  inset: 0 -20%;
+}
+.gym-shot > .gym {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 28px;
+  box-shadow: 0 40px 80px -36px rgba(0, 0, 0, 0.7);
+}
+[dir='rtl'] .gym-shot > .gym {
+  transform: scaleX(-1);
+}
+/* The phone over the panel's inner edge, the side the text is on. */
+.gym-shot .phone {
+  position: absolute;
+  z-index: 2;
+  width: 40%;
+  bottom: -6%;
+  inset-inline-start: -20%;
+}
+.feature.flip .gym-shot .phone {
+  inset-inline-start: auto;
+  inset-inline-end: -20%;
+}
+.gym-shot .mock-screen {
+  font-size: 9px;
+  padding: 16px 10px 12px;
+  gap: 7px;
+}
+
+@media (max-width: 900px) {
+  .feature.gym-feature,
+  .feature.gym-feature.flip {
+    grid-template-columns: 1fr;
+    gap: 40px;
+  }
+  .feature-shot.gym-shot {
+    width: min(340px, 74vw);
+    margin: 0 auto;
+    margin-inline-end: 4%;
+  }
+  .gym-shot .phone,
+  .feature.flip .gym-shot .phone {
+    inset-inline-end: auto;
+    inset-inline-start: -24%;
+  }
+}
+
+/* A phone: the tall photo, the text over its empty top, Grasp below it. */
+@media (max-width: 700px) {
+  .gym-hero {
+    display: block;
+    min-height: 0;
+  }
+  .landing .gym-hero {
+    padding: 40px 0 112vw;
+  }
+  .hero-photo img {
+    inset: auto 0 0 0;
+    height: auto;
+  }
+  .gym-hero::after,
+  [dir='rtl'] .gym-hero::after {
+    background: linear-gradient(180deg, #07090c 0%, #07090c 28%, rgba(7, 9, 12, 0.55) 50%, rgba(7, 9, 12, 0) 64%);
+  }
+  .hero-bubble {
+    font-size: 15px;
+  }
+}

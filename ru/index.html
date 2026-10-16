@@ -237,9 +237,11 @@
     </header>
 
     <main>
-      <section class="hero">
+      <section class="hero gym-hero">
+        <picture class="hero-photo"><source media="(max-width: 700px)" srcset="/img/gym/chalk-sm.webp" width="820" height="1457" /><img src="/img/gym/deadlift.webp" srcset="/img/gym/deadlift-sm.webp 820w, /img/gym/deadlift.webp 1672w" sizes="100vw" alt="" width="1672" height="941" fetchpriority="high" /></picture>
         <div class="wrap wide hero-grid">
           <div class="hero-copy">
+            <p class="hero-bubble">Я Грасп —<br />твой тренер</p>
             <span class="badge">Бесплатно · Без рекламы · Работает офлайн</span>
             <h1>Тренировка готова. <span class="hl">Веса посчитаны.</span></h1>
             <p class="lede">Скажи, какая у тебя цель и на чём ты можешь заниматься, и Grasp соберёт тренировку. Веса он считает по тому, что ты поднял в прошлый раз.</p>
@@ -248,13 +250,6 @@
               <a class="store-badge play" href="https://play.google.com/store/apps/details?id=com.graspapp.mobile" aria-label="Скачать Grasp в Google Play"><img src="/img/google-play-badge.png" alt="Get it on Google Play" width="231" height="89" /></a>
             </div>
             <p class="meta">Бесплатно на Android и iPhone, на 15 языках. Без подписки, всё открыто сразу.</p>
-          </div>
-
-          <div class="hero-phones">
-            <div class="phone back left" aria-hidden="true"><img src="/img/screens/ru/body.webp" alt="" width="540" height="1200" /></div>
-            <div class="phone back right" aria-hidden="true"><img src="/img/screens/ru/summary.webp" alt="" width="540" height="1200" /></div>
-            <div class="phone front" aria-hidden="true"><img src="/img/screens/ru/home.webp" alt="" width="540" height="1200" /></div>
-            <figure class="grasp-hero"><img class="grasp-hero-img" src="/img/grasp/waving-big.webp" alt="" width="280" height="408" /><figcaption class="bubble">Я Грасп —<br />твой тренер</figcaption></figure>
           </div>
         </div>
       </section>
@@ -294,13 +289,13 @@
       </section>
 
       <div id="features" class="wrap wide">
-        <section class="feature">
+        <section class="feature gym-feature">
           <div class="feature-copy">
             <span class="kicker">Планирование</span>
             <h2>Следующая тренировка — под тебя</h2>
             <p>Укажи цель, сколько дней в неделю тренируешься, сколько длится тренировка и какое оборудование у тебя реально есть. Упражнение, которое ты не можешь сделать, он не предложит никогда. Сохрани набор для каждого места, где занимаешься. Сменил зал — сегодняшняя тренировка пересоберётся.</p>
           </div>
-          <div class="feature-shot"><div class="phone"><img src="/img/screens/ru/home.webp" alt="Экран тренировки в Grasp: восемь упражнений на фулбади для набора массы, у каждого свой вес" width="540" height="1200" loading="lazy" /></div><img class="grasp-pose" src="/img/grasp/explain-plan.webp" alt="" width="376" height="441" loading="lazy" /></div>
+          <div class="feature-shot gym-shot"><img class="gym" src="/img/gym/bench.webp" srcset="/img/gym/bench-sm.webp 820w, /img/gym/bench.webp 1672w" sizes="(max-width: 900px) 80vw, 400px" alt="" width="1672" height="941" loading="lazy" style="object-position: 60% 50%" /><div class="phone"><img src="/img/screens/ru/home.webp" alt="Экран тренировки в Grasp: восемь упражнений на фулбади для набора массы, у каждого свой вес" width="540" height="1200" loading="lazy" /></div></div>
         </section>
 
         <section class="equipment" aria-labelledby="equipment-title">
@@ -356,14 +351,14 @@
           </script>
         </section>
 
-        <section class="feature flip">
+        <section class="feature gym-feature flip">
           <div class="feature-copy">
             <span class="kicker">Программы</span>
             <h2>Твои собственные программы, подход за подходом</h2>
             <p>Хочешь заниматься по своей программе? Собери её и настрой каждый подход как нужно: разминочный, обычный, дроп-сет или до отказа, точное число повторений или диапазон, и свой отдых. Веса Grasp всё равно подставит по прошлой тренировке, а любое число можно поменять.</p>
             <p>Объединяй упражнения в суперсеты и перетаскивай их в нужном порядке. Переключайся между планом Grasp и своими программами одним касанием, а если тренировка пошла иначе, сам решай, менять ли программу вместе с ней.</p>
           </div>
-          <div class="feature-shot"><div class="phone"><div class="mock-screen" role="img" aria-label="Программа в Grasp: Жим штанги лёжа подход за подходом, разминка, два рабочих подхода и дроп-сет, затем суперсет: Кроссовер и Махи гантелями в стороны">
+          <div class="feature-shot gym-shot"><img class="gym" src="/img/gym/mirror.webp" srcset="/img/gym/mirror-sm.webp 820w, /img/gym/mirror.webp 1122w" sizes="(max-width: 900px) 80vw, 400px" alt="" width="1122" height="1402" loading="lazy" style="object-position: 50% 50%" /><div class="phone"><div class="mock-screen" role="img" aria-label="Программа в Grasp: Жим штанги лёжа подход за подходом, разминка, два рабочих подхода и дроп-сет, затем суперсет: Кроссовер и Махи гантелями в стороны">
             <div class="ms-switch"><span>План Grasp</span><span class="on">Мои программы</span></div>
             <div class="ms-head"><strong>День жима</strong><small>Ваши упражнения, веса от Grasp</small></div>
             <div class="ms-card">
@@ -380,10 +375,10 @@
             </div>
             <div class="ms-card ms-line"><strong>Жим гантелей на плечи</strong><small dir="ltr">3 × 8–12 · 22.5 kg</small></div>
             <div class="ms-button">Начать программу</div>
-          </div></div><img class="grasp-pose" src="/img/grasp/coach.webp" alt="" width="351" height="445" loading="lazy" /></div>
+          </div></div></div>
         </section>
 
-        <section class="feature">
+        <section class="feature gym-feature">
           <div class="feature-copy">
             <span class="kicker">Прогрессия</span>
             <h2>Веса растут вместе с тобой</h2>
@@ -400,17 +395,17 @@
             </div>
             <p>Дважды не дотянул — вес снижается. Здесь шаг 5 кг, потому что меньше у этого тренажёра нет. Разминочные подходы считаются от рабочего веса, а таймер отдыха включается сам.</p>
           </div>
-          <div class="feature-shot"><div class="phone"><img src="/img/screens/ru/exercise.webp" alt="Упражнение в Grasp: анимация движения, разминочные подходы и вес с прошлого раза" width="540" height="1200" loading="lazy" /></div><img class="grasp-pose" src="/img/grasp/deadlift-heavy.webp" alt="" width="483" height="385" loading="lazy" /></div>
+          <div class="feature-shot gym-shot"><img class="gym" src="/img/gym/squat.webp" srcset="/img/gym/squat-sm.webp 820w, /img/gym/squat.webp 1122w" sizes="(max-width: 900px) 80vw, 400px" alt="" width="1122" height="1402" loading="lazy" style="object-position: 50% 50%" /><div class="phone"><img src="/img/screens/ru/exercise.webp" alt="Упражнение в Grasp: анимация движения, разминочные подходы и вес с прошлого раза" width="540" height="1200" loading="lazy" /></div></div>
         </section>
 
-        <section class="feature flip">
+        <section class="feature gym-feature flip">
           <div class="feature-copy">
             <span class="kicker">Рекорды</span>
             <h2>Каждый личный рекорд отмечен</h2>
             <p>Подними самый большой вес, побей лучший расчётный максимум, сделай самый большой подход или больше повторений, чем когда-либо, и Grasp отметит это сразу, как только ты запишешь подход.</p>
             <p>В итогах тренировки видны все новые рекорды. Они считаются по записанным подходам, поэтому если исправить опечатку в подходе, исправится и рекорд.</p>
           </div>
-          <div class="feature-shot"><div class="phone"><div class="mock-screen" role="img" aria-label="Новые личные рекорды в Grasp: 85 кг на 6 раз (Жим штанги лёжа) и 12 подтягиваний, каждый отмечен кубком, и итог по четырём рекордам">
+          <div class="feature-shot gym-shot"><img class="gym" src="/img/gym/record.webp" srcset="/img/gym/record-sm.webp 820w, /img/gym/record.webp 1536w" sizes="(max-width: 900px) 80vw, 400px" alt="" width="1536" height="1024" loading="lazy" style="object-position: 62% 50%" /><div class="phone"><div class="mock-screen" role="img" aria-label="Новые личные рекорды в Grasp: 85 кг на 6 раз (Жим штанги лёжа) и 12 подтягиваний, каждый отмечен кубком, и итог по четырём рекордам">
             <div class="ms-banner"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path fill="currentColor" d="M7 3h10v2h3v3a4 4 0 0 1-4 4h-.3A5 5 0 0 1 13 14.9V17h3v2H8v-2h3v-2.1A5 5 0 0 1 8.3 12H8a4 4 0 0 1-4-4V5h3V3zm0 4H6v1a2 2 0 0 0 1 1.7V7zm10 0v2.7A2 2 0 0 0 18 8V7h-1z"/></svg><div><strong>Новый личный рекорд</strong><small>Самый большой вес: 85 kg, было 82.5 kg</small></div></div>
             <div class="ms-card">
               <div class="ms-ex"><strong>Жим штанги лёжа</strong></div>
@@ -425,61 +420,61 @@
               <div class="ms-rec"><span>Самый большой вес</span><strong dir="auto">85 kg</strong></div><div class="ms-rec"><span>Лучший расчётный максимум</span><strong dir="auto">102 kg</strong></div><div class="ms-rec"><span>Самый объёмный подход</span><strong dir="auto">510 kg</strong></div><div class="ms-rec"><span>Больше всего повторений</span><strong dir="auto">12 повт.</strong></div>
             </div>
             <div class="ms-button">Завершить тренировку</div>
-          </div></div><img class="grasp-pose" src="/img/grasp/trophy.webp" alt="" width="278" height="467" loading="lazy" /></div>
+          </div></div></div>
         </section>
 
-        <section class="feature">
+        <section class="feature gym-feature">
           <div class="feature-copy">
             <span class="kicker">Итоги</span>
             <h2>Твой месяц в цифрах</h2>
             <p>Первого числа каждого месяца прошлый месяц приходит несколькими карточками: дни тренировок, часы, поднятый вес, самый большой рывок и то, что ты тренировал больше всего, рядом с месяцем до этого. Грасп комментирует каждую карточку, а ещё есть итоги года.</p>
           </div>
-          <div class="feature-shot"><div class="phone"><img src="/img/screens/ru/recap.webp" alt="Твой месяц в цифрах" width="540" height="1200" loading="lazy" /></div><img class="grasp-pose" src="/img/grasp/dance.webp" alt="" width="223" height="344" loading="lazy" /></div>
+          <div class="feature-shot gym-shot"><img class="gym" src="/img/gym/pull-up.webp" srcset="/img/gym/pull-up-sm.webp 820w, /img/gym/pull-up.webp 1122w" sizes="(max-width: 900px) 80vw, 400px" alt="" width="1122" height="1402" loading="lazy" style="object-position: 50% 50%" /><div class="phone"><img src="/img/screens/ru/recap.webp" alt="Твой месяц в цифрах" width="540" height="1200" loading="lazy" /></div></div>
         </section>
 
-        <section class="feature flip">
+        <section class="feature gym-feature flip">
           <div class="feature-copy">
             <span class="kicker">Поделиться</span>
             <h2>Поделись своими победами</h2>
             <p>Закончи тренировку и поделись ей карточкой под формат сторис. Побьёшь рекорд, и Грасп будет на карточке с кубком. Программу тоже можно отправить ссылкой, и друг откроет её прямо в Grasp.</p>
           </div>
-          <div class="feature-shot"><div class="phone"><img src="/img/screens/ru/share.webp" alt="Поделись своими победами" width="540" height="1200" loading="lazy" /></div><img class="grasp-pose" src="/img/grasp/phone-wave.webp" alt="" width="325" height="228" loading="lazy" /></div>
+          <div class="feature-shot gym-shot"><img class="gym" src="/img/gym/phone.webp" srcset="/img/gym/phone-sm.webp 820w, /img/gym/phone.webp 1254w" sizes="(max-width: 900px) 80vw, 400px" alt="" width="1254" height="1254" loading="lazy" style="object-position: 50% 50%" /><div class="phone"><img src="/img/screens/ru/share.webp" alt="Поделись своими победами" width="540" height="1200" loading="lazy" /></div></div>
         </section>
 
-        <section class="feature">
+        <section class="feature gym-feature">
           <div class="feature-copy">
             <span class="kicker">Восстановление</span>
             <h2>Сразу видно, чему нужен отдых</h2>
             <p>Карта тела закрашивает каждую мышцу по тому, когда ты её тренировал. Вся неделя видна с одного взгляда, ничего не надо считать. Когда мышца восстанавливается, цвет бледнеет.</p>
           </div>
-          <div class="feature-shot"><div class="phone"><img src="/img/screens/ru/body.webp" alt="Карта тела в Grasp: мышцы, которые тренировались сегодня, подсвечены" width="540" height="1200" loading="lazy" /></div><img class="grasp-pose" src="/img/grasp/banana-lounge.webp" alt="" width="332" height="249" loading="lazy" /></div>
+          <div class="feature-shot gym-shot"><img class="gym" src="/img/gym/leg-day.webp" srcset="/img/gym/leg-day-sm.webp 820w, /img/gym/leg-day.webp 1916w" sizes="(max-width: 900px) 80vw, 400px" alt="" width="1916" height="821" loading="lazy" style="object-position: 24% 50%" /><div class="phone"><img src="/img/screens/ru/body.webp" alt="Карта тела в Grasp: мышцы, которые тренировались сегодня, подсвечены" width="540" height="1200" loading="lazy" /></div></div>
         </section>
 
-        <section class="feature flip">
+        <section class="feature gym-feature flip">
           <div class="feature-copy">
             <span class="kicker">Объём</span>
             <h2>Недельная цель на каждую группу мышц</h2>
             <p>У каждой группы мышц есть недельная цель по подходам, и её можно поменять. Видно, что уже сделано за неделю и чего ещё не хватает.</p>
           </div>
-          <div class="feature-shot"><div class="phone"><img src="/img/screens/ru/goals.webp" alt="Недельные цели в Grasp: сделанные подходы по группам мышц в сравнении с целью" width="540" height="1200" loading="lazy" /></div><img class="grasp-pose" src="/img/grasp/counting.webp" alt="" width="217" height="343" loading="lazy" /></div>
+          <div class="feature-shot gym-shot"><img class="gym" src="/img/gym/deadlift.webp" srcset="/img/gym/deadlift-sm.webp 820w, /img/gym/deadlift.webp 1672w" sizes="(max-width: 900px) 80vw, 400px" alt="" width="1672" height="941" loading="lazy" style="object-position: 79% 50%" /><div class="phone"><img src="/img/screens/ru/goals.webp" alt="Недельные цели в Grasp: сделанные подходы по группам мышц в сравнении с целью" width="540" height="1200" loading="lazy" /></div></div>
         </section>
 
-        <section class="feature">
+        <section class="feature gym-feature">
           <div class="feature-copy">
             <span class="kicker">Таймеры</span>
             <h2>Интервалы для всего, что идёт раундами</h2>
             <p>Скакалка, спринты, планка: работу и отдых он считает за тебя. На каждой смене звучит сигнал, так что телефон можно отложить. Сохраняй свои пресеты. Между подходами таймер отдыха звенит и идёт в шторке уведомлений.</p>
           </div>
-          <div class="feature-shot"><div class="phone"><img src="/img/screens/ru/intervals.webp" alt="Интервальный таймер Grasp с настройками работы, отдыха и раундов" width="540" height="1200" loading="lazy" /></div><img class="grasp-pose" src="/img/grasp/jump-rope.webp" alt="" width="296" height="364" loading="lazy" /></div>
+          <div class="feature-shot gym-shot"><img class="gym" src="/img/gym/battle-ropes.webp" srcset="/img/gym/battle-ropes-sm.webp 820w, /img/gym/battle-ropes.webp 1672w" sizes="(max-width: 900px) 80vw, 400px" alt="" width="1672" height="941" loading="lazy" style="object-position: 17% 50%" /><div class="phone"><img src="/img/screens/ru/intervals.webp" alt="Интервальный таймер Grasp с настройками работы, отдыха и раундов" width="540" height="1200" loading="lazy" /></div></div>
         </section>
 
-        <section class="feature flip">
+        <section class="feature gym-feature flip">
           <div class="feature-copy">
             <span class="kicker">История</span>
             <h2>Каждая тренировка — в календаре</h2>
             <p>Всё хранится на твоём телефоне и работает без интернета. Аккаунт нужен только для резервной копии, чтобы тренировки не пропали вместе с телефоном. Выгружай всё в таблицу или полную копию, когда захочешь. Это твои тренировки, в формате, который ты можешь открыть.</p>
           </div>
-          <div class="feature-shot"><div class="phone"><img src="/img/screens/ru/log.webp" alt="Журнал тренировок Grasp в календаре" width="540" height="1200" loading="lazy" /></div><img class="grasp-pose" src="/img/grasp/calendar.webp" alt="" width="253" height="348" loading="lazy" /></div>
+          <div class="feature-shot gym-shot"><img class="gym" src="/img/gym/chalk.webp" srcset="/img/gym/chalk-sm.webp 820w, /img/gym/chalk.webp 941w" sizes="(max-width: 900px) 80vw, 400px" alt="" width="941" height="1672" loading="lazy" style="object-position: 50% 50%" /><div class="phone"><img src="/img/screens/ru/log.webp" alt="Журнал тренировок Grasp в календаре" width="540" height="1200" loading="lazy" /></div></div>
         </section>
       </div>
 
@@ -517,7 +512,6 @@
 
       <section class="final" id="get">
         <div class="wrap">
-          <img class="grasp-final" src="/img/grasp/waving.webp" alt="" width="244" height="347" loading="lazy" />
           <h2>Скачай Grasp</h2>
           <p>Бесплатно на Android и iPhone. Без рекламы, без подписки, всё открыто сразу.</p>
             <div class="get center">

@@ -16,6 +16,8 @@ favicon.png     browser tab icon
 img/            app screenshots (WebP, from the store captures) and Apple's
                 official App Store badge, unmodified, as its guidelines require
 img/flags/      the app's 15 language flags (flag-icons, MIT; licence beside them)
+img/gym/        Grasp in the gym, realistic (ChatGPT), full size and -sm for phones;
+                put on the pages by build/gym.py, after build.py
 img/equipment/  equipment pictures from RepDB, licensed for Grasp's own pages only:
                 do not copy them anywhere else or add them in bulk
 fonts/          IBM Plex Sans, self-hosted, with its licence
