@@ -69,7 +69,7 @@ ICONS = {
 # The realistic Grasp in the gym (img/gym/, from ChatGPT), each photo at full
 # size and at 820 px wide (-sm) for phones: full-size width and height.
 GYM = {
-    "bench": (1672, 941), "battle-ropes": (1672, 941), "chalk": (941, 1672), "deadlift": (1672, 941),
+    "bench": (1672, 941), "battle-ropes": (1672, 941), "chalk": (1260, 2239), "deadlift": (2560, 1441),
     "leg-day": (1916, 821), "mirror": (1122, 1402), "phone": (1254, 1254), "pull-up": (1122, 1402),
     "record": (1536, 1024), "squat": (1122, 1402),
 }
@@ -112,9 +112,9 @@ def hero_photo() -> str:
     stands on the side the text does not."""
     return (
         '        <picture class="hero-photo">'
-        '<source media="(max-width: 700px)" srcset="/img/gym/chalk-sm.webp" width="820" height="1457" />'
+        f'<source media="(max-width: 700px)" srcset="{gym_srcset("chalk")}" sizes="100vw" width="1260" height="2239" />'
         f'<img src="/img/gym/deadlift.webp" srcset="{gym_srcset("deadlift")}" sizes="100vw" alt="" '
-        'width="1672" height="941" fetchpriority="high" /></picture>'
+        'width="2560" height="1441" fetchpriority="high" /></picture>'
     )
 
 
