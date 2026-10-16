@@ -10,8 +10,8 @@
 
   Everything is served from this site: screenshots (img/screens/<lang>, from
   the store captures), flags (flag-icons, MIT), equipment (RepDB, licensed for
-  Grasp's own pages only), fonts. Apple's badge is Apple's own file,
-  unmodified. Android has no badge because there is no Play listing yet.
+  Grasp's own pages only), fonts. Apple's and Google's badges are their own files,
+  unmodified.
 -->
 <html lang="{{lang}}" dir="{{dir}}">
   <head>
@@ -73,20 +73,16 @@
     </header>
 
     <main>
-      <section class="hero">
+      <section class="hero gym-hero">
+{{hero_photo}}
         <div class="wrap wide hero-grid">
           <div class="hero-copy">
+            <p class="hero-bubble">{{hero_bubble}}</p>
             <span class="badge">{{hero_badge}}</span>
             <h1>{{hero_h1_before}} <span class="hl">{{hero_h1_highlight}}</span></h1>
             <p class="lede">{{hero_lede}}</p>
 {{get}}
             <p class="meta">{{hero_meta}}</p>
-          </div>
-
-          <div class="hero-phones" aria-hidden="true">
-            <div class="phone back left"><img src="{{screens}}/body.webp" alt="" width="540" height="1200" /></div>
-            <div class="phone back right"><img src="{{screens}}/exercise.webp" alt="" width="540" height="1200" /></div>
-            <div class="phone front"><img src="{{screens}}/home.webp" alt="" width="540" height="1200" /></div>
           </div>
         </div>
       </section>
@@ -110,13 +106,13 @@
       </section>
 
       <div id="features" class="wrap wide">
-        <section class="feature">
+        <section class="feature gym-feature">
           <div class="feature-copy">
             <span class="kicker">{{plan_kicker}}</span>
             <h2>{{plan_title}}</h2>
             <p>{{plan_body}}</p>
           </div>
-          <div class="feature-shot"><div class="phone"><img src="{{screens}}/home.webp" alt="{{plan_alt}}" width="540" height="1200" loading="lazy" /></div></div>
+          <div class="feature-shot gym-shot">{{gym bench 60%}}<div class="phone"><img src="{{screens}}/home.webp" alt="{{plan_alt}}" width="540" height="1200" loading="lazy" /></div></div>
         </section>
 
         <section class="equipment" aria-labelledby="equipment-title">
@@ -161,7 +157,34 @@
           </script>
         </section>
 
-        <section class="feature flip">
+        <section class="feature gym-feature flip">
+          <div class="feature-copy">
+            <span class="kicker">{{routine_kicker}}</span>
+            <h2>{{routine_title}}</h2>
+            <p>{{routine_body1}}</p>
+            <p>{{routine_body2}}</p>
+          </div>
+          <div class="feature-shot gym-shot">{{gym mirror 50%}}<div class="phone"><div class="mock-screen" role="img" aria-label="{{routine_alt}}">
+            <div class="ms-switch"><span>{{routine_plan}}</span><span class="on">{{routine_mine}}</span></div>
+            <div class="ms-head"><strong>{{routine_day}}</strong><small>{{routine_day_note}}</small></div>
+            <div class="ms-card">
+              <div class="ms-ex"><strong>{{ex_bench}}</strong><small dir="auto">{{routine_rest}}</small></div>
+              <div class="ms-table">
+                <div class="ms-row ms-th"><span>{{routine_th_set}}</span><span>{{routine_th_type}}</span><span>KG</span><span>{{routine_th_reps}}</span></div>
+                <div class="ms-row"><span>1</span><span class="ms-type on">{{routine_type_warmup}}</span><span class="ms-grasp" dir="ltr">40</span><span dir="ltr">10</span></div><div class="ms-row"><span>2</span><span class="ms-type">–</span><span class="ms-grasp" dir="ltr">80</span><span dir="ltr">6–8</span></div><div class="ms-row"><span>3</span><span class="ms-type">–</span><span class="ms-grasp" dir="ltr">80</span><span dir="ltr">6–8</span></div><div class="ms-row"><span>4</span><span class="ms-type on">{{routine_type_drop}}</span><span class="ms-grasp" dir="ltr">64</span><span dir="ltr">10</span></div>
+              </div>
+            </div>
+            <div class="ms-superset">
+              <span class="ms-label">{{routine_superset}}</span>
+              <div class="ms-card ms-line"><strong>{{ex_cable_fly}}</strong><small dir="ltr">3 × 12–15 · 20 kg</small></div>
+              <div class="ms-card ms-line"><strong>{{ex_lateral_raise}}</strong><small dir="ltr">3 × 12–15 · 8 kg</small></div>
+            </div>
+            <div class="ms-card ms-line"><strong>{{ex_shoulder_press}}</strong><small dir="ltr">3 × 8–12 · 22.5 kg</small></div>
+            <div class="ms-button">{{routine_start}}</div>
+          </div></div></div>
+        </section>
+
+        <section class="feature gym-feature">
           <div class="feature-copy">
             <span class="kicker">{{prog_kicker}}</span>
             <h2>{{prog_title}}</h2>
@@ -178,43 +201,86 @@
             </div>
             <p>{{prog_body2}}</p>
           </div>
-          <div class="feature-shot"><div class="phone"><img src="{{screens}}/exercise.webp" alt="{{prog_alt}}" width="540" height="1200" loading="lazy" /></div></div>
+          <div class="feature-shot gym-shot">{{gym squat 50%}}<div class="phone"><img src="{{screens}}/exercise.webp" alt="{{prog_alt}}" width="540" height="1200" loading="lazy" /></div></div>
         </section>
 
-        <section class="feature">
+        <section class="feature gym-feature flip">
+          <div class="feature-copy">
+            <span class="kicker">{{pr_kicker}}</span>
+            <h2>{{pr_title}}</h2>
+            <p>{{pr_body1}}</p>
+            <p>{{pr_body2}}</p>
+          </div>
+          <div class="feature-shot gym-shot">{{gym record 62%}}<div class="phone"><div class="mock-screen" role="img" aria-label="{{pr_alt}}">
+            <div class="ms-banner">{{icon_trophy}}<div><strong>{{pr_banner}}</strong><small>{{pr_banner_note}}</small></div></div>
+            <div class="ms-card">
+              <div class="ms-ex"><strong>{{ex_bench}}</strong></div>
+              <div class="ms-set"><span>1</span><span dir="ltr">80 kg × 6</span><span class="ms-mark">{{icon_check}}</span></div><div class="ms-set"><span>2</span><span dir="ltr">82.5 kg × 6</span><span class="ms-mark">{{icon_check}}</span></div><div class="ms-set pr"><span>3</span><span dir="ltr">85 kg × 6</span><span class="ms-mark">{{icon_trophy}}</span></div>
+            </div>
+            <div class="ms-card">
+              <div class="ms-ex"><strong>{{ex_pull_up}}</strong></div>
+              <div class="ms-set pr"><span>1</span><span dir="auto">{{pr_reps_12}}</span><span class="ms-mark">{{icon_trophy}}</span></div><div class="ms-set"><span>2</span><span dir="auto">{{pr_reps_10}}</span><span class="ms-mark">{{icon_check}}</span></div>
+            </div>
+            <div class="ms-card ms-summary">
+              <span class="ms-label">{{pr_summary}}</span>
+              <div class="ms-rec"><span>{{pr_heaviest}}</span><strong dir="auto">85 kg</strong></div><div class="ms-rec"><span>{{pr_best_max}}</span><strong dir="auto">102 kg</strong></div><div class="ms-rec"><span>{{pr_biggest_set}}</span><strong dir="auto">510 kg</strong></div><div class="ms-rec"><span>{{pr_most_reps}}</span><strong dir="auto">{{pr_reps_12}}</strong></div>
+            </div>
+            <div class="ms-button">{{pr_finish}}</div>
+          </div></div></div>
+        </section>
+
+        <section class="feature gym-feature">
+          <div class="feature-copy">
+            <span class="kicker">{{recap_kicker}}</span>
+            <h2>{{recap_title}}</h2>
+            <p>{{recap_body}}</p>
+          </div>
+          <div class="feature-shot gym-shot">{{gym pull-up 50%}}<div class="phone"><img src="{{screens}}/recap.webp" alt="{{recap_title}}" width="540" height="1200" loading="lazy" /></div></div>
+        </section>
+
+        <section class="feature gym-feature flip">
+          <div class="feature-copy">
+            <span class="kicker">{{share_kicker}}</span>
+            <h2>{{share_title}}</h2>
+            <p>{{share_body}}</p>
+          </div>
+          <div class="feature-shot gym-shot">{{gym phone 50%}}<div class="phone"><img src="{{screens}}/share.webp" alt="{{share_title}}" width="540" height="1200" loading="lazy" /></div></div>
+        </section>
+
+        <section class="feature gym-feature">
           <div class="feature-copy">
             <span class="kicker">{{rec_kicker}}</span>
             <h2>{{rec_title}}</h2>
             <p>{{rec_body}}</p>
           </div>
-          <div class="feature-shot"><div class="phone"><img src="{{screens}}/body.webp" alt="{{rec_alt}}" width="540" height="1200" loading="lazy" /></div></div>
+          <div class="feature-shot gym-shot">{{gym leg-day 24%}}<div class="phone"><img src="{{screens}}/body.webp" alt="{{rec_alt}}" width="540" height="1200" loading="lazy" /></div></div>
         </section>
 
-        <section class="feature flip">
+        <section class="feature gym-feature flip">
           <div class="feature-copy">
             <span class="kicker">{{vol_kicker}}</span>
             <h2>{{vol_title}}</h2>
             <p>{{vol_body}}</p>
           </div>
-          <div class="feature-shot"><div class="phone"><img src="{{screens}}/goals.webp" alt="{{vol_alt}}" width="540" height="1200" loading="lazy" /></div></div>
+          <div class="feature-shot gym-shot">{{gym deadlift 79%}}<div class="phone"><img src="{{screens}}/goals.webp" alt="{{vol_alt}}" width="540" height="1200" loading="lazy" /></div></div>
         </section>
 
-        <section class="feature">
+        <section class="feature gym-feature">
           <div class="feature-copy">
             <span class="kicker">{{int_kicker}}</span>
             <h2>{{int_title}}</h2>
             <p>{{int_body}}</p>
           </div>
-          <div class="feature-shot"><div class="phone"><img src="{{screens}}/intervals.webp" alt="{{int_alt}}" width="540" height="1200" loading="lazy" /></div></div>
+          <div class="feature-shot gym-shot">{{gym battle-ropes 17%}}<div class="phone"><img src="{{screens}}/intervals.webp" alt="{{int_alt}}" width="540" height="1200" loading="lazy" /></div></div>
         </section>
 
-        <section class="feature flip">
+        <section class="feature gym-feature flip">
           <div class="feature-copy">
             <span class="kicker">{{log_kicker}}</span>
             <h2>{{log_title}}</h2>
             <p>{{log_body}}</p>
           </div>
-          <div class="feature-shot"><div class="phone"><img src="{{screens}}/log.webp" alt="{{log_alt}}" width="540" height="1200" loading="lazy" /></div></div>
+          <div class="feature-shot gym-shot">{{gym chalk 50%}}<div class="phone"><img src="{{screens}}/log.webp" alt="{{log_alt}}" width="540" height="1200" loading="lazy" /></div></div>
         </section>
       </div>
 

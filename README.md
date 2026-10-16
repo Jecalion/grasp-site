@@ -13,11 +13,10 @@ support.html    support and FAQ  ← Apple requires a working support URL
 style.css       all styling, both light and dark
 theme.js        the light / system / dark switch
 favicon.png     browser tab icon
-img/            app screenshots (WebP, from the store captures) and Apple's
-                official App Store badge, unmodified, as its guidelines require
+img/            app screenshots (WebP, from the store captures) and Apple's and
+                Google's official store badges, unmodified, as their guidelines require
 img/flags/      the app's 15 language flags (flag-icons, MIT; licence beside them)
-img/gym/        Grasp in the gym, realistic (ChatGPT), full size and -sm for phones;
-                put on the pages by build/gym.py, after build.py
+img/gym/        Grasp in the gym, realistic (ChatGPT), full size and -sm for phones
 img/equipment/  equipment pictures from RepDB, licensed for Grasp's own pages only:
                 do not copy them anywhere else or add them in bulk
 fonts/          IBM Plex Sans, self-hosted, with its licence
@@ -48,6 +47,13 @@ a session and every piece of equipment are called what the app calls them;
 equipment names are copied from `packages/content/src/names-<lang>.ts`. A
 language file with a missing key stops the build rather than shipping English
 mid-page.
+
+Everything on the pages comes from those three files: the gym photos (the
+hero and the panel behind each feature's phone, `{{gym <photo> <x>}}` in the
+template, sizes in `build.py`), the routines and records screens drawn in
+HTML, the recap and share sections. So a change made to a generated page
+alone is lost at the next build; to check nothing has drifted, run the build
+and `git diff` should show no page changes.
 
 Screenshots are per language, in `img/screens/<lang>/`, from the store
 captures. Arabic is right to left and uses the app's face, Noto Kufi Arabic

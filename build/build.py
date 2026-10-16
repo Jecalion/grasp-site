@@ -15,12 +15,14 @@ middle of a Japanese page.
 import html
 import json
 import os
+import re
 import sys
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 ROOT = os.path.dirname(HERE)
 SITE = "https://grasp.alsouq.tech"
 STORE = "https://apps.apple.com/app/id6804474068"
+PLAY = "https://play.google.com/store/apps/details?id=com.graspapp.mobile"
 
 # (code, native name, flag file, right to left) in the app's picker order.
 LANGS = [
@@ -52,12 +54,25 @@ KIT = [
     ("smith_machine", "smith-machine", "gym"),
     ("treadmill", "treadmill", "gym"),
 ]
-ANDROID_ICON = (
-    '<svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path fill="currentColor" '
-    'd="M17.6 9.48l1.84-3.18a.38.38 0 0 0-.66-.38l-1.87 3.23a11.4 11.4 0 0 0-9.82 0L5.22 5.92a.38.38 '
-    '0 0 0-.66.38L6.4 9.48A10.8 10.8 0 0 0 1 18h22a10.8 10.8 0 0 0-5.4-8.52zM7 15.25a1.25 1.25 0 1 1 '
-    '0-2.5 1.25 1.25 0 0 1 0 2.5zm10 0a1.25 1.25 0 1 1 0-2.5 1.25 1.25 0 0 1 0 2.5z"/></svg>'
-)
+# The trophy and the tick on the drawn records screen, as in the app.
+ICONS = {
+    "icon_trophy": (
+        '<svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path fill="currentColor" '
+        'd="M7 3h10v2h3v3a4 4 0 0 1-4 4h-.3A5 5 0 0 1 13 14.9V17h3v2H8v-2h3v-2.1A5 5 0 0 1 8.3 12H8a4 4 0 0 '
+        '1-4-4V5h3V3zm0 4H6v1a2 2 0 0 0 1 1.7V7zm10 0v2.7A2 2 0 0 0 18 8V7h-1z"/></svg>'
+    ),
+    "icon_check": (
+        '<svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path fill="currentColor" '
+        'd="M9.5 16.2 5.3 12l-1.4 1.4 5.6 5.6L20.1 8.4 18.7 7z"/></svg>'
+    ),
+}
+# The realistic Grasp in the gym (img/gym/, from ChatGPT), each photo at full
+# size and at 820 px wide (-sm) for phones: full-size width and height.
+GYM = {
+    "bench": (1672, 941), "battle-ropes": (1672, 941), "chalk": (941, 1672), "deadlift": (1672, 941),
+    "leg-day": (1916, 821), "mirror": (1122, 1402), "phone": (1254, 1254), "pull-up": (1122, 1402),
+    "record": (1536, 1024), "squat": (1122, 1402),
+}
 
 
 def path_for(code: str) -> str:
@@ -70,9 +85,36 @@ def get_block(s: dict, center: bool, lazy: bool) -> str:
         f'            <div class="get{" center" if center else ""}">\n'
         f'              <a class="store-badge" href="{STORE}" aria-label="{s["store_aria"]}">'
         f'<img src="/img/app-store-badge.svg" alt="{s["store_alt"]}" width="180" height="60"{load} /></a>\n'
-        f'              <span class="soon" aria-label="{s["android_aria"]}">{ANDROID_ICON}'
-        f'<span><strong>{s["android"]}</strong><small>{s["coming_soon"]}</small></span></span>\n'
+        f'              <a class="store-badge play" href="{PLAY}" aria-label="{s["play_aria"]}">'
+        f'<img src="/img/google-play-badge.png" alt="Get it on Google Play" width="231" height="89"{load} /></a>\n'
         f"            </div>"
+    )
+
+
+def gym_srcset(name: str) -> str:
+    return f"/img/gym/{name}-sm.webp 820w, /img/gym/{name}.webp {GYM[name][0]}w"
+
+
+def gym_photo(name: str, position: str) -> str:
+    """The photo panel behind a feature's phone. `position` is where Grasp
+    stands across the photo, for the 4:5 crop of the wide ones."""
+    w, h = GYM[name]
+    return (
+        f'<img class="gym" src="/img/gym/{name}.webp" srcset="{gym_srcset(name)}" '
+        f'sizes="(max-width: 900px) 80vw, 400px" alt="" width="{w}" height="{h}" loading="lazy" '
+        f'style="object-position: {position} 50%" />'
+    )
+
+
+def hero_photo() -> str:
+    """Full bleed behind the hero text: the wide deadlift on a desktop, the
+    tall chalk shot on a phone. style.css mirrors it for Arabic, so Grasp
+    stands on the side the text does not."""
+    return (
+        '        <picture class="hero-photo">'
+        '<source media="(max-width: 700px)" srcset="/img/gym/chalk-sm.webp" width="820" height="1457" />'
+        f'<img src="/img/gym/deadlift.webp" srcset="{gym_srcset("deadlift")}" sizes="100vw" alt="" '
+        'width="1672" height="941" fetchpriority="high" /></picture>'
     )
 
 
@@ -113,7 +155,7 @@ def kit(s: dict) -> str:
     return f'          <ul class="kit" data-setup="home">\n{items}\n          </ul>'
 
 
-FAQ_COUNT = 8
+FAQ_COUNT = 9
 
 
 def faq_list(esc: dict) -> str:
@@ -137,13 +179,13 @@ def jsonld(code: str, s: dict) -> str:
         "name": "Grasp: Workout Planner",
         "alternateName": "Grasp",
         "description": s["description"],
-        "operatingSystem": "iOS",
+        "operatingSystem": "Android, iOS",
         "applicationCategory": "HealthApplication",
         "applicationSubCategory": "Fitness",
         "inLanguage": [c for c, *_ in LANGS],
         "url": SITE + path_for(code),
-        "downloadUrl": STORE,
-        "installUrl": STORE,
+        "downloadUrl": "{stores}",
+        "installUrl": "{stores}",
         "image": f"{SITE}/img/screens/{code}/home.webp",
         "screenshot": [f"{SITE}/img/screens/{code}/{n}.webp" for n in ("home", "exercise", "body", "goals")],
         "offers": {"@type": "Offer", "price": "0", "priceCurrency": "USD"},
@@ -163,6 +205,8 @@ def jsonld(code: str, s: dict) -> str:
     def block(data: dict) -> str:
         # </ cannot appear inside a script element; escape it the JSON way.
         text = json.dumps(data, ensure_ascii=False, indent=2).replace("</", "<\\/")
+        # Both store links on one line.
+        text = text.replace('"{stores}"', json.dumps([STORE, PLAY]))
         return '    <script type="application/ld+json">\n' + text + "\n    </script>"
 
     return block(app) + "\n" + block(faq)
@@ -194,6 +238,8 @@ def render(template: str, code: str, rtl: bool, s: dict, keys: set) -> str:
     esc["final_meta_html"] = esc["final_meta_html"].replace(
         "{email}", '<a href="mailto:grasp@alsouq.tech">grasp@alsouq.tech</a>'
     )
+    # Grasp's speech bubble over the hero breaks where the language file does.
+    esc["hero_bubble"] = esc["hero_bubble"].replace("\n", "<br />")
     note = esc.get("footer_note", "")
     alternates = "\n".join(
         f'    <link rel="alternate" hreflang="{c}" href="{SITE}{path_for(c)}" />' for c, *_ in LANGS
@@ -213,8 +259,11 @@ def render(template: str, code: str, rtl: bool, s: dict, keys: set) -> str:
         "footer_note_block": f'        <span class="footer-note">{note}</span>' if note else "",
         "faq_list": faq_list(esc),
         "jsonld": jsonld(code, s),
+        "hero_photo": hero_photo(),
+        **ICONS,
     }
-    out = template
+    # {{gym <photo> <x position>}}: a feature's photo panel.
+    out = re.sub(r"\{\{gym (\S+) (\S+)\}\}", lambda m: gym_photo(m.group(1), m.group(2)), template)
     # Chinese and Japanese put no space between words, and the first half of
     # their headlines ends in full-width punctuation already.
     if code in ("zh", "ja"):
