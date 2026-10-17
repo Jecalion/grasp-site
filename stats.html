@@ -466,7 +466,7 @@
 
       .span b { color: var(--text); font-weight: 500; }
       .g-tl {
-        position: relative; height: 54px; margin-top: 10px; cursor: pointer;
+        position: relative; height: 40px; margin-top: 8px; cursor: pointer;
         user-select: none; -webkit-user-select: none; touch-action: none;
       }
       .g-tl svg { position: absolute; inset: 0; width: 100%; height: 100%; display: block; }
@@ -504,8 +504,8 @@
       .g-spark svg { width: 100%; height: 100%; display: block; overflow: visible; }
       .g-quick { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 6px; border-top: 1px solid var(--border); padding-top: 8px; }
       .g-quick > div { font-size: 0.7rem; color: var(--faint); min-width: 0; }
-      .g-quick b { display: block; font-size: 0.82rem; color: var(--text); font-weight: 500; font-variant-numeric: tabular-nums; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-      .g-quick b em { font-style: normal; font-weight: 400; font-size: 0.7rem; margin-left: 4px; color: var(--faint); }
+      .g-quick b { display: block; font-size: 0.82rem; color: var(--text); font-weight: 500; font-variant-numeric: tabular-nums; }
+      .g-quick b em { display: block; font-style: normal; font-weight: 400; font-size: 0.7rem; color: var(--faint); line-height: 1.3; }
       .g-quick b em.up { color: var(--up); }
       .g-quick b em.down { color: var(--down); }
       .g-note { font-size: 0.72rem; color: var(--faint); margin-top: 6px; }
@@ -1957,6 +1957,18 @@
             if (!Object.prototype.hasOwnProperty.call(last, r.source)) return;
             if (last[r.source] == null || r.day > last[r.source]) last[r.source] = r.day;
           });
+          /*
+            A day nobody downloaded has no row, so the newest row can sit
+            behind what Apple has actually reported. Apple's daily report is
+            out by the next day; two days before the last good sync is safely
+            reported, zero or not. Google's monthly file has no such promise,
+            so it keeps the newest row.
+          */
+          (M.storeSync || []).forEach(function (s) {
+            if (s.source !== 'apple' || !s.last_ok_at || last.apple == null) return;
+            var safe = Math.floor(parseT(s.last_ok_at) / DAY) - 2;
+            if (safe > last.apple) last.apple = safe;
+          });
           var conn = srcs.filter(function (s) { return last[s] != null; });
           var lastFull = conn.length ? Math.min.apply(null, conn.map(function (s) { return last[s]; })) : null;
           var lastAny = conn.length ? Math.max.apply(null, conn.map(function (s) { return last[s]; })) : null;
@@ -2983,7 +2995,7 @@
           var box = $('ctl-tl');
           if (!M || !box || $('dash').hidden) return;
           var sp = tlSpan(), N = sp.n;
-          var W = box.clientWidth || 600, H = 54;
+          var W = box.clientWidth || 600, H = box.clientHeight || 40;
           var srcs = storeSources(), dls = zeros(N), acc = zeros(N);
           M.store.forEach(function (r) { var i = r.day - sp.a; if (i >= 0 && i < N && srcs.indexOf(r.source) >= 0) dls[i] += r.n; });
           M.users.forEach(function (u) {
