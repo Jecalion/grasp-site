@@ -65,6 +65,12 @@
         --warn: #8f5600;
         --warn-bg: #fbeed3;
         --shadow: rgba(13, 14, 16, 0.12);
+        --up: #16803c;
+        --up-soft: rgba(22, 128, 60, 0.1);
+        --down: #c62f35;
+        --down-soft: rgba(198, 47, 53, 0.09);
+        --keep: #9cbc4a;
+        --back: #6250d6;
       }
       @media (prefers-color-scheme: dark) {
         :root:not([data-theme='light']) {
@@ -79,6 +85,12 @@
           --warn: #f0b24a;
           --warn-bg: #2e2410;
           --shadow: rgba(0, 0, 0, 0.45);
+          --up: #4ade80;
+          --up-soft: rgba(74, 222, 128, 0.13);
+          --down: #ff6b70;
+          --down-soft: rgba(255, 90, 95, 0.13);
+          --keep: #7fa33a;
+          --back: #b9acff;
         }
       }
       :root[data-theme='dark'] {
@@ -93,6 +105,12 @@
         --warn: #f0b24a;
         --warn-bg: #2e2410;
         --shadow: rgba(0, 0, 0, 0.45);
+        --up: #4ade80;
+        --up-soft: rgba(74, 222, 128, 0.13);
+        --down: #ff6b70;
+        --down-soft: rgba(255, 90, 95, 0.13);
+        --keep: #7fa33a;
+        --back: #b9acff;
       }
 
       /*
@@ -272,7 +290,6 @@
       .tile .d.up::before { content: '▲ '; font-size: 0.65rem; }
       .tile .d.down::before { content: '▼ '; font-size: 0.65rem; }
       .tile.lead .v { color: var(--accent); }
-      .tiles.kpis { grid-template-columns: repeat(5, minmax(0, 1fr)); }
       .spark { display: block; width: 100%; height: 30px; margin-top: 6px; }
 
       .insights { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 9px; }
@@ -445,6 +462,146 @@
 
       .skeleton { color: var(--faint); font-size: 0.9rem; padding: 40px 0; text-align: center; }
 
+      /* ---- the date range: chips, a month, and the full-history timeline ---- */
+
+      .span b { color: var(--text); font-weight: 500; }
+      .g-tl {
+        position: relative; height: 54px; margin-top: 10px; cursor: pointer;
+        user-select: none; -webkit-user-select: none; touch-action: none;
+      }
+      .g-tl svg { position: absolute; inset: 0; width: 100%; height: 100%; display: block; }
+      .g-win {
+        position: absolute; top: 0; bottom: 0; cursor: grab;
+        background: color-mix(in srgb, var(--accent) 14%, transparent);
+        border: 1px solid color-mix(in srgb, var(--accent) 45%, transparent); border-radius: 6px;
+      }
+      .g-win:active { cursor: grabbing; }
+      .g-grip {
+        position: absolute; top: 8px; bottom: 8px; width: 16px; margin-left: -8px; z-index: 2;
+        display: flex; align-items: center; justify-content: center; cursor: ew-resize; touch-action: none;
+      }
+      .g-grip::after { content: ''; width: 5px; height: 26px; border-radius: 3px; background: var(--accent); }
+      .g-ticks { position: relative; height: 18px; margin-top: 3px; font-size: 0.68rem; color: var(--faint); overflow: hidden; }
+      .g-ticks span { position: absolute; top: 0; white-space: nowrap; }
+
+      /* ---- overview: KPI cards, growth chart, latest, deeper panels ---- */
+
+      .g-kpis { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 14px; }
+      .g-kpi .lab { color: var(--muted); font-size: 0.84rem; }
+      .g-kpi .val { font-size: 2.1rem; font-weight: 600; letter-spacing: -0.02em; margin-top: 4px; line-height: 1.1; font-variant-numeric: tabular-nums; }
+      .g-kpi .val small { font-size: 0.95rem; color: var(--muted); font-weight: 500; margin-left: 2px; }
+      .g-kpi .val.sm { font-size: 1.85rem; }
+      .g-dl { margin-top: 6px; display: flex; flex-wrap: wrap; align-items: center; gap: 4px 6px; }
+      .g-delta {
+        display: inline-flex; align-items: center; gap: 4px; white-space: nowrap;
+        font-size: 0.75rem; font-weight: 500; padding: 2px 8px; border-radius: 999px; font-variant-numeric: tabular-nums;
+      }
+      .g-delta.up { color: var(--up); background: var(--up-soft); }
+      .g-delta.down { color: var(--down); background: var(--down-soft); }
+      .g-delta.flat { color: var(--muted); background: var(--raised); }
+      .g-vs { font-size: 0.75rem; color: var(--faint); }
+      .g-spark { height: 44px; margin: 10px 0 8px; }
+      .g-spark svg { width: 100%; height: 100%; display: block; overflow: visible; }
+      .g-quick { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 6px; border-top: 1px solid var(--border); padding-top: 8px; }
+      .g-quick > div { font-size: 0.7rem; color: var(--faint); min-width: 0; }
+      .g-quick b { display: block; font-size: 0.82rem; color: var(--text); font-weight: 500; font-variant-numeric: tabular-nums; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+      .g-quick b em { font-style: normal; font-weight: 400; font-size: 0.7rem; margin-left: 4px; color: var(--faint); }
+      .g-quick b em.up { color: var(--up); }
+      .g-quick b em.down { color: var(--down); }
+      .g-note { font-size: 0.72rem; color: var(--faint); margin-top: 6px; }
+      .g-ring { display: flex; align-items: center; gap: 12px; margin-top: 6px; }
+      .g-ring svg { flex: none; }
+      .g-ring .g-note { margin-top: 0; }
+
+      .g-main { display: grid; grid-template-columns: minmax(0, 1.75fr) minmax(0, 1fr); gap: 14px; align-items: start; }
+      .g-two { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.35fr); gap: 14px; align-items: start; }
+      .g-head { display: flex; flex-wrap: wrap; align-items: flex-start; gap: 8px 10px; margin-bottom: 12px; }
+      .g-head > div:first-child { margin-right: auto; min-width: 0; }
+      .g-head h3 { margin: 0; font-size: 0.95rem; font-weight: 600; }
+      .g-sub { color: var(--muted); font-size: 0.76rem; margin-top: 2px; }
+      .g-sub b { color: var(--text); font-weight: 600; }
+      .g-sect { margin: 18px 0 0; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.01em; display: flex; flex-wrap: wrap; align-items: baseline; gap: 4px 12px; }
+      .g-sect span { font-size: 0.84rem; font-weight: 400; color: var(--muted); }
+      .g-chart { position: relative; }
+      .g-hatch { background-image: repeating-linear-gradient(45deg, var(--android) 0 2px, transparent 2px 5px); }
+      .g-hatch.ios { background-image: repeating-linear-gradient(45deg, var(--ios) 0 2px, transparent 2px 5px); }
+
+      .g-feed { display: flex; flex-direction: column; max-height: 420px; overflow-y: auto; margin: 0 -6px; padding: 0 6px; }
+      .g-item {
+        display: grid; grid-template-columns: 36px minmax(0, 1fr) auto; gap: 10px; align-items: center;
+        padding: 10px 6px; border-radius: 10px; text-align: left;
+      }
+      .g-item.ac { cursor: pointer; }
+      .g-item + .g-item { border-top: 1px solid var(--border); border-radius: 0; }
+      .g-item.ac:hover { background: var(--raised); border-radius: 10px; }
+      .g-av {
+        width: 36px; height: 36px; border-radius: 10px; display: grid; place-items: center; position: relative;
+        font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; font-size: 0.74rem; font-weight: 500;
+        background: var(--raised); color: var(--text);
+      }
+      .g-av i { position: absolute; right: -2px; bottom: -2px; width: 11px; height: 11px; border-radius: 50%; border: 2px solid var(--surface); }
+      .g-av.st { background: transparent; border: 1px dashed var(--border-strong); color: var(--muted); }
+      .g-it { font-size: 0.82rem; font-weight: 500; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+      .g-im { font-size: 0.75rem; color: var(--muted); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+      .g-ir { display: flex; flex-direction: column; align-items: flex-end; gap: 4px; text-align: right; }
+      .g-ago { font-size: 0.7rem; color: var(--faint); font-variant-numeric: tabular-nums; white-space: nowrap; }
+      .g-chip { font-size: 0.7rem; padding: 2px 8px; border-radius: 999px; white-space: nowrap; }
+      .g-chip.go { background: var(--accent-muted); color: var(--accent); font-weight: 500; }
+      .g-chip.wait { background: var(--raised); color: var(--muted); }
+      .g-chip.store { border: 1px solid var(--border); color: var(--faint); }
+      .g-more { grid-column: 2 / -1; font-size: 0.76rem; color: var(--muted); padding-top: 4px; overflow-wrap: anywhere; }
+      .g-more b { color: var(--text); font-weight: 500; }
+      .g-days { display: flex; flex-wrap: wrap; gap: 3px; margin-top: 6px; }
+      .g-days span { width: 12px; height: 12px; border-radius: 3px; background: var(--raised); }
+      .g-days span.on { background: var(--accent); }
+      .g-btn {
+        font: inherit; font-size: 0.76rem; margin-top: 8px; cursor: pointer;
+        background: var(--surface); color: var(--text); border: 1px solid var(--border); border-radius: 999px; padding: 3px 12px;
+      }
+      .g-btn:hover { border-color: var(--border-strong); }
+      .g-empty { color: var(--muted); font-size: 0.8rem; padding: 20px 6px; margin: 0; }
+
+      .g-funnel { display: flex; flex-direction: column; gap: 12px; }
+      .g-fl { display: flex; justify-content: space-between; gap: 10px; font-size: 0.84rem; margin-bottom: 5px; }
+      .g-fl b { font-weight: 600; font-variant-numeric: tabular-nums; }
+      .g-ftrack { height: 26px; background: var(--raised); border-radius: 7px; overflow: hidden; }
+      .g-fbar { height: 100%; background: var(--accent); border-radius: 7px; }
+      .g-fconv { font-size: 0.72rem; color: var(--faint); margin: 4px 0 0 2px; }
+      .g-fconv b { color: var(--muted); font-weight: 500; }
+
+      .g-ctry th, .g-ctry td { text-align: end; white-space: nowrap; }
+      .g-ctry th:first-child, .g-ctry td:first-child { text-align: start; padding-inline-start: 0; }
+      .g-cc {
+        display: inline-grid; place-items: center; min-width: 28px; height: 20px; padding: 0 3px; margin-right: 8px; border-radius: 5px;
+        background: var(--raised); font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; font-size: 0.7rem;
+      }
+      .g-share { display: inline-block; height: 6px; border-radius: 3px; background: var(--accent); vertical-align: middle; margin-right: 8px; opacity: 0.85; }
+
+      .g-pace { display: flex; flex-direction: column; gap: 16px; }
+      .g-pl { font-size: 0.84rem; color: var(--muted); }
+      .g-prow { display: flex; flex-wrap: wrap; align-items: baseline; gap: 4px 10px; }
+      .g-prow > span:nth-child(2) { color: var(--muted); font-size: 0.82rem; }
+      .g-prow > span:nth-child(2) b { color: var(--text); }
+      .g-pv { font-size: 1.6rem; font-weight: 600; letter-spacing: -0.02em; font-variant-numeric: tabular-nums; }
+      .g-pbar { position: relative; height: 10px; background: var(--raised); border-radius: 5px; margin-top: 8px; }
+      .g-pbar .so { position: absolute; left: 0; top: 0; bottom: 0; background: var(--accent); border-radius: 5px; }
+      .g-pbar .pj { position: absolute; left: 0; top: 0; bottom: 0; border: 1.5px dashed color-mix(in srgb, var(--accent) 55%, transparent); border-radius: 5px; }
+      .g-pbar .lm { position: absolute; top: -4px; bottom: -4px; width: 2px; background: var(--text); border-radius: 1px; }
+      .g-pk { display: flex; justify-content: space-between; gap: 10px; font-size: 0.7rem; color: var(--faint); margin-top: 6px; }
+      .g-coh tr.out { opacity: 0.55; }
+      .g-coh thead th { text-align: center; }
+      .g-foot { margin: 6px 0 0; font-size: 0.76rem; color: var(--faint); }
+
+      @media (max-width: 1000px) {
+        .g-kpis { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+        .g-main, .g-two { grid-template-columns: minmax(0, 1fr); }
+      }
+      @media (max-width: 520px) {
+        .g-kpis { grid-template-columns: minmax(0, 1fr); }
+        .g-kpi .val { font-size: 1.85rem; }
+        .span { width: 100%; }
+      }
+
       @media (prefers-reduced-motion: no-preference) {
         .track i, .bars .b i { transition: width 0.4s cubic-bezier(0.22, 0.61, 0.36, 1); }
         .drawer { animation: slidein 0.18s ease-out; }
@@ -457,7 +614,7 @@
         .pair, .trio { grid-template-columns: minmax(0, 1fr); }
         .card { padding: 14px; }
         .tile .v { font-size: 1.45rem; }
-        .tiles, .tiles.kpis { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; }
+        .tiles { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; }
         .bars li { grid-template-columns: minmax(5.5rem, 40%) 1fr auto; }
         .rung .split { order: 3; flex-basis: 100%; }
       }
@@ -529,18 +686,14 @@
 
           <div class="controls" id="controls">
             <div class="ctl-row">
-              <div class="seg" id="ctl-range" role="group" aria-label="Date range">
-                <button type="button" data-v="7">7d</button>
-                <button type="button" data-v="30">30d</button>
-                <button type="button" data-v="90">90d</button>
-                <button type="button" data-v="all">All</button>
-                <button type="button" data-v="custom">Custom</button>
+              <div class="seg" id="ctl-range" role="group" aria-label="Time frame">
+                <button type="button" data-v="1">Today</button>
+                <button type="button" data-v="7">7 days</button>
+                <button type="button" data-v="30">30 days</button>
+                <button type="button" data-v="month">This month</button>
+                <button type="button" data-v="all">All time</button>
               </div>
-              <span class="custom" id="ctl-custom" hidden>
-                <input type="date" id="ctl-from" aria-label="From" />
-                <span aria-hidden="true">–</span>
-                <input type="date" id="ctl-to" aria-label="To" />
-              </span>
+              <select id="ctl-month" aria-label="Pick a month"><option value="">Pick a month</option></select>
               <div class="seg" id="ctl-platform" role="group" aria-label="Platform">
                 <button type="button" data-v="all">All</button>
                 <button type="button" data-v="ios">iPhone</button>
@@ -554,6 +707,18 @@
               </label>
               <span class="span num" id="ctl-span"></span>
             </div>
+            <!--
+              The whole history, one bar pair per day: downloads in grey,
+              new accounts in the accent. The window is the date range every
+              tab reads; drag it, drag its edges, or click to move it there.
+            -->
+            <div class="g-tl" id="ctl-tl" aria-label="Timeline. Drag the window or its edges to choose dates.">
+              <svg id="ctl-tlsvg" preserveAspectRatio="none" aria-hidden="true"></svg>
+              <div class="g-win" id="ctl-win" tabindex="0" role="slider" aria-label="Selected dates. Arrow keys move them."></div>
+              <div class="g-grip" id="ctl-g0" tabindex="0" role="slider" aria-label="Start date"></div>
+              <div class="g-grip" id="ctl-g1" tabindex="0" role="slider" aria-label="End date"></div>
+            </div>
+            <div class="g-ticks" id="ctl-ticks" aria-hidden="true"></div>
             <div class="tabs" role="tablist" id="tabs" aria-label="Sections"></div>
           </div>
 
@@ -834,7 +999,7 @@
           try {
             var raw = JSON.parse(localStorage.getItem(CTL_KEY) || 'null');
             if (raw && typeof raw === 'object') {
-              if (['7', '30', '90', 'all', 'custom'].indexOf(raw.range) >= 0) ctl.range = raw.range;
+              if (['1', '7', '30', '90', 'month', 'all', 'custom'].indexOf(raw.range) >= 0) ctl.range = raw.range;
               if (dayFromIso(raw.from) != null) ctl.from = raw.from;
               if (dayFromIso(raw.to) != null) ctl.to = raw.to;
               if (['all', 'ios', 'android', 'unknown'].indexOf(raw.platform) >= 0) ctl.platform = raw.platform;
@@ -862,6 +1027,12 @@
           exAll: false,
           crashPlat: 'all',
           crashVer: 'all',
+          gMetric: 'dl',
+          gGran: 'auto',
+          gCum: false,
+          feedF: 'all',
+          feedOpen: null,
+          feedLimit: 40,
         };
 
         /* ---- session, kept only in this browser ---- */
@@ -984,6 +1155,8 @@
               routines: +r.routines || 0, folders: +r.folders || 0,
               custom: +r.custom || 0, xnotes: +r.xnotes || 0,
               settings: settings,
+              /* Two-letter store country of the account, once the function sends it. */
+              country: typeof r.country === 'string' && /^[A-Za-z]{2}$/.test(r.country) && r.country.toUpperCase() !== 'ZZ' ? r.country.toUpperCase() : null,
               sess: [],
             };
           }
@@ -1115,6 +1288,9 @@
             if (s.tDay != null && s.tDay < min) min = s.tDay;
           });
           m.crashes.forEach(function (c) { c.day = di(c.t); });
+          /* Store days are the stores' own dates, not shifted; they still count towards "all time". */
+          m.store.forEach(function (r) { if (r.day < min) min = r.day; });
+          m.off = off;
           m.today = di(m.now);
           m.minDay = min === Infinity ? m.today - 29 : Math.min(min, m.today);
         }
@@ -1130,6 +1306,10 @@
             start = a; end = b;
           } else if (ctl.range === 'all') {
             start = M.minDay; end = today;
+          } else if (ctl.range === '1') {
+            start = today; end = today;
+          } else if (ctl.range === 'month') {
+            start = monthStartOf(today); end = today;
           } else {
             end = today; start = today - (+ctl.range || 30) + 1;
           }
@@ -1616,21 +1796,6 @@
         }
         function pad2(n) { return (n < 10 ? '0' : '') + n; }
 
-        function spark(values, color) {
-          var W = 120, H = 30;
-          var root = svg('svg', { viewBox: '0 0 ' + W + ' ' + H, class: 'spark', preserveAspectRatio: 'none', 'aria-hidden': 'true' });
-          var vals = values.map(function (v) { return v == null ? 0 : v; });
-          if (vals.length < 2) return root;
-          var max = Math.max.apply(null, vals.concat([1]));
-          var pts = vals.map(function (v, i) {
-            return [(i / (vals.length - 1)) * W, H - 2 - (v / max) * (H - 4)];
-          });
-          var line = pts.map(function (p, i) { return (i ? 'L' : 'M') + p[0].toFixed(1) + ',' + p[1].toFixed(1); }).join('');
-          root.appendChild(svg('path', { d: line + 'L' + W + ',' + H + 'L0,' + H + 'Z', fill: color || 'var(--accent)', 'fill-opacity': 0.12, stroke: 'none' }));
-          root.appendChild(svg('path', { d: line, fill: 'none', stroke: color || 'var(--accent)', 'stroke-width': 1.5, 'vector-effect': 'non-scaling-stroke', 'stroke-linejoin': 'round' }));
-          return root;
-        }
-
         function featIcons(u) {
           var span = el('span', 'feats');
           var names = [];
@@ -1735,106 +1900,1244 @@
           selectTab('people', true);
         }
 
+        /*
+          The Overview reads downloads, accounts and workouts side by side.
+
+          Downloads are store counts per day and country — no names, about a
+          day late from Apple and several days late from Google Play. A
+          store's last reported day is the newest day it has any row for;
+          the days after it are "pending": hatched in the chart, left out of
+          every conversion rate, and named under the Downloads card. No
+          value is ever filled in for them.
+        */
+        var STORE_NAME = { apple: 'App Store', google: 'Google Play' };
+        var SRC_PLAT = { apple: 'ios', google: 'android' };
+        var PLAT_SRC = { ios: 'apple', android: 'google' };
+        var MONTHS_LONG = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
+
+        /* The platform filter picks the store: iPhone means the App Store, Android Google Play. */
+        function storeSources() {
+          return ctl.platform === 'all' ? ['apple', 'google'] : ctl.platform === 'ios' ? ['apple'] : ctl.platform === 'android' ? ['google'] : [];
+        }
+        function esc(s) {
+          return String(s == null ? '' : s).replace(/[&<>"']/g, function (c) {
+            return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c];
+          });
+        }
+        function monthStartOf(d) { var x = new Date(d * DAY); return Math.floor(Date.UTC(x.getUTCFullYear(), x.getUTCMonth(), 1) / DAY); }
+        function monthEndOf(d) { var x = new Date(d * DAY); return Math.floor(Date.UTC(x.getUTCFullYear(), x.getUTCMonth() + 1, 1) / DAY) - 1; }
+        function monthName(d) { return MONTHS_LONG[new Date(d * DAY).getUTCMonth()]; }
+        function spanLabel(a, b) { return a === b ? dayLabel(a) : dayLabel(a) + ' – ' + dayLabel(b); }
+        function ccName(cc) { return !cc || cc === '??' || cc === 'ZZ' ? 'Unknown' : countryName(cc); }
+        /* Is any value of the sorted array inside [a, b]? */
+        function hasIn(arr, a, b) {
+          var lo = 0, hi = arr.length;
+          while (lo < hi) { var mid = (lo + hi) >> 1; if (arr[mid] < a) lo = mid + 1; else hi = mid; }
+          return lo < arr.length && arr[lo] <= b;
+        }
+        function prefix(a) {
+          var p = new Array(a.length + 1);
+          p[0] = 0;
+          for (var i = 0; i < a.length; i++) p[i + 1] = p[i] + a[i];
+          return p;
+        }
+
+        /*
+          Per-day counts for the current filters, as running sums, so any
+          span of days is two lookups. Built once per scope.
+        */
+        function growthModel(S) {
+          if (S.g) return S.g;
+          var A0 = Math.min(M.minDay, S.start - S.len, S.end - 70, M.today - 70);
+          var B0 = Math.max(M.today, S.end);
+          var N = B0 - A0 + 1;
+          var srcs = storeSources();
+          var last = { apple: null, google: null };
+          M.store.forEach(function (r) {
+            if (!Object.prototype.hasOwnProperty.call(last, r.source)) return;
+            if (last[r.source] == null || r.day > last[r.source]) last[r.source] = r.day;
+          });
+          var conn = srcs.filter(function (s) { return last[s] != null; });
+          var lastFull = conn.length ? Math.min.apply(null, conn.map(function (s) { return last[s]; })) : null;
+          var lastAny = conn.length ? Math.max.apply(null, conn.map(function (s) { return last[s]; })) : null;
+
+          var dl = { apple: zeros(N), google: zeros(N) };
+          M.store.forEach(function (r) {
+            var i = r.day - A0;
+            if (dl[r.source] && i >= 0 && i < N) dl[r.source][i] += r.n;
+          });
+          var ac = { ios: zeros(N), android: zeros(N), unknown: zeros(N) };
+          S.users.forEach(function (u) {
+            var i = u.cDay == null ? -1 : u.cDay - A0;
+            if (i >= 0 && i < N) ac[u.platform][i]++;
+          });
+
+          /* Each trainer's distinct days with a finished workout, sorted. */
+          var byU = new Map(), wo = zeros(N);
+          S.sessions.forEach(function (s) {
+            if (!s.done || s.fDay == null) return;
+            var i = s.fDay - A0;
+            if (i >= 0 && i < N) wo[i]++;
+            var list = byU.get(s.u);
+            if (!list) { list = []; byU.set(s.u, list); }
+            list.push(s.fDay);
+          });
+          var TU = [], DD = new Map();
+          var tr = { ios: zeros(N), android: zeros(N), unknown: zeros(N) };
+          byU.forEach(function (list, u) {
+            list.sort(function (x, y) { return x - y; });
+            var dd = [];
+            list.forEach(function (d) { if (!dd.length || dd[dd.length - 1] !== d) dd.push(d); });
+            TU.push(u);
+            DD.set(u, dd);
+            dd.forEach(function (d) { var i = d - A0; if (i >= 0 && i < N) tr[u.platform][i]++; });
+          });
+
+          var P = {
+            dl: { apple: prefix(dl.apple), google: prefix(dl.google) },
+            ac: { ios: prefix(ac.ios), android: prefix(ac.android), unknown: prefix(ac.unknown) },
+            tr: { ios: prefix(tr.ios), android: prefix(tr.android), unknown: prefix(tr.unknown) },
+            wo: prefix(wo),
+          };
+          function rs(p, a, b) {
+            a = Math.max(a, A0); b = Math.min(b, B0);
+            return b < a ? 0 : p[b - A0 + 1] - p[a - A0];
+          }
+          function byPlat(table, a, b, pl) {
+            if (pl) return rs(table[pl], a, b);
+            return rs(table.ios, a, b) + rs(table.android, a, b) + rs(table.unknown, a, b);
+          }
+          var G = {
+            A0: A0, B0: B0, srcs: srcs, conn: conn, last: last, lastFull: lastFull, lastAny: lastAny, TU: TU, DD: DD,
+            dlIn: function (a, b, src) {
+              var t = 0;
+              (src ? [src] : srcs).forEach(function (s) { if (srcs.indexOf(s) >= 0) t += rs(P.dl[s], a, b); });
+              return t;
+            },
+            acIn: function (a, b, pl) { return byPlat(P.ac, a, b, pl); },
+            /* People who trained on day d (distinct per day). */
+            trDay: function (d, pl) { return byPlat(P.tr, d, d, pl); },
+            /* Distinct people with a finished workout anywhere in [a, b]. */
+            trIn: function (a, b, pl) {
+              var n = 0;
+              for (var i = 0; i < TU.length; i++) {
+                if (pl && TU[i].platform !== pl) continue;
+                if (hasIn(DD.get(TU[i]), a, b)) n++;
+              }
+              return n;
+            },
+            /* People whose first finished workout was on or before day b. */
+            everIn: function (b, pl) {
+              var n = 0;
+              for (var i = 0; i < TU.length; i++) {
+                if (pl && TU[i].platform !== pl) continue;
+                if (DD.get(TU[i])[0] <= b) n++;
+              }
+              return n;
+            },
+            woIn: function (a, b) { return rs(P.wo, a, b); },
+            /* Accounts per 100 downloads, only over days every store in view has reported. */
+            cvIn: function (a, b) {
+              if (lastFull == null || conn.length < srcs.length) return null;
+              var e = Math.min(b, lastFull);
+              if (e < a) return null;
+              var d = G.dlIn(a, e);
+              return d ? Math.round((G.acIn(a, e) / d) * 100) : null;
+            },
+            /* Stores that have not reported up to day d. */
+            pendingAt: function (d) { return conn.filter(function (s) { return last[s] < d; }); },
+          };
+          S.g = G;
+          return G;
+        }
+
+        /* ---- small builders ---- */
+
+        function gCard(parent, title, sub) {
+          var c = el('div', 'card');
+          var h = el('div', 'g-head');
+          var t = el('div');
+          var h3 = el('h3', null, title);
+          t.appendChild(h3);
+          var s = el('div', 'g-sub');
+          if (sub) s.textContent = sub;
+          t.appendChild(s);
+          h.appendChild(t);
+          c.appendChild(h);
+          parent.appendChild(c);
+          return { c: c, h: h, h3: h3, sub: s };
+        }
+        function gSeg(options, value, onPick, labelText) {
+          var g = el('div', 'seg');
+          g.setAttribute('role', 'group');
+          if (labelText) g.setAttribute('aria-label', labelText);
+          options.forEach(function (op) {
+            var b = el('button', null, op[1]);
+            b.type = 'button';
+            b.setAttribute('aria-pressed', op[0] === value ? 'true' : 'false');
+            b.addEventListener('click', function () {
+              Array.prototype.forEach.call(g.children, function (x) { x.setAttribute('aria-pressed', x === b ? 'true' : 'false'); });
+              onPick(op[0]);
+            });
+            g.appendChild(b);
+          });
+          return g;
+        }
+        function gSect(p, title, sub) {
+          var h = el('h2', 'g-sect', title);
+          if (sub) h.appendChild(el('span', null, sub));
+          p.appendChild(h);
+        }
+        function deltaPill(cur, prev, pts) {
+          if (cur == null) return '<span class="g-delta flat">—</span>';
+          if (prev == null) return '<span class="g-delta flat">no earlier data</span>';
+          var d = cur - prev, c = d > 0 ? 'up' : d < 0 ? 'down' : 'flat', arrow = d > 0 ? '▲ ' : d < 0 ? '▼ ' : '';
+          if (pts) return '<span class="g-delta ' + c + '">' + arrow + Math.abs(d) + ' pts</span>';
+          if (!prev) return '<span class="g-delta ' + (cur ? 'up' : 'flat') + '">' + (cur ? 'new' : 'no change') + '</span>';
+          return '<span class="g-delta ' + c + '">' + arrow + Math.abs(Math.round((d / prev) * 100)) + '%</span>';
+        }
+        /* A sparkline as markup. Nulls break the line (pending days, nothing to divide by). */
+        function sparkSvg(vals) {
+          var W = 260, H = 44, n = vals.length;
+          if (!n) return '';
+          var mx = 1;
+          vals.forEach(function (v) { if (v != null && v > mx) mx = v; });
+          function x(i) { return n === 1 ? W / 2 : (i / (n - 1)) * W; }
+          function y(v) { return H - 3 - (v / mx) * (H - 8); }
+          var line = '', pen = false, gaps = false, lastI = -1;
+          vals.forEach(function (v, i) {
+            if (v == null) { pen = false; gaps = true; return; }
+            line += (pen ? 'L' : 'M') + x(i).toFixed(1) + ' ' + y(v).toFixed(1) + ' ';
+            pen = true; lastI = i;
+          });
+          var out = '<svg viewBox="0 0 ' + W + ' ' + H + '" preserveAspectRatio="none" aria-hidden="true">' +
+            '<line x1="0" x2="' + W + '" y1="' + (H - 0.5) + '" y2="' + (H - 0.5) + '" stroke="var(--border)" vector-effect="non-scaling-stroke"/>';
+          if (!line) return out + '</svg>';
+          if (!gaps && n > 1) out += '<path d="' + line + 'L' + x(n - 1).toFixed(1) + ' ' + H + ' L0 ' + H + ' Z" fill="var(--accent)" opacity=".13"/>';
+          out += '<path d="' + line + '" fill="none" stroke="var(--accent)" stroke-width="2" stroke-linejoin="round" stroke-linecap="round" vector-effect="non-scaling-stroke"/>';
+          if (lastI >= 0) out += '<circle cx="' + x(lastI).toFixed(1) + '" cy="' + y(vals[lastI]).toFixed(1) + '" r="3.5" fill="var(--accent)" stroke="var(--surface)" stroke-width="2" vector-effect="non-scaling-stroke"/>';
+          return out + '</svg>';
+        }
+        /* One hover band and hit area over n equal slots; show(j) returns a tooltip. */
+        function gHover(root, W, padL, padT, pw, ph, n, show) {
+          var slot = pw / n;
+          var band = svg('rect', { class: 'band', x: padL, y: padT, width: slot, height: ph, visibility: 'hidden' });
+          root.insertBefore(band, root.firstChild);
+          var hit = svg('rect', { class: 'hit', x: padL, y: 0, width: pw, height: padT + ph });
+          hit.setAttribute('data-tip', '');
+          function at(ev) {
+            var r = root.getBoundingClientRect();
+            var px = (ev.clientX - r.left) * (W / r.width);
+            return Math.max(0, Math.min(n - 1, Math.floor((px - padL) / slot)));
+          }
+          function on(ev) {
+            var j = at(ev);
+            band.setAttribute('x', padL + j * slot);
+            band.setAttribute('visibility', 'visible');
+            var c = show(j);
+            if (c) tipShow(ev, c.title, c.rows);
+          }
+          hit.addEventListener('pointermove', function (ev) { if (ev.pointerType === 'mouse') on(ev); });
+          hit.addEventListener('pointerdown', on);
+          hit.addEventListener('pointerleave', function (ev) {
+            if (ev.pointerType !== 'mouse') return;
+            band.setAttribute('visibility', 'hidden');
+            tipHide();
+          });
+          root.appendChild(hit);
+        }
+        function yAxis(root, ys, padL, W, padR, y, fmt) {
+          ys.ticks.forEach(function (t) {
+            var ln = svg('line', { x1: padL, x2: W - padR, y1: y(t), y2: y(t), stroke: 'var(--border)', 'stroke-width': 1 });
+            if (t) ln.setAttribute('stroke-dasharray', '2 4');
+            root.appendChild(ln);
+            root.appendChild(svgText({ x: padL - 7, y: y(t) + 4, 'text-anchor': 'end' }, (fmt || fmtTick)(t)));
+          });
+        }
+        function xLabels(root, labels, padL, slot, W, padR, H, colorFn) {
+          var lw = Math.max.apply(null, labels.map(textW).concat([10])) + 12;
+          var step = Math.max(1, Math.ceil(lw / slot));
+          for (var i = 0; i < labels.length; i += step) {
+            var tw = textW(labels[i]);
+            var cx = padL + i * slot + slot / 2;
+            var x = Math.min(Math.max(cx, padL + tw / 2), W - padR - tw / 2);
+            var t = svgText({ x: x, y: H - 6, 'text-anchor': 'middle' }, labels[i]);
+            if (colorFn && colorFn(i)) t.style.fill = colorFn(i);
+            root.appendChild(t);
+          }
+        }
+        /* Day, week (Monday) or month buckets over [start, end]. */
+        function gBuckets(start, end, g) {
+          var out = [];
+          for (var d = start; d <= end; d++) {
+            var key, title, short;
+            if (g === 'day') { key = d; title = WD[wdOf(d)] + ' ' + dayLabelY(d); short = dayLabel(d); }
+            else if (g === 'week') { key = weekOf(d); short = dayLabel(Math.max(weekStart(key), start)); title = null; }
+            else { key = monthStartOf(d); short = MONTHS[new Date(d * DAY).getUTCMonth()]; title = monthName(d) + ' ' + new Date(d * DAY).getUTCFullYear(); }
+            var bk = out[out.length - 1];
+            if (!bk || bk.key !== key) { bk = { key: key, a: d, b: d, title: title, short: short }; out.push(bk); } else bk.b = d;
+          }
+          out.forEach(function (bk) { if (!bk.title) bk.title = 'Week of ' + spanLabel(bk.a, bk.b); });
+          return out;
+        }
+        function relAgo(u) {
+          if (u.created == null) return '—';
+          var mins = Math.max(0, Math.round((M.now - u.created) / 60000));
+          if (mins < 60) return mins + ' min';
+          var h = Math.round(mins / 60);
+          if (h < 24 && M.today === u.cDay) return h + ' h';
+          var d = M.today - u.cDay;
+          if (d <= 0) return h + ' h';
+          if (d === 1) return 'yesterday';
+          return d < 60 ? d + ' days' : dayLabelY(u.cDay);
+        }
+        function clockOf(ms) {
+          var local = new Date(ms + M.off(ms));
+          return pad2(local.getUTCHours()) + ':' + pad2(local.getUTCMinutes());
+        }
+
         /* =================================================================
            1. Overview
            ================================================================= */
 
         function rOverview(p, S) {
-          var mode = autoMode(S.len);
-          var B = buckets(S.start, S.end, mode);
-          var n = B.list.length;
-          function per(d) { return d == null ? -1 : d >= S.start && d <= S.end ? 0 : d >= S.pstart && d <= S.pend ? 1 : -1; }
+          var G = growthModel(S);
+          ovKpis(p, S, G);
+          var main = el('div', 'g-main');
+          p.appendChild(main);
+          ovGrowth(main, S, G);
+          ovFeed(main, S, G);
 
-          var k = { neu: [0, 0], act: [0, 0], au: [new Set(), new Set()], wo: [0, 0], sets: [0, 0], vol: [0, 0], mins: [[], []], cr: [0, 0] };
-          var sp = { neu: zeros(n), act: zeros(n), au: [], wo: zeros(n), sets: zeros(n), vol: zeros(n), mins: [], cr: zeros(n) };
-          for (var i = 0; i < n; i++) { sp.au.push(new Set()); sp.mins.push([]); }
+          gSect(p, 'Activity and retention', 'Are people training, and do they keep coming back?');
+          ovActivityTiles(p, S, G);
+          var r1 = el('div', 'g-main');
+          p.appendChild(r1);
+          ovDaily(r1, S, G);
+          ovStill(r1, S, G);
+          ovWeekly(p, S, G);
 
-          S.users.forEach(function (u) {
-            var w = per(u.cDay);
-            if (w >= 0) { k.neu[w]++; if (!w) sp.neu[B.index(u.cDay)]++; }
-            w = per(u.fdDay);
-            if (w >= 0) { k.act[w]++; if (!w) sp.act[B.index(u.fdDay)]++; }
-          });
+          gSect(p, 'Where they come from', 'Downloads, accounts and the steps between');
+          var r2 = el('div', 'g-two');
+          p.appendChild(r2);
+          ovFunnel(r2, S, G);
+          ovCountries(r2, S, G);
+          var r3 = el('div', 'g-two');
+          p.appendChild(r3);
+          ovPace(r3, S, G);
+          ovCohorts(r3, S, G);
+
+          var au = [new Set(), new Set()], wo = [0, 0];
           S.sessions.forEach(function (s) {
             if (!s.done) return;
-            var w = per(s.fDay);
-            if (w < 0) return;
-            k.au[w].add(s.u); k.wo[w]++; k.sets[w] += s.sets; k.vol[w] += s.vol;
-            if (s.mins != null) k.mins[w].push(s.mins);
-            if (!w) {
-              var j = B.index(s.fDay);
-              sp.au[j].add(s.u); sp.wo[j]++; sp.sets[j] += s.sets; sp.vol[j] += s.vol;
-              if (s.mins != null) sp.mins[j].push(s.mins);
-            }
+            if (S.inR(s.fDay)) { au[0].add(s.u); wo[0]++; } else if (S.inP(s.fDay)) { au[1].add(s.u); wo[1]++; }
           });
-          S.crashes.forEach(function (c) {
-            var w = per(c.day);
-            if (w >= 0) { k.cr[w]++; if (!w) sp.cr[B.index(c.day)]++; }
-          });
-          /*
-            Downloads, as the App Store and Google Play report them: the
-            complete number, about a day late. The platform filter picks the
-            store. The countries tile counts where they came from.
-          */
-          k.dl = [0, 0]; sp.dl = zeros(n);
-          var places = [new Set(), new Set()], firstSeen = {};
-          M.store.forEach(function (r) {
-            if (ctl.platform === 'ios' && r.source !== 'apple') return;
-            if (ctl.platform === 'android' && r.source !== 'google') return;
-            if (ctl.platform === 'unknown') return;
-            var w = per(r.day);
-            if (w < 0) return;
-            k.dl[w] += r.n;
-            if (r.country && r.country !== 'ZZ') places[w].add(r.country);
-            if (!w) { var j = B.index(r.day); sp.dl[j] += r.n; firstSeen[r.country] = Math.min(firstSeen[r.country] == null ? j : firstSeen[r.country], j); }
-          });
-          /* Countries reached so far, bucket by bucket. */
-          sp.pl = zeros(n);
-          Object.keys(firstSeen).forEach(function (cc) { for (var j = firstSeen[cc]; j < n; j++) sp.pl[j]++; });
-          var storeNote = M.store.length ? null : { text: 'stores not connected', dir: null };
-
-          var showDelta = ctl.range !== 'all';
-          function delta(cur, prev, isMinutes) {
-            if (!showDelta) return { text: 'all time', dir: null };
-            if (isMinutes) {
-              if (cur == null || prev == null) return { text: prev == null ? 'nothing before' : '—', dir: null };
-              var dm = Math.round(cur - prev);
-              return { text: (dm > 0 ? '+' : dm < 0 ? '−' : '±') + Math.abs(dm) + ' min vs previous', dir: null };
-            }
-            if (!prev && !cur) return { text: 'none either period', dir: null };
-            if (!prev) return { text: 'none in previous period', dir: null };
-            var c = Math.round(((cur - prev) / prev) * 100);
-            return { text: Math.abs(c) + '% vs previous', dir: c > 0 ? 'up' : c < 0 ? 'down' : null };
-          }
-
-          var grid = el('div', 'tiles kpis');
-          p.appendChild(grid);
-          var kpis = [
-            ['Downloads', M.store.length ? fmtN(k.dl[0]) : '—', storeNote || delta(k.dl[0], k.dl[1]), sp.dl, true],
-            ['Countries', M.store.length ? fmtN(places[0].size) : '—', storeNote || { text: places[1].size + ' in previous period', dir: null }, sp.pl],
-            ['New accounts', fmtN(k.neu[0]), delta(k.neu[0], k.neu[1]), sp.neu],
-            ['Activated', fmtN(k.act[0]), delta(k.act[0], k.act[1]), sp.act],
-            ['Active users', fmtN(k.au[0].size), delta(k.au[0].size, k.au[1].size), sp.au.map(function (s) { return s.size; })],
-            ['Workouts finished', fmtN(k.wo[0]), delta(k.wo[0], k.wo[1]), sp.wo],
-            ['Sets logged', fmtN(k.sets[0]), delta(k.sets[0], k.sets[1]), sp.sets],
-            ['Volume lifted', fmt1(k.vol[0] / 1000), delta(k.vol[0], k.vol[1]), sp.vol, false, 't'],
-            ['Median workout', k.mins[0].length ? fmtN(median(k.mins[0])) : '—', delta(median(k.mins[0]), median(k.mins[1]), true), sp.mins.map(median), false, k.mins[0].length ? 'min' : ''],
-            ['Crashes', fmtN(k.cr[0]), delta(k.cr[0], k.cr[1]), sp.cr],
-          ];
-          kpis.forEach(function (x) {
-            tile(grid, x[0], x[1], x[2].text, { lead: x[4], unit: x[5], dir: x[2].dir, spark: spark(x[3]) });
-          });
-
-          mapBox(p, S);
-
           var c = card(p, 'Insights');
-          var list = insights(S, k);
+          var list = insights(S, { au: au, wo: wo });
           if (!list.length) c.appendChild(el('p', 'empty', 'Nothing stands out for these filters.'));
           else {
             var ul = el('ul', 'insights');
             list.forEach(function (it) { ul.appendChild(el('li', it.warn ? 'warn' : null, it.text)); });
             c.appendChild(ul);
           }
+          p.appendChild(el('p', 'g-foot', 'Downloads come from Apple and Google as counts per day and country, so they have no names. Accounts are people and show a pseudonym. Google Play reports arrive a few days late; those days are marked and left out of conversion.'));
+        }
+
+        /* ---- the four headline cards ---- */
+
+        function ovKpis(p, S, G) {
+          var T = M.today;
+          var noStore = !M.store.length;
+          var hasPrev = ctl.range !== 'all' && S.pend >= M.minDay;
+          function val(m, a, b) {
+            /* Nothing reported yet for any day of the span is unknown, not zero. */
+            if (m === 'dl') return G.lastAny != null && a <= G.lastAny ? G.dlIn(a, b) : null;
+            if (m === 'ac') return G.acIn(a, b);
+            if (m === 'tr') return G.trIn(a, b);
+            return G.cvIn(a, b);
+          }
+          function waiting(a) {
+            var late = G.pendingAt(a);
+            return late.length === 1 ? 'waiting on ' + (late[0] === 'google' ? 'Google' : 'Apple') : 'waiting on stores';
+          }
+          function quick(m) {
+            return [['Today', T, T], ['7 days', T - 6, T], ['30 days', T - 29, T]].map(function (q) {
+              var a = q[1], b = q[2], len = b - a + 1;
+              if (m === 'dl' && (G.lastAny == null || a > G.lastAny)) return '<div>' + q[0] + '<b>—<em>' + (G.lastAny == null ? 'no store data' : waiting(a)) + '</em></b></div>';
+              if (m === 'cv' && (G.lastFull == null || a > G.lastFull)) return '<div>' + q[0] + '<b>—<em>' + (G.lastFull == null ? 'no store data' : waiting(a)) + '</em></b></div>';
+              var cur = val(m, a, b), prev = val(m, a - len, b - len);
+              if (cur == null) return '<div>' + q[0] + '<b>—</b></div>';
+              var d = prev == null ? 0 : cur - prev, cls = d > 0 ? 'up' : d < 0 ? 'down' : '', ch = '';
+              if (m === 'cv') ch = prev == null || !d ? '' : (d > 0 ? '+' : '−') + Math.abs(d) + ' pts';
+              else ch = prev ? (d >= 0 ? '+' : '−') + Math.abs(Math.round((d / prev) * 100)) + '%' : '';
+              var shown = m === 'cv' ? cur + '%' : m === 'tr' ? fmtN(cur) : '+' + fmtN(cur);
+              return '<div>' + q[0] + '<b>' + shown + '<em class="' + cls + '">' + ch + '</em></b></div>';
+            }).join('');
+          }
+          function series(m) {
+            var out = [];
+            for (var d = S.start; d <= S.end; d++) {
+              if (m === 'dl') out.push(G.lastAny == null || d > G.lastAny ? null : G.dlIn(d, d));
+              else if (m === 'ac') out.push(G.acIn(d, d));
+              else if (m === 'tr') out.push(G.trDay(d));
+              else {
+                /* A rolling week, so one quiet day does not read as zero. */
+                var x = G.lastFull == null || d > G.lastFull ? 0 : G.dlIn(d - 6, d);
+                out.push(x ? Math.round((G.acIn(d - 6, d) / x) * 100) : null);
+              }
+            }
+            return out;
+          }
+          var dlNote = '';
+          if (noStore) dlNote = 'Store downloads are not connected yet';
+          else if (!G.srcs.length) dlNote = 'The stores only report iPhone and Android';
+          else {
+            dlNote = G.srcs.map(function (s) {
+              if (G.last[s] == null) return STORE_NAME[s] + ' not connected';
+              if (G.last[s] < S.end) return STORE_NAME[s] + ' reported up to ' + dayLabel(G.last[s]);
+              return '';
+            }).filter(Boolean).join(' · ');
+          }
+          var cvNote = '';
+          if (G.lastFull != null && S.end > G.lastFull) {
+            cvNote = G.srcs.length > 1 ? 'Counted on days both stores have reported' : 'Counted up to ' + dayLabel(G.lastFull) + ', the last reported day';
+          }
+          var K = [
+            { m: 'dl', label: 'Downloads', note: dlNote },
+            { m: 'ac', label: 'New accounts' },
+            { m: 'tr', label: 'People who trained' },
+            { m: 'cv', label: 'Download to account', unit: '%', note: cvNote },
+          ];
+          var grid = el('div', 'g-kpis');
+          grid.innerHTML = K.map(function (k) {
+            var cur = val(k.m, S.start, S.end);
+            var prev = hasPrev ? val(k.m, S.pstart, S.pend) : null;
+            var vs = hasPrev ? 'vs ' + spanLabel(S.pstart, S.pend) : '';
+            var pill = hasPrev ? deltaPill(cur, prev, k.m === 'cv') : cur == null ? deltaPill(null) : '<span class="g-delta flat">' + (ctl.range === 'all' ? 'all time' : 'no earlier data') + '</span>';
+            return '<article class="card g-kpi"><div class="lab">' + k.label + '</div>' +
+              '<div class="val">' + (cur == null ? '—' : fmtN(cur) + (k.unit ? '<small>' + k.unit + '</small>' : '')) + '</div>' +
+              '<div class="g-dl">' + pill + (vs ? '<span class="g-vs">' + esc(vs) + '</span>' : '') + '</div>' +
+              '<div class="g-spark">' + sparkSvg(series(k.m)) + '</div>' +
+              '<div class="g-quick">' + quick(k.m) + '</div>' +
+              (k.note ? '<div class="g-note">' + esc(k.note) + '</div>' : '') +
+              '</article>';
+          }).join('');
+          p.appendChild(grid);
+        }
+
+        /* ---- the growth chart: one measure, stacked by platform, one axis ---- */
+
+        function ovGrowth(parent, S, G) {
+          var k = gCard(parent, 'Growth', '');
+          k.h.appendChild(gSeg([['dl', 'Downloads'], ['ac', 'Accounts'], ['tr', 'Trained']], ui.gMetric, function (v) { ui.gMetric = v; redraw(); }, 'Measure'));
+          k.h.appendChild(gSeg([['auto', 'Auto'], ['day', 'Day'], ['week', 'Week'], ['month', 'Month']], ui.gGran, function (v) { ui.gGran = v; redraw(); }, 'Group by'));
+          k.h.appendChild(gSeg([['new', 'New'], ['cum', 'Running total']], ui.gCum ? 'cum' : 'new', function (v) { ui.gCum = v === 'cum'; redraw(); }, 'Chart style'));
+          var box = el('div', 'g-chart');
+          k.c.appendChild(box);
+          var holder = null;
+          deferred(box, function (h) { holder = h; draw(); });
+          function redraw() { tipHide(); if (holder) draw(); }
+
+          function draw() {
+            clear(holder);
+            var m = ui.gMetric, cum = ui.gCum;
+            var g = ui.gGran === 'auto' ? (S.len <= 45 ? 'day' : S.len <= 150 ? 'week' : 'month') : ui.gGran;
+            var NAMES = { dl: 'Downloads', ac: 'New accounts', tr: cum ? 'People who have trained' : 'People who trained' };
+            k.h3.textContent = NAMES[m];
+            var total = m === 'dl' ? G.dlIn(S.start, S.end) : m === 'ac' ? G.acIn(S.start, S.end) : cum ? G.everIn(S.end) : G.trIn(S.start, S.end);
+            k.sub.textContent = fmtN(total) + (m === 'tr' ? ' ' + plural(total, 'person', 'people') : cum ? ' so far' : ' in total') + ' · by ' + g + (cum ? ' · running total' : '');
+
+            if (m === 'dl' && !G.conn.length) {
+              holder.appendChild(el('p', 'empty', !M.store.length ? 'Store downloads are not connected yet.' : 'The stores only report iPhone and Android.'));
+              return;
+            }
+            var plats;
+            if (m === 'dl') plats = G.conn.map(function (s) { return SRC_PLAT[s]; });
+            else {
+              plats = ctl.platform === 'all' ? PLATS.slice() : [ctl.platform];
+              if (ctl.platform === 'all' && !G.acIn(G.A0, G.B0, 'unknown')) plats = ['ios', 'android'];
+            }
+            var bk = gBuckets(S.start, S.end, g);
+            var n = bk.length;
+            function v1(pl, b) {
+              if (m === 'dl') return cum ? G.dlIn(G.A0, b.b, PLAT_SRC[pl]) : G.dlIn(b.a, b.b, PLAT_SRC[pl]);
+              if (m === 'ac') return cum ? G.acIn(G.A0, b.b, pl) : G.acIn(b.a, b.b, pl);
+              return cum ? G.everIn(b.b, pl) : G.trIn(b.a, b.b, pl);
+            }
+            var data = bk.map(function (b) {
+              var v = {}, t = 0;
+              plats.forEach(function (pl) { v[pl] = v1(pl, b); t += v[pl]; });
+              return { b: b, v: v, total: t, pend: m === 'dl' ? G.pendingAt(b.b) : [] };
+            });
+            var anyPend = data.some(function (d) { return d.pend.length; });
+
+            var W = boxWidth(holder), H = W < 520 ? 240 : 290;
+            var mx = 0;
+            data.forEach(function (d) { if (d.total > mx) mx = d.total; });
+            var ys = scaleY(mx, true);
+            var padL = 10 + Math.max.apply(null, ys.ticks.map(function (t) { return textW(fmtTick(t)); }));
+            var padR = 8, padT = 18, padB = 24;
+            var pw = W - padL - padR, ph = H - padT - padB, slot = pw / n;
+            function y(v) { return padT + ph - (v / ys.max) * ph; }
+            var root = svg('svg', { viewBox: '0 0 ' + W + ' ' + H, class: 'chart', role: 'img', 'aria-label': NAMES[m] + ' by ' + g });
+            var defs = svg('defs', {});
+            ['android', 'ios'].forEach(function (pl) {
+              var pat = svg('pattern', { id: 'g-hatch-' + pl, width: 6, height: 6, patternUnits: 'userSpaceOnUse', patternTransform: 'rotate(45)' });
+              pat.appendChild(svg('rect', { width: 6, height: 6, fill: 'var(--raised)' }));
+              pat.appendChild(svg('line', { x1: 0, y1: 0, x2: 0, y2: 6, stroke: PLAT[pl].color, 'stroke-width': 2, opacity: 0.6 }));
+              defs.appendChild(pat);
+            });
+            root.appendChild(defs);
+            yAxis(root, ys, padL, W, padR, y);
+
+            var bw = Math.min(28, Math.max(2, slot * 0.62));
+            if (cum && n > 1) {
+              var lower = data.map(function () { return 0; });
+              plats.forEach(function (pl) {
+                var upper = data.map(function (d, i) { return lower[i] + d.v[pl]; });
+                var X = function (i) { return padL + slot * i + slot / 2; };
+                var top = upper.map(function (v, i) { return (i ? 'L' : 'M') + X(i).toFixed(1) + ' ' + y(v).toFixed(1); }).join(' ');
+                var back = '';
+                for (var i = n - 1; i >= 0; i--) back += ' L' + X(i).toFixed(1) + ' ' + y(lower[i]).toFixed(1);
+                root.appendChild(svg('path', { d: top + back + ' Z', fill: PLAT[pl].color, opacity: 0.22 }));
+                root.appendChild(svg('path', { d: top, fill: 'none', stroke: PLAT[pl].color, 'stroke-width': 2, 'stroke-linejoin': 'round' }));
+                lower = upper;
+              });
+            } else {
+              data.forEach(function (d, i) {
+                var x = padL + slot * i + (slot - bw) / 2, acc = 0, topI = -1, first = true;
+                plats.forEach(function (pl, j) { if (d.v[pl]) topI = j; });
+                plats.forEach(function (pl, j) {
+                  var v = d.v[pl];
+                  if (!v) return;
+                  var y1 = y(acc + v), y0 = y(acc);
+                  acc += v;
+                  if (!first && y0 - y1 > 2) y0 -= 1.5;
+                  first = false;
+                  var h = Math.max(0.5, y0 - y1);
+                  root.appendChild(svg('path', {
+                    d: j === topI ? topRounded(x, y1, bw, h, bw > 6 ? 3 : 1) : 'M' + x + ',' + y0 + 'V' + y1 + 'h' + bw + 'V' + y0 + 'Z',
+                    fill: PLAT[pl].color,
+                  }));
+                });
+              });
+            }
+            /* Pending store days: a hatched cap where the missing count would sit. */
+            data.forEach(function (d, i) {
+              if (!d.pend.length) return;
+              var x = padL + slot * i + (slot - bw) / 2;
+              root.appendChild(svg('rect', { x: x, y: y(d.total) - 14, width: bw, height: 12, rx: 3, fill: 'url(#g-hatch-' + SRC_PLAT[d.pend[0]] + ')' }));
+            });
+            root.appendChild(svg('line', { x1: padL, x2: W - padR, y1: y(0), y2: y(0), stroke: 'var(--border-strong)', 'stroke-width': 1 }));
+            xLabels(root, data.map(function (d) { return d.b.short; }), padL, slot, W, padR, H);
+            gHover(root, W, padL, padT, pw, ph, n, function (j) {
+              var d = data[j], rows = [];
+              plats.slice().reverse().forEach(function (pl) {
+                var late = m === 'dl' && d.pend.indexOf(PLAT_SRC[pl]) >= 0;
+                rows.push({ color: PLAT[pl].color, value: fmtN(d.v[pl]) + (late ? ' + pending' : ''), label: PLAT[pl].name });
+              });
+              if (plats.length > 1) rows.push({ value: fmtN(d.total), label: 'Total' });
+              d.pend.forEach(function (s) { rows.push({ value: '', label: STORE_NAME[s] + ' has not reported every day yet' }); });
+              return { title: d.b.title, rows: rows };
+            });
+            holder.appendChild(root);
+            var items = plats.map(function (pl) { return { name: PLAT[pl].name, color: PLAT[pl].color }; });
+            var lg = legend(holder, items);
+            if (anyPend) {
+              var late = {};
+              data.forEach(function (d) { d.pend.forEach(function (s) { late[s] = 1; }); });
+              Object.keys(late).forEach(function (s) {
+                var sp = el('span');
+                sp.appendChild(el('i', 'sw g-hatch' + (s === 'apple' ? ' ios' : '')));
+                sp.lastChild.style.backgroundColor = 'transparent';
+                sp.appendChild(document.createTextNode(STORE_NAME[s] + ' not reported yet'));
+                lg.appendChild(sp);
+              });
+            }
+          }
+        }
+
+        /* ---- the latest feed: accounts are people, downloads are counts ---- */
+
+        function ovFeed(parent, S, G) {
+          var k = gCard(parent, 'Latest', 'Newest first, inside your dates');
+          k.h.appendChild(gSeg([['all', 'All'], ['ac', 'Accounts'], ['dl', 'Downloads']], ui.feedF, function (v) { ui.feedF = v; ui.feedLimit = 40; draw(); }, 'Show'));
+          var box = el('div', 'g-feed');
+          k.c.appendChild(box);
+          var shown = [];
+
+          function collect() {
+            var items = [];
+            if (ui.feedF !== 'dl') {
+              S.joined.forEach(function (u) {
+                var local = u.created != null ? u.created + M.off(u.created) : u.cDay * DAY;
+                items.push({ t: u.cDay * DAY + (((local % DAY) + DAY) % DAY), u: u });
+              });
+            }
+            if (ui.feedF !== 'ac') {
+              var groups = {};
+              M.store.forEach(function (r) {
+                if (!S.inR(r.day) || G.srcs.indexOf(r.source) < 0) return;
+                var key = r.day + '|' + r.source;
+                var gr = groups[key] || (groups[key] = { day: r.day, src: r.source, n: 0, by: {} });
+                var cc = r.country && r.country !== 'ZZ' ? String(r.country).toUpperCase() : '??';
+                gr.n += r.n;
+                gr.by[cc] = (gr.by[cc] || 0) + r.n;
+              });
+              Object.keys(groups).forEach(function (key) {
+                var gr = groups[key];
+                if (gr.n > 0) items.push({ t: gr.day * DAY + DAY - 60000, d: gr });
+              });
+            }
+            items.sort(function (a, b) { return b.t - a.t; });
+            return items;
+          }
+
+          function strip(u) {
+            var dd = G.DD.get(u) || [], out = '';
+            for (var d = M.today - 13; d <= M.today; d++) out += '<span class="' + (hasIn(dd, d, d) ? 'on' : '') + '" title="' + dayLabel(d) + '"></span>';
+            return out;
+          }
+          function accountRow(it, i) {
+            var u = it.u, open = ui.feedOpen === u.k;
+            var where = u.country ? ccName(u.country) : 'Country unknown';
+            var meta = [u.platform === 'unknown' ? 'Unknown platform' : PLAT[u.platform].name, label(u.provider) + ' sign-in'];
+            if (u.goal) meta.push(label(u.goal));
+            var chip = !u.nDone ? '<span class="g-chip wait">Not trained yet</span>' : u.nDone === 1 ? '<span class="g-chip go">1st workout</span>' : '<span class="g-chip go">' + fmtN(u.nDone) + ' workouts</span>';
+            var more = '';
+            if (open) {
+              more = '<div class="g-more">Account <b class="key">' + esc(u.k) + '</b> · joined ' + (u.cDay != null ? dayLabelY(u.cDay) : '—') +
+                (u.created != null ? ' ' + clockOf(u.created) : '') +
+                (u.ldDay != null ? ' · last workout ' + dayLabel(u.ldDay) : '') +
+                '<div class="g-days" aria-label="Workouts in the last 14 days">' + strip(u) + '</div>' +
+                '<button type="button" class="g-btn" data-open="' + i + '">Open account</button></div>';
+            }
+            return '<div class="g-item ac" role="button" tabindex="0" aria-expanded="' + open + '" data-i="' + i + '">' +
+              '<span class="g-av">' + (u.country ? esc(u.country) : '—') + '<i style="background:' + PLAT[u.platform].color + '"></i></span>' +
+              '<div style="min-width:0"><div class="g-it">New account · ' + esc(where) + '</div><div class="g-im">' + esc(meta.join(' · ')) + '</div></div>' +
+              '<span class="g-ir"><span class="g-ago">' + esc(relAgo(u)) + '</span>' + chip + '</span>' + more + '</div>';
+          }
+          function storeRow(it) {
+            var d = it.d;
+            var list = Object.keys(d.by).sort(function (a, b) { return d.by[b] - d.by[a]; }).map(function (cc) { return ccName(cc) + ' ' + d.by[cc]; }).join(' · ');
+            return '<div class="g-item"><span class="g-av st">' + (d.src === 'apple' ? 'AS' : 'GP') + '</span>' +
+              '<div style="min-width:0"><div class="g-it">' + fmtN(d.n) + ' ' + plural(d.n, 'download') + ' · ' + STORE_NAME[d.src] + '</div><div class="g-im">' + esc(list) + '</div></div>' +
+              '<span class="g-ir"><span class="g-ago">' + dayLabel(d.day) + '</span><span class="g-chip store">Store count</span></span></div>';
+          }
+          function draw() {
+            var keep = box.scrollTop;
+            var items = collect();
+            shown = items.slice(0, ui.feedLimit);
+            if (!shown.length) {
+              box.innerHTML = '<p class="g-empty">Nothing new in these dates. Widen the window on the timeline.</p>';
+              return;
+            }
+            box.innerHTML = shown.map(function (it, i) { return it.u ? accountRow(it, i) : storeRow(it); }).join('') +
+              (items.length > shown.length ? '<div><button type="button" class="g-btn" data-more="1">Show ' + Math.min(40, items.length - shown.length) + ' more</button></div>' : '');
+            box.scrollTop = keep;
+          }
+          function act(ev) {
+            var t = ev.target;
+            var openB = t.closest('[data-open]');
+            if (openB) { ev.stopPropagation(); openDrawer(shown[+openB.getAttribute('data-open')].u, openB); return; }
+            if (t.closest('[data-more]')) { ui.feedLimit += 40; draw(); return; }
+            var row = t.closest('.g-item.ac');
+            if (!row) return;
+            var u = shown[+row.getAttribute('data-i')].u;
+            ui.feedOpen = ui.feedOpen === u.k ? null : u.k;
+            draw();
+            var again = box.querySelector('.g-item.ac[data-i="' + row.getAttribute('data-i') + '"]');
+            if (again && ev.type === 'keydown') again.focus();
+          }
+          box.addEventListener('click', act);
+          box.addEventListener('keydown', function (ev) {
+            if ((ev.key === 'Enter' || ev.key === ' ') && ev.target.classList && ev.target.classList.contains('g-item')) { ev.preventDefault(); act(ev); }
+          });
+          draw();
+        }
+
+        /* ---- activity and retention ---- */
+
+        function ovActivityTiles(p, S, G) {
+          var b = S.end;
+          var dau = G.trIn(b, b), wau = G.trIn(b - 6, b), mau = G.trIn(b - 29, b);
+          var pdau = G.trIn(b - 7, b - 7), pwau = G.trIn(b - 13, b - 7), pmau = G.trIn(b - 59, b - 30);
+          var sumD = 0, psumD = 0;
+          for (var i = b - 29; i <= b; i++) sumD += G.trDay(i);
+          for (i = b - 59; i <= b - 30; i++) psumD += G.trDay(i);
+          var stick = mau ? Math.round((sumD / 30 / mau) * 100) : 0;
+          var pstick = pmau ? Math.round((psumD / 30 / pmau) * 100) : null;
+          var trR = G.trIn(S.start, S.end), wpp = trR ? G.woIn(S.start, S.end) / trR : 0;
+          var trP = G.trIn(S.pstart, S.pend), pwpp = trP && S.pend >= M.minDay ? G.woIn(S.pstart, S.pend) / trP : null;
+          var early = function (d) { return d < M.minDay; };
+          function aTile(label, v, pill, vs, extra) {
+            return '<article class="card g-kpi"><div class="lab">' + esc(label) + '</div><div class="val sm">' + v + '</div>' +
+              '<div class="g-dl">' + pill + '<span class="g-vs">' + vs + '</span></div>' + (extra || '') + '</article>';
+          }
+          var r = 22, circ = 2 * Math.PI * r;
+          var ring = '<svg width="56" height="56" viewBox="0 0 56 56" aria-hidden="true"><circle cx="28" cy="28" r="' + r + '" fill="none" stroke="var(--raised)" stroke-width="7"/>' +
+            '<circle cx="28" cy="28" r="' + r + '" fill="none" stroke="var(--accent)" stroke-width="7" stroke-linecap="round" stroke-dasharray="' + (circ * Math.min(100, stick) / 100).toFixed(1) + ' ' + circ.toFixed(1) + '" transform="rotate(-90 28 28)"/></svg>';
+          var accounts = S.users.filter(function (u) { return u.cDay != null && u.cDay <= b; }).length;
+          var grid = el('div', 'g-kpis');
+          grid.innerHTML =
+            aTile('Trained on ' + dayLabel(b), fmtN(dau), early(b - 7) ? deltaPill(dau, null) : deltaPill(dau, pdau), 'vs a week earlier', '<div class="g-note">' + fmtN(G.woIn(b, b)) + ' ' + plural(G.woIn(b, b), 'workout') + ' finished</div>') +
+            aTile('Trained in the last 7 days', fmtN(wau), early(b - 13) ? deltaPill(wau, null) : deltaPill(wau, pwau), 'vs the 7 days before', '<div class="g-note">' + pctS(wau, mau) + ' of the last 30 days’ trainers</div>') +
+            aTile('Trained in the last 30 days', fmtN(mau), early(b - 59) ? deltaPill(mau, null) : deltaPill(mau, pmau), 'vs the 30 days before', '<div class="g-note">' + fmtN(accounts) + ' ' + plural(accounts, 'account') + ' in total</div>') +
+            '<article class="card g-kpi"><div class="lab">How often they come back</div><div class="g-ring">' + ring +
+            '<div><div class="val sm">' + stick + '<small>%</small></div><div class="g-note">of monthly trainers train on a given day</div></div></div>' +
+            '<div class="g-dl" style="margin-top:8px">' + (early(b - 59) ? deltaPill(stick, null, true) : deltaPill(stick, pstick, true)) +
+            '<span class="g-vs">' + fmt1(wpp) + ' workouts per person in your dates' + (pwpp != null ? ' (was ' + fmt1(pwpp) + ')' : '') + '</span></div></article>';
+          p.appendChild(grid);
+        }
+
+        function ovDaily(parent, S, G) {
+          var k = gCard(parent, 'Training every day', '');
+          var b = S.end, a = Math.min(S.start, b - 13), n = b - a + 1;
+          k.sub.textContent = S.start > a ? 'Your dates are short, so the chart shows two weeks for context' : 'Each bar is one day; the line counts the 7 days up to it';
+          var box = el('div', 'g-chart');
+          k.c.appendChild(box);
+          legend(k.c, [{ name: 'Trained that day', color: 'color-mix(in srgb, var(--accent) 45%, transparent)' }, { name: 'Trained in the 7 days up to it', color: 'var(--accent)', line: true }]);
+          deferred(box, function (holder) {
+            var d = [], w = [];
+            for (var i = a; i <= b; i++) { d.push(G.trDay(i)); w.push(G.trIn(i - 6, i)); }
+            var W = boxWidth(holder), H = 250;
+            var ys = scaleY(Math.max.apply(null, w.concat(d)), true);
+            var padL = 10 + Math.max.apply(null, ys.ticks.map(function (t) { return textW(fmtTick(t)); }));
+            var padR = 10, padT = 10, padB = 24, pw = W - padL - padR, ph = H - padT - padB, slot = pw / n;
+            function y(v) { return padT + ph - (v / ys.max) * ph; }
+            function X(j) { return padL + slot * j + slot / 2; }
+            var root = svg('svg', { viewBox: '0 0 ' + W + ' ' + H, class: 'chart', role: 'img', 'aria-label': 'People who trained each day' });
+            yAxis(root, ys, padL, W, padR, y);
+            if (S.start > a) root.appendChild(svg('rect', { x: padL, y: padT, width: slot * (S.start - a), height: ph, fill: 'var(--raised)', opacity: 0.5 }));
+            var bw = Math.max(1, Math.min(14, slot * 0.6));
+            d.forEach(function (v, j) {
+              if (v) root.appendChild(svg('path', { d: topRounded(X(j) - bw / 2, y(v), bw, padT + ph - y(v), 2), fill: 'var(--accent)', opacity: 0.42 }));
+            });
+            var line = w.map(function (v, j) { return (j ? 'L' : 'M') + X(j).toFixed(1) + ' ' + y(v).toFixed(1); }).join(' ');
+            root.appendChild(svg('path', { d: line + ' L' + X(n - 1).toFixed(1) + ' ' + (padT + ph) + ' L' + X(0).toFixed(1) + ' ' + (padT + ph) + ' Z', fill: 'var(--accent)', opacity: 0.08 }));
+            root.appendChild(svg('path', { d: line, fill: 'none', stroke: 'var(--accent)', 'stroke-width': 2.25, 'stroke-linejoin': 'round', 'stroke-linecap': 'round' }));
+            root.appendChild(svg('circle', { cx: X(n - 1), cy: y(w[n - 1]), r: 4, fill: 'var(--accent)', stroke: 'var(--surface)', 'stroke-width': 2 }));
+            root.appendChild(svg('line', { x1: padL, x2: W - padR, y1: y(0), y2: y(0), stroke: 'var(--border-strong)', 'stroke-width': 1 }));
+            var labels = [];
+            for (i = a; i <= b; i++) labels.push(dayLabel(i));
+            xLabels(root, labels, padL, slot, W, padR, H);
+            gHover(root, W, padL, padT, pw, ph, n, function (j) {
+              return {
+                title: WD[wdOf(a + j)] + ' ' + dayLabelY(a + j),
+                rows: [
+                  { color: 'var(--accent)', value: fmtN(d[j]), label: 'trained that day' },
+                  { color: 'var(--accent)', value: fmtN(w[j]), label: 'in the 7 days up to it' },
+                  { value: fmtN(G.woIn(a + j, a + j)), label: plural(G.woIn(a + j, a + j), 'workout') },
+                ],
+              };
+            });
+            holder.appendChild(root);
+          });
+        }
+
+        /*
+          Still training after N days: of the people who joined at least
+          N + 7 days ago (so everybody had a week to come back), the share
+          with a finished workout on day N after signup or later.
+        */
+        function stillCurve(group, G) {
+          var pts = [];
+          for (var kd = 1; kd <= 30; kd++) {
+            var el2 = 0, kept = 0;
+            for (var i = 0; i < group.length; i++) {
+              var u = group[i];
+              if (u.cDay == null || M.today - u.cDay < kd + 7) continue;
+              el2++;
+              var dd = G.DD.get(u);
+              if (dd && dd[dd.length - 1] >= u.cDay + kd) kept++;
+            }
+            pts.push(el2 < 8 ? null : { v: Math.round((kept / el2) * 100), n: el2, kept: kept });
+          }
+          return pts;
+        }
+
+        function ovStill(parent, S, G) {
+          var k = gCard(parent, 'Still training after', '');
+          var box = el('div', 'g-chart');
+          k.c.appendChild(box);
+          var all = S.users.filter(function (u) { return u.cDay != null; }), mine = S.joined;
+          var same = mine.length === all.length;
+          var ca = stillCurve(all, G), cm = same ? ca : stillCurve(mine, G);
+          var empty = cm.every(function (v) { return v == null; });
+          k.sub.textContent = 'Share who trained again on day N or later · ' + fmtN(mine.length) + ' joined in your dates' +
+            (empty && !same ? ', too new to measure yet. Widen your dates to compare' : '');
+          legend(k.c, same ? [{ name: 'Everyone so far', color: 'var(--muted)', line: true }]
+            : [{ name: 'Joined in your dates', color: 'var(--accent)', line: true }, { name: 'Everyone so far', color: 'var(--muted)', line: true }]);
+          deferred(box, function (holder) {
+            var W = boxWidth(holder), H = 250, padL = 40, padR = 14, padT = 14, padB = 24;
+            var pw = W - padL - padR, ph = H - padT - padB;
+            function X(kd) { return padL + ((kd - 1) / 29) * pw; }
+            function y(v) { return padT + ph - (v / 100) * ph; }
+            var root = svg('svg', { viewBox: '0 0 ' + W + ' ' + H, class: 'chart', role: 'img', 'aria-label': 'Share still training after N days' });
+            yAxis(root, { ticks: [0, 25, 50, 75, 100] }, padL, W, padR, y, function (t) { return t + '%'; });
+            [1, 7, 14, 21, 30].forEach(function (kd) {
+              root.appendChild(svgText({ x: X(kd), y: H - 6, 'text-anchor': kd === 1 ? 'start' : kd === 30 ? 'end' : 'middle' }, 'Day ' + kd));
+            });
+            function path(c) {
+              var d = '', on = false;
+              c.forEach(function (p2, i) {
+                if (p2 == null) { on = false; return; }
+                d += (on ? 'L' : 'M') + X(i + 1).toFixed(1) + ' ' + y(p2.v).toFixed(1) + ' ';
+                on = true;
+              });
+              return d;
+            }
+            var pa = path(ca);
+            if (pa) root.appendChild(svg('path', { d: pa, fill: 'none', stroke: 'var(--muted)', 'stroke-width': 1.5, 'stroke-dasharray': '4 4' }));
+            if (!same) {
+              var pm = path(cm);
+              if (pm) root.appendChild(svg('path', { d: pm, fill: 'none', stroke: 'var(--accent)', 'stroke-width': 2.25, 'stroke-linejoin': 'round' }));
+            }
+            var main = same ? ca : cm, col = same ? 'var(--muted)' : 'var(--accent)';
+            [1, 7, 30].forEach(function (kd) {
+              var v = main[kd - 1];
+              if (v == null) return;
+              root.appendChild(svg('circle', { cx: X(kd), cy: y(v.v), r: 4.5, fill: col, stroke: 'var(--surface)', 'stroke-width': 2 }));
+              var t = svgText({ x: X(kd) + (kd === 30 ? -8 : 8), y: y(v.v) - 9, 'text-anchor': kd === 30 ? 'end' : 'start' }, v.v + '%');
+              t.style.fill = 'var(--text)';
+              t.style.fontWeight = '600';
+              root.appendChild(t);
+            });
+            if (ca.every(function (v) { return v == null; })) {
+              var msg = svgText({ x: padL + pw / 2, y: padT + ph / 2, 'text-anchor': 'middle' }, 'Not enough people old enough to measure yet');
+              root.appendChild(msg);
+            }
+            /* Hover snaps to the nearest day. */
+            var slotPad = pw / 29;
+            gHover(root, W, padL - slotPad / 2, padT, pw + slotPad, ph, 30, function (j) {
+              var rows = [];
+              if (!same && cm[j]) rows.push({ color: 'var(--accent)', value: cm[j].v + '%', label: fmtN(cm[j].kept) + ' of ' + fmtN(cm[j].n) + ', joined in your dates' });
+              if (ca[j]) rows.push({ color: 'var(--muted)', value: ca[j].v + '%', label: fmtN(ca[j].kept) + ' of ' + fmtN(ca[j].n) + ', everyone' });
+              if (!rows.length) rows.push({ value: '', label: 'Fewer than 8 people old enough' });
+              return { title: 'Trained on day ' + (j + 1) + ' or later', rows: rows };
+            });
+            holder.appendChild(root);
+          });
+        }
+
+        /*
+          Growth accounting by Monday week: who trained for the first time,
+          who kept going from the week before, who came back after a gap,
+          and who trained the week before but not this one.
+        */
+        function ovWeekly(p, S, G) {
+          var k = gCard(p, 'Who trained each week', '');
+          var box = el('div', 'g-chart');
+          k.c.appendChild(box);
+          legend(k.c, [
+            { name: 'First week training', color: 'var(--accent)' },
+            { name: 'Trained the week before too', color: 'var(--keep)' },
+            { name: 'Came back after a break', color: 'var(--back)' },
+            { name: 'Stopped this week', color: 'var(--down)' },
+          ]);
+          var w1 = weekOf(S.end), w0 = Math.max(weekOf(Math.min(S.start, S.end - 7 * 6)), w1 - 51, weekOf(M.minDay));
+          var TU = G.TU, prevA = null, rows = [];
+          function activeIn(w) {
+            var a = weekStart(w), b = a + 6, set = new Set();
+            for (var i = 0; i < TU.length; i++) if (hasIn(G.DD.get(TU[i]), a, b)) set.add(TU[i]);
+            return set;
+          }
+          prevA = activeIn(w0 - 1);
+          for (var w = w0; w <= w1; w++) {
+            var A = activeIn(w), r = { w: w, nw: 0, keep: 0, back: 0, lost: 0, partial: weekStart(w) + 6 > M.today };
+            A.forEach(function (u) {
+              var fw = weekOf(G.DD.get(u)[0]);
+              if (fw === w) r.nw++; else if (prevA.has(u)) r.keep++; else r.back++;
+            });
+            prevA.forEach(function (u) { if (!A.has(u)) r.lost++; });
+            rows.push(r);
+            prevA = A;
+          }
+          /* The ratio reads the newest finished week; a week still running has not had its chance. */
+          var ref = rows[rows.length - 1];
+          if (ref && ref.partial && rows.length > 1) ref = rows[rows.length - 2];
+          var qr = ref && ref.lost ? fmt1((ref.nw + ref.back) / ref.lost) : '—';
+          k.sub.innerHTML = 'Above the line people who trained, below it people who stopped. ' +
+            (ref ? (ref.partial ? 'This week so far' : 'Week of ' + esc(dayLabel(weekStart(ref.w)))) + ': <b>' + qr + '</b> ' + (qr === '—' ? '(nobody stopped)' : 'people gained for each one lost') : '');
+          deferred(box, function (holder) {
+            if (!rows.length) { holder.appendChild(el('p', 'empty', 'No training in these weeks.')); return; }
+            var W = boxWidth(holder), H = 260, padL = 10, padR = 10, padT = 10, padB = 24;
+            var mxU = 1, mxD = 1;
+            rows.forEach(function (r2) { mxU = Math.max(mxU, r2.nw + r2.keep + r2.back); mxD = Math.max(mxD, r2.lost); });
+            var su = scaleY(mxU, true, 3), sd = scaleY(mxD, true, 2);
+            padL = 10 + Math.max.apply(null, su.ticks.concat(sd.ticks).map(function (t) { return textW(fmtTick(t)); }));
+            var pw = W - padL - padR, ph = H - padT - padB, n = rows.length, slot = pw / n;
+            var total = su.max + sd.max, sc = ph / total, zero = padT + su.max * sc;
+            var root = svg('svg', { viewBox: '0 0 ' + W + ' ' + H, class: 'chart', role: 'img', 'aria-label': 'Who trained each week' });
+            su.ticks.forEach(function (t) {
+              if (!t) return;
+              root.appendChild(svg('line', { x1: padL, x2: W - padR, y1: zero - t * sc, y2: zero - t * sc, stroke: 'var(--border)', 'stroke-dasharray': '2 4' }));
+              root.appendChild(svgText({ x: padL - 7, y: zero - t * sc + 4, 'text-anchor': 'end' }, fmtTick(t)));
+            });
+            sd.ticks.forEach(function (t) {
+              if (!t) return;
+              root.appendChild(svg('line', { x1: padL, x2: W - padR, y1: zero + t * sc, y2: zero + t * sc, stroke: 'var(--border)', 'stroke-dasharray': '2 4' }));
+              root.appendChild(svgText({ x: padL - 7, y: zero + t * sc + 4, 'text-anchor': 'end' }, '−' + fmtTick(t)));
+            });
+            var bw = Math.max(2, Math.min(40, slot * 0.55));
+            rows.forEach(function (r2, i) {
+              var x = padL + slot * i + (slot - bw) / 2, yy = zero;
+              [['nw', 'var(--accent)'], ['keep', 'var(--keep)'], ['back', 'var(--back)']].forEach(function (s) {
+                var h = r2[s[0]] * sc;
+                if (!h) return;
+                root.appendChild(svg('rect', { x: x, y: yy - h, width: bw, height: Math.max(0.5, h - 1), rx: 2, fill: s[1] }));
+                yy -= h;
+              });
+              if (r2.lost) root.appendChild(svg('rect', { x: x, y: zero + 1, width: bw, height: Math.max(0.5, r2.lost * sc - 1), rx: 2, fill: 'var(--down)', opacity: 0.8 }));
+            });
+            root.appendChild(svg('line', { x1: padL, x2: W - padR, y1: zero, y2: zero, stroke: 'var(--border-strong)', 'stroke-width': 1 }));
+            xLabels(root, rows.map(function (r2) { return dayLabel(weekStart(r2.w)); }), padL, slot, W, padR, H, function (i) {
+              var a = weekStart(rows[i].w);
+              return a + 6 >= S.start && a <= S.end ? 'var(--text)' : null;
+            });
+            gHover(root, W, padL, padT, pw, ph, n, function (j) {
+              var r2 = rows[j];
+              return {
+                title: 'Week of ' + dayLabelY(weekStart(r2.w)) + (r2.partial ? ' (so far)' : ''),
+                rows: [
+                  { color: 'var(--accent)', value: fmtN(r2.nw), label: 'first week' },
+                  { color: 'var(--keep)', value: fmtN(r2.keep), label: 'kept going' },
+                  { color: 'var(--back)', value: fmtN(r2.back), label: 'came back' },
+                  { color: 'var(--down)', value: fmtN(r2.lost), label: 'stopped' },
+                ],
+              };
+            });
+            holder.appendChild(root);
+          });
+        }
+
+        /* ---- where they come from ---- */
+
+        function ovFunnel(parent, S, G) {
+          var k = gCard(parent, 'From download to habit', 'Everyone who joined inside your dates');
+          var J = S.joined;
+          var hasDl = G.conn.length > 0;
+          var d = hasDl ? G.dlIn(S.start, S.end) : null;
+          var a = J.length;
+          var f = J.filter(function (u) { return u.nDone > 0; }).length;
+          var w2 = J.filter(function (u) { var dd = G.DD.get(u); return dd && dd[dd.length - 1] >= u.cDay + 7; }).length;
+          var young = J.filter(function (u) { return M.today - u.cDay < 7; }).length;
+          var cv = G.cvIn(S.start, S.end);
+          var pend = G.lastFull != null && S.end > G.lastFull;
+          var steps = [['Downloads', d], ['Made an account', a], ['Finished a first workout', f], ['Trained again a week later', w2]];
+          var mx = Math.max(d || 0, a, 1);
+          var box = el('div', 'g-funnel');
+          box.innerHTML = steps.map(function (s, i) {
+            var v = s[1], conv = '';
+            if (i === 1) conv = cv == null ? '—' : cv + '%';
+            else if (i > 1) conv = steps[i - 1][1] ? pct(v, steps[i - 1][1]) + '%' : '—';
+            var extra = '';
+            if (i === 1 && pend && cv != null) extra = ' · on days both stores have reported';
+            if (i === 1 && !hasDl) extra = ' · no store downloads to compare';
+            if (i === 3 && young) extra = ' · ' + fmtN(young) + ' joined under a week ago';
+            return '<div><div class="g-fl"><span>' + s[0] + '</span><b>' + (v == null ? '—' : fmtN(v)) + '</b></div>' +
+              '<div class="g-ftrack"><div class="g-fbar" style="width:' + (v == null ? 0 : Math.min(100, (v / mx) * 100)).toFixed(1) + '%;opacity:' + (1 - i * 0.17).toFixed(2) + '"></div></div>' +
+              (i ? '<div class="g-fconv"><b>' + conv + '</b> of the step before' + extra + '</div>' : '') + '</div>';
+          }).join('');
+          k.c.appendChild(box);
+        }
+
+        function ovCountries(parent, S, G) {
+          var k = gCard(parent, 'Countries', 'Change compares with the same number of days before');
+          var hasPrev = ctl.range !== 'all' && S.pend >= M.minDay;
+          var cur = {}, prev = {}, acc = {};
+          M.store.forEach(function (r) {
+            if (G.srcs.indexOf(r.source) < 0) return;
+            var cc = r.country && r.country !== 'ZZ' ? String(r.country).toUpperCase() : '??';
+            if (S.inR(r.day)) cur[cc] = (cur[cc] || 0) + r.n;
+            else if (S.inP(r.day)) prev[cc] = (prev[cc] || 0) + r.n;
+          });
+          var anyCountry = M.users.some(function (u) { return u.country; });
+          var noCountry = 0;
+          S.joined.forEach(function (u) {
+            if (u.country) acc[u.country] = (acc[u.country] || 0) + 1; else noCountry++;
+          });
+          var keys = {};
+          Object.keys(cur).forEach(function (c) { keys[c] = 1; });
+          Object.keys(acc).forEach(function (c) { keys[c] = 1; });
+          var rows = Object.keys(keys).map(function (c) { return { c: c, cur: cur[c] || 0, prev: prev[c] || 0, acc: acc[c] || 0 }; })
+            .filter(function (r) { return r.cur || r.acc; })
+            .sort(function (a, b) { return b.cur - a.cur || b.acc - a.acc || (a.c < b.c ? -1 : 1); });
+          var mx = Math.max.apply(null, rows.map(function (r) { return r.cur; }).concat([1]));
+          var tb = el('div', 'tablebox');
+          var html = '<table class="g-ctry"><thead><tr><th scope="col">Country</th><th scope="col">Downloads</th><th scope="col">Accounts</th><th scope="col">Change</th></tr></thead><tbody>';
+          html += rows.slice(0, 10).map(function (r) {
+            var ch;
+            if (!hasPrev) ch = '<span style="color:var(--faint)">—</span>';
+            else if (!r.prev) ch = r.cur ? '<span class="g-delta up">new</span>' : '<span style="color:var(--faint)">—</span>';
+            else {
+              var d = r.cur - r.prev;
+              ch = '<span class="g-delta ' + (d > 0 ? 'up' : d < 0 ? 'down' : 'flat') + '">' + (d > 0 ? '▲ ' : d < 0 ? '▼ ' : '') + Math.abs(Math.round((d / r.prev) * 100)) + '%</span>';
+            }
+            return '<tr><td><span class="g-cc">' + (r.c === '??' ? '?' : esc(r.c)) + '</span>' + esc(ccName(r.c)) + '</td>' +
+              '<td><span class="g-share" style="width:' + Math.round((r.cur / mx) * 60) + 'px"></span>' + fmtN(r.cur) + '</td>' +
+              '<td>' + (anyCountry ? fmtN(r.acc) : '—') + '</td><td>' + ch + '</td></tr>';
+          }).join('');
+          if (!rows.length) html += '<tr><td colspan="4" style="color:var(--muted)">' + (M.store.length ? 'No downloads in these dates.' : 'Store downloads are not connected yet.') + '</td></tr>';
+          tb.innerHTML = html + '</tbody></table>';
+          k.c.appendChild(tb);
+          if (!anyCountry) k.c.appendChild(el('p', 'g-foot', 'Accounts don’t carry a country yet, so only downloads are split by country.'));
+          else if (noCountry) k.c.appendChild(el('p', 'g-foot', fmtN(noCountry) + ' new ' + plural(noCountry, 'account has', 'accounts have') + ' no country and ' + (noCountry === 1 ? 'is' : 'are') + ' left out of the accounts column.'));
+        }
+
+        function ovPace(parent, S, G) {
+          var T = M.today, cmA = monthStartOf(T), dim = monthEndOf(T) - cmA + 1, elapsed = T - cmA + 1;
+          var lmA = monthStartOf(cmA - 1), lmB = cmA - 1;
+          var k = gCard(parent, 'This month’s pace', monthName(T) + ', day ' + elapsed + ' of ' + dim);
+          var lmName = monthName(lmA), lmShort = MONTHS[new Date(lmA * DAY).getUTCMonth()];
+          var lastKnown = lmB >= M.minDay;
+          function row2(labelText, so, proj, last, note) {
+            if (proj == null) {
+              return '<div><div class="g-pl">' + labelText + '</div><div class="g-prow"><span class="g-pv">' + (so == null ? '—' : fmtN(so)) + '</span><span>' + esc(note || 'too early to project') + '</span></div></div>';
+            }
+            var scale = Math.max(proj, last, so, 1) * 1.08;
+            var pill = !lastKnown ? '<span class="g-delta flat">no ' + lmName + ' data</span>' : last ? deltaPill(proj, last) + '<span class="g-vs">vs ' + lmName + '</span>' : '<span class="g-delta flat">none in ' + lmName + '</span>';
+            return '<div><div class="g-pl">' + labelText + '</div>' +
+              '<div class="g-prow"><span class="g-pv">' + fmtN(so) + '</span><span>on pace for <b class="num">' + fmtN(proj) + '</b></span>' + pill + '</div>' +
+              '<div class="g-pbar"><div class="pj" style="width:' + ((proj / scale) * 100).toFixed(1) + '%"></div><div class="so" style="width:' + ((so / scale) * 100).toFixed(1) + '%"></div>' +
+              (lastKnown ? '<div class="lm" style="left:' + ((last / scale) * 100).toFixed(1) + '%" title="' + lmName + '"></div>' : '') + '</div>' +
+              '<div class="g-pk"><span>So far' + (note ? ' · ' + esc(note) : '') + '</span><span>' + (lastKnown ? '| ' + lmShort + ' total ' + fmtN(last) : '') + '</span></div></div>';
+          }
+          var out = '';
+          if (!G.conn.length) out += row2('Downloads', null, null, 0, M.store.length ? 'pick All, iPhone or Android' : 'stores not connected');
+          else {
+            /* Project from the days every store in view has reported, so Google's lag is not read as a slump. */
+            var full = G.lastFull == null || G.conn.length < G.srcs.length ? 0 : Math.min(T, G.lastFull) - cmA + 1;
+            var soD = G.dlIn(cmA, T);
+            var projD = full > 0 ? Math.round((G.dlIn(cmA, cmA + full - 1) / full) * dim) : null;
+            var noteD = full > 0 && full < elapsed ? 'projected from days up to ' + dayLabel(cmA + full - 1) : '';
+            out += row2('Downloads', soD, projD, G.dlIn(lmA, lmB), projD == null ? 'no reported days this month yet' : noteD);
+          }
+          /* Accounts: completed days only, so a morning does not read as a slow day. */
+          var soA = G.acIn(cmA, T);
+          var doneDays = elapsed > 1 ? elapsed - 1 : 1;
+          var projA = Math.round((G.acIn(cmA, cmA + doneDays - 1) / doneDays) * dim);
+          if (elapsed === 1) projA = Math.round(soA * dim);
+          out += row2('New accounts', soA, projA, G.acIn(lmA, lmB), '');
+          var box = el('div', 'g-pace');
+          box.innerHTML = out;
+          k.c.appendChild(box);
+        }
+
+        function ovCohorts(parent, S, G) {
+          var k = gCard(parent, 'Who keeps training', 'Share of each signup week that trained again in later weeks');
+          var wEnd = weekOf(Math.min(S.end, M.today)), wFirst = weekOf(M.minDay);
+          var wStart = Math.max(wFirst, wEnd - 11);
+          var weeks = wEnd - wStart + 1;
+          var cols = Math.max(1, Math.min(7, weeks - 1));
+          var nowW = weekOf(M.today);
+          var tb = el('div', 'tablebox');
+          var t = el('table', 'cohort g-coh');
+          var head = '<thead><tr><th scope="col" style="text-align:start">Signed up</th><th scope="col" class="n">People</th>';
+          for (var c = 1; c <= cols; c++) head += '<th scope="col">Wk ' + c + '</th>';
+          t.innerHTML = head + '</tr></thead>';
+          var body = el('tbody');
+          var any = false;
+          for (var w = wEnd; w >= wStart; w--) {
+            var a = weekStart(w), b = a + 6;
+            var ps = S.users.filter(function (u) { return u.cDay != null && u.cDay >= a && u.cDay <= b; });
+            if (!ps.length) continue;
+            any = true;
+            var tr = el('tr', b >= S.start && a <= S.end ? null : 'out');
+            tr.appendChild(el('td', null, dayLabel(a)));
+            tr.appendChild(el('td', 'n', fmtN(ps.length)));
+            for (c = 1; c <= cols; c++) {
+              var td = el('td');
+              if (w + c > nowW) { tr.appendChild(td); continue; }
+              var s0 = weekStart(w + c), s1 = s0 + 6;
+              var cnt = ps.filter(function (u) { var dd = G.DD.get(u); return dd && hasIn(dd, s0, s1); }).length;
+              var share = Math.round((cnt / ps.length) * 100);
+              var cell = el('span', 'cell num' + (cnt ? '' : ' dim'), share + '%');
+              cell.style.background = 'color-mix(in srgb, var(--accent) ' + Math.round(share * 0.85) + '%, var(--raised))';
+              if (share > 45) cell.style.color = 'var(--on-accent)';
+              (function (a2, c2, cnt2, n2, part) {
+                bindTip(cell, function () {
+                  return { title: 'Joined week of ' + dayLabel(a2) + ' · week ' + c2 + (part ? ' (so far)' : ''), rows: [{ color: 'var(--accent)', value: fmtN(cnt2) + ' of ' + fmtN(n2), label: 'trained' }] };
+                });
+              }(a, c, cnt, ps.length, s1 > M.today));
+              td.appendChild(cell);
+              tr.appendChild(td);
+            }
+            body.appendChild(tr);
+          }
+          t.appendChild(body);
+          tb.appendChild(t);
+          if (!any) k.c.appendChild(el('p', 'empty', 'Nobody signed up in these weeks.'));
+          else k.c.appendChild(tb);
+        }
+
+        /* =================================================================
+           The full-history timeline in the control bar. Its window is the
+           date range: dragging it writes a custom range, the chips and the
+           month picker write theirs, and every tab reads the one range.
+           ================================================================= */
+
+        var tlTimer = 0;
+        function tlSpan() { return { a: M.minDay, b: M.today, n: M.today - M.minDay + 1 }; }
+
+        function drawTimeline() {
+          var box = $('ctl-tl');
+          if (!M || !box || $('dash').hidden) return;
+          var sp = tlSpan(), N = sp.n;
+          var W = box.clientWidth || 600, H = 54;
+          var srcs = storeSources(), dls = zeros(N), acc = zeros(N);
+          M.store.forEach(function (r) { var i = r.day - sp.a; if (i >= 0 && i < N && srcs.indexOf(r.source) >= 0) dls[i] += r.n; });
+          M.users.forEach(function (u) {
+            if (u.cDay == null || (!ctl.test && u.x) || (ctl.platform !== 'all' && u.platform !== ctl.platform)) return;
+            var i = u.cDay - sp.a;
+            if (i >= 0 && i < N) acc[i]++;
+          });
+          var mx = 1;
+          for (var i = 0; i < N; i++) mx = Math.max(mx, dls[i], acc[i]);
+          var bw = W / N, s = '';
+          for (i = 0; i < N; i++) {
+            var x = i * bw, h1 = (dls[i] / mx) * (H - 8), h2 = (acc[i] / mx) * (H - 8);
+            if (h1) s += '<rect x="' + (x + Math.min(1, bw * 0.1)).toFixed(2) + '" y="' + (H - h1).toFixed(2) + '" width="' + Math.max(0.6, bw - Math.min(2, bw * 0.2)).toFixed(2) + '" height="' + h1.toFixed(2) + '" rx="1.5" fill="var(--border-strong)"/>';
+            if (h2) s += '<rect x="' + (x + bw * 0.22).toFixed(2) + '" y="' + (H - h2).toFixed(2) + '" width="' + Math.max(0.6, bw * 0.56 - Math.min(2, bw * 0.1)).toFixed(2) + '" height="' + h2.toFixed(2) + '" rx="1.5" fill="var(--accent)" opacity=".8"/>';
+          }
+          var ticks = '', lastX = -99;
+          for (var m0 = monthStartOf(sp.a); m0 <= sp.b; m0 = monthEndOf(m0) + 1) {
+            var at = Math.max(m0, sp.a), px = ((at - sp.a) / N) * W;
+            if (m0 > sp.a) s += '<line x1="' + px.toFixed(1) + '" x2="' + px.toFixed(1) + '" y1="0" y2="' + H + '" stroke="var(--border)" stroke-dasharray="2 3"/>';
+            if (px - lastX >= 36 && px < W - 60) {
+              var dt = new Date(at * DAY);
+              ticks += '<span style="left:' + px.toFixed(1) + 'px">' + MONTHS[dt.getUTCMonth()] + (dt.getUTCMonth() === 0 || m0 <= sp.a ? ' ' + dt.getUTCFullYear() : '') + '</span>';
+              lastX = px;
+            }
+          }
+          ticks += '<span style="right:0">Today</span>';
+          var sv = $('ctl-tlsvg');
+          sv.setAttribute('viewBox', '0 0 ' + W + ' ' + H);
+          sv.innerHTML = s;
+          $('ctl-ticks').innerHTML = ticks;
+          placeWindow();
+        }
+
+        function tlRange() {
+          var sp = tlSpan(), r = rangeBounds();
+          var a = Math.max(sp.a, Math.min(sp.b, r.start)), b = Math.max(sp.a, Math.min(sp.b, r.end));
+          return { a: Math.min(a, b), b: Math.max(a, b) };
+        }
+        function placeWindow() {
+          if (!M) return;
+          var box = $('ctl-tl'), sp = tlSpan(), W = box.clientWidth || 600, r = tlRange();
+          var x0 = ((r.a - sp.a) / sp.n) * W, x1 = ((r.b - sp.a + 1) / sp.n) * W;
+          $('ctl-win').style.left = x0 + 'px';
+          $('ctl-win').style.width = Math.max(6, x1 - x0) + 'px';
+          $('ctl-g0').style.left = x0 + 'px';
+          $('ctl-g1').style.left = x1 + 'px';
+          $('ctl-win').setAttribute('aria-valuetext', spanLabel(r.a, r.b));
+          $('ctl-g0').setAttribute('aria-valuetext', dayLabelY(r.a));
+          $('ctl-g1').setAttribute('aria-valuetext', dayLabelY(r.b));
+          [['ctl-win', r.a], ['ctl-g0', r.a], ['ctl-g1', r.b]].forEach(function (x) {
+            var n = $(x[0]);
+            n.setAttribute('aria-valuemin', '0');
+            n.setAttribute('aria-valuemax', String(sp.n - 1));
+            n.setAttribute('aria-valuenow', String(x[1] - sp.a));
+          });
+        }
+        /* Live while dragging: the window and the range text move at once; the tab redraws when the hand pauses. */
+        function setCustom(a, b, now) {
+          ctl.range = 'custom';
+          ctl.from = isoDay(a);
+          ctl.to = isoDay(b);
+          syncControls();
+          clearTimeout(tlTimer);
+          if (now) controlsChanged();
+          else tlTimer = setTimeout(controlsChanged, 180);
+        }
+
+        (function wireTimeline() {
+          var box = $('ctl-tl');
+          function idxAt(clientX) {
+            var r = box.getBoundingClientRect(), sp = tlSpan();
+            return sp.a + Math.max(0, Math.min(sp.n - 1, Math.floor(((clientX - r.left) / r.width) * sp.n)));
+          }
+          function drag(node, kind) {
+            node.addEventListener('pointerdown', function (ev) {
+              if (!M) return;
+              ev.preventDefault();
+              ev.stopPropagation();
+              try { node.setPointerCapture(ev.pointerId); } catch (e) { /* older browsers */ }
+              var rect = box.getBoundingClientRect(), sp = tlSpan(), r0 = tlRange(), ox = ev.clientX, moved = false;
+              function move(e2) {
+                moved = true;
+                var a = r0.a, b = r0.b;
+                if (kind === 'a') a = Math.min(idxAt(e2.clientX), r0.b);
+                else if (kind === 'b') b = Math.max(idxAt(e2.clientX), r0.a);
+                else {
+                  var len = r0.b - r0.a, sh = Math.round(((e2.clientX - ox) / rect.width) * sp.n);
+                  a = Math.max(sp.a, Math.min(sp.b - len, r0.a + sh));
+                  b = a + len;
+                }
+                setCustom(a, b, false);
+              }
+              function up() {
+                node.removeEventListener('pointermove', move);
+                node.removeEventListener('pointerup', up);
+                node.removeEventListener('pointercancel', up);
+                if (moved) { clearTimeout(tlTimer); controlsChanged(); }
+              }
+              node.addEventListener('pointermove', move);
+              node.addEventListener('pointerup', up);
+              node.addEventListener('pointercancel', up);
+            });
+          }
+          drag($('ctl-g0'), 'a');
+          drag($('ctl-g1'), 'b');
+          drag($('ctl-win'), 'w');
+          /* A click on the history moves the window there, keeping its length. */
+          box.addEventListener('pointerdown', function (ev) {
+            if (!M || ev.target.closest('.g-win, .g-grip')) return;
+            var sp = tlSpan(), r = tlRange(), len = r.b - r.a, i = idxAt(ev.clientX);
+            var a = Math.max(sp.a, Math.min(sp.b - len, i - Math.floor(len / 2)));
+            setCustom(a, a + len, true);
+          });
+          function keys(node, kind) {
+            node.addEventListener('keydown', function (ev) {
+              if (!M) return;
+              var d = ev.key === 'ArrowLeft' ? -1 : ev.key === 'ArrowRight' ? 1 : 0;
+              if (!d) return;
+              ev.preventDefault();
+              if (ev.shiftKey) d *= 7;
+              var sp = tlSpan(), r = tlRange(), a = r.a, b = r.b;
+              if (kind === 'a') a = Math.max(sp.a, Math.min(b, a + d));
+              else if (kind === 'b') b = Math.min(sp.b, Math.max(a, b + d));
+              else { var len = b - a; a = Math.max(sp.a, Math.min(sp.b - len, a + d)); b = a + len; }
+              setCustom(a, b, false);
+            });
+          }
+          keys($('ctl-g0'), 'a');
+          keys($('ctl-g1'), 'b');
+          keys($('ctl-win'), 'w');
+          $('ctl-month').addEventListener('change', function () {
+            var v = $('ctl-month').value;
+            if (!v || !M) return;
+            var a = +v, b = Math.min(monthEndOf(a), M.today);
+            clearTimeout(tlTimer);
+            ctl.range = 'custom';
+            ctl.from = isoDay(a);
+            ctl.to = isoDay(b);
+            controlsChanged();
+          });
+        }());
+
+        function fillMonths() {
+          var sel = $('ctl-month');
+          if (!M) return;
+          var keep = sel.value;
+          while (sel.options.length > 1) sel.remove(1);
+          for (var m0 = monthStartOf(M.minDay); m0 <= M.today; m0 = monthEndOf(m0) + 1) {
+            var o = el('option', null, monthName(m0) + ' ' + new Date(m0 * DAY).getUTCFullYear());
+            o.value = String(m0);
+            sel.appendChild(o);
+          }
+          sel.value = keep;
+          if (sel.value !== keep) sel.value = '';
         }
 
         function insights(S, k) {
@@ -1987,6 +3290,8 @@
               .concat([{ label: 'Not yet', value: tt[TT.length], sub: pctS(tt[TT.length], S.joined.length), color: 'var(--other)' }]));
           }
 
+          /* The map used to sit on the Overview; the Overview now has the countries table. */
+          mapBox(p, S);
           storeBox(p, S);
         }
 
@@ -3134,6 +4439,7 @@
           clearTimeout(resizeTimer);
           resizeTimer = setTimeout(function () {
             if (!M || $('dash').hidden) return;
+            drawTimeline();
             if (Math.abs($('panels').clientWidth - lastWidth) > 2) renderActive();
           }, 150);
         });
@@ -3147,18 +4453,25 @@
           });
           $('ctl-test').checked = ctl.test;
           $('ctl-tz').value = ctl.tz;
-          $('ctl-custom').hidden = ctl.range !== 'custom';
           if (M) {
             var r = rangeBounds();
-            if (ctl.range === 'custom') { $('ctl-from').value = isoDay(r.start); $('ctl-to').value = isoDay(r.end); }
             var len = r.end - r.start + 1;
-            $('ctl-span').textContent = dayLabel(r.start) + ' – ' + dayLabelY(r.end) + ' · ' + len + ' ' + plural(len, 'day');
+            var sp = $('ctl-span');
+            clear(sp);
+            sp.appendChild(el('b', null, spanLabel(r.start, r.end)));
+            if (len > 1) sp.appendChild(document.createTextNode(' · ' + len + ' ' + plural(len, 'day')));
+            /* The month picker shows a month only while the range is exactly that month. */
+            var ms = monthStartOf(r.start);
+            $('ctl-month').value = ctl.range === 'custom' && r.start === ms && r.end === Math.min(monthEndOf(ms), M.today) ? String(ms) : '';
+            placeWindow();
           }
         }
 
         function controlsChanged() {
+          clearTimeout(tlTimer);
           saveCtl();
           syncControls();
+          drawTimeline();
           SC = null;
           renderActive();
         }
@@ -3173,13 +4486,7 @@
           $('ctl-range').addEventListener('click', function (ev) {
             var b = ev.target.closest('button[data-v]');
             if (!b) return;
-            var v = b.getAttribute('data-v');
-            if (v === 'custom' && ctl.range !== 'custom' && M) {
-              /* Start the custom range from whatever is on screen now. */
-              var r = rangeBounds();
-              ctl.from = isoDay(r.start); ctl.to = isoDay(r.end);
-            }
-            ctl.range = v;
+            ctl.range = b.getAttribute('data-v');
             controlsChanged();
           });
           $('ctl-platform').addEventListener('click', function (ev) {
@@ -3192,17 +4499,9 @@
           tz.addEventListener('change', function () {
             ctl.tz = tz.value;
             saveCtl();
-            if (M) applyTz(M);
+            if (M) { applyTz(M); fillMonths(); }
             controlsChanged();
           });
-          function dateChanged() {
-            var a = $('ctl-from').value, b = $('ctl-to').value;
-            if (dayFromIso(a) == null || dayFromIso(b) == null) return;
-            ctl.from = a; ctl.to = b;
-            controlsChanged();
-          }
-          $('ctl-from').addEventListener('change', dateChanged);
-          $('ctl-to').addEventListener('change', dateChanged);
           syncControls();
         }());
 
@@ -3219,7 +4518,9 @@
             prob.hidden = false;
           } else prob.hidden = true;
           $('asof').textContent = 'as of ' + new Date(M.hasV2 && data.v2.generated_at ? data.v2.generated_at : data.generated_at || Date.now()).toLocaleString();
+          fillMonths();
           syncControls();
+          drawTimeline();
           var id = location.hash.slice(1);
           selectTab(TAB_BY[id] ? id : ui.tab, false);
         }
@@ -3264,6 +4565,13 @@
             auto: ['full_body', 'upper', 'lower', 'push', 'pull', 'legs'],
           };
           var SETTINGS = ['gyms', 'intervals', 'supersets.mode', 'timers', 'rest', 'plates'];
+          /* Country, weight, and the share of its downloads that are iPhones. */
+          var CC = [['SA', 30, 0.78], ['EG', 17, 0.25], ['BD', 8, 0.08], ['US', 8, 0.62], ['KW', 6, 0.8], ['AE', 6, 0.72], ['IN', 5, 0.15],
+            ['ID', 4, 0.2], ['TR', 4, 0.35], ['DE', 3, 0.5], ['GB', 3, 0.6], ['PK', 3, 0.12], ['MA', 2, 0.3], ['JO', 2, 0.45]];
+          function demoCountry(pl) {
+            return wpick(CC.map(function (c) { return [c[0], c[1] * (pl === 'ios' ? c[2] : pl === 'android' ? 1 - c[2] : 0.5)]; }));
+          }
+          var seeds = [];
 
           for (var i = 0; i < 120; i++) {
             var founder = i < 3;
@@ -3360,6 +4668,9 @@
             }
             var seen = Math.min(now, last + between(0, 4) * DAY);
             u.seen = rnd() < 0.05 ? null : iso(seen);
+            /* Most accounts carry their store country; a few do not, as old builds will not. */
+            u.country = rnd() < 0.9 ? demoCountry(platform) : null;
+            seeds.push([platform, created, u.country]);
             users.push(u);
           }
 
@@ -3401,13 +4712,32 @@
 
           var daily = [];
           var todayUtc = Math.floor(now / DAY);
-          var demoStore = [];
-          for (var sd = 30; sd >= 1; sd--) {
-            [['apple', 'SA', 3], ['apple', 'US', 1], ['apple', 'FR', 1], ['google', 'SA', 4], ['google', 'EG', 2], ['google', 'AE', 1], ['google', 'IN', 1], ['apple', 'KW', 1], ['google', 'DE', 1]].forEach(function (x) {
-              var nn = int(0, x[2]);
-              if (nn) demoStore.push([x[0], isoDay(todayUtc - sd), x[1], nn]);
-            });
+          /*
+            Store downloads, per store, day and country: one for each account,
+            plus people who download and never sign up, plus quiet days.
+            Apple has reported up to yesterday, Google Play up to four days ago.
+          */
+          var agg = {};
+          function addDl(src, day, cc, nn) { var key = src + '|' + day + '|' + cc; agg[key] = (agg[key] || 0) + nn; }
+          seeds.forEach(function (sd) {
+            var src = sd[0] === 'ios' ? 'apple' : sd[0] === 'android' ? 'google' : (rnd() < 0.5 ? 'apple' : 'google');
+            var pl = src === 'apple' ? 'ios' : 'android';
+            var day = Math.floor(sd[1] / DAY);
+            addDl(src, day, sd[2] || demoCountry(pl), 1);
+            var extra = (rnd() < 0.55 ? 1 : 0) + (rnd() < 0.15 ? 1 : 0);
+            if (extra) addDl(src, day, demoCountry(pl), extra);
+          });
+          for (var bd = 92; bd >= 0; bd--) {
+            if (rnd() < 0.4) { var bs = rnd() < 0.45 ? 'apple' : 'google'; addDl(bs, todayUtc - bd, demoCountry(bs === 'apple' ? 'ios' : 'android'), int(1, 2)); }
           }
+          var demoStore = [];
+          Object.keys(agg).forEach(function (key) {
+            var part = key.split('|'), day = +part[1];
+            if (part[0] === 'apple' && day > todayUtc - 1) return;
+            if (part[0] === 'google' && day > todayUtc - 4) return;
+            demoStore.push([part[0], isoDay(day), part[2], agg[key]]);
+          });
+          demoStore.sort(function (a, b) { return a[1] < b[1] ? -1 : a[1] > b[1] ? 1 : 0; });
           for (var d = 29; d >= 0; d--) daily.push({ day: isoDay(todayUtc - d), views: int(20, 140), clicks: int(0, 9) });
           var views30 = sum(daily.map(function (x) { return x.views; }));
           var clicks30 = sum(daily.map(function (x) { return x.clicks; }));
