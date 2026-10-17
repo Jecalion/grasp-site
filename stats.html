@@ -244,6 +244,7 @@
 
       .panel { display: flex; flex-direction: column; gap: 16px; padding-top: 8px; }
       .panel:focus { outline: none; }
+      .tabq { margin: 4px 0 -4px; color: var(--muted); font-size: 0.9rem; }
 
       /* ---- cards and furniture ---- */
 
@@ -591,6 +592,19 @@
       .g-coh tr.out { opacity: 0.55; }
       .g-coh thead th { text-align: center; }
       .g-foot { margin: 6px 0 0; font-size: 0.76rem; color: var(--faint); }
+      .g-kpis.three { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+
+      .card.g-ph { border-style: dashed; background: transparent; }
+      .g-phgrid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 14px 28px; }
+      .g-phh { display: flex; flex-wrap: wrap; align-items: baseline; gap: 2px 8px; font-size: 0.84rem; font-weight: 600; margin-bottom: 6px; }
+      .g-phh span { font-size: 0.74rem; font-weight: 400; color: var(--faint); }
+      .g-phgrid ul { list-style: none; margin: 0; padding: 0; }
+      .g-phgrid li { display: flex; justify-content: space-between; gap: 10px; padding: 7px 0; border-top: 1px solid var(--border); font-size: 0.82rem; color: var(--muted); }
+      .g-phgrid li b { color: var(--faint); font-weight: 500; }
+
+      @media (max-width: 760px) {
+        .g-kpis.three, .g-phgrid { grid-template-columns: minmax(0, 1fr); }
+      }
 
       @media (max-width: 1000px) {
         .g-kpis { grid-template-columns: repeat(2, minmax(0, 1fr)); }
@@ -1030,6 +1044,8 @@
           gMetric: 'dl',
           gGran: 'auto',
           gCum: false,
+          sGran: 'auto',
+          sCum: false,
           feedF: 'all',
           feedOpen: null,
           feedLimit: 40,
@@ -1490,7 +1506,7 @@
 
         function plotNow(box, o) {
           var n = o.buckets.length;
-          if (!n) { box.appendChild(el('p', 'empty', o.emptyText || 'Nothing in this range.')); return null; }
+          if (!n) { box.appendChild(el('p', 'empty', o.emptyText || 'Nothing in these dates.')); return null; }
           var W = boxWidth(box);
           var H = o.height || 220;
           var series = o.series || [];
@@ -1688,7 +1704,7 @@
         function donut(box, items, centerLabel) {
           items = items.filter(function (it) { return it.value > 0; });
           var total = sum(items.map(function (it) { return it.value; }));
-          if (!total) { box.appendChild(el('p', 'empty', 'Nobody in this range.')); return; }
+          if (!total) { box.appendChild(el('p', 'empty', 'Nobody in these dates.')); return; }
           var wrap = el('div', 'donut');
           var root = svg('svg', { viewBox: '0 0 128 128', role: 'img' });
           root.setAttribute('aria-label', items.map(function (it) { return it.label + ' ' + it.value; }).join(', '));
@@ -1724,7 +1740,7 @@
         /* Horizontal bars in HTML: labels wrap, values align, rows can be buttons. */
         function hbars(box, rows, o) {
           o = o || {};
-          if (!rows.length) { box.appendChild(el('p', 'empty', o.emptyText || 'Nothing in this range.')); return; }
+          if (!rows.length) { box.appendChild(el('p', 'empty', o.emptyText || 'Nothing in these dates.')); return; }
           var max = o.max || Math.max.apply(null, rows.map(function (r) { return r.value; }).concat([1]));
           var ul = el('ul', 'bars');
           rows.forEach(function (r) {
@@ -2219,38 +2235,7 @@
           p.appendChild(main);
           ovGrowth(main, S, G);
           ovFeed(main, S, G);
-
-          gSect(p, 'Activity and retention', 'Are people training, and do they keep coming back?');
           ovActivityTiles(p, S, G);
-          var r1 = el('div', 'g-main');
-          p.appendChild(r1);
-          ovDaily(r1, S, G);
-          ovStill(r1, S, G);
-          ovWeekly(p, S, G);
-
-          gSect(p, 'Where they come from', 'Downloads, accounts and the steps between');
-          var r2 = el('div', 'g-two');
-          p.appendChild(r2);
-          ovFunnel(r2, S, G);
-          ovCountries(r2, S, G);
-          var r3 = el('div', 'g-two');
-          p.appendChild(r3);
-          ovPace(r3, S, G);
-          ovCohorts(r3, S, G);
-
-          var au = [new Set(), new Set()], wo = [0, 0];
-          S.sessions.forEach(function (s) {
-            if (!s.done) return;
-            if (S.inR(s.fDay)) { au[0].add(s.u); wo[0]++; } else if (S.inP(s.fDay)) { au[1].add(s.u); wo[1]++; }
-          });
-          var c = card(p, 'Insights');
-          var list = insights(S, { au: au, wo: wo });
-          if (!list.length) c.appendChild(el('p', 'empty', 'Nothing stands out for these filters.'));
-          else {
-            var ul = el('ul', 'insights');
-            list.forEach(function (it) { ul.appendChild(el('li', it.warn ? 'warn' : null, it.text)); });
-            c.appendChild(ul);
-          }
           p.appendChild(el('p', 'g-foot', 'Downloads come from Apple and Google as counts per day and country, so they have no names. Accounts are people and show a pseudonym. Google Play reports arrive a few days late; those days are marked and left out of conversion.'));
         }
 
@@ -2338,11 +2323,18 @@
 
         /* ---- the growth chart: one measure, stacked by platform, one axis ---- */
 
-        function ovGrowth(parent, S, G) {
-          var k = gCard(parent, 'Growth', '');
-          k.h.appendChild(gSeg([['dl', 'Downloads'], ['ac', 'Accounts'], ['tr', 'Trained']], ui.gMetric, function (v) { ui.gMetric = v; redraw(); }, 'Measure'));
-          k.h.appendChild(gSeg([['auto', 'Auto'], ['day', 'Day'], ['week', 'Week'], ['month', 'Month']], ui.gGran, function (v) { ui.gGran = v; redraw(); }, 'Group by'));
-          k.h.appendChild(gSeg([['new', 'New'], ['cum', 'Running total']], ui.gCum ? 'cum' : 'new', function (v) { ui.gCum = v === 'cum'; redraw(); }, 'Chart style'));
+        /*
+          The Stores tab draws the same chart fixed on downloads, with the
+          stores named instead of the platforms and its own toggles (o.store).
+        */
+        function ovGrowth(parent, S, G, o) {
+          o = o || {};
+          var GK = o.store ? 'sGran' : 'gGran', CK = o.store ? 'sCum' : 'gCum';
+          var k = gCard(parent, o.store ? 'Store downloads' : 'Growth', '');
+          if (!o.store) k.h.appendChild(gSeg([['dl', 'Downloads'], ['ac', 'Accounts'], ['tr', 'Trained']], ui.gMetric, function (v) { ui.gMetric = v; redraw(); }, 'Measure'));
+          k.h.appendChild(gSeg([['auto', 'Auto'], ['day', 'Day'], ['week', 'Week'], ['month', 'Month']], ui[GK], function (v) { ui[GK] = v; redraw(); }, 'Group by'));
+          k.h.appendChild(gSeg([['new', 'New'], ['cum', 'Running total']], ui[CK] ? 'cum' : 'new', function (v) { ui[CK] = v === 'cum'; redraw(); }, 'Chart style'));
+          function plName(pl) { return o.store ? STORE_NAME[PLAT_SRC[pl]] : PLAT[pl].name; }
           var box = el('div', 'g-chart');
           k.c.appendChild(box);
           var holder = null;
@@ -2351,15 +2343,16 @@
 
           function draw() {
             clear(holder);
-            var m = ui.gMetric, cum = ui.gCum;
-            var g = ui.gGran === 'auto' ? (S.len <= 45 ? 'day' : S.len <= 150 ? 'week' : 'month') : ui.gGran;
-            var NAMES = { dl: 'Downloads', ac: 'New accounts', tr: cum ? 'People who have trained' : 'People who trained' };
+            var m = o.store ? 'dl' : ui.gMetric, cum = ui[CK];
+            var g = ui[GK] === 'auto' ? (S.len <= 45 ? 'day' : S.len <= 150 ? 'week' : 'month') : ui[GK];
+            var NAMES = { dl: o.store ? 'Store downloads' : 'Downloads', ac: 'New accounts', tr: cum ? 'People who have trained' : 'People who trained' };
             k.h3.textContent = NAMES[m];
             var total = m === 'dl' ? G.dlIn(S.start, S.end) : m === 'ac' ? G.acIn(S.start, S.end) : cum ? G.everIn(S.end) : G.trIn(S.start, S.end);
             k.sub.textContent = fmtN(total) + (m === 'tr' ? ' ' + plural(total, 'person', 'people') : cum ? ' so far' : ' in total') + ' · by ' + g + (cum ? ' · running total' : '');
 
             if (m === 'dl' && !G.conn.length) {
               holder.appendChild(el('p', 'empty', !M.store.length ? 'Store downloads are not connected yet.' : 'The stores only report iPhone and Android.'));
+              if (o.store && !M.store.length) storeSyncNote(holder);
               return;
             }
             var plats;
@@ -2445,14 +2438,14 @@
               var d = data[j], rows = [];
               plats.slice().reverse().forEach(function (pl) {
                 var late = m === 'dl' && d.pend.indexOf(PLAT_SRC[pl]) >= 0;
-                rows.push({ color: PLAT[pl].color, value: fmtN(d.v[pl]) + (late ? ' + pending' : ''), label: PLAT[pl].name });
+                rows.push({ color: PLAT[pl].color, value: fmtN(d.v[pl]) + (late ? ' + pending' : ''), label: plName(pl) });
               });
               if (plats.length > 1) rows.push({ value: fmtN(d.total), label: 'Total' });
               d.pend.forEach(function (s) { rows.push({ value: '', label: STORE_NAME[s] + ' has not reported every day yet' }); });
               return { title: d.b.title, rows: rows };
             });
             holder.appendChild(root);
-            var items = plats.map(function (pl) { return { name: PLAT[pl].name, color: PLAT[pl].color }; });
+            var items = plats.map(function (pl) { return { name: plName(pl), color: PLAT[pl].color }; });
             var lg = legend(holder, items);
             if (anyPend) {
               var late = {};
@@ -2651,8 +2644,9 @@
           N + 7 days ago (so everybody had a week to come back), the share
           with a finished workout on day N after signup or later.
         */
-        function stillCurve(group, G) {
+        function stillCurve(group, G, minN) {
           var pts = [];
+          if (minN == null) minN = 8;
           for (var kd = 1; kd <= 30; kd++) {
             var el2 = 0, kept = 0;
             for (var i = 0; i < group.length; i++) {
@@ -2662,7 +2656,7 @@
               var dd = G.DD.get(u);
               if (dd && dd[dd.length - 1] >= u.cDay + kd) kept++;
             }
-            pts.push(el2 < 8 ? null : { v: Math.round((kept / el2) * 100), n: el2, kept: kept });
+            pts.push(el2 < minN || !el2 ? null : { v: Math.round((kept / el2) * 100), n: el2, kept: kept });
           }
           return pts;
         }
@@ -3152,9 +3146,10 @@
           if (sel.value !== keep) sel.value = '';
         }
 
-        function insights(S, k) {
+        /* The short list at the top of Quality: only things that can go wrong. */
+        function qualityChecks(S) {
           var out = [];
-          var period = ctl.range === 'all' ? 'overall' : 'in this period';
+          var period = ctl.range === 'all' ? 'overall' : 'in your dates';
 
           var stale = S.users.filter(noOta).length;
           if (stale) {
@@ -3168,42 +3163,10 @@
 
           var lost = S.sessions.filter(function (s) { return s.lost && S.inR(s.dDay); }).length;
           if (lost) out.push({ warn: true, text: lost + ' ' + plural(lost, 'workout') + ' in progress ' + (lost === 1 ? 'was' : 'were') + ' lost ' + period });
-          else if (S.end >= FIX_DAY && S.start >= FIX_DAY && k.wo[0] > 0) out.push({ text: 'No in-progress workouts lost since 0.3.1' });
+          else if (S.end >= FIX_DAY && S.start >= FIX_DAY && doneIn(S).length > 0) out.push({ text: 'No in-progress workouts lost since 0.3.1' });
 
           var stuck = S.sessions.filter(function (s) { return s.abandoned && S.inR(s.sDay); }).length;
           if (stuck) out.push({ text: stuck + ' ' + plural(stuck, 'workout') + ' started ' + period + ' ' + (stuck === 1 ? 'was' : 'were') + ' never finished' });
-
-          var J = S.joined;
-          if (J.length >= 5) {
-            var steps = funnelOf(J);
-            var w = worstStep(steps);
-            if (w > 0) {
-              var a = steps[w - 1], b = steps[w];
-              out.push({ text: 'Biggest drop-off: ' + a.short + ' → ' + b.short + ' (' + pct(a.people - b.people, a.people) + '% of ' + a.people + ' stop)' });
-            }
-            var act = J.filter(function (u) { return u.nDone > 0; }).length;
-            out.push({ text: pct(act, J.length) + '% of new accounts have finished a workout' });
-            if (ctl.platform === 'all') {
-              var by = { ios: 0, android: 0, unknown: 0 };
-              J.forEach(function (u) { by[u.platform]++; });
-              var top = PLATS.slice().sort(function (x, y) { return by[y] - by[x]; })[0];
-              if (top !== 'unknown') out.push({ text: PLAT[top].name + ' is ' + pct(by[top], J.length) + '% of new accounts ' + period });
-            }
-          }
-
-          if (showDeltaOK() && k.au[1].size >= 5) {
-            var ch = Math.round(((k.au[0].size - k.au[1].size) / k.au[1].size) * 100);
-            if (Math.abs(ch) >= 20) out.push({ text: 'Active users ' + (ch > 0 ? 'up ' : 'down ') + Math.abs(ch) + '% on the previous ' + S.len + ' days' });
-          }
-
-          var done = doneIn(S);
-          if (done.length >= 10) {
-            var wdc = zeros(7), hc = zeros(24);
-            done.forEach(function (s) { if (s.wd != null) { wdc[s.wd]++; hc[s.hour]++; } });
-            var bw = wdc.indexOf(Math.max.apply(null, wdc));
-            var bh = hc.indexOf(Math.max.apply(null, hc));
-            out.push({ text: 'Busiest day: ' + WD_LONG[bw] + ' · busiest hour: ' + pad2(bh) + ':00–' + pad2((bh + 1) % 24) + ':00 (' + tzShort() + ')' });
-          }
 
           var crashes = S.crashes.filter(function (c) { return S.inR(c.day); });
           if (crashes.length) {
@@ -3212,83 +3175,73 @@
             var tv = Object.keys(vers).sort(function (x, y) { return vers[y] - vers[x]; })[0];
             out.push({ warn: true, text: crashes.length + ' ' + plural(crashes.length, 'crash', 'crashes') + ' ' + period + ', most on version ' + tv });
           }
-
-          var inst = { apple: 0, google: 0 };
-          M.store.forEach(function (r) { if (S.inR(r.day) && inst[r.source] != null) inst[r.source] += r.n; });
-          if (inst.apple + inst.google) {
-            out.push({ text: fmtN(inst.apple + inst.google) + ' ' + plural(inst.apple + inst.google, 'download') + ' ' + period + ' (App Store ' + fmtN(inst.apple) + ' · Google Play ' + fmtN(inst.google) + ')' });
-          }
-          if (!M.store.length) out.push({ text: 'Store downloads aren\'t connected' });
           return out;
         }
-        function showDeltaOK() { return ctl.range !== 'all'; }
 
         /* =================================================================
-           2. Growth
+           2. Stores — finding and downloading the app. The Website section
+           at the bottom is the `hit` counter's own and ignores the filters.
            ================================================================= */
 
-        function rGrowth(p, S) {
-          var mode = ui.growthMode || autoMode(S.len);
-          var B = buckets(S.start, S.end, mode);
-          var n = B.list.length;
-          var by = { ios: zeros(n), android: zeros(n), unknown: zeros(n) };
-          var base = 0;
-          S.users.forEach(function (u) {
-            if (u.cDay == null) return;
-            if (u.cDay < S.start) { base++; return; }
-            var i = B.index(u.cDay);
-            if (i >= 0) by[u.platform][i]++;
-          });
-          var cum = [], run = base;
-          for (var i = 0; i < n; i++) { run += by.ios[i] + by.android[i] + by.unknown[i]; cum.push(run); }
+        function rStores(p, S) {
+          var G = growthModel(S);
+          var r1 = el('div', 'g-main');
+          p.appendChild(r1);
+          ovGrowth(r1, S, G, { store: true });
+          ovPace(r1, S, G);
+          var r2 = el('div', 'g-two');
+          p.appendChild(r2);
+          mapBox(r2, S);
+          ovCountries(r2, S, G);
+          storeAnalyticsCard(p);
+          gSect(p, 'Website', 'grasp.alsouq.tech, last 30 days · the dates, platform, test-account and time-zone controls don’t apply here');
+          rWeb(p);
+        }
 
-          var toggle = segmented([['day', 'Daily'], ['week', 'Weekly']], mode, function (v) { ui.growthMode = v; renderActive(); }, 'Granularity');
-          var c = card(p, 'New accounts', fmtN(S.joined.length) + ' in range', toggle);
-          plot(c, {
-            buckets: B.list,
-            series: PLATS.map(function (pl) { return { name: PLAT[pl].name, color: PLAT[pl].color, values: by[pl], keep: true }; }),
-            right: { name: 'Total accounts', color: 'var(--text)', values: cum, opacity: 0.6, width: 1.6, axisNote: 'right axis' },
-            label: 'New accounts per ' + (mode === 'week' ? 'week' : 'day') + ' by platform',
-            onClick: function (j) {
-              var b = B.list[j];
-              goPeople({
-                label: 'Joined ' + (b.a === b.b ? dayLabel(b.a) : dayLabel(b.a) + '–' + dayLabel(b.b)),
-                test: function (u) { return u.cDay != null && u.cDay >= b.a && u.cDay <= b.b; },
-              });
-            },
-          });
+        function storeSyncNote(box) {
+          box.appendChild(el('p', 'said', 'The App Store needs a vendor number; Google Play needs a service account.'));
+          var sync = M.storeSync || [];
+          if (sync.length) {
+            box.appendChild(el('p', 'said', sync.map(function (s) {
+              var who = s.source === 'apple' ? 'App Store' : 'Play';
+              if (s.last_error) return who + ': failing — ' + s.last_error;
+              if (!s.last_ok_at) return who + ': never succeeded';
+              return who + ': last ok ' + dayLabelY(Math.floor(parseT(s.last_ok_at) / DAY));
+            }).join('  ·  ')));
+          }
+        }
 
-          var r1 = row(p);
-          var c1 = card(r1, 'Platform', 'new accounts');
-          var pc = { ios: 0, android: 0, unknown: 0 };
-          S.joined.forEach(function (u) { pc[u.platform]++; });
-          donut(c1, PLATS.map(function (pl) { return { label: PLAT[pl].name, value: pc[pl], color: PLAT[pl].color }; }), 'accounts');
+        /* An empty state on purpose: the metric names, no made-up numbers. */
+        function storeAnalyticsCard(p) {
+          var k = gCard(p, 'Store page views and conversion', 'These arrive once store analytics are connected. Nothing is counted here yet.');
+          k.c.classList.add('g-ph');
+          k.h.appendChild(el('span', 'g-chip wait', 'Not connected'));
+          var STORES = [
+            ['App Store', 'from App Store Connect analytics', ['Impressions', 'Product page views', 'Conversion rate', 'Traffic sources', 'Deletions']],
+            ['Google Play', 'from Play Console statistics', ['Store listing visitors', 'Conversion rate', 'Traffic sources', 'Uninstalls']],
+          ];
+          var g = el('div', 'g-phgrid');
+          g.innerHTML = STORES.map(function (st) {
+            return '<div><div class="g-phh">' + st[0] + '<span>' + st[1] + '</span></div><ul>' +
+              st[2].map(function (m) { return '<li><span>' + m + '</span><b>—</b></li>'; }).join('') + '</ul></div>';
+          }).join('');
+          k.c.appendChild(g);
+        }
 
-          var c2 = card(r1, 'Sign-in method', 'new accounts');
-          var prov = {};
-          S.joined.forEach(function (u) { prov[u.provider] = (prov[u.provider] || 0) + 1; });
-          var provColors = { google: 'var(--k5)', apple: 'var(--text)', email: 'var(--k4)' };
-          donut(c2, Object.keys(prov).sort(function (a, b) { return prov[b] - prov[a]; }).map(function (pv) {
-            return { label: label(pv), value: prov[pv], color: provColors[pv] || 'var(--other)' };
-          }), 'accounts');
+        /* =================================================================
+           3. Activation — from download to a first workout and a habit.
+           ================================================================= */
 
-          var r2 = row(p);
-          var c3 = card(r2, 'Activation funnel', 'accounts created in range');
+        function rActivation(p, S) {
+          var G = growthModel(S);
+          var r1 = el('div', 'g-two');
+          p.appendChild(r1);
+          ovFunnel(r1, S, G);
+          var c3 = card(r1, 'Activation funnel', 'accounts created in your dates');
           funnelBox(c3, S.joined);
 
-          var c4 = card(r2, 'Heard about us', 'new accounts');
-          var heard = {};
-          S.joined.forEach(function (u) {
-            String(u.heard || '').split(',').map(function (s) { return s.trim(); }).filter(Boolean).forEach(function (h) {
-              heard[h] = (heard[h] || 0) + 1;
-            });
-          });
-          var answered = S.joined.filter(function (u) { return u.heard; }).length;
-          hbars(c4, Object.keys(heard).sort(function (a, b) { return heard[b] - heard[a]; }).map(function (h) {
-            return { label: SOURCE_NAMES[h] || label(h), value: heard[h], sub: pctS(heard[h], answered) };
-          }), { emptyText: 'No answers in this range.' });
-
-          var c5 = card(p, 'Time to first workout', 'new accounts');
+          var r2 = row(p);
+          var c5 = card(r2, 'Time to first workout', 'new accounts');
           var TT = [['< 1 hour', HOUR], ['1–24 hours', DAY], ['1–3 days', 3 * DAY], ['3–7 days', 7 * DAY], ['1–2 weeks', 14 * DAY], ['2–4 weeks', 28 * DAY], ['4 weeks +', Infinity]];
           var tt = zeros(TT.length + 1);
           S.joined.forEach(function (u) {
@@ -3296,15 +3249,38 @@
             var dt = u.firstDone - u.created;
             for (var j = 0; j < TT.length; j++) if (dt < TT[j][1]) { tt[j]++; break; }
           });
-          if (!S.joined.length) c5.appendChild(el('p', 'empty', 'Nobody joined in this range.'));
+          if (!S.joined.length) c5.appendChild(el('p', 'empty', 'Nobody joined in these dates.'));
           else {
             hbars(c5, TT.map(function (t, j) { return { label: t[0], value: tt[j], sub: pctS(tt[j], S.joined.length) }; })
               .concat([{ label: 'Not yet', value: tt[TT.length], sub: pctS(tt[TT.length], S.joined.length), color: 'var(--other)' }]));
           }
 
-          /* The map used to sit on the Overview; the Overview now has the countries table. */
-          mapBox(p, S);
-          storeBox(p, S);
+          var c4 = card(r2, 'Heard about us', 'new accounts');
+          var heard = {};
+          S.joined.forEach(function (u) {
+            String(u.heard || '').split(',').map(function (x) { return x.trim(); }).filter(Boolean).forEach(function (h) {
+              heard[h] = (heard[h] || 0) + 1;
+            });
+          });
+          var answered = S.joined.filter(function (u) { return u.heard; }).length;
+          hbars(c4, Object.keys(heard).sort(function (a, b) { return heard[b] - heard[a]; }).map(function (h) {
+            return { label: SOURCE_NAMES[h] || label(h), value: heard[h], sub: pctS(heard[h], answered) };
+          }), { emptyText: 'No answers in these dates.' });
+
+          var r3 = row(p);
+          var c1 = card(r3, 'Sign-in method', 'new accounts');
+          var prov = {};
+          S.joined.forEach(function (u) { prov[u.provider] = (prov[u.provider] || 0) + 1; });
+          var provColors = { google: 'var(--k5)', apple: 'var(--text)', email: 'var(--k4)' };
+          donut(c1, Object.keys(prov).sort(function (a, b) { return prov[b] - prov[a]; }).map(function (pv) {
+            return { label: label(pv), value: prov[pv], color: provColors[pv] || 'var(--other)' };
+          }), 'accounts');
+          var c2 = card(r3, 'Platform', 'new accounts');
+          var pc = { ios: 0, android: 0, unknown: 0 };
+          S.joined.forEach(function (u) { pc[u.platform]++; });
+          donut(c2, PLATS.map(function (pl) { return { label: PLAT[pl].name, value: pc[pl], color: PLAT[pl].color }; }), 'accounts');
+
+          actOnboarding(p, S);
         }
 
         /*
@@ -3358,14 +3334,11 @@
           if (!M.store.length) {
             c.appendChild(el('p', 'said', 'Store downloads are not connected yet.'));
           } else if (!total) {
-            c.appendChild(el('p', 'said', 'None in this range.'));
+            c.appendChild(el('p', 'said', 'None in these dates.'));
           }
 
           var wrap = el('div', 'map-wrap');
           c.appendChild(wrap);
-          var listBox = el('div');
-          listBox.style.marginTop = '14px';
-          c.appendChild(listBox);
 
           var max = 0;
           Object.keys(data.by).forEach(function (k) { if (k !== '??' && data.by[k] > max) max = data.by[k]; });
@@ -3373,7 +3346,7 @@
 
           function tipFor(cc) {
             var n = data.by[cc] || 0, sp = data.split[cc] || { a: 0, b: 0 };
-            var rows = [{ value: fmtN(n), label: (n ? pctS(n, total) + ' of all' : 'none in this range') }];
+            var rows = [{ value: fmtN(n), label: (n ? pctS(n, total) + ' of all' : 'none in these dates') }];
             if (n && ctl.platform === 'all') {
               rows.push({ color: 'var(--ios)', value: fmtN(sp.a), label: partA });
               rows.push({ color: 'var(--android)', value: fmtN(sp.b), label: partB });
@@ -3413,21 +3386,10 @@
             wrap.appendChild(sc);
           });
 
-          var keys = Object.keys(data.by).sort(function (a, b) { return data.by[b] - data.by[a]; });
-          if (keys.length) {
-            hbars(listBox, keys.slice(0, 12).map(function (cc) {
-              var sp = data.split[cc] || { a: 0, b: 0 };
-              return {
-                label: cc === '??' ? 'Unknown' : countryName(cc), value: data.by[cc], sub: pctS(data.by[cc], total),
-                title: ctl.platform === 'all' ? partA + ' ' + sp.a + ' · ' + partB + ' ' + sp.b : null,
-                onClick: cc === '??' ? null : function () { pick(cc); },
-              };
-            }));
-          }
         }
 
         function funnelBox(box, users) {
-          if (!users.length) { box.appendChild(el('p', 'empty', 'Nobody joined in this range.')); return; }
+          if (!users.length) { box.appendChild(el('p', 'empty', 'Nobody joined in these dates.')); return; }
           var steps = funnelOf(users);
           var top = steps[0].people;
           var worst = worstStep(steps);
@@ -3459,51 +3421,36 @@
           });
         }
 
-        function storeBox(p, S) {
-          var c = card(p, 'Store downloads');
-          if (!M.store.length) {
-            c.appendChild(el('p', 'said', 'Not connected yet. The App Store needs a vendor number; Google Play needs a service account.'));
-            var sync = M.storeSync || [];
-            if (sync.length) {
-              c.appendChild(el('p', 'said', sync.map(function (s) {
-                var who = s.source === 'apple' ? 'App Store' : 'Play';
-                if (s.last_error) return who + ': failing — ' + s.last_error;
-                if (!s.last_ok_at) return who + ': never succeeded';
-                return who + ': last ok ' + dayLabelY(Math.floor(parseT(s.last_ok_at) / DAY));
-              }).join('  ·  ')));
-            }
-            return;
-          }
-          var mode = autoMode(S.len);
-          var B = buckets(S.start, S.end, mode);
-          var apple = zeros(B.list.length), google = zeros(B.list.length);
-          var countries = {};
-          M.store.forEach(function (r) {
-            var i = B.index(r.day);
-            if (i < 0) return;
-            if (r.source === 'apple') apple[i] += r.n; else google[i] += r.n;
-            countries[r.country] = (countries[r.country] || 0) + r.n;
-          });
-          plot(c, {
-            buckets: B.list,
-            series: [{ name: 'App Store', color: 'var(--ios)', values: apple, keep: true }, { name: 'Google Play', color: 'var(--android)', values: google, keep: true }],
-            label: 'Store downloads',
-          });
-          var top = Object.keys(countries).sort(function (a, b) { return countries[b] - countries[a]; }).slice(0, 10);
-          if (top.length) {
-            var g = el('div', 'grp');
-            g.style.marginTop = '14px';
-            g.appendChild(el('div', 'gh', 'Countries'));
-            c.appendChild(g);
-            hbars(g, top.map(function (cc) { return { label: countryName(cc), value: countries[cc] }; }));
-          }
-        }
-
         /* =================================================================
-           3. Activity
+           4. Engagement — how much people train.
            ================================================================= */
 
-        function rActivity(p, S) {
+        function engPerPerson(parent, S) {
+          var per = new Map(), tot = 0;
+          doneIn(S).forEach(function (s) { per.set(s.u, (per.get(s.u) || 0) + 1); tot++; });
+          var people = per.size;
+          var BK = [[1, 1, '1 workout'], [2, 2, '2 workouts'], [3, 4, '3–4 workouts'], [5, 8, '5–8 workouts'], [9, 12, '9–12 workouts'], [13, Infinity, '13 or more']];
+          var k = gCard(parent, 'Workouts per person', '');
+          if (!people) { k.c.appendChild(el('p', 'empty', 'Nobody finished a workout in these dates.')); return; }
+          k.sub.innerHTML = '<b>' + fmt1(tot / people) + '</b> on average · ' + fmtN(people) + ' ' + plural(people, 'person', 'people') + ' trained in your dates';
+          hbars(k.c, BK.map(function (b) {
+            var test = function (u) { var n = per.get(u) || 0; return n >= b[0] && n <= b[1]; };
+            var cnt = 0;
+            per.forEach(function (n) { if (n >= b[0] && n <= b[1]) cnt++; });
+            return {
+              label: b[2], value: cnt, sub: pctS(cnt, people),
+              onClick: cnt ? function () { goPeople({ label: b[2] + ' in ' + spanLabel(S.start, S.end), test: test }); } : null,
+            };
+          }), { max: people });
+        }
+
+        function rEngagement(p, S) {
+          var G = growthModel(S);
+          var r0 = el('div', 'g-main');
+          p.appendChild(r0);
+          ovDaily(r0, S, G);
+          engPerPerson(r0, S);
+
           var mode = autoMode(S.len);
           var B = buckets(S.start, S.end, mode);
           var n = B.list.length;
@@ -3536,7 +3483,7 @@
 
           var byKind = KGROUPS.map(function () { return zeros(n); });
           done.forEach(function (s) { byKind[s.kg][B.index(s.fDay)]++; });
-          var c2 = card(p, 'Workouts finished', fmtN(done.length) + ' in range');
+          var c2 = card(p, 'Workouts finished', fmtN(done.length) + ' in your dates');
           plot(c2, {
             buckets: B.list,
             series: KGROUPS.map(function (g, j) { return { name: g.name, color: g.color, values: byKind[j] }; }),
@@ -3544,7 +3491,7 @@
           });
 
           var c3 = card(p, 'When people train', tzShort());
-          if (!done.length) c3.appendChild(el('p', 'empty', 'No workouts in this range.'));
+          if (!done.length) c3.appendChild(el('p', 'empty', 'No workouts in these dates.'));
           else heatmap(c3, heatOf(done), { label: 'Workouts by weekday and hour' });
 
           var r1 = row(p);
@@ -3557,7 +3504,7 @@
             withMins++;
             for (var j = 0; j < LB.length; j++) if (s.mins < LB[j][0]) { lh[j]++; break; }
           });
-          if (!withMins) c4.appendChild(el('p', 'empty', 'No timed workouts in this range.'));
+          if (!withMins) c4.appendChild(el('p', 'empty', 'No timed workouts in these dates.'));
           else plot(c4, {
             buckets: LB.map(function (b) { return { label: b[1] + ' min', short: b[1] }; }),
             series: [{ name: 'Workouts', color: 'var(--accent)', values: lh }],
@@ -3568,7 +3515,7 @@
           var SB = [[1, '0'], [6, '1–5'], [11, '6–10'], [16, '11–15'], [21, '16–20'], [26, '21–25'], [31, '26–30'], [Infinity, '31+']];
           var sh = zeros(SB.length);
           done.forEach(function (s) { for (var j = 0; j < SB.length; j++) if (s.sets < SB[j][0]) { sh[j]++; break; } });
-          if (!done.length) c5.appendChild(el('p', 'empty', 'No workouts in this range.'));
+          if (!done.length) c5.appendChild(el('p', 'empty', 'No workouts in these dates.'));
           else plot(c5, {
             buckets: SB.map(function (b) { return { label: b[1] + ' sets', short: b[1] }; }),
             series: [{ name: 'Workouts', color: 'var(--accent)', values: sh }],
@@ -3576,7 +3523,7 @@
           });
 
           var r2 = row(p);
-          var c6 = card(r2, 'What happens to started workouts', 'started in range');
+          var c6 = card(r2, 'What happens to started workouts', 'started in your dates');
           var flow = { finished: 0, abandoned: 0, lost: 0, discarded: 0, open: 0 };
           S.sessions.forEach(function (s) {
             if (!S.inR(s.sDay)) return;
@@ -3594,7 +3541,7 @@
             ['open', 'In progress now', 'var(--k3)'],
           ];
           var started = sum(FL.map(function (f) { return flow[f[0]]; }));
-          if (!started) c6.appendChild(el('p', 'empty', 'No workouts started in this range.'));
+          if (!started) c6.appendChild(el('p', 'empty', 'No workouts started in these dates.'));
           else {
             var bar = el('div', 'flow');
             FL.forEach(function (f) {
@@ -3632,11 +3579,18 @@
         }
 
         /* =================================================================
-           4. Training
+           6. Product — which parts of the app get used.
            ================================================================= */
 
-        function rTraining(p, S) {
-          var c = card(p, 'Top exercises', 'all time · all accounts');
+        function rProduct(p, S) {
+          prodFeatures(p, S);
+          prodExercises(p);
+          prodTraining(p, S);
+        }
+
+        /* Counted by the server over all time and every account, so the filters cannot reach it. */
+        function prodExercises(p) {
+          var c = card(p, 'Top exercises', 'all time · all accounts · the filters don’t apply');
           var tool = el('div', 'tool');
           var q = el('input');
           q.type = 'search'; q.placeholder = 'Search exercises'; q.value = ui.exQuery;
@@ -3694,13 +3648,15 @@
           }
           q.addEventListener('input', function () { ui.exQuery = q.value; draw(); });
           draw();
+        }
 
+        function prodTraining(p, S) {
           var mode = autoMode(S.len);
           var B = buckets(S.start, S.end, mode);
           var done = doneIn(S);
           var vol = zeros(B.list.length);
           done.forEach(function (s) { vol[B.index(s.fDay)] += s.vol / 1000; });
-          var c2 = card(p, 'Volume lifted', fmt1(sum(vol)) + ' t in range');
+          var c2 = card(p, 'Volume lifted', fmt1(sum(vol)) + ' t in your dates');
           plot(c2, {
             buckets: B.list, integer: false, yFmt: function (v) { return fmtTick(v) + ' t'; },
             series: [{ name: 'Tonnes', color: 'var(--accent)', values: vol, fmt: function (v) { return fmt1(v) + ' t'; } }],
@@ -3708,13 +3664,13 @@
           });
 
           var r1 = row(p);
-          var c3 = card(r1, 'Set types', 'workouts in range');
+          var c3 = card(r1, 'Set types', 'workouts in your dates');
           var tot = { sets: 0, warm: 0, drops: 0, fails: 0, rated: 0 }, used = { warm: 0, drops: 0, fails: 0, rated: 0 };
           done.forEach(function (s) {
             tot.sets += s.sets; tot.warm += s.warm; tot.drops += s.drops; tot.fails += s.fails; tot.rated += s.rated;
             if (s.warm) used.warm++; if (s.drops) used.drops++; if (s.fails) used.fails++; if (s.rated) used.rated++;
           });
-          if (!done.length) c3.appendChild(el('p', 'empty', 'No workouts in this range.'));
+          if (!done.length) c3.appendChild(el('p', 'empty', 'No workouts in these dates.'));
           else {
             hbars(c3, [
               { label: 'Warm-up sets', value: used.warm, display: pctS(used.warm, done.length), sub: fmtN(tot.warm) + ' sets', title: 'Share of workouts with at least one warm-up set' },
@@ -3735,10 +3691,12 @@
           var ssPeople = new Set(withSS.map(function (s) { return s.u; })).size;
           var activePeople = new Set(done.map(function (s) { return s.u; })).size;
           tile(ssTiles, 'People using', pctS(ssPeople, activePeople), fmtN(ssPeople) + ' of ' + fmtN(activePeople) + ' active');
+        }
 
-          var c5 = card(p, 'Onboarding answers', 'onboarded accounts created in range');
+        function actOnboarding(p, S) {
+          var c5 = card(p, 'Onboarding answers', 'onboarded accounts created in your dates');
           var ob = S.joined.filter(function (u) { return u.onboarded != null; });
-          if (!ob.length) { c5.appendChild(el('p', 'empty', 'Nobody finished onboarding in this range.')); return; }
+          if (!ob.length) { c5.appendChild(el('p', 'empty', 'Nobody finished onboarding in these dates.')); return; }
           var year = new Date(M.now).getUTCFullYear();
           var Q = [
             ['Goal', function (u) { return label(u.goal); }],
@@ -3799,11 +3757,7 @@
           return t;
         }
 
-        /* =================================================================
-           5. Features
-           ================================================================= */
-
-        function rFeatures(p, S) {
+        function prodFeatures(p, S) {
           var base = S.users.filter(function (u) { return u.onboarded != null && u.cDay != null && u.cDay <= S.end; });
           var c = card(p, 'Feature adoption', fmtN(base.length) + ' onboarded accounts that joined by ' + dayLabel(S.end));
           if (!base.length) { c.appendChild(el('p', 'empty', 'No onboarded accounts for these filters.')); return; }
@@ -3847,79 +3801,40 @@
         }
 
         /* =================================================================
-           6. Retention
+           5. Retention — do people keep coming back. The tiles read the
+           same definition as the curve: of the people who joined in your
+           dates and are at least N + 7 days old, the share with a finished
+           workout on day N after signup or later.
            ================================================================= */
 
         function rRetention(p, S) {
-          var J = S.joined;
-          var tiles = el('div', 'tiles');
-          p.appendChild(tiles);
-          [1, 7, 30].forEach(function (nd) {
-            var eligible = J.filter(function (u) { return M.today - u.cDay >= nd; });
-            var kept = eligible.filter(function (u) {
-              return u.sess.some(function (s) { return s.done && s.fDay - u.cDay >= nd; });
-            });
-            tile(tiles, 'Day ' + nd, eligible.length ? pct(kept.length, eligible.length) + '%' : '—',
-              eligible.length ? fmtN(kept.length) + ' of ' + fmtN(eligible.length) + ' trained on day ' + nd + '+' : 'nobody old enough yet', { lead: nd === 7 });
-          });
+          var G = growthModel(S);
+          retTiles(p, S, G);
+          var r1 = el('div', 'g-two');
+          p.appendChild(r1);
+          ovStill(r1, S, G);
+          ovCohorts(r1, S, G);
+          ovWeekly(p, S, G);
+        }
 
-          var c = card(p, 'Weekly cohorts', '% of each sign-up week that finished a workout in week n');
-          if (!J.length) { c.appendChild(el('p', 'empty', 'Nobody joined in this range.')); return; }
-          var COLN = 9;
-          var cohorts = new Map();
-          J.forEach(function (u) {
-            var w = weekOf(u.cDay);
-            var co = cohorts.get(w);
-            if (!co) { co = { w: w, users: 0, cols: [] }; for (var i = 0; i < COLN; i++) co.cols.push(new Set()); cohorts.set(w, co); }
-            co.users++;
-            u.sess.forEach(function (s) {
-              if (!s.done || s.fDay == null) return;
-              var off = weekOf(s.fDay) - w;
-              if (off < 0) return;
-              co.cols[Math.min(off, COLN - 1)].add(u);
-            });
-          });
-          var list = Array.from(cohorts.values()).sort(function (a, b) { return b.w - a.w; });
-          var nowW = weekOf(M.today);
-          var tb = el('div', 'tablebox');
-          var t = el('table', 'cohort');
-          var thead = el('thead'), hr = el('tr');
-          hr.appendChild(el('th', null, 'Week of'));
-          hr.appendChild(el('th', 'n', 'People'));
-          for (var i = 0; i < COLN; i++) hr.appendChild(el('th', null, i === COLN - 1 ? (COLN - 1) + '+' : String(i)));
-          thead.appendChild(hr); t.appendChild(thead);
-          var body = el('tbody');
-          list.forEach(function (co) {
-            var tr = el('tr');
-            tr.appendChild(el('td', null, dayLabelY(weekStart(co.w))));
-            tr.appendChild(el('td', 'n', fmtN(co.users)));
-            for (var j = 0; j < COLN; j++) {
-              var td = el('td');
-              if (co.w + j > nowW) { tr.appendChild(td); continue; }
-              var cnt = co.cols[j].size;
-              var share = cnt / co.users;
-              var cell = el('span', 'cell' + (cnt ? '' : ' dim'), cnt ? Math.round(share * 100) + '%' : '0');
-              if (cnt) {
-                var mix = Math.round(14 + share * 86);
-                cell.style.background = 'color-mix(in srgb, var(--accent) ' + mix + '%, transparent)';
-                if (mix > 55) cell.style.color = 'var(--on-accent)';
-              }
-              (function (co2, j2, cnt2) {
-                bindTip(cell, function () {
-                  return {
-                    title: 'Joined week of ' + dayLabel(weekStart(co2.w)) + ' · week ' + (j2 === COLN - 1 ? (COLN - 1) + ' or later' : j2),
-                    rows: [{ color: 'var(--accent)', value: fmtN(cnt2) + ' of ' + fmtN(co2.users), label: 'trained' }],
-                  };
-                });
-              }(co, j, cnt));
-              td.appendChild(cell);
-              tr.appendChild(td);
-            }
-            body.appendChild(tr);
-          });
-          t.appendChild(body);
-          tb.appendChild(t);
-          c.appendChild(tb);
+        function retTiles(p, S, G) {
+          var J = S.joined;
+          var hasPrev = ctl.range !== 'all' && S.pend >= M.minDay;
+          var cur = stillCurve(J, G, 1);
+          var prev = hasPrev ? stillCurve(S.users.filter(function (u) { return S.inP(u.cDay); }), G, 1) : null;
+          var grid = el('div', 'g-kpis three');
+          grid.innerHTML = [1, 7, 30].map(function (kd) {
+            var c = cur[kd - 1], pv = prev ? prev[kd - 1] : null;
+            var pill = !c ? deltaPill(null) : !hasPrev ? '<span class="g-delta flat">' + (ctl.range === 'all' ? 'all time' : 'no earlier data') + '</span>' : deltaPill(c.v, pv ? pv.v : null, true);
+            var vs = c && pv ? 'vs people who joined ' + spanLabel(S.pstart, S.pend) : '';
+            var note = c ? fmtN(c.kept) + ' of ' + fmtN(c.n) + ' who joined in your dates and are ' + (kd + 7) + '+ days old'
+              : J.length ? 'Nobody who joined in your dates is ' + (kd + 7) + ' days old yet' : 'Nobody joined in your dates';
+            return '<article class="card g-kpi"><div class="lab">Day ' + kd + ': trained on day ' + kd + ' or later</div>' +
+              '<div class="val">' + (c ? c.v + '<small>%</small>' : '—') + '</div>' +
+              '<div class="g-dl">' + pill + (vs ? '<span class="g-vs">' + esc(vs) + '</span>' : '') + '</div>' +
+              '<div class="g-note">' + esc(note) + '</div></article>';
+          }).join('');
+          p.appendChild(grid);
         }
 
         /* =================================================================
@@ -3930,6 +3845,7 @@
           { key: 'k', name: 'Key', get: function (u) { return u.k; } },
           { key: 'joined', name: 'Joined', get: function (u) { return u.created || 0; } },
           { key: 'platform', name: 'Platform', get: function (u) { return u.platform + (u.build != null ? pad2(u.build) : ''); } },
+          { key: 'country', name: 'Country', get: function (u) { return u.country ? ccName(u.country) : '\uffff'; } },
           { key: 'provider', name: 'Sign-in', get: function (u) { return u.provider; } },
           { key: 'onboarded', name: 'Onboarded', get: function (u) { return u.onboarded ? 1 : 0; } },
           { key: 'workouts', name: 'Workouts', n: true, get: function (u) { return u.nDone; } },
@@ -3944,7 +3860,7 @@
           var c = card(p);
           var tool = el('div', 'tool');
           var q = el('input');
-          q.type = 'search'; q.placeholder = 'Search key, goal, platform'; q.value = ui.peopleQuery;
+          q.type = 'search'; q.placeholder = 'Search key, goal, platform, country'; q.value = ui.peopleQuery;
           q.setAttribute('aria-label', 'Search people');
           tool.appendChild(q);
           var trainedIn = new Set();
@@ -3985,7 +3901,7 @@
               if (!quick(u)) return false;
               if (f && !f.test(u)) return false;
               if (!qq) return true;
-              return (u.k + ' ' + label(u.goal) + ' ' + PLAT[u.platform].name + ' ' + u.provider + (u.build != null ? ' build ' + u.build : '')).toLowerCase().indexOf(qq) >= 0;
+              return (u.k + ' ' + label(u.goal) + ' ' + PLAT[u.platform].name + ' ' + u.provider + (u.build != null ? ' build ' + u.build : '') + (u.country ? ' ' + u.country + ' ' + ccName(u.country) : '')).toLowerCase().indexOf(qq) >= 0;
             });
             var col = PCOLS.filter(function (x2) { return x2.key === ui.peopleSort.key; })[0] || PCOLS[1];
             rows.sort(function (a, b) { var x1 = col.get(a), y1 = col.get(b); return (x1 < y1 ? -1 : x1 > y1 ? 1 : 0) * ui.peopleSort.dir; });
@@ -3993,7 +3909,7 @@
             if (!rows.length) { tb.appendChild(el('p', 'empty', 'Nobody matches.')); return; }
             var shown = rows.slice(0, ui.peopleLimit);
             tb.appendChild(table(PCOLS, ui.peopleSort, shown, personRow, function (key) {
-              ui.peopleSort = { key: key, dir: ui.peopleSort.key === key ? -ui.peopleSort.dir : (key === 'k' || key === 'goal' || key === 'provider' || key === 'platform' ? 1 : -1) };
+              ui.peopleSort = { key: key, dir: ui.peopleSort.key === key ? -ui.peopleSort.dir : (key === 'k' || key === 'goal' || key === 'provider' || key === 'platform' || key === 'country' ? 1 : -1) };
               draw();
             }));
             if (rows.length > shown.length) {
@@ -4022,6 +3938,9 @@
           pl.appendChild(document.createTextNode(PLAT[u.platform].name + (u.build != null ? ' · ' + u.build : '')));
           if (noOta(u)) { var b = el('span', 'flag warn', 'no OTA'); b.title = 'Build ' + u.build + ' cannot receive over-the-air updates'; pl.appendChild(b); }
           tr.appendChild(pl);
+          var ct = el('td', 'nowrap');
+          if (u.country) { ct.appendChild(el('span', 'g-cc', String(u.country).toUpperCase())); ct.appendChild(document.createTextNode(ccName(u.country))); } else ct.textContent = '—';
+          tr.appendChild(ct);
           tr.appendChild(el('td', null, label(u.provider)));
           tr.appendChild(el('td', null, u.onboarded ? 'Yes' : '—'));
           tr.appendChild(el('td', 'n', fmtN(u.nDone)));
@@ -4128,10 +4047,18 @@
         });
 
         /* =================================================================
-           8. Health
+           8. Quality — is the app working for people.
            ================================================================= */
 
-        function rHealth(p, S) {
+        function rQuality(p, S) {
+          var qc = card(p, 'Worth a look');
+          var list = qualityChecks(S);
+          if (!list.length) qc.appendChild(el('p', 'empty', 'Nothing needs attention for these filters.'));
+          else {
+            var ul = el('ul', 'insights');
+            list.forEach(function (it) { ul.appendChild(el('li', it.warn ? 'warn' : null, it.text)); });
+            qc.appendChild(ul);
+          }
           var r1 = row(p);
           var ios = S.users.filter(function (u) { return u.platform === 'ios'; });
           var c1 = card(r1, 'iPhone builds', 'builds 13+ get over-the-air updates');
@@ -4216,12 +4143,12 @@
           var crashes = inRange.filter(function (c) {
             return (ctl.platform !== 'all' || ui.crashPlat === 'all' || c.plat === ui.crashPlat) && (ui.crashVer === 'all' || (c.ver || '?') === ui.crashVer);
           });
-          var c5 = card(p, 'Crashes', fmtN(crashes.length) + ' in range', tool);
+          var c5 = card(p, 'Crashes', fmtN(crashes.length) + ' in your dates', tool);
           var mode = autoMode(S.len);
           var CB = buckets(S.start, S.end, mode);
           var cv = { ios: zeros(CB.list.length), android: zeros(CB.list.length), unknown: zeros(CB.list.length) };
           crashes.forEach(function (c) { var i = CB.index(c.day); if (i >= 0) cv[c.plat][i]++; });
-          if (!crashes.length) c5.appendChild(el('p', 'empty', 'No crashes reported in this range.'));
+          if (!crashes.length) c5.appendChild(el('p', 'empty', 'No crashes reported in these dates.'));
           else {
             plot(c5, {
               buckets: CB.list,
@@ -4264,8 +4191,8 @@
         }
 
         /* =================================================================
-           9. Website — the `hit` counter's own numbers, untouched by the
-           filters above (it keeps no account and no platform).
+           The Website section of Stores — the `hit` counter's own numbers,
+           untouched by the filters above (it keeps no account and no platform).
            ================================================================= */
 
         /*
@@ -4312,12 +4239,16 @@
           if (!web) { p.appendChild(el('p', 'empty', 'The website counter is not connected yet.')); return; }
           var t = web.totals || {};
           var rate = t.views_30d ? Math.round((t.clicks_30d / t.views_30d) * 1000) / 10 + '%' : '—';
-          var tiles = el('div', 'tiles');
-          p.appendChild(tiles);
-          tile(tiles, 'Page views today', fmtN(t.views_today || 0), 'since midnight UTC', { lead: true });
-          tile(tiles, 'Page views, 7 days', fmtN(t.views_7d || 0), fmtN(t.views_30d || 0) + ' in 30 days');
-          tile(tiles, 'App Store presses', fmtN(t.clicks_30d || 0), fmtN(t.clicks_7d || 0) + ' in the last 7 days');
-          tile(tiles, 'Press rate', rate, 'of page views, 30 days');
+          var grid = el('div', 'g-kpis');
+          grid.innerHTML = [
+            ['Page views today', fmtN(t.views_today || 0), 'since midnight UTC'],
+            ['Page views, 7 days', fmtN(t.views_7d || 0), fmtN(t.views_30d || 0) + ' in 30 days'],
+            ['App Store presses, 30 days', fmtN(t.clicks_30d || 0), fmtN(t.clicks_7d || 0) + ' in the last 7 days'],
+            ['Press rate', rate, 'of page views, 30 days'],
+          ].map(function (k) {
+            return '<article class="card g-kpi"><div class="lab">' + esc(k[0]) + '</div><div class="val sm">' + esc(k[1]) + '</div><div class="g-note">' + esc(k[2]) + '</div></article>';
+          }).join('');
+          p.appendChild(grid);
 
           var daily = (web.daily || []).filter(function (d) { return dayFromIso(String(d.day).slice(0, 10)) != null; });
           var c = card(p, 'Visits', 'last 30 days · not affected by the filters');
@@ -4353,16 +4284,21 @@
            ================================================================= */
 
         var TABS = [
-          { id: 'overview', name: 'Overview', render: rOverview },
-          { id: 'growth', name: 'Growth', render: rGrowth },
-          { id: 'activity', name: 'Activity', render: rActivity },
-          { id: 'training', name: 'Training', render: rTraining },
-          { id: 'features', name: 'Features', render: rFeatures },
-          { id: 'retention', name: 'Retention', render: rRetention },
-          { id: 'people', name: 'People', render: rPeople },
-          { id: 'health', name: 'Health', render: rHealth },
-          { id: 'website', name: 'Website', render: rWeb },
+          { id: 'overview', name: 'Overview', q: 'How are we doing?', render: rOverview },
+          { id: 'stores', name: 'Stores', q: 'Are people finding Grasp and downloading it?', render: rStores },
+          { id: 'activation', name: 'Activation', q: 'Do new people get started?', render: rActivation },
+          { id: 'engagement', name: 'Engagement', q: 'How much do people train?', render: rEngagement },
+          { id: 'retention', name: 'Retention', q: 'Do people keep coming back?', render: rRetention },
+          { id: 'product', name: 'Product', q: 'Which parts of the app get used?', render: rProduct },
+          { id: 'people', name: 'People', q: 'Who exactly is using Grasp?', render: rPeople },
+          { id: 'quality', name: 'Quality', q: 'Is the app working for people?', render: rQuality },
         ];
+        /* Tab ids from before the eight-tab layout, so old links and bookmarks still land. */
+        var OLD_TABS = { growth: 'activation', website: 'stores', health: 'quality', activity: 'engagement', training: 'product', features: 'product' };
+        function tabId(id) {
+          id = Object.prototype.hasOwnProperty.call(OLD_TABS, id) ? OLD_TABS[id] : id;
+          return Object.prototype.hasOwnProperty.call(TAB_BY, id) ? id : null;
+        }
         var TAB_BY = {};
         TABS.forEach(function (t) { TAB_BY[t.id] = t; });
 
@@ -4400,7 +4336,7 @@
         }());
 
         function selectTab(id, push) {
-          if (!TAB_BY[id]) id = 'overview';
+          id = tabId(id) || 'overview';
           ui.tab = id;
           TABS.forEach(function (t) {
             var on = t.id === id;
@@ -4421,8 +4357,8 @@
         }
 
         window.addEventListener('hashchange', function () {
-          var id = location.hash.slice(1);
-          if (TAB_BY[id] && id !== ui.tab) selectTab(id, false);
+          var h = location.hash.slice(1), id = tabId(h);
+          if (id && (id !== ui.tab || id !== h)) selectTab(id, id !== h);
         });
 
         var lastWidth = 0;
@@ -4433,6 +4369,7 @@
           clear(p);
           lastWidth = $('panels').clientWidth;
           try {
+            p.appendChild(el('p', 'tabq', TAB_BY[ui.tab].q));
             PENDING = [];
             TAB_BY[ui.tab].render(p, scope());
             var jobs = PENDING;
@@ -4526,15 +4463,15 @@
           SC = null;
           var prob = $('dash-problem');
           if (!M.hasV2) {
-            prob.textContent = 'The stats function is not sending v2 data yet, so only the Website tab has numbers.';
+            prob.textContent = 'The stats function is not sending v2 data yet, so only the Website section of the Stores tab has numbers.';
             prob.hidden = false;
           } else prob.hidden = true;
           $('asof').textContent = 'as of ' + new Date(M.hasV2 && data.v2.generated_at ? data.v2.generated_at : data.generated_at || Date.now()).toLocaleString();
           fillMonths();
           syncControls();
           drawTimeline();
-          var id = location.hash.slice(1);
-          selectTab(TAB_BY[id] ? id : ui.tab, false);
+          var h = location.hash.slice(1), id = tabId(h);
+          selectTab(id || ui.tab, !!id && id !== h);
         }
 
         /* =================================================================
