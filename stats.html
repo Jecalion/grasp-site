@@ -594,7 +594,6 @@
       .g-foot { margin: 6px 0 0; font-size: 0.76rem; color: var(--faint); }
       .g-kpis.three { grid-template-columns: repeat(3, minmax(0, 1fr)); }
 
-      .card.g-ph { border-style: dashed; background: transparent; }
       .g-phgrid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 14px 28px; }
       .g-phh { display: flex; flex-wrap: wrap; align-items: baseline; gap: 2px 8px; font-size: 0.84rem; font-weight: 600; margin-bottom: 6px; }
       .g-phh span { font-size: 0.74rem; font-weight: 400; color: var(--faint); }
@@ -1272,10 +1271,19 @@
             return { source: r[0], day: dayFromIso(r[1]), country: r[2], n: +r[3] || 0 };
           }).filter(function (r) { return r.day != null; });
 
+          /* Store analytics beyond downloads: [source, day, metric, dim, country, value]. */
+          var storeMetrics = (v2.store_metrics || []).filter(Array.isArray).map(function (r) {
+            return { source: r[0], day: dayFromIso(String(r[1] || '').slice(0, 10)), metric: String(r[2] || ''), dim: r[3] || '', country: r[4] || 'ZZ', v: +r[5] || 0 };
+          }).filter(function (r) { return r.day != null && r.metric; });
+          var storeMetricsLog = (v2.store_metrics_log || []).filter(Array.isArray).map(function (r) {
+            return { source: r[0], last_run_at: r[1], last_ok_at: r[2], note: r[3] || '' };
+          });
+
           return {
             hasV2: !!raw.v2, now: now, users: users, byKey: byKey, sessions: sessions,
             crashes: crashes, exercises: exercises, store: store,
             storeSync: raw.store_sync || [], web: raw.web || null,
+            sm: storeMetrics, smLog: storeMetricsLog,
           };
         }
 
@@ -3193,7 +3201,7 @@
           p.appendChild(r2);
           mapBox(r2, S);
           ovCountries(r2, S, G);
-          storeAnalyticsCard(p);
+          rStorePages(p, S, G);
           gSect(p, 'Website', 'grasp.alsouq.tech, last 30 days · the dates, platform, test-account and time-zone controls don’t apply here');
           rWeb(p);
         }
@@ -3211,21 +3219,290 @@
           }
         }
 
-        /* An empty state on purpose: the metric names, no made-up numbers. */
-        function storeAnalyticsCard(p) {
-          var k = gCard(p, 'Store page views and conversion', 'These arrive once store analytics are connected. Nothing is counted here yet.');
-          k.c.classList.add('g-ph');
-          k.h.appendChild(el('span', 'g-chip wait', 'Not connected'));
-          var STORES = [
-            ['App Store', 'from App Store Connect analytics', ['Impressions', 'Product page views', 'Conversion rate', 'Traffic sources', 'Deletions']],
-            ['Google Play', 'from Play Console statistics', ['Store listing visitors', 'Conversion rate', 'Traffic sources', 'Uninstalls']],
-          ];
-          var g = el('div', 'g-phgrid');
-          g.innerHTML = STORES.map(function (st) {
-            return '<div><div class="g-phh">' + st[0] + '<span>' + st[1] + '</span></div><ul>' +
-              st[2].map(function (m) { return '<li><span>' + m + '</span><b>—</b></li>'; }).join('') + '</ul></div>';
-          }).join('');
-          k.c.appendChild(g);
+        /*
+          Before the download: what each store says about its own page.
+
+          From analytics.store_metrics, one row per store, day, metric, traffic
+          source (dim) and country. When a metric has rows with no source,
+          those are the total and the source rows break the same people down;
+          when it has only source rows, they add up to the total. Apple's
+          reports are two or three days late, Google Play's several, so every
+          figure here stops at the store's last reported day and says so.
+        */
+        var SM_SOURCE = {
+          search: 'App Store search', browse: 'App Store browse', web: 'Websites', app_referrer: 'Other apps', other: 'Other',
+          google_play_search: 'Google Play search', google_play_explore: 'Google Play explore', third_party: 'Links from elsewhere',
+        };
+        var SM_NAME = {
+          impressions: 'impressions', page_views: 'page views', first_downloads: 'first downloads', redownloads: 'redownloads',
+          deletions: 'deletions', uninstalls: 'uninstalls', store_visitors: 'page visitors', store_acquisitions: 'installs from the page',
+          rating_avg_total: 'ratings', ratings_count: 'rating counts',
+        };
+
+        function smIndex() {
+          if (M.smi) return M.smi;
+          var blank = {}, idx = {};
+          M.sm.forEach(function (r) { if (r.dim === '') blank[r.source + '|' + r.metric] = true; });
+          M.sm.forEach(function (r) {
+            var key = r.source + '|' + r.metric;
+            var e = idx[key] || (idx[key] = { last: null, day: new Map(), dims: {}, rows: [] });
+            e.rows.push(r);
+            if (e.last == null || r.day > e.last) e.last = r.day;
+            if (r.dim !== '') {
+              var dm = e.dims[r.dim] || (e.dims[r.dim] = new Map());
+              dm.set(r.day, (dm.get(r.day) || 0) + r.v);
+            }
+            if (!blank[key] || r.dim === '') e.day.set(r.day, (e.day.get(r.day) || 0) + r.v);
+          });
+          M.smi = idx;
+          return idx;
+        }
+        function smE(src, metric) { return smIndex()[src + '|' + metric] || null; }
+        function smSum(src, metric, a, b) {
+          var e = smE(src, metric), t = 0;
+          if (!e) return 0;
+          for (var d = a; d <= b; d++) t += e.day.get(d) || 0;
+          return t;
+        }
+        function smDims(src, metric, a, b) {
+          var e = smE(src, metric), out = {};
+          if (!e) return out;
+          Object.keys(e.dims).forEach(function (dim) {
+            var t = 0;
+            for (var d = a; d <= b; d++) t += e.dims[dim].get(d) || 0;
+            if (t) out[dim] = t;
+          });
+          return out;
+        }
+        /* "App Store hasn't reported page views yet" */
+        function smMissing(src, metric) {
+          return STORE_NAME[src] + ' hasn’t reported ' + SM_NAME[metric] + ' yet';
+        }
+        function smGran(S) { return S.len <= 45 ? 'day' : S.len <= 150 ? 'week' : 'month'; }
+
+        function rStorePages(p, S, G) {
+          var srcs = G.srcs;
+          gSect(p, 'Before the download', 'what each store reports about its own page · Apple is 2–3 days late, Google Play several');
+          if (!srcs.length) {
+            var k0 = gCard(p, 'Store pages', '');
+            k0.c.appendChild(el('p', 'g-empty', 'The stores only report iPhone and Android.'));
+            return;
+          }
+          /* Nothing from either store yet: one card saying so, not five empty ones. */
+          if (!M.sm.some(function (r) { return srcs.indexOf(r.source) >= 0; })) {
+            var k1 = gCard(p, 'Store pages', 'Impressions, page visits, traffic sources, deletions and ratings');
+            var WHAT = { apple: 'impressions, page views, traffic sources, deletions or ratings', google: 'page visitors, traffic sources, uninstalls or ratings' };
+            srcs.forEach(function (src) { k1.c.appendChild(el('p', 'g-empty', STORE_NAME[src] + ' hasn’t reported ' + WHAT[src] + ' yet.')); });
+            smLogNote(p, srcs);
+            return;
+          }
+          var r1 = el('div', 'g-two');
+          p.appendChild(r1);
+          smFunnel(r1, S, srcs);
+          smVisits(r1, S, srcs);
+          var r2 = el('div', 'g-two');
+          p.appendChild(r2);
+          smSources(r2, S, srcs);
+          smLosses(r2, S, G, srcs);
+          smRatings(p, S, srcs);
+          smLogNote(p, srcs);
+        }
+
+        /* Saw us → visited the page → downloaded, per store, over days every step has reported. */
+        function smFunnel(parent, S, srcs) {
+          var k = gCard(parent, 'Store funnel', 'Saw us → visited the page → downloaded, in your dates');
+          var STEPS = {
+            apple: [['Saw us', 'impressions'], ['Visited the page', 'page_views'], ['Downloaded', 'first_downloads']],
+            google: [['Saw us', null], ['Visited the page', 'store_visitors'], ['Downloaded', 'store_acquisitions']],
+          };
+          srcs.forEach(function (src) {
+            var steps = STEPS[src];
+            var have = steps.filter(function (s) { return s[1] && smE(src, s[1]); });
+            var end = have.length ? Math.min(S.end, Math.min.apply(null, have.map(function (s) { return smE(src, s[1]).last; }))) : null;
+            var head = el('div', 'g-phh', STORE_NAME[src]);
+            head.appendChild(el('span', null, end == null ? 'nothing reported yet' : end < S.start ? 'nothing reported in these dates yet' :
+              end < S.end ? spanLabel(S.start, end) + ' · reported up to ' + dayLabel(end) : spanLabel(S.start, end)));
+            k.c.appendChild(head);
+            var vals = steps.map(function (s) {
+              if (!s[1] || !smE(src, s[1]) || end == null || end < S.start) return null;
+              return smSum(src, s[1], S.start, end);
+            });
+            var mx = Math.max.apply(null, vals.map(function (v) { return v || 0; }).concat([1]));
+            var box = el('div', 'g-funnel');
+            box.style.marginBottom = '16px';
+            box.innerHTML = steps.map(function (s, i) {
+              var v = vals[i], why = '';
+              if (!s[1]) why = 'Google Play doesn’t report how often the app is shown';
+              else if (!smE(src, s[1])) why = smMissing(src, s[1]);
+              var conv = '';
+              if (i && v != null && vals[i - 1] != null) conv = '<div class="g-fconv"><b>' + pctS(v, vals[i - 1]) + '</b> of the step before</div>';
+              return '<div><div class="g-fl"><span>' + esc(s[0]) + '</span><b>' + (v == null ? '—' : fmtN(v)) + '</b></div>' +
+                '<div class="g-ftrack"><div class="g-fbar" style="width:' + (v == null ? 0 : Math.min(100, (v / mx) * 100)).toFixed(1) + '%;background:' + PLAT[SRC_PLAT[src]].color + ';opacity:' + (1 - i * 0.2).toFixed(2) + '"></div></div>' +
+                (why ? '<div class="g-fconv">' + esc(why) + '</div>' : conv) + '</div>';
+            }).join('');
+            k.c.appendChild(box);
+          });
+        }
+
+        /* Page views (Apple) and page visitors (Google Play) per day, week or month. */
+        function smVisits(parent, S, srcs) {
+          var k = gCard(parent, 'Store page visits', '');
+          var M2 = { apple: 'page_views', google: 'store_visitors' };
+          var live = srcs.filter(function (s) { return smE(s, M2[s]); });
+          var g = smGran(S);
+          var bk = gBuckets(S.start, S.end, g);
+          var total = 0;
+          live.forEach(function (s) { total += smSum(s, M2[s], S.start, S.end); });
+          var notes = srcs.map(function (s) {
+            var e = smE(s, M2[s]);
+            if (!e) return smMissing(s, M2[s]);
+            return e.last < S.end ? STORE_NAME[s] + ' up to ' + dayLabel(e.last) : '';
+          }).filter(Boolean);
+          if (!live.length) { k.c.appendChild(el('p', 'g-empty', notes.join('. ') + '.')); return; }
+          k.sub.textContent = fmtN(total) + ' in total · by ' + g + (notes.length ? ' · ' + notes.join(' · ') : '');
+          var box = el('div', 'g-chart');
+          k.c.appendChild(box);
+          plot(box, {
+            buckets: bk.map(function (b) { return { label: b.title, short: b.short }; }),
+            series: live.map(function (s) {
+              return {
+                name: STORE_NAME[s] + (s === 'apple' ? ' page views' : ' page visitors'), color: PLAT[SRC_PLAT[s]].color, keep: true,
+                values: bk.map(function (b) { return smSum(s, M2[s], b.a, b.b); }),
+              };
+            }),
+            label: 'Store page visits by ' + g,
+            height: 240,
+          });
+        }
+
+        /* Where the page visits came from. */
+        function smSources(parent, S, srcs) {
+          var k = gCard(parent, 'Traffic sources', 'Where people came from before opening the store page');
+          srcs.forEach(function (src) {
+            var metric = src === 'apple' ? (!smE('apple', 'page_views') && smE('apple', 'impressions') ? 'impressions' : 'page_views') : 'store_visitors';
+            var dims = smDims(src, metric, S.start, S.end);
+            var tot = sum(Object.keys(dims).map(function (d) { return dims[d]; }));
+            var head = el('div', 'g-phh', STORE_NAME[src]);
+            head.appendChild(el('span', null, (src === 'apple' ? (metric === 'page_views' ? 'product page views' : 'impressions') : 'store listing visitors') + (tot ? ' · ' + fmtN(tot) : '')));
+            k.c.appendChild(head);
+            var rows = Object.keys(dims).sort(function (a, b) { return dims[b] - dims[a]; }).map(function (d) {
+              return { label: SM_SOURCE[d] || label(d), value: dims[d], sub: pctS(dims[d], tot), color: PLAT[SRC_PLAT[src]].color };
+            });
+            var holder = el('div');
+            holder.style.marginBottom = '16px';
+            k.c.appendChild(holder);
+            var e = smE(src, metric);
+            hbars(holder, rows, { emptyText: !e || !Object.keys(e.dims).length ? STORE_NAME[src] + ' hasn’t reported traffic sources yet.' : 'Nothing reported in these dates yet.' });
+          });
+        }
+
+        /* Deletions (Apple) and uninstalls (Google Play), and how they compare with downloads. */
+        function smLosses(parent, S, G, srcs) {
+          var k = gCard(parent, 'Deletions and uninstalls', '');
+          var M2 = { apple: 'deletions', google: 'uninstalls' };
+          var live = srcs.filter(function (s) { return smE(s, M2[s]); });
+          var g = smGran(S);
+          var bk = gBuckets(S.start, S.end, g);
+          var parts = srcs.map(function (s) {
+            var e = smE(s, M2[s]);
+            if (!e) return smMissing(s, M2[s]);
+            var end = Math.min(S.end, e.last);
+            if (end < S.start) return STORE_NAME[s] + ': nothing reported in these dates yet';
+            var n = smSum(s, M2[s], S.start, end);
+            var dl = G.dlIn(S.start, end, s);
+            return STORE_NAME[s] + ' ' + fmtN(n) + (dl ? ', ' + pctS(n, dl) + ' of downloads' : '') + (end < S.end ? ' (to ' + dayLabel(end) + ')' : '');
+          });
+          if (!live.length) { k.c.appendChild(el('p', 'g-empty', parts.join('. ') + '.')); return; }
+          k.sub.textContent = parts.join(' · ');
+          var box = el('div', 'g-chart');
+          k.c.appendChild(box);
+          plot(box, {
+            buckets: bk.map(function (b) { return { label: b.title, short: b.short }; }),
+            series: live.map(function (s) {
+              return {
+                name: STORE_NAME[s] + ' ' + SM_NAME[M2[s]], color: PLAT[SRC_PLAT[s]].color, keep: true,
+                values: bk.map(function (b) { return smSum(s, M2[s], b.a, b.b); }),
+              };
+            }),
+            label: 'Deletions and uninstalls by ' + g,
+            height: 220,
+          });
+          if (live.indexOf('apple') >= 0) k.c.appendChild(el('p', 'g-foot', 'Apple counts deletions only from people who share analytics with developers, so its number is a floor.'));
+        }
+
+        /* A day's overall rating: Apple's storefronts weighted by their rating counts; Play's overview row. */
+        function smRatingOn(src, d) {
+          var avg = smE(src, 'rating_avg_total');
+          if (!avg) return null;
+          var rows = avg.rows.filter(function (r) { return r.day === d; });
+          if (!rows.length) return null;
+          if (src === 'apple') {
+            var cnt = smE('apple', 'ratings_count'), w = 0, t = 0, n = 0;
+            var byC = {};
+            if (cnt) cnt.rows.forEach(function (x) { if (x.day === d) { byC[x.country] = (byC[x.country] || 0) + x.v; n += x.v; } });
+            rows.forEach(function (r) { var c = byC[r.country] || 0; t += r.v * c; w += c; });
+            return w ? { avg: t / w, count: n } : { avg: sum(rows.map(function (r) { return r.v; })) / rows.length, count: cnt ? n : null };
+          }
+          var zz = rows.filter(function (r) { return r.country === 'ZZ'; });
+          var use = zz.length ? zz : rows;
+          return { avg: sum(use.map(function (r) { return r.v; })) / use.length, count: null };
+        }
+        function smRatings(p, S, srcs) {
+          var k = gCard(p, 'Ratings', 'Each store’s overall average as it stood on each day');
+          var grid = el('div', 'g-phgrid');
+          k.c.appendChild(grid);
+          srcs.forEach(function (src) {
+            var col = el('div');
+            grid.appendChild(col);
+            var head = el('div', 'g-phh', STORE_NAME[src]);
+            col.appendChild(head);
+            if (!smE(src, 'rating_avg_total')) {
+              head.appendChild(el('span', null, 'no ratings reported yet'));
+              col.appendChild(el('p', 'g-empty', smMissing(src, 'rating_avg_total') + '.'));
+              return;
+            }
+            var series = [], cur = null, curDay = null, first = null;
+            for (var d = S.start; d <= S.end; d++) {
+              var r = smRatingOn(src, d);
+              series.push(r ? Math.round(r.avg * 100) / 100 : null);
+              if (r) { cur = r; curDay = d; if (!first) first = r; }
+            }
+            if (!cur) {
+              /* Nothing inside the dates: the newest figure before them. */
+              for (var b = S.start - 1; b >= S.start - 400 && !cur; b--) { var rb = smRatingOn(src, b); if (rb) { cur = rb; curDay = b; } }
+            }
+            head.appendChild(el('span', null, curDay == null ? 'nothing in these dates' : 'as of ' + dayLabel(curDay)));
+            if (!cur) { col.appendChild(el('p', 'g-empty', 'Nothing reported in these dates yet.')); return; }
+            var change = first && cur !== first ? Math.round((cur.avg - first.avg) * 100) / 100 : null;
+            var html = '<div class="g-prow"><span class="g-pv">' + cur.avg.toFixed(2) + '<small style="font-size:.9rem;color:var(--muted);font-weight:500"> / 5</small></span>' +
+              '<span>' + (cur.count != null ? '<b>' + fmtN(cur.count) + '</b> ' + plural(cur.count, 'rating') : 'Play doesn’t share the count in its reports') + '</span></div>' +
+              '<div class="g-dl">' + (change == null ? '<span class="g-delta flat">no change in these dates</span>' :
+                '<span class="g-delta ' + (change > 0 ? 'up' : change < 0 ? 'down' : 'flat') + '">' + (change > 0 ? '▲ ' : change < 0 ? '▼ ' : '') + Math.abs(change).toFixed(2) + '</span><span class="g-vs">since ' + dayLabel(S.start) + '</span>') + '</div>' +
+              '<div class="g-spark">' + sparkSvg(series) + '</div>';
+            var box = el('div');
+            box.innerHTML = html;
+            col.appendChild(box);
+            if (src === 'apple') col.appendChild(el('p', 'g-foot', 'From the App Store in ' + smStorefronts() + '.'));
+          });
+        }
+        function smStorefronts() {
+          var e = smE('apple', 'ratings_count'), seen = {};
+          if (!e) return 'a few countries';
+          e.rows.forEach(function (r) { if (r.day === e.last) seen[r.country] = 1; });
+          var list = Object.keys(seen).sort();
+          return list.length ? list.join(', ') : 'a few countries';
+        }
+
+        /* What the last sync said: files Play hasn't written, reports Apple hasn't made, a key without the right role. */
+        function smLogNote(p, srcs) {
+          if (!M.sm.length && !(M.smLog || []).length) {
+            p.appendChild(el('p', 'g-foot', 'Store page analytics are not connected yet. They arrive with the hourly store sync once its database change is applied.'));
+            return;
+          }
+          (M.smLog || []).forEach(function (l) {
+            if (srcs.indexOf(l.source) < 0 || !l.note) return;
+            p.appendChild(el('p', 'g-foot', STORE_NAME[l.source] + ' · ' + l.note));
+          });
         }
 
         /* =================================================================
@@ -4687,6 +4964,75 @@
             demoStore.push([part[0], isoDay(day), part[2], agg[key]]);
           });
           demoStore.sort(function (a, b) { return a[1] < b[1] ? -1 : a[1] > b[1] ? 1 : 0; });
+          /*
+            Store analytics: Apple's reports reach up to three days ago, Google
+            Play's up to four. Apple splits views by source and territory;
+            Play gives visitors per country and, separately, per source.
+            Ratings: Apple per storefront from the lookup (up to today), Play
+            one overall row per day.
+          */
+          var demoMetrics = [];
+          var mAgg = {};
+          function addM(src, day, metric, dim, cc, nn) {
+            if (!nn) return;
+            var key = src + '|' + day + '|' + metric + '|' + dim + '|' + cc;
+            mAgg[key] = (mAgg[key] || 0) + nn;
+          }
+          var A_SRC = [['search', 5], ['browse', 2], ['app_referrer', 1.2], ['web', 1]];
+          var G_SRC = [['google_play_search', 5], ['google_play_explore', 2], ['third_party', 1.4], ['other', 0.4]];
+          var aCount = 38, gTotal = 4.3;
+          for (var md = 92; md >= 0; md--) {
+            var mday = todayUtc - md, wave = 1 + 0.35 * Math.sin(md / 6);
+            if (md >= 3) {
+              for (var ai = 0; ai < 3; ai++) {
+                var acc2 = demoCountry('ios');
+                A_SRC.forEach(function (sr) {
+                  var imp = Math.round(int(2, 9) * sr[1] * wave / 2);
+                  var pv = Math.round(imp * (0.08 + rnd() * 0.08) * (sr[0] === 'web' ? 3 : 1));
+                  var fd = Math.round(pv * (0.2 + rnd() * 0.2));
+                  addM('apple', mday, 'impressions', sr[0], acc2, imp);
+                  addM('apple', mday, 'page_views', sr[0], acc2, pv);
+                  addM('apple', mday, 'first_downloads', sr[0], acc2, fd);
+                  if (rnd() < 0.05) addM('apple', mday, 'redownloads', sr[0], acc2, 1);
+                });
+                if (rnd() < 0.12) addM('apple', mday, 'deletions', '', acc2, 1);
+              }
+            }
+            if (rnd() < 0.3) aCount += 1;
+            ['SA', 'AE', 'US', 'EG'].forEach(function (sf, i) {
+              var c = Math.max(1, Math.round(aCount / (i + 1.6)));
+              addM('apple', mday, 'ratings_count', '', sf, c);
+              addM('apple', mday, 'rating_avg_total', '', sf, Math.round((4.5 + 0.08 * Math.sin((md + i) / 9)) * 100) / 100);
+            });
+            if (md >= 4) {
+              var vTot = 0, aTot = 0;
+              for (var gi = 0; gi < 3; gi++) {
+                var gcc = demoCountry('android');
+                var v = Math.round(int(1, 5) * wave), aq = Math.round(v * (0.25 + rnd() * 0.2));
+                vTot += v; aTot += aq;
+                addM('google', mday, 'store_visitors', '', gcc, v);
+                addM('google', mday, 'store_acquisitions', '', gcc, aq);
+                addM('google', mday, 'uninstalls', '', gcc, rnd() < 0.1 ? 1 : 0);
+                addM('google', mday, 'active_devices', '', gcc, int(8, 25));
+              }
+              var wsum = sum(G_SRC.map(function (x) { return x[1]; }));
+              G_SRC.forEach(function (sr) {
+                addM('google', mday, 'store_visitors', sr[0], 'ZZ', Math.round(vTot * sr[1] / wsum));
+                addM('google', mday, 'store_acquisitions', sr[0], 'ZZ', Math.round(aTot * sr[1] / wsum));
+              });
+              gTotal = Math.min(5, Math.max(3.8, gTotal + (rnd() - 0.48) * 0.02));
+              addM('google', mday, 'rating_avg_total', '', 'ZZ', Math.round(gTotal * 100) / 100);
+              if (rnd() < 0.4) addM('google', mday, 'rating_avg_daily', '', 'ZZ', int(3, 5));
+            }
+          }
+          Object.keys(mAgg).forEach(function (key) {
+            var part = key.split('|');
+            demoMetrics.push([part[0], isoDay(+part[1]), part[2], part[3], part[4], mAgg[key]]);
+          });
+          var demoMetricsLog = [
+            ['apple', iso(now), iso(now), null],
+            ['google', iso(now), iso(now), 'Not published yet: store_performance/store_performance_' + new Date(now).toISOString().slice(0, 7).replace('-', '') + '_traffic_source.csv'],
+          ];
           for (var d = 29; d >= 0; d--) daily.push({ day: isoDay(todayUtc - d), views: int(20, 140), clicks: int(0, 9) });
           var views30 = sum(daily.map(function (x) { return x.views; }));
           var clicks30 = sum(daily.map(function (x) { return x.clicks; }));
@@ -4704,7 +5050,7 @@
               pages: [{ name: '/', views: 900, clicks: 50 }, { name: '/ar/', views: 410, clicks: 22 }, { name: '/get/', views: 120, clicks: 0 }, { name: '/support.html', views: 60, clicks: 0 }],
               devices: [{ name: 'iphone', views: 820, clicks: 51 }, { name: 'android', views: 560, clicks: 18 }, { name: 'desktop', views: 190, clicks: 7 }],
             },
-            v2: { generated_at: iso(now), users: users, sessions: sessions, exercises: exercises, store_daily: demoStore, crash_rows: crashRows },
+            v2: { generated_at: iso(now), users: users, sessions: sessions, exercises: exercises, store_daily: demoStore, store_metrics: demoMetrics, store_metrics_log: demoMetricsLog, crash_rows: crashRows },
           };
         }
 
