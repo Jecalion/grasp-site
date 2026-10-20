@@ -69,7 +69,7 @@
 
     <main class="wrap" style="padding-top: 56px">
       <h1>Privacy Policy</h1>
-      <p class="meta" style="margin-top: -8px">Last updated: 9 October 2026</p>
+      <p class="meta" style="margin-top: -8px">Last updated: 12 October 2026</p>
 
       <p class="lede">
         Grasp is a workout planner and logger. This policy explains exactly what it stores, where,
@@ -91,7 +91,8 @@
             no connection at all.
           </p>
           <p style="margin-top: 10px">
-            The app has <strong>no advertising, no analytics, and no tracking</strong>. We do not sell
+            The app has <strong>no advertising and no ad tracking</strong>. It records which screens
+            and features you use, to make Grasp better, and you can switch that off. We do not sell
             or share your data with anyone.
           </p>
           <p style="margin-top: 10px">
@@ -207,19 +208,34 @@
 
       <h2>What we never collect</h2>
       <p>
-        No advertising identifiers. No analytics or usage tracking. No location. No microphone,
-        camera, contacts, or calendar access. Grasp does not request these permissions.
-      </p>
-      <p>
-        We do not track what you do in the app — which screens you open, how long you spend, what
-        you tap. The only thing recorded automatically is a crash, described below.
-      </p>
-      <p>
-        The two setup questions above are the exception, and the difference is worth stating: they
-        are things you chose to tell us once, not a record of your behaviour collected while you
-        used the app. You can leave both blank and nothing about Grasp changes.
+        No advertising identifiers. No location. No microphone, camera, contacts, or calendar
+        access. Grasp does not request these permissions.
       </p>
       <p>We do not sell your data, share it with advertisers, or use it to train anything.</p>
+
+      <h2>How the app is used</h2>
+      <p>
+        To see which parts of Grasp people use and where they get stuck, the app sends usage events
+        to <strong>PostHog</strong>, an analytics service: the screens you open, and moments such as
+        finishing the setup questions, starting or finishing a workout, applying a superset
+        suggestion, sharing a card or connecting a health app.
+      </p>
+      <p>
+        Each event carries counts and choices only — how many minutes and sets a workout had, which
+        split you picked. <strong>Never your weights, reps, body measurements, health data, name or
+        email.</strong> There are no screen recordings and nothing you type is sent.
+      </p>
+      <p>
+        Once you are signed in, the events are linked to your account's internal ID, so your phone
+        and tablet count as one person. PostHog also receives the app version, your device model,
+        operating system and language, and works out an approximate country from your connection.
+        The data is held by PostHog in the United States and used only to improve Grasp.
+      </p>
+      <p>
+        <strong>You can switch it off</strong> at any time under Account › Your data › Share usage
+        data; nothing is sent from that moment. To have your usage history deleted, email
+        <a href="mailto:grasp@alsouq.tech">grasp@alsouq.tech</a> and we will remove it.
+      </p>
 
       <h2>If the app crashes</h2>
       <p>
