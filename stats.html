@@ -1284,6 +1284,7 @@
             crashes: crashes, exercises: exercises, store: store,
             storeSync: raw.store_sync || [], web: raw.web || null,
             sm: storeMetrics, smLog: storeMetricsLog,
+            behaviour: raw.behaviour || null,
           };
         }
 
@@ -4556,6 +4557,169 @@
           p.appendChild(el('p', 'said', 'Cookie-free page views, not people. "Direct" includes most in-app browsers. Add ?ref=name to a link to see it as a source.'));
         }
 
+
+        /* =================================================================
+           9. Behaviour — how people use the app (owner, 2026-10-24).
+           PostHog's counts, fetched hourly by the behaviour-sync function,
+           and what people build: routine names and contents, the exercises
+           they swap, skip, like and rule out. All of it is counted over
+           every account apart from the excluded ones, so the date and
+           platform filters do not apply here.
+           ================================================================= */
+
+        var BH_FEATURES = {
+          routines: 'Routines', intervals: 'Intervals', insights: 'Insights', log: 'Log',
+          exercise: 'Exercise details', swap: 'Swap an exercise', supersets: 'Supersets',
+          share: 'Sharing', cards: 'Brag cards', recaps: 'Recaps', notifications: 'Opened a notification',
+          connected: 'Connected apps', settings: 'Workout settings',
+        };
+        var BH_SCREENS = {
+          'workout': 'Workout', 'landing': 'Landing', 'auth/welcome': 'Welcome', 'onboarding': 'Onboarding',
+          'routines-tab': 'Routines', 'intervals': 'Intervals', 'progress': 'Insights', 'log': 'Log',
+          'log-exercise': 'Logging an exercise', 'summary/[id]': 'Workout summary', 'routine/[id]': 'A routine',
+          'gym-profile': 'Gym equipment', 'exercise-picker': 'Add exercise', 'exercise/[slug]': 'Exercise details',
+          'auth/sign-in': 'Sign in', 'auth/sign-up': 'Sign up', 'muscle-picker': 'Pick muscles', 'swap': 'Swap exercise',
+          'connections': 'Connected apps', 'workout/[id]': 'Past workout', 'recap/[period]': 'Recap',
+          'workout-settings': 'Workout settings', 'superset-picker': 'Superset', 'share/[id]': 'Share card', 'account': 'Account',
+        };
+        var BH_EVENTS = {
+          workout_started: 'Started a workout', workout_completed: 'Finished a workout', onboarding_completed: 'Finished onboarding',
+          routine_created: 'Made a routine', recap_opened: 'Opened a recap', update_started: 'Started an app update',
+          brag_card_shown: 'Saw a brag card', app_connected: 'Connected an app', notification_opened: 'Opened a notification',
+          card_shared: 'Shared a workout card', routine_shared: 'Shared a routine', workout_discarded: 'Discarded a workout',
+          review_prompt_shown: 'Asked for a review', brag_card_shared: 'Shared a brag card',
+        };
+
+        function bhName(slug) {
+          var hit = (M.exercises || []).filter(function (r) { return r.slug === slug; })[0];
+          return hit ? hit.name : prettySlug(slug);
+        }
+
+        function rBehaviour(p) {
+          var B = M.behaviour;
+          if (!B) { card(p, 'Behaviour').appendChild(el('p', 'empty', 'No behaviour data yet.')); return; }
+          p.appendChild(el('p', 'note', 'Every account apart from the excluded ones; the dates and phone filters above do not apply here.'));
+          var ph = B.posthog || {};
+          var get = function (k) { return ph[k] && ph[k].data ? ph[k].data.results || [] : null; };
+          var status = ph._status || null;
+
+          if (!status || status.error || !get('features')) {
+            var c0 = card(p, 'PostHog', status && status.at ? 'last tried ' + new Date(status.at).toLocaleString() : 'not run yet');
+            c0.appendChild(el('p', 'empty', status && status.error
+              ? 'PostHog not connected: ' + status.error + '. Add the key as the Supabase secret POSTHOG_PERSONAL_API_KEY; the next hourly run fills this tab.'
+              : 'Waiting for the first hourly run.'));
+          }
+
+          bhOverview(p, get);
+          bhFeatures(p, get);
+          bhRoutines(p, B.routines || {});
+          bhExercises(p, B.exercises || {});
+          bhScreens(p, get);
+        }
+
+        function bhOverview(p, get) {
+          var f = (get('funnel') || [])[0];
+          var r = (get('retention') || [])[0];
+          var daily = get('daily') || [];
+          var tl = el('div', 'tiles');
+          p.appendChild(tl);
+          var last30 = daily.slice(-30);
+          tile(tl, 'Active today', daily.length ? fmtN(daily[daily.length - 1][1]) : '—', 'people in the app', { lead: true });
+          tile(tl, 'Came back next day', r ? pctS(r[1], r[0]) : '—', r ? fmtN(r[1]) + ' of ' + fmtN(r[0]) : '');
+          tile(tl, 'Came back within a week', r ? pctS(r[3], r[2]) : '—', r ? fmtN(r[3]) + ' of ' + fmtN(r[2]) : '');
+          tile(tl, 'Still around after a week', r && r[4] ? pctS(r[5], r[4]) : '—', r && r[4] ? fmtN(r[5]) + ' of ' + fmtN(r[4]) : 'not enough history yet');
+
+          if (daily.length) {
+            var c = card(p, 'People in the app each day', 'PostHog · last 90 days');
+            plot(c, {
+              buckets: daily.map(function (d) { var t = Date.parse(d[0]) / DAY; return { label: dayLabel(t), short: dayLabel(t) }; }),
+              series: [{ name: 'People', color: 'var(--accent)', values: daily.map(function (d) { return d[1]; }) }],
+              height: 190, label: 'People active per day',
+            });
+          }
+
+          if (f) {
+            var c2 = card(p, 'From install to a second workout', 'everyone PostHog has seen');
+            var steps = [
+              ['Opened the app', f[0]], ['Finished onboarding', f[1]], ['Started a workout', f[2]],
+              ['Finished a workout', f[3]], ['Finished two or more', f[4]], ['Came back another day', f[5]],
+            ];
+            hbars(c2, steps.map(function (st, i) {
+              var prev = i ? steps[i - 1][1] : st[1];
+              return { label: st[0], value: st[1], display: fmtN(st[1]), sub: i && i < 5 ? pctS(st[1], prev) + ' of the step before' : '' };
+            }), { max: f[0] });
+          }
+        }
+
+        function bhFeatures(p, get) {
+          var now = (get('features') || [])[0];
+          if (!now) return;
+          var prev = (get('features_prev') || [])[0] || [];
+          var keys = ((M.behaviour.posthog._status || {}).data || {}).features || Object.keys(BH_FEATURES);
+          var active = now[now.length - 1] || 0;
+          var c = card(p, 'Which features people use', fmtN(active) + ' people active in the last 30 days');
+          var rows = keys.map(function (k, i) {
+            var was = prev[i] || 0;
+            var diff = now[i] - was;
+            return {
+              label: BH_FEATURES[k] || k, value: now[i], display: pctS(now[i], active),
+              sub: fmtN(now[i]) + (prev.length ? ' · ' + (diff >= 0 ? '+' : '') + fmtN(diff) + ' vs the 30 days before' : ''),
+            };
+          }).sort(function (a, b) { return b.value - a.value; });
+          hbars(c, rows, { max: active || 1 });
+        }
+
+        function bhList(parent, title, note, rows, cols) {
+          var c = card(parent, title, note);
+          if (!rows.length) { c.appendChild(el('p', 'empty', 'Nothing yet.')); return c; }
+          var t = el('table');
+          var hr = el('tr');
+          cols.forEach(function (h, i) { hr.appendChild(el('th', i ? 'n' : null, h)); });
+          var th = el('thead'); th.appendChild(hr); t.appendChild(th);
+          var tb = el('tbody');
+          rows.forEach(function (r) {
+            var tr = el('tr');
+            r.forEach(function (v, i) { tr.appendChild(el('td', i ? 'n' : null, i ? fmtN(v) : v)); });
+            tb.appendChild(tr);
+          });
+          t.appendChild(tb);
+          var box = el('div', 'tablebox'); box.appendChild(t); c.appendChild(box);
+          return c;
+        }
+
+        function bhRoutines(p, R) {
+          var tl = el('div', 'tiles');
+          p.appendChild(tl);
+          tile(tl, 'Routines', fmtN(R.count || 0), fmtN(R.people || 0) + ' people made them');
+          tile(tl, 'Exercises per routine', R.avg_exercises != null ? String(R.avg_exercises) : '—', 'on average');
+          tile(tl, 'In folders', fmtN(R.in_folders || 0), 'routines');
+          var r1 = row(p);
+          bhList(r1, 'What people call their routines', 'as typed, folded for case', (R.names || []).map(function (x) { return [x[0], x[1], x[2]]; }), ['Name', 'Routines', 'People']);
+          bhList(r1, 'What they put in them', 'by people', (R.exercises || []).map(function (x) { return [bhName(x[0]), x[1], x[2]]; }), ['Exercise', 'People', 'Routines']);
+        }
+
+        function bhExercises(p, E) {
+          var r1 = row(p);
+          bhList(r1, 'Swapped out of a plan', 'the planner’s misses', (E.replaced || []).map(function (x) { return [bhName(x[0]), x[1], x[2]]; }), ['Exercise', 'People', 'Swaps']);
+          bhList(r1, 'Skipped', 'left undone in a workout', (E.skipped || []).map(function (x) { return [bhName(x[0]), x[1], x[2]]; }), ['Exercise', 'People', 'Skips']);
+          var r2 = row(p);
+          bhList(r2, 'Liked', 'marked as a favourite', (E.favourites || []).map(function (x) { return [bhName(x[0]), x[1]]; }), ['Exercise', 'People']);
+          bhList(r2, 'Ruled out', 'never to be planned again', (E.excluded || []).map(function (x) { return [bhName(x[0]), x[1]]; }), ['Exercise', 'People']);
+        }
+
+        function bhScreens(p, get) {
+          var screens = get('screens') || [];
+          var events = get('events') || [];
+          var plats = get('platforms') || [];
+          var r1 = row(p);
+          bhList(r1, 'Screens', 'last 30 days', screens.map(function (x) { return [BH_SCREENS[x[0]] || x[0] || '—', x[1], x[2]]; }), ['Screen', 'People', 'Views']);
+          bhList(r1, 'Actions', 'last 30 days', events.map(function (x) { return [BH_EVENTS[x[0]] || x[0], x[1], x[2]]; }), ['Action', 'People', 'Times']);
+          if (plats.length) {
+            var c = card(p, 'Phones', 'people, last 30 days');
+            hbars(c, plats.map(function (x) { return { label: x[0] || 'Unknown', value: x[1], display: fmtN(x[1]) }; }));
+          }
+        }
+
         /* =================================================================
            Tabs, controls, wiring.
            ================================================================= */
@@ -4569,6 +4733,7 @@
           { id: 'product', name: 'Product', q: 'Which parts of the app get used?', render: rProduct },
           { id: 'people', name: 'People', q: 'Who exactly is using Grasp?', render: rPeople },
           { id: 'quality', name: 'Quality', q: 'Is the app working for people?', render: rQuality },
+          { id: 'behaviour', name: 'Behaviour', q: 'How do people use the app?', render: rBehaviour },
         ];
         /* Tab ids from before the eight-tab layout, so old links and bookmarks still land. */
         var OLD_TABS = { growth: 'activation', website: 'stores', health: 'quality', activity: 'engagement', training: 'product', features: 'product' };
@@ -5051,6 +5216,39 @@
               devices: [{ name: 'iphone', views: 820, clicks: 51 }, { name: 'android', views: 560, clicks: 18 }, { name: 'desktop', views: 190, clicks: 7 }],
             },
             v2: { generated_at: iso(now), users: users, sessions: sessions, exercises: exercises, store_daily: demoStore, store_metrics: demoMetrics, store_metrics_log: demoMetricsLog, crash_rows: crashRows },
+            behaviour: demoBehaviour(),
+          };
+        }
+
+        /* The Behaviour tab's payload, shaped like analytics.behaviour_snapshot(). */
+        function demoBehaviour() {
+          var at = new Date().toISOString();
+          var d = function (results) { return { data: { results: results }, error: null, at: at }; };
+          var daily = [];
+          for (var i = 29; i >= 0; i--) daily.push([isoDay(Math.floor(Date.now() / DAY) - i), Math.round(4 + (29 - i) * 1.2 + (i % 3) * 2)]);
+          return {
+            posthog: {
+              _status: { data: { features: ['routines', 'intervals', 'insights', 'log', 'exercise', 'swap', 'supersets', 'share', 'cards', 'recaps', 'notifications', 'connected', 'settings'] }, error: null, at: at },
+              daily: d(daily),
+              funnel: d([[83, 52, 30, 23, 11, 10]]),
+              retention: d([[47, 6, 8, 3, 0, 0]]),
+              features: d([[48, 43, 42, 40, 15, 9, 4, 3, 3, 4, 3, 9, 4, 83]]),
+              features_prev: d([[20, 18, 16, 15, 6, 4, 1, 1, 0, 0, 1, 3, 2, 30]]),
+              screens: d([['workout', 82, 895], ['landing', 75, 91], ['auth/welcome', 71, 80], ['onboarding', 61, 87], ['routines-tab', 47, 228], ['intervals', 43, 150], ['progress', 42, 253], ['log', 40, 180]]),
+              events: d([['workout_started', 30, 65], ['workout_completed', 23, 54], ['onboarding_completed', 52, 52], ['routine_created', 22, 39], ['recap_opened', 4, 20], ['card_shared', 3, 5]]),
+              platforms: d([['iOS', 60], ['Android', 24]]),
+            },
+            routines: {
+              count: 34, people: 22, avg_exercises: 5.4, in_folders: 3,
+              names: [['الجزء السفلي', 3, 3], ['my routine', 2, 2], ['أرجل', 2, 2], ['push day', 1, 1], ['pull', 1, 1], ['upper body', 1, 1], ['اكتاف', 1, 1]],
+              exercises: [['lat_pulldown', 7, 7], ['leverage_shoulder_press', 6, 6], ['dumbbell_lateral_raise', 5, 5], ['leg_extension', 5, 5], ['cable_triceps_pushdown', 5, 5]],
+            },
+            exercises: {
+              replaced: [['barbell_back_squat', 4, 6], ['incline_push_up', 3, 3]],
+              skipped: [['pike_push_up', 3, 4], ['bird_dog', 2, 2]],
+              favourites: [['lat_pulldown', 3]],
+              excluded: [['barbell_deadlift', 2]],
+            },
           };
         }
 
