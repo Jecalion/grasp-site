@@ -69,6 +69,7 @@ S = {
         'hub_p': 'Free plans for training at home, by equipment and days a week. Each one is made by Grasp\'s planner.',
         'hub_item': '{days} days · {level}',
         'level': {'beginner': 'Beginner', 'intermediate': 'Intermediate'},
+        'used_h': 'Used in these workout plans',
     },
     'ar': {
         'crumbs': 'جداول التمارين',
@@ -104,6 +105,7 @@ S = {
         'hub_p': 'جداول مجانية للتمرين في البيت حسب الأدوات وعدد الأيام. كلها من مخطط Grasp.',
         'hub_item': '{days} أيام · {level}',
         'level': {'beginner': 'مبتدئ', 'intermediate': 'متوسط'},
+        'used_h': 'موجود في جداول التمارين هذي',
     },
 }
 WEEKDAY = {3: [0, 2, 4], 4: [0, 1, 3, 4], 5: [0, 1, 2, 4, 5]}
@@ -319,7 +321,7 @@ def hub_page(pages, lang):
                      for k, p in sorted(items, key=lambda kp: (kp[1]['level'] != 'beginner', kp[1]['days'])))
         gear = items[0][1]['equipment'] or ['bodyweight_only']
         icons = ''.join(X.eq_icon(g) for g in gear)
-        groups.append(f'        <section class="setup-card"><div class="setup-head"><span class="hero-gear">{icons}</span><h2>{SETUPS[setup][lang]}</h2></div><ul class="plan-tiles">{li}</ul></section>')
+        groups.append(f'        <section class="setup-card" id="{setup}"><div class="setup-head"><span class="hero-gear">{icons}</span><h2>{SETUPS[setup][lang]}</h2></div><ul class="plan-tiles">{li}</ul></section>')
     ld = {'@context': 'https://schema.org', '@type': 'CollectionPage', 'name': s['hub_h1'], 'inLanguage': lang,
           'description': s['hub_p']}
     body = f'''        <h1>{s['hub_h1']}</h1>
@@ -328,6 +330,35 @@ def hub_page(pages, lang):
 
 {X.cta(t)}'''
     return X.shell(lang, hub(lang), s['hub_title'], s['hub_p'], body, [(l, hub(l)) for l in LANGS], ld, og_type='website')
+
+
+def used_in_plans(pages, lang):
+    """Fill each exercise page's placeholder with the plans that use it: a way in from the exercise."""
+    s = S[lang]
+    uses = {}
+    for k, pg in sorted(pages.items(), key=lambda kp: (kp[1]['level'] != 'beginner', kp[1]['days'], kp[0])):
+        for d in pg['goals']['hypertrophy']['sessions']:
+            for e in d['exercises']:
+                if k not in uses.setdefault(e['slug'], []):
+                    uses[e['slug']].append(k)
+    for slug in PUBLISHED:
+        f = os.path.join(X.SITE, X.path(lang, slug).strip('/'), 'index.html')
+        if not os.path.exists(f):
+            continue
+        html_ = open(f, encoding='utf8').read()
+        block = ''
+        if uses.get(slug):
+            li = ''
+            for k in uses[slug][:4]:
+                p = pages[k]
+                name = s['h1'].format(days=p['days'], setup=SETUPS[p['setup']][lang], level_pl=s['level_pl'][p['level']])
+                icons = ''.join(X.eq_icon(g) for g in (p['equipment'] or ['bodyweight_only']))
+                li += f'<li><a href="{ppath(lang, k)}"><span class="eq-icons">{icons}</span>{esc(name)}</a></li>'
+            block = f'        <section class="used-in"><h2>{s["used_h"]}</h2><ul class="plain-links">{li}</ul></section>'
+        html_ = re.sub(r'<!-- used-in-plans -->(.*?<!-- /used-in-plans -->)?',
+                       lambda m: f'<!-- used-in-plans -->{block}<!-- /used-in-plans -->', html_, count=1, flags=re.S)
+        with open(f, 'w', encoding='utf8', newline='\n') as fh:
+            fh.write(html_)
 
 
 def sitemap(pages):
@@ -354,5 +385,7 @@ if __name__ == '__main__':
         X.write(hub(lang), hub_page(pages, lang))
         for k, pg in pages.items():
             X.write(ppath(lang, k), plan_page(k, pg, pages, lang))
+    for lang in LANGS:
+        used_in_plans(pages, lang)
     sitemap(pages)
     print(f'{len(pages)} plans x {len(LANGS)} languages')

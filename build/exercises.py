@@ -442,6 +442,7 @@ def exercise_page(slug, lang, built):
         </div>
 
 {dose_table(e, t, nm, lang)}
+<!-- used-in-plans -->
 
 {cta(t)}
 {groups}

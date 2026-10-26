@@ -740,3 +740,9 @@ ul.plain-links a {
     height: 40px;
   }
 }
+
+/* Exercise page: the plans that use it */
+.used-in { margin-bottom: 28px; }
+.used-in a { display: flex; align-items: center; gap: 10px; }
+.used-in .eq-icons { margin: 0; }
+.used-in .eq-icon { width: 26px; height: 26px; }
