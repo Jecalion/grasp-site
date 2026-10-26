@@ -155,6 +155,25 @@ APPS = {
         'pick_them': (['You want to run a famous program exactly as written', 'You like choosing from thousands of programs', 'You plan to follow a coach\'s template'],
                       ['تبي تمشي على برنامج معروف بالحرف', 'تحب تختار من آلاف البرامج', 'تبي تتبع قالب مدرب']),
     },
+    'lyfta': {
+        'name': 'Lyfta',
+        'price': (('Free; Pro after a 14-day trial (Lyfta does not publish its plan prices)', 'مجاني، وPro بعد تجربة 14 يوم (Lyfta ما تنشر أسعار خططها)'), None),
+        'free': (('Logging, routines, the exercise library', 'التسجيل، الجداول، مكتبة التمارين'), None),
+        'ads': (('No ads', 'بدون إعلانات'), True),
+        'plans': (('Ready programs to follow; no planner described', 'برامج جاهزة تتبعها، وما فيه مخطط تلقائي مذكور'), None),
+        'weights': (('"Progression tools" are in Pro', '"أدوات التطور" ضمن Pro'), False),
+        'offline': (('Not stated by Lyfta', 'ما ذكرته Lyfta'), None),
+        'arabic': (('Yes (28 languages)', 'إيه (28 لغة)'), True),
+        'platforms': (('iPhone, Apple Watch, Android', 'آيفون، Apple Watch، أندرويد'), None),
+        'sources': ['https://apps.apple.com/us/app/lyfta-gym-workout-tracker-log/id6443740936',
+                    'https://play.google.com/store/apps/details?id=com.lyfta'],
+        'tldr': ('A free, ad-free tracker in many languages, with ready programs to follow. Lyfta does not describe planning sessions for you, and its progression tools are in Pro. Grasp plans and sets your weights for free.',
+                 'Lyfta مسجّل مجاني بدون إعلانات وبلغات كثيرة، وفيه برامج جاهزة تتبعها. بس ما يذكر إنه يخطط تمارينك، وأدوات التطور عنده ضمن Pro. Grasp يخطط ويحدد أوزانك مجاناً.'),
+        'how': ('You build your routines or pick a ready program, such as StrongLifts 5x5, and log it. Pro adds expert programs, analytics and progression tools.',
+                'أنت تبني جداولك أو تختار برنامج جاهز مثل StrongLifts 5x5 وتسجّله. Pro يضيف برامج خبراء وإحصائيات وأدوات تطور.'),
+        'pick_them': (['You want to follow a known program like StrongLifts 5x5', 'You track live from an Apple Watch', 'You want an app in your language: it has 28'],
+                      ['تبي تمشي على برنامج معروف مثل StrongLifts 5x5', 'تتابع تمرينك من Apple Watch', 'تبي التطبيق بلغتك، فيه 28 لغة']),
+    },
 }
 
 # Compact view for the all-apps table, from the facts above.
@@ -167,6 +186,7 @@ SHORT = {
     'fitbod':             {'price': ('$95.99/yr after a 7-day trial', '95.99 دولار سنوياً بعد تجربة 7 أيام'), 'plans': '$', 'weights': '$', 'noads': '+', 'arabic': '-', 'offline': '~'},
     'nike-training-club': {'price': ('Free', 'مجاني'), 'plans': '~', 'weights': '-', 'noads': '+', 'arabic': '+', 'offline': '?'},
     'boostcamp':          {'price': ('Free · $59.99/yr Pro', 'مجاني · 59.99 دولار سنوياً للـPro'), 'plans': '~', 'weights': '$', 'noads': '+', 'arabic': '-', 'offline': '+'},
+    'lyfta':              {'price': ('Free · Pro after a 14-day trial', 'مجاني · Pro بعد تجربة 14 يوم'), 'plans': '~', 'weights': '$', 'noads': '+', 'arabic': '+', 'offline': '?'},
 }
 BEST = [  # (en, ar, app key): the honest "best for" line per need
     ('Free planning and weight progression', 'تخطيط وزيادة أوزان مجاناً', 'grasp'),
@@ -176,6 +196,7 @@ BEST = [  # (en, ar, app key): the honest "best for" line per need
     ('A mature paid AI planner', 'مخطط ذكي مدفوع ومتكامل', 'fitbod'),
     ('Follow-along video classes', 'حصص فيديو تتبعها', 'nike-training-club'),
     ('Famous coach programs', 'برامج مدربين معروفة', 'boostcamp'),
+    ('A free tracker in 28 languages', 'مسجّل مجاني بـ28 لغة', 'lyfta'),
 ]
 SYMBOL = {'+': ('ok', '✓'), '$': ('paid', '$'), '-': ('no', '✗'), '~': ('part', '~'), '?': ('unk', '?')}
 COLS = [('plans', 'Plans for you', 'يخطط لك'), ('weights', 'Sets your weights', 'يحدد أوزانك'),
@@ -205,7 +226,7 @@ S = {
         'all_h': 'All apps side by side', 'best_h': 'Best for', 'app': 'App',
         'legend': '✓ yes, free · $ only when paying · ~ partly · ✗ no · ? not stated by the app',
         'one_h': 'One-on-one comparisons',
-        'hub_title': 'Best Free Workout Apps Compared (2026): Grasp, Hevy, Strong, JEFIT, Fitbod, NTC, Boostcamp',
+        'hub_title': 'Best Free Workout Apps Compared (2026): Grasp, Hevy, Strong, Lyfta, JEFIT, Fitbod, NTC, Boostcamp',
         'hub_h1': 'Workout apps compared',
         'hub_p': 'How Grasp compares with the big workout apps on price, planning and progression. Facts checked {date}.',
         'hub_item': 'Grasp vs {app}',
@@ -229,7 +250,7 @@ S = {
         'all_h': 'كل التطبيقات جنب بعض', 'best_h': 'الأفضل لـ', 'app': 'التطبيق',
         'legend': '✓ إيه ومجاناً · $ بالاشتراك فقط · ~ جزئياً · ✗ لا · ? ما ذكره التطبيق',
         'one_h': 'مقارنة كل تطبيق مع Grasp',
-        'hub_title': 'أفضل تطبيقات التمارين المجانية: مقارنة Grasp وHevy وStrong وJEFIT وFitbod وغيرها (2026)',
+        'hub_title': 'أفضل تطبيقات التمارين المجانية: مقارنة Grasp وHevy وStrong وLyfta وJEFIT وFitbod وغيرها (2026)',
         'hub_h1': 'مقارنة تطبيقات التمارين',
         'hub_p': 'كيف يقارن Grasp بتطبيقات التمارين الكبيرة في السعر والتخطيط وزيادة الأوزان. تم التحقق {date}.',
         'hub_item': 'Grasp أو {app}',

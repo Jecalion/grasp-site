@@ -40915,5 +40915,17 @@
     <xhtml:link rel="alternate" hreflang="ar" href="https://grasp.alsouq.tech/ar/compare/boostcamp/"/>
     <xhtml:link rel="alternate" hreflang="x-default" href="https://grasp.alsouq.tech/compare/boostcamp/"/>
   </url>
+  <url>
+    <loc>https://grasp.alsouq.tech/compare/lyfta/</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://grasp.alsouq.tech/compare/lyfta/"/>
+    <xhtml:link rel="alternate" hreflang="ar" href="https://grasp.alsouq.tech/ar/compare/lyfta/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://grasp.alsouq.tech/compare/lyfta/"/>
+  </url>
+  <url>
+    <loc>https://grasp.alsouq.tech/ar/compare/lyfta/</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://grasp.alsouq.tech/compare/lyfta/"/>
+    <xhtml:link rel="alternate" hreflang="ar" href="https://grasp.alsouq.tech/ar/compare/lyfta/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://grasp.alsouq.tech/compare/lyfta/"/>
+  </url>
   <!-- compare:end -->
 </urlset>
