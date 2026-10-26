@@ -139,6 +139,11 @@ for lang in LANGS:
     T[lang] = t
 
 
+def has_mp(lang):
+    """Whether this language gets muscle pages (off where the safe phrasing reads stiffly)."""
+    return T[lang].get('muscle_pages', True)
+
+
 def rest_text(lang, s):
     t = T[lang]
     if lang == 'ar' and s in (60, 120):
@@ -358,7 +363,7 @@ def exercise_page(slug, lang, built):
     steps = STEPS[lang].get(slug) or STEPS['en'][slug]
     fam = family(slug)
     h1 = t['h1'].format(name=nm)
-    first = next((m for m in prim_keys if m in HUBS), None)
+    first = next((m for m in prim_keys if m in HUBS), None) if has_mp(lang) else None
 
     ld = {'@context': 'https://schema.org', '@graph': [
         {'@type': 'HowTo', 'name': h1, 'description': intro, 'inLanguage': lang,
@@ -456,14 +461,14 @@ def muscle_page(muscle, slugs, lang):
         </ul>
 
 {cta(t)}'''
-    return shell(lang, mpath(lang, muscle), title, intro, body, [(l, mpath(l, muscle)) for l in LANGS], ld,
+    return shell(lang, mpath(lang, muscle), title, intro, body, [(l, mpath(l, muscle)) for l in LANGS if has_mp(l)], ld,
                  og_type='website')
 
 
 def hub_page(groups, lang):
     t = T[lang]
     sections = '\n'.join(f'''        <section class="ex-group">
-          <h2><a href="{mpath(lang, m)}">{esc(MUSCLE[lang][m])}</a> <span class="lvl">{t['count'].format(n=len(s))}</span></h2>
+          <h2>{f'<a href="{mpath(lang, m)}">{esc(MUSCLE[lang][m])}</a>' if has_mp(lang) else esc(MUSCLE[lang][m])} <span class="lvl">{t['count'].format(n=len(s))}</span></h2>
           <ul class="ex-list">
 {exercise_list(lang, s[:8])}
           </ul>
@@ -527,11 +532,12 @@ def main(slugs):
             shutil.rmtree(base)
         write(prefix(lang) + 'exercises/', hub_page(groups, lang))
         for m, s in groups.items():
-            write(mpath(lang, m), muscle_page(m, s, lang))
+            if has_mp(lang):
+                write(mpath(lang, m), muscle_page(m, s, lang))
         for slug in slugs:
             write(path(lang, slug), exercise_page(slug, lang, built))
     sitemap([[(l, prefix(l) + 'exercises/') for l in LANGS]]
-            + [[(l, mpath(l, m)) for l in LANGS] for m in groups]
+            + [[(l, mpath(l, m)) for l in LANGS if has_mp(l)] for m in groups]
             + [[(l, path(l, s)) for l in LANGS] for s in slugs])
     print(f'{len(slugs)} exercises, {len(groups)} muscles, {len(LANGS)} languages')
 

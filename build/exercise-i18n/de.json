@@ -34,5 +34,6 @@
  "min": "{n} Min.",
  "sec": "{n} Sek.",
  "lower_muscles": false,
- "_notes": "Duzen, as on the German site. 'Ausführung', 'Trainierte Muskeln', '…: So geht's richtig' are standard in German fitness magazines (Gymondo, FITBOOK, MediaMarkt Ratgeber, Getfitcraft DE). {name} and {muscle} only ever stand before a colon or after a label: 'Übungen für {muscle}' breaks on 'Oberer Rücken' (für den oberen Rücken) and '{name} richtig ausführen' on names like 'Einarmiger Latzug'. m_p avoids 'Anfänger bis Fortgeschritten' because the app's 'Fortgeschritten' means intermediate."
+ "_notes": "Duzen, as on the German site. 'Ausführung', 'Trainierte Muskeln', '…: So geht's richtig' are standard in German fitness magazines (Gymondo, FITBOOK, MediaMarkt Ratgeber, Getfitcraft DE). {name} and {muscle} only ever stand before a colon or after a label: 'Übungen für {muscle}' breaks on 'Oberer Rücken' (für den oberen Rücken) and '{name} richtig ausführen' on names like 'Einarmiger Latzug'. m_p avoids 'Anfänger bis Fortgeschritten' because the app's 'Fortgeschritten' means intermediate. Muscle pages off (owner 2026-10-26: skip low-confidence pages; the safe \"{muscle}: ...\" form reads stiffly).",
+ "muscle_pages": false
 }

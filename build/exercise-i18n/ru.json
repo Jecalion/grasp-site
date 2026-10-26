@@ -34,5 +34,6 @@
  "min": "{n} мин",
  "sec": "{n} сек",
  "lower_muscles": true,
- "_notes": "The inserted name/muscle always stays nominative: 'X: техника выполнения' is the standard Russian title shape (mentoday, sportmail, t-j.ru); Cora's Russian pages show the failure to avoid ('Мышцы, задействованные в Отжимание'). Muscle pages are '{muscle}: упражнения', not 'Упражнения на {muscle}', which breaks on Шея, Поясница and '…часть бедра' (accusative). Counts are 'Упражнений: {n}', correct for any n. 'Базовое/Изолирующее' are the app's neuter words and agree with 'упражнение'; the intro opens with 'Это' because the generator lower-cases {mechanic}. 'ты' register as on the site."
+ "_notes": "The inserted name/muscle always stays nominative: 'X: техника выполнения' is the standard Russian title shape (mentoday, sportmail, t-j.ru); Cora's Russian pages show the failure to avoid ('Мышцы, задействованные в Отжимание'). Muscle pages are '{muscle}: упражнения', not 'Упражнения на {muscle}', which breaks on Шея, Поясница and '…часть бедра' (accusative). Counts are 'Упражнений: {n}', correct for any n. 'Базовое/Изолирующее' are the app's neuter words and agree with 'упражнение'; the intro opens with 'Это' because the generator lower-cases {mechanic}. 'ты' register as on the site. Muscle pages off (owner 2026-10-26: skip low-confidence pages; the safe \"{muscle}: ...\" form reads stiffly).",
+ "muscle_pages": false
 }

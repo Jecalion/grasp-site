@@ -185,3 +185,13 @@
   color: var(--faint);
   border-style: dashed;
 }
+.about-sec {
+  margin-bottom: 26px;
+}
+.about-sec h2 {
+  margin-bottom: 8px;
+}
+.about-sec p {
+  margin: 0 0 8px;
+  line-height: 1.6;
+}
