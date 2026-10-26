@@ -527,7 +527,7 @@ def main(slugs):
         slugs = sorted(pool, key=lambda s: -LIB[s].get('prominence', 0))[:TOP]
         # Once a page is live it stays: Google has the URL. Plus every exercise a plan page uses.
         keep = [l.strip() for l in open(PUBLISHED, encoding='utf8') if l.strip()]
-        slugs += [s for s in keep + plan_exercises() if s not in slugs and s in LIB and has_anim(s)]
+        slugs = list(dict.fromkeys(slugs + [s for s in keep + plan_exercises() if s in LIB and has_anim(s)]))
     built = set(slugs)
     os.makedirs(os.path.join(SITE, 'img', 'exercises'), exist_ok=True)
     for f in os.listdir(os.path.join(SITE, 'img', 'exercises')):
