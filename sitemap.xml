@@ -291,4 +291,1410 @@
   <url>
     <loc>https://grasp.alsouq.tech/privacy.html</loc>
   </url>
+  <!-- exercises:start -->
+  <url>
+    <loc>https://grasp.alsouq.tech/exercises/</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://grasp.alsouq.tech/exercises/"/>
+    <xhtml:link rel="alternate" hreflang="ar" href="https://grasp.alsouq.tech/ar/exercises/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://grasp.alsouq.tech/exercises/"/>
+  </url>
+  <url>
+    <loc>https://grasp.alsouq.tech/ar/exercises/</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://grasp.alsouq.tech/exercises/"/>
+    <xhtml:link rel="alternate" hreflang="ar" href="https://grasp.alsouq.tech/ar/exercises/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://grasp.alsouq.tech/exercises/"/>
+  </url>
+  <url>
+    <loc>https://grasp.alsouq.tech/exercises/muscle/chest/</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://grasp.alsouq.tech/exercises/muscle/chest/"/>
+    <xhtml:link rel="alternate" hreflang="ar" href="https://grasp.alsouq.tech/ar/exercises/muscle/chest/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://grasp.alsouq.tech/exercises/muscle/chest/"/>
+  </url>
+  <url>
+    <loc>https://grasp.alsouq.tech/ar/exercises/muscle/chest/</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://grasp.alsouq.tech/exercises/muscle/chest/"/>
+    <xhtml:link rel="alternate" hreflang="ar" href="https://grasp.alsouq.tech/ar/exercises/muscle/chest/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://grasp.alsouq.tech/exercises/muscle/chest/"/>
+  </url>
+  <url>
+    <loc>https://grasp.alsouq.tech/exercises/muscle/front_delts/</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://grasp.alsouq.tech/exercises/muscle/front_delts/"/>
+    <xhtml:link rel="alternate" hreflang="ar" href="https://grasp.alsouq.tech/ar/exercises/muscle/front_delts/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://grasp.alsouq.tech/exercises/muscle/front_delts/"/>
+  </url>
+  <url>
+    <loc>https://grasp.alsouq.tech/ar/exercises/muscle/front_delts/</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://grasp.alsouq.tech/exercises/muscle/front_delts/"/>
+    <xhtml:link rel="alternate" hreflang="ar" href="https://grasp.alsouq.tech/ar/exercises/muscle/front_delts/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://grasp.alsouq.tech/exercises/muscle/front_delts/"/>
+  </url>
+  <url>
+    <loc>https://grasp.alsouq.tech/exercises/muscle/side_delts/</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://grasp.alsouq.tech/exercises/muscle/side_delts/"/>
+    <xhtml:link rel="alternate" hreflang="ar" href="https://grasp.alsouq.tech/ar/exercises/muscle/side_delts/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://grasp.alsouq.tech/exercises/muscle/side_delts/"/>
+  </url>
+  <url>
+    <loc>https://grasp.alsouq.tech/ar/exercises/muscle/side_delts/</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://grasp.alsouq.tech/exercises/muscle/side_delts/"/>
+    <xhtml:link rel="alternate" hreflang="ar" href="https://grasp.alsouq.tech/ar/exercises/muscle/side_delts/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://grasp.alsouq.tech/exercises/muscle/side_delts/"/>
+  </url>
+  <url>
+    <loc>https://grasp.alsouq.tech/exercises/muscle/triceps/</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://grasp.alsouq.tech/exercises/muscle/triceps/"/>
+    <xhtml:link rel="alternate" hreflang="ar" href="https://grasp.alsouq.tech/ar/exercises/muscle/triceps/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://grasp.alsouq.tech/exercises/muscle/triceps/"/>
+  </url>
+  <url>
+    <loc>https://grasp.alsouq.tech/ar/exercises/muscle/triceps/</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://grasp.alsouq.tech/exercises/muscle/triceps/"/>
+    <xhtml:link rel="alternate" hreflang="ar" href="https://grasp.alsouq.tech/ar/exercises/muscle/triceps/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://grasp.alsouq.tech/exercises/muscle/triceps/"/>
+  </url>
+  <url>
+    <loc>https://grasp.alsouq.tech/exercises/muscle/biceps/</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://grasp.alsouq.tech/exercises/muscle/biceps/"/>
+    <xhtml:link rel="alternate" hreflang="ar" href="https://grasp.alsouq.tech/ar/exercises/muscle/biceps/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://grasp.alsouq.tech/exercises/muscle/biceps/"/>
+  </url>
+  <url>
+    <loc>https://grasp.alsouq.tech/ar/exercises/muscle/biceps/</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://grasp.alsouq.tech/exercises/muscle/biceps/"/>
+    <xhtml:link rel="alternate" hreflang="ar" href="https://grasp.alsouq.tech/ar/exercises/muscle/biceps/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://grasp.alsouq.tech/exercises/muscle/biceps/"/>
+  </url>
+  <url>
+    <loc>https://grasp.alsouq.tech/exercises/muscle/forearms/</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://grasp.alsouq.tech/exercises/muscle/forearms/"/>
+    <xhtml:link rel="alternate" hreflang="ar" href="https://grasp.alsouq.tech/ar/exercises/muscle/forearms/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://grasp.alsouq.tech/exercises/muscle/forearms/"/>
+  </url>
+  <url>
+    <loc>https://grasp.alsouq.tech/ar/exercises/muscle/forearms/</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://grasp.alsouq.tech/exercises/muscle/forearms/"/>
+    <xhtml:link rel="alternate" hreflang="ar" href="https://grasp.alsouq.tech/ar/exercises/muscle/forearms/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://grasp.alsouq.tech/exercises/muscle/forearms/"/>
+  </url>
+  <url>
+    <loc>https://grasp.alsouq.tech/exercises/muscle/lats/</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://grasp.alsouq.tech/exercises/muscle/lats/"/>
+    <xhtml:link rel="alternate" hreflang="ar" href="https://grasp.alsouq.tech/ar/exercises/muscle/lats/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://grasp.alsouq.tech/exercises/muscle/lats/"/>
+  </url>
+  <url>
+    <loc>https://grasp.alsouq.tech/ar/exercises/muscle/lats/</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://grasp.alsouq.tech/exercises/muscle/lats/"/>
+    <xhtml:link rel="alternate" hreflang="ar" href="https://grasp.alsouq.tech/ar/exercises/muscle/lats/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://grasp.alsouq.tech/exercises/muscle/lats/"/>
+  </url>
+  <url>
+    <loc>https://grasp.alsouq.tech/exercises/muscle/upper_back/</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://grasp.alsouq.tech/exercises/muscle/upper_back/"/>
+    <xhtml:link rel="alternate" hreflang="ar" href="https://grasp.alsouq.tech/ar/exercises/muscle/upper_back/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://grasp.alsouq.tech/exercises/muscle/upper_back/"/>
+  </url>
+  <url>
+    <loc>https://grasp.alsouq.tech/ar/exercises/muscle/upper_back/</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://grasp.alsouq.tech/exercises/muscle/upper_back/"/>
+    <xhtml:link rel="alternate" hreflang="ar" href="https://grasp.alsouq.tech/ar/exercises/muscle/upper_back/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://grasp.alsouq.tech/exercises/muscle/upper_back/"/>
+  </url>
+  <url>
+    <loc>https://grasp.alsouq.tech/exercises/muscle/traps/</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://grasp.alsouq.tech/exercises/muscle/traps/"/>
+    <xhtml:link rel="alternate" hreflang="ar" href="https://grasp.alsouq.tech/ar/exercises/muscle/traps/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://grasp.alsouq.tech/exercises/muscle/traps/"/>
+  </url>
+  <url>
+    <loc>https://grasp.alsouq.tech/ar/exercises/muscle/traps/</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://grasp.alsouq.tech/exercises/muscle/traps/"/>
+    <xhtml:link rel="alternate" hreflang="ar" href="https://grasp.alsouq.tech/ar/exercises/muscle/traps/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://grasp.alsouq.tech/exercises/muscle/traps/"/>
+  </url>
+  <url>
+    <loc>https://grasp.alsouq.tech/exercises/muscle/lower_back/</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://grasp.alsouq.tech/exercises/muscle/lower_back/"/>
+    <xhtml:link rel="alternate" hreflang="ar" href="https://grasp.alsouq.tech/ar/exercises/muscle/lower_back/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://grasp.alsouq.tech/exercises/muscle/lower_back/"/>
+  </url>
+  <url>
+    <loc>https://grasp.alsouq.tech/ar/exercises/muscle/lower_back/</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://grasp.alsouq.tech/exercises/muscle/lower_back/"/>
+    <xhtml:link rel="alternate" hreflang="ar" href="https://grasp.alsouq.tech/ar/exercises/muscle/lower_back/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://grasp.alsouq.tech/exercises/muscle/lower_back/"/>
+  </url>
+  <url>
+    <loc>https://grasp.alsouq.tech/exercises/muscle/abs/</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://grasp.alsouq.tech/exercises/muscle/abs/"/>
+    <xhtml:link rel="alternate" hreflang="ar" href="https://grasp.alsouq.tech/ar/exercises/muscle/abs/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://grasp.alsouq.tech/exercises/muscle/abs/"/>
+  </url>
+  <url>
+    <loc>https://grasp.alsouq.tech/ar/exercises/muscle/abs/</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://grasp.alsouq.tech/exercises/muscle/abs/"/>
+    <xhtml:link rel="alternate" hreflang="ar" href="https://grasp.alsouq.tech/ar/exercises/muscle/abs/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://grasp.alsouq.tech/exercises/muscle/abs/"/>
+  </url>
+  <url>
+    <loc>https://grasp.alsouq.tech/exercises/muscle/obliques/</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://grasp.alsouq.tech/exercises/muscle/obliques/"/>
+    <xhtml:link rel="alternate" hreflang="ar" href="https://grasp.alsouq.tech/ar/exercises/muscle/obliques/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://grasp.alsouq.tech/exercises/muscle/obliques/"/>
+  </url>
+  <url>
+    <loc>https://grasp.alsouq.tech/ar/exercises/muscle/obliques/</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://grasp.alsouq.tech/exercises/muscle/obliques/"/>
+    <xhtml:link rel="alternate" hreflang="ar" href="https://grasp.alsouq.tech/ar/exercises/muscle/obliques/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://grasp.alsouq.tech/exercises/muscle/obliques/"/>
+  </url>
+  <url>
+    <loc>https://grasp.alsouq.tech/exercises/muscle/glutes/</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://grasp.alsouq.tech/exercises/muscle/glutes/"/>
+    <xhtml:link rel="alternate" hreflang="ar" href="https://grasp.alsouq.tech/ar/exercises/muscle/glutes/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://grasp.alsouq.tech/exercises/muscle/glutes/"/>
+  </url>
+  <url>
+    <loc>https://grasp.alsouq.tech/ar/exercises/muscle/glutes/</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://grasp.alsouq.tech/exercises/muscle/glutes/"/>
+    <xhtml:link rel="alternate" hreflang="ar" href="https://grasp.alsouq.tech/ar/exercises/muscle/glutes/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://grasp.alsouq.tech/exercises/muscle/glutes/"/>
+  </url>
+  <url>
+    <loc>https://grasp.alsouq.tech/exercises/muscle/quads/</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://grasp.alsouq.tech/exercises/muscle/quads/"/>
+    <xhtml:link rel="alternate" hreflang="ar" href="https://grasp.alsouq.tech/ar/exercises/muscle/quads/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://grasp.alsouq.tech/exercises/muscle/quads/"/>
+  </url>
+  <url>
+    <loc>https://grasp.alsouq.tech/ar/exercises/muscle/quads/</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://grasp.alsouq.tech/exercises/muscle/quads/"/>
+    <xhtml:link rel="alternate" hreflang="ar" href="https://grasp.alsouq.tech/ar/exercises/muscle/quads/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://grasp.alsouq.tech/exercises/muscle/quads/"/>
+  </url>
+  <url>
+    <loc>https://grasp.alsouq.tech/exercises/muscle/hamstrings/</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://grasp.alsouq.tech/exercises/muscle/hamstrings/"/>
+    <xhtml:link rel="alternate" hreflang="ar" href="https://grasp.alsouq.tech/ar/exercises/muscle/hamstrings/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://grasp.alsouq.tech/exercises/muscle/hamstrings/"/>
+  </url>
+  <url>
+    <loc>https://grasp.alsouq.tech/ar/exercises/muscle/hamstrings/</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://grasp.alsouq.tech/exercises/muscle/hamstrings/"/>
+    <xhtml:link rel="alternate" hreflang="ar" href="https://grasp.alsouq.tech/ar/exercises/muscle/hamstrings/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://grasp.alsouq.tech/exercises/muscle/hamstrings/"/>
+  </url>
+  <url>
+    <loc>https://grasp.alsouq.tech/exercises/muscle/calves/</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://grasp.alsouq.tech/exercises/muscle/calves/"/>
+    <xhtml:link rel="alternate" hreflang="ar" href="https://grasp.alsouq.tech/ar/exercises/muscle/calves/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://grasp.alsouq.tech/exercises/muscle/calves/"/>
+  </url>
+  <url>
+    <loc>https://grasp.alsouq.tech/ar/exercises/muscle/calves/</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://grasp.alsouq.tech/exercises/muscle/calves/"/>
+    <xhtml:link rel="alternate" hreflang="ar" href="https://grasp.alsouq.tech/ar/exercises/muscle/calves/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://grasp.alsouq.tech/exercises/muscle/calves/"/>
+  </url>
+  <url>
+    <loc>https://grasp.alsouq.tech/exercises/barbell_back_squat/</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://grasp.alsouq.tech/exercises/barbell_back_squat/"/>
+    <xhtml:link rel="alternate" hreflang="ar" href="https://grasp.alsouq.tech/ar/exercises/barbell_back_squat/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://grasp.alsouq.tech/exercises/barbell_back_squat/"/>
+  </url>
+  <url>
+    <loc>https://grasp.alsouq.tech/ar/exercises/barbell_back_squat/</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://grasp.alsouq.tech/exercises/barbell_back_squat/"/>
+    <xhtml:link rel="alternate" hreflang="ar" href="https://grasp.alsouq.tech/ar/exercises/barbell_back_squat/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://grasp.alsouq.tech/exercises/barbell_back_squat/"/>
+  </url>
+  <url>
+    <loc>https://grasp.alsouq.tech/exercises/barbell_bench_press/</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://grasp.alsouq.tech/exercises/barbell_bench_press/"/>
+    <xhtml:link rel="alternate" hreflang="ar" href="https://grasp.alsouq.tech/ar/exercises/barbell_bench_press/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://grasp.alsouq.tech/exercises/barbell_bench_press/"/>
+  </url>
+  <url>
+    <loc>https://grasp.alsouq.tech/ar/exercises/barbell_bench_press/</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://grasp.alsouq.tech/exercises/barbell_bench_press/"/>
+    <xhtml:link rel="alternate" hreflang="ar" href="https://grasp.alsouq.tech/ar/exercises/barbell_bench_press/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://grasp.alsouq.tech/exercises/barbell_bench_press/"/>
+  </url>
+  <url>
+    <loc>https://grasp.alsouq.tech/exercises/barbell_curl/</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://grasp.alsouq.tech/exercises/barbell_curl/"/>
+    <xhtml:link rel="alternate" hreflang="ar" href="https://grasp.alsouq.tech/ar/exercises/barbell_curl/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://grasp.alsouq.tech/exercises/barbell_curl/"/>
+  </url>
+  <url>
+    <loc>https://grasp.alsouq.tech/ar/exercises/barbell_curl/</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://grasp.alsouq.tech/exercises/barbell_curl/"/>
+    <xhtml:link rel="alternate" hreflang="ar" href="https://grasp.alsouq.tech/ar/exercises/barbell_curl/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://grasp.alsouq.tech/exercises/barbell_curl/"/>
+  </url>
+  <url>
+    <loc>https://grasp.alsouq.tech/exercises/barbell_deadlift/</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://grasp.alsouq.tech/exercises/barbell_deadlift/"/>
+    <xhtml:link rel="alternate" hreflang="ar" href="https://grasp.alsouq.tech/ar/exercises/barbell_deadlift/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://grasp.alsouq.tech/exercises/barbell_deadlift/"/>
+  </url>
+  <url>
+    <loc>https://grasp.alsouq.tech/ar/exercises/barbell_deadlift/</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://grasp.alsouq.tech/exercises/barbell_deadlift/"/>
+    <xhtml:link rel="alternate" hreflang="ar" href="https://grasp.alsouq.tech/ar/exercises/barbell_deadlift/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://grasp.alsouq.tech/exercises/barbell_deadlift/"/>
+  </url>
+  <url>
+    <loc>https://grasp.alsouq.tech/exercises/hip_thrust/</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://grasp.alsouq.tech/exercises/hip_thrust/"/>
+    <xhtml:link rel="alternate" hreflang="ar" href="https://grasp.alsouq.tech/ar/exercises/hip_thrust/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://grasp.alsouq.tech/exercises/hip_thrust/"/>
+  </url>
+  <url>
+    <loc>https://grasp.alsouq.tech/ar/exercises/hip_thrust/</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://grasp.alsouq.tech/exercises/hip_thrust/"/>
+    <xhtml:link rel="alternate" hreflang="ar" href="https://grasp.alsouq.tech/ar/exercises/hip_thrust/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://grasp.alsouq.tech/exercises/hip_thrust/"/>
+  </url>
+  <url>
+    <loc>https://grasp.alsouq.tech/exercises/barbell_overhead_press/</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://grasp.alsouq.tech/exercises/barbell_overhead_press/"/>
+    <xhtml:link rel="alternate" hreflang="ar" href="https://grasp.alsouq.tech/ar/exercises/barbell_overhead_press/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://grasp.alsouq.tech/exercises/barbell_overhead_press/"/>
+  </url>
+  <url>
+    <loc>https://grasp.alsouq.tech/ar/exercises/barbell_overhead_press/</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://grasp.alsouq.tech/exercises/barbell_overhead_press/"/>
+    <xhtml:link rel="alternate" hreflang="ar" href="https://grasp.alsouq.tech/ar/exercises/barbell_overhead_press/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://grasp.alsouq.tech/exercises/barbell_overhead_press/"/>
+  </url>
+  <url>
+    <loc>https://grasp.alsouq.tech/exercises/barbell_row/</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://grasp.alsouq.tech/exercises/barbell_row/"/>
+    <xhtml:link rel="alternate" hreflang="ar" href="https://grasp.alsouq.tech/ar/exercises/barbell_row/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://grasp.alsouq.tech/exercises/barbell_row/"/>
+  </url>
+  <url>
+    <loc>https://grasp.alsouq.tech/ar/exercises/barbell_row/</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://grasp.alsouq.tech/exercises/barbell_row/"/>
+    <xhtml:link rel="alternate" hreflang="ar" href="https://grasp.alsouq.tech/ar/exercises/barbell_row/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://grasp.alsouq.tech/exercises/barbell_row/"/>
+  </url>
+  <url>
+    <loc>https://grasp.alsouq.tech/exercises/bodyweight_squat/</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://grasp.alsouq.tech/exercises/bodyweight_squat/"/>
+    <xhtml:link rel="alternate" hreflang="ar" href="https://grasp.alsouq.tech/ar/exercises/bodyweight_squat/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://grasp.alsouq.tech/exercises/bodyweight_squat/"/>
+  </url>
+  <url>
+    <loc>https://grasp.alsouq.tech/ar/exercises/bodyweight_squat/</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://grasp.alsouq.tech/exercises/bodyweight_squat/"/>
+    <xhtml:link rel="alternate" hreflang="ar" href="https://grasp.alsouq.tech/ar/exercises/bodyweight_squat/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://grasp.alsouq.tech/exercises/bodyweight_squat/"/>
+  </url>
+  <url>
+    <loc>https://grasp.alsouq.tech/exercises/face_pull/</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://grasp.alsouq.tech/exercises/face_pull/"/>
+    <xhtml:link rel="alternate" hreflang="ar" href="https://grasp.alsouq.tech/ar/exercises/face_pull/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://grasp.alsouq.tech/exercises/face_pull/"/>
+  </url>
+  <url>
+    <loc>https://grasp.alsouq.tech/ar/exercises/face_pull/</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://grasp.alsouq.tech/exercises/face_pull/"/>
+    <xhtml:link rel="alternate" hreflang="ar" href="https://grasp.alsouq.tech/ar/exercises/face_pull/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://grasp.alsouq.tech/exercises/face_pull/"/>
+  </url>
+  <url>
+    <loc>https://grasp.alsouq.tech/exercises/cable_triceps_pushdown/</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://grasp.alsouq.tech/exercises/cable_triceps_pushdown/"/>
+    <xhtml:link rel="alternate" hreflang="ar" href="https://grasp.alsouq.tech/ar/exercises/cable_triceps_pushdown/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://grasp.alsouq.tech/exercises/cable_triceps_pushdown/"/>
+  </url>
+  <url>
+    <loc>https://grasp.alsouq.tech/ar/exercises/cable_triceps_pushdown/</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://grasp.alsouq.tech/exercises/cable_triceps_pushdown/"/>
+    <xhtml:link rel="alternate" hreflang="ar" href="https://grasp.alsouq.tech/ar/exercises/cable_triceps_pushdown/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://grasp.alsouq.tech/exercises/cable_triceps_pushdown/"/>
+  </url>
+  <url>
+    <loc>https://grasp.alsouq.tech/exercises/dip/</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://grasp.alsouq.tech/exercises/dip/"/>
+    <xhtml:link rel="alternate" hreflang="ar" href="https://grasp.alsouq.tech/ar/exercises/dip/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://grasp.alsouq.tech/exercises/dip/"/>
+  </url>
+  <url>
+    <loc>https://grasp.alsouq.tech/ar/exercises/dip/</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://grasp.alsouq.tech/exercises/dip/"/>
+    <xhtml:link rel="alternate" hreflang="ar" href="https://grasp.alsouq.tech/ar/exercises/dip/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://grasp.alsouq.tech/exercises/dip/"/>
+  </url>
+  <url>
+    <loc>https://grasp.alsouq.tech/exercises/dumbbell_bench_press/</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://grasp.alsouq.tech/exercises/dumbbell_bench_press/"/>
+    <xhtml:link rel="alternate" hreflang="ar" href="https://grasp.alsouq.tech/ar/exercises/dumbbell_bench_press/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://grasp.alsouq.tech/exercises/dumbbell_bench_press/"/>
+  </url>
+  <url>
+    <loc>https://grasp.alsouq.tech/ar/exercises/dumbbell_bench_press/</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://grasp.alsouq.tech/exercises/dumbbell_bench_press/"/>
+    <xhtml:link rel="alternate" hreflang="ar" href="https://grasp.alsouq.tech/ar/exercises/dumbbell_bench_press/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://grasp.alsouq.tech/exercises/dumbbell_bench_press/"/>
+  </url>
+  <url>
+    <loc>https://grasp.alsouq.tech/exercises/dumbbell_curl/</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://grasp.alsouq.tech/exercises/dumbbell_curl/"/>
+    <xhtml:link rel="alternate" hreflang="ar" href="https://grasp.alsouq.tech/ar/exercises/dumbbell_curl/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://grasp.alsouq.tech/exercises/dumbbell_curl/"/>
+  </url>
+  <url>
+    <loc>https://grasp.alsouq.tech/ar/exercises/dumbbell_curl/</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://grasp.alsouq.tech/exercises/dumbbell_curl/"/>
+    <xhtml:link rel="alternate" hreflang="ar" href="https://grasp.alsouq.tech/ar/exercises/dumbbell_curl/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://grasp.alsouq.tech/exercises/dumbbell_curl/"/>
+  </url>
+  <url>
+    <loc>https://grasp.alsouq.tech/exercises/dumbbell_lateral_raise/</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://grasp.alsouq.tech/exercises/dumbbell_lateral_raise/"/>
+    <xhtml:link rel="alternate" hreflang="ar" href="https://grasp.alsouq.tech/ar/exercises/dumbbell_lateral_raise/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://grasp.alsouq.tech/exercises/dumbbell_lateral_raise/"/>
+  </url>
+  <url>
+    <loc>https://grasp.alsouq.tech/ar/exercises/dumbbell_lateral_raise/</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://grasp.alsouq.tech/exercises/dumbbell_lateral_raise/"/>
+    <xhtml:link rel="alternate" hreflang="ar" href="https://grasp.alsouq.tech/ar/exercises/dumbbell_lateral_raise/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://grasp.alsouq.tech/exercises/dumbbell_lateral_raise/"/>
+  </url>
+  <url>
+    <loc>https://grasp.alsouq.tech/exercises/dumbbell_shoulder_press/</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://grasp.alsouq.tech/exercises/dumbbell_shoulder_press/"/>
+    <xhtml:link rel="alternate" hreflang="ar" href="https://grasp.alsouq.tech/ar/exercises/dumbbell_shoulder_press/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://grasp.alsouq.tech/exercises/dumbbell_shoulder_press/"/>
+  </url>
+  <url>
+    <loc>https://grasp.alsouq.tech/ar/exercises/dumbbell_shoulder_press/</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://grasp.alsouq.tech/exercises/dumbbell_shoulder_press/"/>
+    <xhtml:link rel="alternate" hreflang="ar" href="https://grasp.alsouq.tech/ar/exercises/dumbbell_shoulder_press/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://grasp.alsouq.tech/exercises/dumbbell_shoulder_press/"/>
+  </url>
+  <url>
+    <loc>https://grasp.alsouq.tech/exercises/glute_bridge/</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://grasp.alsouq.tech/exercises/glute_bridge/"/>
+    <xhtml:link rel="alternate" hreflang="ar" href="https://grasp.alsouq.tech/ar/exercises/glute_bridge/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://grasp.alsouq.tech/exercises/glute_bridge/"/>
+  </url>
+  <url>
+    <loc>https://grasp.alsouq.tech/ar/exercises/glute_bridge/</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://grasp.alsouq.tech/exercises/glute_bridge/"/>
+    <xhtml:link rel="alternate" hreflang="ar" href="https://grasp.alsouq.tech/ar/exercises/glute_bridge/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://grasp.alsouq.tech/exercises/glute_bridge/"/>
+  </url>
+  <url>
+    <loc>https://grasp.alsouq.tech/exercises/goblet_squat/</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://grasp.alsouq.tech/exercises/goblet_squat/"/>
+    <xhtml:link rel="alternate" hreflang="ar" href="https://grasp.alsouq.tech/ar/exercises/goblet_squat/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://grasp.alsouq.tech/exercises/goblet_squat/"/>
+  </url>
+  <url>
+    <loc>https://grasp.alsouq.tech/ar/exercises/goblet_squat/</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://grasp.alsouq.tech/exercises/goblet_squat/"/>
+    <xhtml:link rel="alternate" hreflang="ar" href="https://grasp.alsouq.tech/ar/exercises/goblet_squat/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://grasp.alsouq.tech/exercises/goblet_squat/"/>
+  </url>
+  <url>
+    <loc>https://grasp.alsouq.tech/exercises/hanging_leg_raise/</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://grasp.alsouq.tech/exercises/hanging_leg_raise/"/>
+    <xhtml:link rel="alternate" hreflang="ar" href="https://grasp.alsouq.tech/ar/exercises/hanging_leg_raise/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://grasp.alsouq.tech/exercises/hanging_leg_raise/"/>
+  </url>
+  <url>
+    <loc>https://grasp.alsouq.tech/ar/exercises/hanging_leg_raise/</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://grasp.alsouq.tech/exercises/hanging_leg_raise/"/>
+    <xhtml:link rel="alternate" hreflang="ar" href="https://grasp.alsouq.tech/ar/exercises/hanging_leg_raise/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://grasp.alsouq.tech/exercises/hanging_leg_raise/"/>
+  </url>
+  <url>
+    <loc>https://grasp.alsouq.tech/exercises/incline_dumbbell_press/</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://grasp.alsouq.tech/exercises/incline_dumbbell_press/"/>
+    <xhtml:link rel="alternate" hreflang="ar" href="https://grasp.alsouq.tech/ar/exercises/incline_dumbbell_press/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://grasp.alsouq.tech/exercises/incline_dumbbell_press/"/>
+  </url>
+  <url>
+    <loc>https://grasp.alsouq.tech/ar/exercises/incline_dumbbell_press/</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://grasp.alsouq.tech/exercises/incline_dumbbell_press/"/>
+    <xhtml:link rel="alternate" hreflang="ar" href="https://grasp.alsouq.tech/ar/exercises/incline_dumbbell_press/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://grasp.alsouq.tech/exercises/incline_dumbbell_press/"/>
+  </url>
+  <url>
+    <loc>https://grasp.alsouq.tech/exercises/lat_pulldown/</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://grasp.alsouq.tech/exercises/lat_pulldown/"/>
+    <xhtml:link rel="alternate" hreflang="ar" href="https://grasp.alsouq.tech/ar/exercises/lat_pulldown/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://grasp.alsouq.tech/exercises/lat_pulldown/"/>
+  </url>
+  <url>
+    <loc>https://grasp.alsouq.tech/ar/exercises/lat_pulldown/</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://grasp.alsouq.tech/exercises/lat_pulldown/"/>
+    <xhtml:link rel="alternate" hreflang="ar" href="https://grasp.alsouq.tech/ar/exercises/lat_pulldown/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://grasp.alsouq.tech/exercises/lat_pulldown/"/>
+  </url>
+  <url>
+    <loc>https://grasp.alsouq.tech/exercises/leg_extension/</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://grasp.alsouq.tech/exercises/leg_extension/"/>
+    <xhtml:link rel="alternate" hreflang="ar" href="https://grasp.alsouq.tech/ar/exercises/leg_extension/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://grasp.alsouq.tech/exercises/leg_extension/"/>
+  </url>
+  <url>
+    <loc>https://grasp.alsouq.tech/ar/exercises/leg_extension/</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://grasp.alsouq.tech/exercises/leg_extension/"/>
+    <xhtml:link rel="alternate" hreflang="ar" href="https://grasp.alsouq.tech/ar/exercises/leg_extension/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://grasp.alsouq.tech/exercises/leg_extension/"/>
+  </url>
+  <url>
+    <loc>https://grasp.alsouq.tech/exercises/leg_press/</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://grasp.alsouq.tech/exercises/leg_press/"/>
+    <xhtml:link rel="alternate" hreflang="ar" href="https://grasp.alsouq.tech/ar/exercises/leg_press/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://grasp.alsouq.tech/exercises/leg_press/"/>
+  </url>
+  <url>
+    <loc>https://grasp.alsouq.tech/ar/exercises/leg_press/</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://grasp.alsouq.tech/exercises/leg_press/"/>
+    <xhtml:link rel="alternate" hreflang="ar" href="https://grasp.alsouq.tech/ar/exercises/leg_press/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://grasp.alsouq.tech/exercises/leg_press/"/>
+  </url>
+  <url>
+    <loc>https://grasp.alsouq.tech/exercises/lying_leg_curl/</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://grasp.alsouq.tech/exercises/lying_leg_curl/"/>
+    <xhtml:link rel="alternate" hreflang="ar" href="https://grasp.alsouq.tech/ar/exercises/lying_leg_curl/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://grasp.alsouq.tech/exercises/lying_leg_curl/"/>
+  </url>
+  <url>
+    <loc>https://grasp.alsouq.tech/ar/exercises/lying_leg_curl/</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://grasp.alsouq.tech/exercises/lying_leg_curl/"/>
+    <xhtml:link rel="alternate" hreflang="ar" href="https://grasp.alsouq.tech/ar/exercises/lying_leg_curl/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://grasp.alsouq.tech/exercises/lying_leg_curl/"/>
+  </url>
+  <url>
+    <loc>https://grasp.alsouq.tech/exercises/machine_chest_press/</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://grasp.alsouq.tech/exercises/machine_chest_press/"/>
+    <xhtml:link rel="alternate" hreflang="ar" href="https://grasp.alsouq.tech/ar/exercises/machine_chest_press/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://grasp.alsouq.tech/exercises/machine_chest_press/"/>
+  </url>
+  <url>
+    <loc>https://grasp.alsouq.tech/ar/exercises/machine_chest_press/</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://grasp.alsouq.tech/exercises/machine_chest_press/"/>
+    <xhtml:link rel="alternate" hreflang="ar" href="https://grasp.alsouq.tech/ar/exercises/machine_chest_press/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://grasp.alsouq.tech/exercises/machine_chest_press/"/>
+  </url>
+  <url>
+    <loc>https://grasp.alsouq.tech/exercises/pike_push_up/</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://grasp.alsouq.tech/exercises/pike_push_up/"/>
+    <xhtml:link rel="alternate" hreflang="ar" href="https://grasp.alsouq.tech/ar/exercises/pike_push_up/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://grasp.alsouq.tech/exercises/pike_push_up/"/>
+  </url>
+  <url>
+    <loc>https://grasp.alsouq.tech/ar/exercises/pike_push_up/</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://grasp.alsouq.tech/exercises/pike_push_up/"/>
+    <xhtml:link rel="alternate" hreflang="ar" href="https://grasp.alsouq.tech/ar/exercises/pike_push_up/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://grasp.alsouq.tech/exercises/pike_push_up/"/>
+  </url>
+  <url>
+    <loc>https://grasp.alsouq.tech/exercises/pull_up/</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://grasp.alsouq.tech/exercises/pull_up/"/>
+    <xhtml:link rel="alternate" hreflang="ar" href="https://grasp.alsouq.tech/ar/exercises/pull_up/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://grasp.alsouq.tech/exercises/pull_up/"/>
+  </url>
+  <url>
+    <loc>https://grasp.alsouq.tech/ar/exercises/pull_up/</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://grasp.alsouq.tech/exercises/pull_up/"/>
+    <xhtml:link rel="alternate" hreflang="ar" href="https://grasp.alsouq.tech/ar/exercises/pull_up/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://grasp.alsouq.tech/exercises/pull_up/"/>
+  </url>
+  <url>
+    <loc>https://grasp.alsouq.tech/exercises/push_up/</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://grasp.alsouq.tech/exercises/push_up/"/>
+    <xhtml:link rel="alternate" hreflang="ar" href="https://grasp.alsouq.tech/ar/exercises/push_up/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://grasp.alsouq.tech/exercises/push_up/"/>
+  </url>
+  <url>
+    <loc>https://grasp.alsouq.tech/ar/exercises/push_up/</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://grasp.alsouq.tech/exercises/push_up/"/>
+    <xhtml:link rel="alternate" hreflang="ar" href="https://grasp.alsouq.tech/ar/exercises/push_up/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://grasp.alsouq.tech/exercises/push_up/"/>
+  </url>
+  <url>
+    <loc>https://grasp.alsouq.tech/exercises/romanian_deadlift/</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://grasp.alsouq.tech/exercises/romanian_deadlift/"/>
+    <xhtml:link rel="alternate" hreflang="ar" href="https://grasp.alsouq.tech/ar/exercises/romanian_deadlift/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://grasp.alsouq.tech/exercises/romanian_deadlift/"/>
+  </url>
+  <url>
+    <loc>https://grasp.alsouq.tech/ar/exercises/romanian_deadlift/</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://grasp.alsouq.tech/exercises/romanian_deadlift/"/>
+    <xhtml:link rel="alternate" hreflang="ar" href="https://grasp.alsouq.tech/ar/exercises/romanian_deadlift/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://grasp.alsouq.tech/exercises/romanian_deadlift/"/>
+  </url>
+  <url>
+    <loc>https://grasp.alsouq.tech/exercises/seated_cable_row/</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://grasp.alsouq.tech/exercises/seated_cable_row/"/>
+    <xhtml:link rel="alternate" hreflang="ar" href="https://grasp.alsouq.tech/ar/exercises/seated_cable_row/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://grasp.alsouq.tech/exercises/seated_cable_row/"/>
+  </url>
+  <url>
+    <loc>https://grasp.alsouq.tech/ar/exercises/seated_cable_row/</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://grasp.alsouq.tech/exercises/seated_cable_row/"/>
+    <xhtml:link rel="alternate" hreflang="ar" href="https://grasp.alsouq.tech/ar/exercises/seated_cable_row/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://grasp.alsouq.tech/exercises/seated_cable_row/"/>
+  </url>
+  <url>
+    <loc>https://grasp.alsouq.tech/exercises/dumbbell_row/</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://grasp.alsouq.tech/exercises/dumbbell_row/"/>
+    <xhtml:link rel="alternate" hreflang="ar" href="https://grasp.alsouq.tech/ar/exercises/dumbbell_row/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://grasp.alsouq.tech/exercises/dumbbell_row/"/>
+  </url>
+  <url>
+    <loc>https://grasp.alsouq.tech/ar/exercises/dumbbell_row/</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://grasp.alsouq.tech/exercises/dumbbell_row/"/>
+    <xhtml:link rel="alternate" hreflang="ar" href="https://grasp.alsouq.tech/ar/exercises/dumbbell_row/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://grasp.alsouq.tech/exercises/dumbbell_row/"/>
+  </url>
+  <url>
+    <loc>https://grasp.alsouq.tech/exercises/standing_calf_raise/</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://grasp.alsouq.tech/exercises/standing_calf_raise/"/>
+    <xhtml:link rel="alternate" hreflang="ar" href="https://grasp.alsouq.tech/ar/exercises/standing_calf_raise/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://grasp.alsouq.tech/exercises/standing_calf_raise/"/>
+  </url>
+  <url>
+    <loc>https://grasp.alsouq.tech/ar/exercises/standing_calf_raise/</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://grasp.alsouq.tech/exercises/standing_calf_raise/"/>
+    <xhtml:link rel="alternate" hreflang="ar" href="https://grasp.alsouq.tech/ar/exercises/standing_calf_raise/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://grasp.alsouq.tech/exercises/standing_calf_raise/"/>
+  </url>
+  <url>
+    <loc>https://grasp.alsouq.tech/exercises/inverted_row/</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://grasp.alsouq.tech/exercises/inverted_row/"/>
+    <xhtml:link rel="alternate" hreflang="ar" href="https://grasp.alsouq.tech/ar/exercises/inverted_row/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://grasp.alsouq.tech/exercises/inverted_row/"/>
+  </url>
+  <url>
+    <loc>https://grasp.alsouq.tech/ar/exercises/inverted_row/</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://grasp.alsouq.tech/exercises/inverted_row/"/>
+    <xhtml:link rel="alternate" hreflang="ar" href="https://grasp.alsouq.tech/ar/exercises/inverted_row/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://grasp.alsouq.tech/exercises/inverted_row/"/>
+  </url>
+  <url>
+    <loc>https://grasp.alsouq.tech/exercises/walking_lunge/</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://grasp.alsouq.tech/exercises/walking_lunge/"/>
+    <xhtml:link rel="alternate" hreflang="ar" href="https://grasp.alsouq.tech/ar/exercises/walking_lunge/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://grasp.alsouq.tech/exercises/walking_lunge/"/>
+  </url>
+  <url>
+    <loc>https://grasp.alsouq.tech/ar/exercises/walking_lunge/</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://grasp.alsouq.tech/exercises/walking_lunge/"/>
+    <xhtml:link rel="alternate" hreflang="ar" href="https://grasp.alsouq.tech/ar/exercises/walking_lunge/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://grasp.alsouq.tech/exercises/walking_lunge/"/>
+  </url>
+  <url>
+    <loc>https://grasp.alsouq.tech/exercises/barbell_pullover/</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://grasp.alsouq.tech/exercises/barbell_pullover/"/>
+    <xhtml:link rel="alternate" hreflang="ar" href="https://grasp.alsouq.tech/ar/exercises/barbell_pullover/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://grasp.alsouq.tech/exercises/barbell_pullover/"/>
+  </url>
+  <url>
+    <loc>https://grasp.alsouq.tech/ar/exercises/barbell_pullover/</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://grasp.alsouq.tech/exercises/barbell_pullover/"/>
+    <xhtml:link rel="alternate" hreflang="ar" href="https://grasp.alsouq.tech/ar/exercises/barbell_pullover/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://grasp.alsouq.tech/exercises/barbell_pullover/"/>
+  </url>
+  <url>
+    <loc>https://grasp.alsouq.tech/exercises/bench_pull/</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://grasp.alsouq.tech/exercises/bench_pull/"/>
+    <xhtml:link rel="alternate" hreflang="ar" href="https://grasp.alsouq.tech/ar/exercises/bench_pull/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://grasp.alsouq.tech/exercises/bench_pull/"/>
+  </url>
+  <url>
+    <loc>https://grasp.alsouq.tech/ar/exercises/bench_pull/</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://grasp.alsouq.tech/exercises/bench_pull/"/>
+    <xhtml:link rel="alternate" hreflang="ar" href="https://grasp.alsouq.tech/ar/exercises/bench_pull/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://grasp.alsouq.tech/exercises/bench_pull/"/>
+  </url>
+  <url>
+    <loc>https://grasp.alsouq.tech/exercises/bicycle_crunch/</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://grasp.alsouq.tech/exercises/bicycle_crunch/"/>
+    <xhtml:link rel="alternate" hreflang="ar" href="https://grasp.alsouq.tech/ar/exercises/bicycle_crunch/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://grasp.alsouq.tech/exercises/bicycle_crunch/"/>
+  </url>
+  <url>
+    <loc>https://grasp.alsouq.tech/ar/exercises/bicycle_crunch/</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://grasp.alsouq.tech/exercises/bicycle_crunch/"/>
+    <xhtml:link rel="alternate" hreflang="ar" href="https://grasp.alsouq.tech/ar/exercises/bicycle_crunch/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://grasp.alsouq.tech/exercises/bicycle_crunch/"/>
+  </url>
+  <url>
+    <loc>https://grasp.alsouq.tech/exercises/bird_dog/</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://grasp.alsouq.tech/exercises/bird_dog/"/>
+    <xhtml:link rel="alternate" hreflang="ar" href="https://grasp.alsouq.tech/ar/exercises/bird_dog/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://grasp.alsouq.tech/exercises/bird_dog/"/>
+  </url>
+  <url>
+    <loc>https://grasp.alsouq.tech/ar/exercises/bird_dog/</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://grasp.alsouq.tech/exercises/bird_dog/"/>
+    <xhtml:link rel="alternate" hreflang="ar" href="https://grasp.alsouq.tech/ar/exercises/bird_dog/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://grasp.alsouq.tech/exercises/bird_dog/"/>
+  </url>
+  <url>
+    <loc>https://grasp.alsouq.tech/exercises/cable_curl/</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://grasp.alsouq.tech/exercises/cable_curl/"/>
+    <xhtml:link rel="alternate" hreflang="ar" href="https://grasp.alsouq.tech/ar/exercises/cable_curl/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://grasp.alsouq.tech/exercises/cable_curl/"/>
+  </url>
+  <url>
+    <loc>https://grasp.alsouq.tech/ar/exercises/cable_curl/</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://grasp.alsouq.tech/exercises/cable_curl/"/>
+    <xhtml:link rel="alternate" hreflang="ar" href="https://grasp.alsouq.tech/ar/exercises/cable_curl/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://grasp.alsouq.tech/exercises/cable_curl/"/>
+  </url>
+  <url>
+    <loc>https://grasp.alsouq.tech/exercises/cheat_curl/</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://grasp.alsouq.tech/exercises/cheat_curl/"/>
+    <xhtml:link rel="alternate" hreflang="ar" href="https://grasp.alsouq.tech/ar/exercises/cheat_curl/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://grasp.alsouq.tech/exercises/cheat_curl/"/>
+  </url>
+  <url>
+    <loc>https://grasp.alsouq.tech/ar/exercises/cheat_curl/</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://grasp.alsouq.tech/exercises/cheat_curl/"/>
+    <xhtml:link rel="alternate" hreflang="ar" href="https://grasp.alsouq.tech/ar/exercises/cheat_curl/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://grasp.alsouq.tech/exercises/cheat_curl/"/>
+  </url>
+  <url>
+    <loc>https://grasp.alsouq.tech/exercises/clamshells/</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://grasp.alsouq.tech/exercises/clamshells/"/>
+    <xhtml:link rel="alternate" hreflang="ar" href="https://grasp.alsouq.tech/ar/exercises/clamshells/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://grasp.alsouq.tech/exercises/clamshells/"/>
+  </url>
+  <url>
+    <loc>https://grasp.alsouq.tech/ar/exercises/clamshells/</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://grasp.alsouq.tech/exercises/clamshells/"/>
+    <xhtml:link rel="alternate" hreflang="ar" href="https://grasp.alsouq.tech/ar/exercises/clamshells/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://grasp.alsouq.tech/exercises/clamshells/"/>
+  </url>
+  <url>
+    <loc>https://grasp.alsouq.tech/exercises/cossack_squat/</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://grasp.alsouq.tech/exercises/cossack_squat/"/>
+    <xhtml:link rel="alternate" hreflang="ar" href="https://grasp.alsouq.tech/ar/exercises/cossack_squat/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://grasp.alsouq.tech/exercises/cossack_squat/"/>
+  </url>
+  <url>
+    <loc>https://grasp.alsouq.tech/ar/exercises/cossack_squat/</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://grasp.alsouq.tech/exercises/cossack_squat/"/>
+    <xhtml:link rel="alternate" hreflang="ar" href="https://grasp.alsouq.tech/ar/exercises/cossack_squat/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://grasp.alsouq.tech/exercises/cossack_squat/"/>
+  </url>
+  <url>
+    <loc>https://grasp.alsouq.tech/exercises/crab_dips/</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://grasp.alsouq.tech/exercises/crab_dips/"/>
+    <xhtml:link rel="alternate" hreflang="ar" href="https://grasp.alsouq.tech/ar/exercises/crab_dips/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://grasp.alsouq.tech/exercises/crab_dips/"/>
+  </url>
+  <url>
+    <loc>https://grasp.alsouq.tech/ar/exercises/crab_dips/</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://grasp.alsouq.tech/exercises/crab_dips/"/>
+    <xhtml:link rel="alternate" hreflang="ar" href="https://grasp.alsouq.tech/ar/exercises/crab_dips/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://grasp.alsouq.tech/exercises/crab_dips/"/>
+  </url>
+  <url>
+    <loc>https://grasp.alsouq.tech/exercises/cross_body_crunch/</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://grasp.alsouq.tech/exercises/cross_body_crunch/"/>
+    <xhtml:link rel="alternate" hreflang="ar" href="https://grasp.alsouq.tech/ar/exercises/cross_body_crunch/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://grasp.alsouq.tech/exercises/cross_body_crunch/"/>
+  </url>
+  <url>
+    <loc>https://grasp.alsouq.tech/ar/exercises/cross_body_crunch/</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://grasp.alsouq.tech/exercises/cross_body_crunch/"/>
+    <xhtml:link rel="alternate" hreflang="ar" href="https://grasp.alsouq.tech/ar/exercises/cross_body_crunch/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://grasp.alsouq.tech/exercises/cross_body_crunch/"/>
+  </url>
+  <url>
+    <loc>https://grasp.alsouq.tech/exercises/dumbbell_deadlift/</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://grasp.alsouq.tech/exercises/dumbbell_deadlift/"/>
+    <xhtml:link rel="alternate" hreflang="ar" href="https://grasp.alsouq.tech/ar/exercises/dumbbell_deadlift/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://grasp.alsouq.tech/exercises/dumbbell_deadlift/"/>
+  </url>
+  <url>
+    <loc>https://grasp.alsouq.tech/ar/exercises/dumbbell_deadlift/</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://grasp.alsouq.tech/exercises/dumbbell_deadlift/"/>
+    <xhtml:link rel="alternate" hreflang="ar" href="https://grasp.alsouq.tech/ar/exercises/dumbbell_deadlift/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://grasp.alsouq.tech/exercises/dumbbell_deadlift/"/>
+  </url>
+  <url>
+    <loc>https://grasp.alsouq.tech/exercises/db_pullover/</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://grasp.alsouq.tech/exercises/db_pullover/"/>
+    <xhtml:link rel="alternate" hreflang="ar" href="https://grasp.alsouq.tech/ar/exercises/db_pullover/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://grasp.alsouq.tech/exercises/db_pullover/"/>
+  </url>
+  <url>
+    <loc>https://grasp.alsouq.tech/ar/exercises/db_pullover/</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://grasp.alsouq.tech/exercises/db_pullover/"/>
+    <xhtml:link rel="alternate" hreflang="ar" href="https://grasp.alsouq.tech/ar/exercises/db_pullover/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://grasp.alsouq.tech/exercises/db_pullover/"/>
+  </url>
+  <url>
+    <loc>https://grasp.alsouq.tech/exercises/dumbbell_windmill/</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://grasp.alsouq.tech/exercises/dumbbell_windmill/"/>
+    <xhtml:link rel="alternate" hreflang="ar" href="https://grasp.alsouq.tech/ar/exercises/dumbbell_windmill/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://grasp.alsouq.tech/exercises/dumbbell_windmill/"/>
+  </url>
+  <url>
+    <loc>https://grasp.alsouq.tech/ar/exercises/dumbbell_windmill/</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://grasp.alsouq.tech/exercises/dumbbell_windmill/"/>
+    <xhtml:link rel="alternate" hreflang="ar" href="https://grasp.alsouq.tech/ar/exercises/dumbbell_windmill/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://grasp.alsouq.tech/exercises/dumbbell_windmill/"/>
+  </url>
+  <url>
+    <loc>https://grasp.alsouq.tech/exercises/supine_flutter_kicks/</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://grasp.alsouq.tech/exercises/supine_flutter_kicks/"/>
+    <xhtml:link rel="alternate" hreflang="ar" href="https://grasp.alsouq.tech/ar/exercises/supine_flutter_kicks/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://grasp.alsouq.tech/exercises/supine_flutter_kicks/"/>
+  </url>
+  <url>
+    <loc>https://grasp.alsouq.tech/ar/exercises/supine_flutter_kicks/</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://grasp.alsouq.tech/exercises/supine_flutter_kicks/"/>
+    <xhtml:link rel="alternate" hreflang="ar" href="https://grasp.alsouq.tech/ar/exercises/supine_flutter_kicks/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://grasp.alsouq.tech/exercises/supine_flutter_kicks/"/>
+  </url>
+  <url>
+    <loc>https://grasp.alsouq.tech/exercises/heel_elevated_squat/</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://grasp.alsouq.tech/exercises/heel_elevated_squat/"/>
+    <xhtml:link rel="alternate" hreflang="ar" href="https://grasp.alsouq.tech/ar/exercises/heel_elevated_squat/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://grasp.alsouq.tech/exercises/heel_elevated_squat/"/>
+  </url>
+  <url>
+    <loc>https://grasp.alsouq.tech/ar/exercises/heel_elevated_squat/</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://grasp.alsouq.tech/exercises/heel_elevated_squat/"/>
+    <xhtml:link rel="alternate" hreflang="ar" href="https://grasp.alsouq.tech/ar/exercises/heel_elevated_squat/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://grasp.alsouq.tech/exercises/heel_elevated_squat/"/>
+  </url>
+  <url>
+    <loc>https://grasp.alsouq.tech/exercises/bar_inverted_row/</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://grasp.alsouq.tech/exercises/bar_inverted_row/"/>
+    <xhtml:link rel="alternate" hreflang="ar" href="https://grasp.alsouq.tech/ar/exercises/bar_inverted_row/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://grasp.alsouq.tech/exercises/bar_inverted_row/"/>
+  </url>
+  <url>
+    <loc>https://grasp.alsouq.tech/ar/exercises/bar_inverted_row/</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://grasp.alsouq.tech/exercises/bar_inverted_row/"/>
+    <xhtml:link rel="alternate" hreflang="ar" href="https://grasp.alsouq.tech/ar/exercises/bar_inverted_row/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://grasp.alsouq.tech/exercises/bar_inverted_row/"/>
+  </url>
+  <url>
+    <loc>https://grasp.alsouq.tech/exercises/jackknife_sit_up/</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://grasp.alsouq.tech/exercises/jackknife_sit_up/"/>
+    <xhtml:link rel="alternate" hreflang="ar" href="https://grasp.alsouq.tech/ar/exercises/jackknife_sit_up/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://grasp.alsouq.tech/exercises/jackknife_sit_up/"/>
+  </url>
+  <url>
+    <loc>https://grasp.alsouq.tech/ar/exercises/jackknife_sit_up/</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://grasp.alsouq.tech/exercises/jackknife_sit_up/"/>
+    <xhtml:link rel="alternate" hreflang="ar" href="https://grasp.alsouq.tech/ar/exercises/jackknife_sit_up/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://grasp.alsouq.tech/exercises/jackknife_sit_up/"/>
+  </url>
+  <url>
+    <loc>https://grasp.alsouq.tech/exercises/kettlebell_deadlift/</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://grasp.alsouq.tech/exercises/kettlebell_deadlift/"/>
+    <xhtml:link rel="alternate" hreflang="ar" href="https://grasp.alsouq.tech/ar/exercises/kettlebell_deadlift/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://grasp.alsouq.tech/exercises/kettlebell_deadlift/"/>
+  </url>
+  <url>
+    <loc>https://grasp.alsouq.tech/ar/exercises/kettlebell_deadlift/</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://grasp.alsouq.tech/exercises/kettlebell_deadlift/"/>
+    <xhtml:link rel="alternate" hreflang="ar" href="https://grasp.alsouq.tech/ar/exercises/kettlebell_deadlift/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://grasp.alsouq.tech/exercises/kettlebell_deadlift/"/>
+  </url>
+  <url>
+    <loc>https://grasp.alsouq.tech/exercises/kettlebell_pullover/</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://grasp.alsouq.tech/exercises/kettlebell_pullover/"/>
+    <xhtml:link rel="alternate" hreflang="ar" href="https://grasp.alsouq.tech/ar/exercises/kettlebell_pullover/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://grasp.alsouq.tech/exercises/kettlebell_pullover/"/>
+  </url>
+  <url>
+    <loc>https://grasp.alsouq.tech/ar/exercises/kettlebell_pullover/</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://grasp.alsouq.tech/exercises/kettlebell_pullover/"/>
+    <xhtml:link rel="alternate" hreflang="ar" href="https://grasp.alsouq.tech/ar/exercises/kettlebell_pullover/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://grasp.alsouq.tech/exercises/kettlebell_pullover/"/>
+  </url>
+  <url>
+    <loc>https://grasp.alsouq.tech/exercises/kettlebell_shrug/</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://grasp.alsouq.tech/exercises/kettlebell_shrug/"/>
+    <xhtml:link rel="alternate" hreflang="ar" href="https://grasp.alsouq.tech/ar/exercises/kettlebell_shrug/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://grasp.alsouq.tech/exercises/kettlebell_shrug/"/>
+  </url>
+  <url>
+    <loc>https://grasp.alsouq.tech/ar/exercises/kettlebell_shrug/</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://grasp.alsouq.tech/exercises/kettlebell_shrug/"/>
+    <xhtml:link rel="alternate" hreflang="ar" href="https://grasp.alsouq.tech/ar/exercises/kettlebell_shrug/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://grasp.alsouq.tech/exercises/kettlebell_shrug/"/>
+  </url>
+  <url>
+    <loc>https://grasp.alsouq.tech/exercises/kettlebell_squat/</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://grasp.alsouq.tech/exercises/kettlebell_squat/"/>
+    <xhtml:link rel="alternate" hreflang="ar" href="https://grasp.alsouq.tech/ar/exercises/kettlebell_squat/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://grasp.alsouq.tech/exercises/kettlebell_squat/"/>
+  </url>
+  <url>
+    <loc>https://grasp.alsouq.tech/ar/exercises/kettlebell_squat/</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://grasp.alsouq.tech/exercises/kettlebell_squat/"/>
+    <xhtml:link rel="alternate" hreflang="ar" href="https://grasp.alsouq.tech/ar/exercises/kettlebell_squat/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://grasp.alsouq.tech/exercises/kettlebell_squat/"/>
+  </url>
+  <url>
+    <loc>https://grasp.alsouq.tech/exercises/kettlebell_swing/</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://grasp.alsouq.tech/exercises/kettlebell_swing/"/>
+    <xhtml:link rel="alternate" hreflang="ar" href="https://grasp.alsouq.tech/ar/exercises/kettlebell_swing/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://grasp.alsouq.tech/exercises/kettlebell_swing/"/>
+  </url>
+  <url>
+    <loc>https://grasp.alsouq.tech/ar/exercises/kettlebell_swing/</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://grasp.alsouq.tech/exercises/kettlebell_swing/"/>
+    <xhtml:link rel="alternate" hreflang="ar" href="https://grasp.alsouq.tech/ar/exercises/kettlebell_swing/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://grasp.alsouq.tech/exercises/kettlebell_swing/"/>
+  </url>
+  <url>
+    <loc>https://grasp.alsouq.tech/exercises/lunge/</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://grasp.alsouq.tech/exercises/lunge/"/>
+    <xhtml:link rel="alternate" hreflang="ar" href="https://grasp.alsouq.tech/ar/exercises/lunge/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://grasp.alsouq.tech/exercises/lunge/"/>
+  </url>
+  <url>
+    <loc>https://grasp.alsouq.tech/ar/exercises/lunge/</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://grasp.alsouq.tech/exercises/lunge/"/>
+    <xhtml:link rel="alternate" hreflang="ar" href="https://grasp.alsouq.tech/ar/exercises/lunge/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://grasp.alsouq.tech/exercises/lunge/"/>
+  </url>
+  <url>
+    <loc>https://grasp.alsouq.tech/exercises/overhead_squat/</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://grasp.alsouq.tech/exercises/overhead_squat/"/>
+    <xhtml:link rel="alternate" hreflang="ar" href="https://grasp.alsouq.tech/ar/exercises/overhead_squat/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://grasp.alsouq.tech/exercises/overhead_squat/"/>
+  </url>
+  <url>
+    <loc>https://grasp.alsouq.tech/ar/exercises/overhead_squat/</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://grasp.alsouq.tech/exercises/overhead_squat/"/>
+    <xhtml:link rel="alternate" hreflang="ar" href="https://grasp.alsouq.tech/ar/exercises/overhead_squat/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://grasp.alsouq.tech/exercises/overhead_squat/"/>
+  </url>
+  <url>
+    <loc>https://grasp.alsouq.tech/exercises/pendlay_row/</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://grasp.alsouq.tech/exercises/pendlay_row/"/>
+    <xhtml:link rel="alternate" hreflang="ar" href="https://grasp.alsouq.tech/ar/exercises/pendlay_row/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://grasp.alsouq.tech/exercises/pendlay_row/"/>
+  </url>
+  <url>
+    <loc>https://grasp.alsouq.tech/ar/exercises/pendlay_row/</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://grasp.alsouq.tech/exercises/pendlay_row/"/>
+    <xhtml:link rel="alternate" hreflang="ar" href="https://grasp.alsouq.tech/ar/exercises/pendlay_row/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://grasp.alsouq.tech/exercises/pendlay_row/"/>
+  </url>
+  <url>
+    <loc>https://grasp.alsouq.tech/exercises/plyo_lunge/</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://grasp.alsouq.tech/exercises/plyo_lunge/"/>
+    <xhtml:link rel="alternate" hreflang="ar" href="https://grasp.alsouq.tech/ar/exercises/plyo_lunge/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://grasp.alsouq.tech/exercises/plyo_lunge/"/>
+  </url>
+  <url>
+    <loc>https://grasp.alsouq.tech/ar/exercises/plyo_lunge/</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://grasp.alsouq.tech/exercises/plyo_lunge/"/>
+    <xhtml:link rel="alternate" hreflang="ar" href="https://grasp.alsouq.tech/ar/exercises/plyo_lunge/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://grasp.alsouq.tech/exercises/plyo_lunge/"/>
+  </url>
+  <url>
+    <loc>https://grasp.alsouq.tech/exercises/plyo_push_up/</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://grasp.alsouq.tech/exercises/plyo_push_up/"/>
+    <xhtml:link rel="alternate" hreflang="ar" href="https://grasp.alsouq.tech/ar/exercises/plyo_push_up/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://grasp.alsouq.tech/exercises/plyo_push_up/"/>
+  </url>
+  <url>
+    <loc>https://grasp.alsouq.tech/ar/exercises/plyo_push_up/</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://grasp.alsouq.tech/exercises/plyo_push_up/"/>
+    <xhtml:link rel="alternate" hreflang="ar" href="https://grasp.alsouq.tech/ar/exercises/plyo_push_up/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://grasp.alsouq.tech/exercises/plyo_push_up/"/>
+  </url>
+  <url>
+    <loc>https://grasp.alsouq.tech/exercises/push_press/</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://grasp.alsouq.tech/exercises/push_press/"/>
+    <xhtml:link rel="alternate" hreflang="ar" href="https://grasp.alsouq.tech/ar/exercises/push_press/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://grasp.alsouq.tech/exercises/push_press/"/>
+  </url>
+  <url>
+    <loc>https://grasp.alsouq.tech/ar/exercises/push_press/</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://grasp.alsouq.tech/exercises/push_press/"/>
+    <xhtml:link rel="alternate" hreflang="ar" href="https://grasp.alsouq.tech/ar/exercises/push_press/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://grasp.alsouq.tech/exercises/push_press/"/>
+  </url>
+  <url>
+    <loc>https://grasp.alsouq.tech/exercises/reverse_crunches/</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://grasp.alsouq.tech/exercises/reverse_crunches/"/>
+    <xhtml:link rel="alternate" hreflang="ar" href="https://grasp.alsouq.tech/ar/exercises/reverse_crunches/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://grasp.alsouq.tech/exercises/reverse_crunches/"/>
+  </url>
+  <url>
+    <loc>https://grasp.alsouq.tech/ar/exercises/reverse_crunches/</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://grasp.alsouq.tech/exercises/reverse_crunches/"/>
+    <xhtml:link rel="alternate" hreflang="ar" href="https://grasp.alsouq.tech/ar/exercises/reverse_crunches/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://grasp.alsouq.tech/exercises/reverse_crunches/"/>
+  </url>
+  <url>
+    <loc>https://grasp.alsouq.tech/exercises/scissor_kicks/</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://grasp.alsouq.tech/exercises/scissor_kicks/"/>
+    <xhtml:link rel="alternate" hreflang="ar" href="https://grasp.alsouq.tech/ar/exercises/scissor_kicks/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://grasp.alsouq.tech/exercises/scissor_kicks/"/>
+  </url>
+  <url>
+    <loc>https://grasp.alsouq.tech/ar/exercises/scissor_kicks/</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://grasp.alsouq.tech/exercises/scissor_kicks/"/>
+    <xhtml:link rel="alternate" hreflang="ar" href="https://grasp.alsouq.tech/ar/exercises/scissor_kicks/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://grasp.alsouq.tech/exercises/scissor_kicks/"/>
+  </url>
+  <url>
+    <loc>https://grasp.alsouq.tech/exercises/side_lunge/</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://grasp.alsouq.tech/exercises/side_lunge/"/>
+    <xhtml:link rel="alternate" hreflang="ar" href="https://grasp.alsouq.tech/ar/exercises/side_lunge/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://grasp.alsouq.tech/exercises/side_lunge/"/>
+  </url>
+  <url>
+    <loc>https://grasp.alsouq.tech/ar/exercises/side_lunge/</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://grasp.alsouq.tech/exercises/side_lunge/"/>
+    <xhtml:link rel="alternate" hreflang="ar" href="https://grasp.alsouq.tech/ar/exercises/side_lunge/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://grasp.alsouq.tech/exercises/side_lunge/"/>
+  </url>
+  <url>
+    <loc>https://grasp.alsouq.tech/exercises/skull_crusher/</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://grasp.alsouq.tech/exercises/skull_crusher/"/>
+    <xhtml:link rel="alternate" hreflang="ar" href="https://grasp.alsouq.tech/ar/exercises/skull_crusher/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://grasp.alsouq.tech/exercises/skull_crusher/"/>
+  </url>
+  <url>
+    <loc>https://grasp.alsouq.tech/ar/exercises/skull_crusher/</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://grasp.alsouq.tech/exercises/skull_crusher/"/>
+    <xhtml:link rel="alternate" hreflang="ar" href="https://grasp.alsouq.tech/ar/exercises/skull_crusher/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://grasp.alsouq.tech/exercises/skull_crusher/"/>
+  </url>
+  <url>
+    <loc>https://grasp.alsouq.tech/exercises/split_squat/</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://grasp.alsouq.tech/exercises/split_squat/"/>
+    <xhtml:link rel="alternate" hreflang="ar" href="https://grasp.alsouq.tech/ar/exercises/split_squat/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://grasp.alsouq.tech/exercises/split_squat/"/>
+  </url>
+  <url>
+    <loc>https://grasp.alsouq.tech/ar/exercises/split_squat/</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://grasp.alsouq.tech/exercises/split_squat/"/>
+    <xhtml:link rel="alternate" hreflang="ar" href="https://grasp.alsouq.tech/ar/exercises/split_squat/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://grasp.alsouq.tech/exercises/split_squat/"/>
+  </url>
+  <url>
+    <loc>https://grasp.alsouq.tech/exercises/spoto_press/</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://grasp.alsouq.tech/exercises/spoto_press/"/>
+    <xhtml:link rel="alternate" hreflang="ar" href="https://grasp.alsouq.tech/ar/exercises/spoto_press/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://grasp.alsouq.tech/exercises/spoto_press/"/>
+  </url>
+  <url>
+    <loc>https://grasp.alsouq.tech/ar/exercises/spoto_press/</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://grasp.alsouq.tech/exercises/spoto_press/"/>
+    <xhtml:link rel="alternate" hreflang="ar" href="https://grasp.alsouq.tech/ar/exercises/spoto_press/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://grasp.alsouq.tech/exercises/spoto_press/"/>
+  </url>
+  <url>
+    <loc>https://grasp.alsouq.tech/exercises/strict_curl/</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://grasp.alsouq.tech/exercises/strict_curl/"/>
+    <xhtml:link rel="alternate" hreflang="ar" href="https://grasp.alsouq.tech/ar/exercises/strict_curl/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://grasp.alsouq.tech/exercises/strict_curl/"/>
+  </url>
+  <url>
+    <loc>https://grasp.alsouq.tech/ar/exercises/strict_curl/</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://grasp.alsouq.tech/exercises/strict_curl/"/>
+    <xhtml:link rel="alternate" hreflang="ar" href="https://grasp.alsouq.tech/ar/exercises/strict_curl/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://grasp.alsouq.tech/exercises/strict_curl/"/>
+  </url>
+  <url>
+    <loc>https://grasp.alsouq.tech/exercises/suitcase_carry/</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://grasp.alsouq.tech/exercises/suitcase_carry/"/>
+    <xhtml:link rel="alternate" hreflang="ar" href="https://grasp.alsouq.tech/ar/exercises/suitcase_carry/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://grasp.alsouq.tech/exercises/suitcase_carry/"/>
+  </url>
+  <url>
+    <loc>https://grasp.alsouq.tech/ar/exercises/suitcase_carry/</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://grasp.alsouq.tech/exercises/suitcase_carry/"/>
+    <xhtml:link rel="alternate" hreflang="ar" href="https://grasp.alsouq.tech/ar/exercises/suitcase_carry/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://grasp.alsouq.tech/exercises/suitcase_carry/"/>
+  </url>
+  <url>
+    <loc>https://grasp.alsouq.tech/exercises/sumo_deadlift/</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://grasp.alsouq.tech/exercises/sumo_deadlift/"/>
+    <xhtml:link rel="alternate" hreflang="ar" href="https://grasp.alsouq.tech/ar/exercises/sumo_deadlift/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://grasp.alsouq.tech/exercises/sumo_deadlift/"/>
+  </url>
+  <url>
+    <loc>https://grasp.alsouq.tech/ar/exercises/sumo_deadlift/</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://grasp.alsouq.tech/exercises/sumo_deadlift/"/>
+    <xhtml:link rel="alternate" hreflang="ar" href="https://grasp.alsouq.tech/ar/exercises/sumo_deadlift/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://grasp.alsouq.tech/exercises/sumo_deadlift/"/>
+  </url>
+  <url>
+    <loc>https://grasp.alsouq.tech/exercises/sumo_squat/</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://grasp.alsouq.tech/exercises/sumo_squat/"/>
+    <xhtml:link rel="alternate" hreflang="ar" href="https://grasp.alsouq.tech/ar/exercises/sumo_squat/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://grasp.alsouq.tech/exercises/sumo_squat/"/>
+  </url>
+  <url>
+    <loc>https://grasp.alsouq.tech/ar/exercises/sumo_squat/</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://grasp.alsouq.tech/exercises/sumo_squat/"/>
+    <xhtml:link rel="alternate" hreflang="ar" href="https://grasp.alsouq.tech/ar/exercises/sumo_squat/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://grasp.alsouq.tech/exercises/sumo_squat/"/>
+  </url>
+  <url>
+    <loc>https://grasp.alsouq.tech/exercises/superman/</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://grasp.alsouq.tech/exercises/superman/"/>
+    <xhtml:link rel="alternate" hreflang="ar" href="https://grasp.alsouq.tech/ar/exercises/superman/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://grasp.alsouq.tech/exercises/superman/"/>
+  </url>
+  <url>
+    <loc>https://grasp.alsouq.tech/ar/exercises/superman/</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://grasp.alsouq.tech/exercises/superman/"/>
+    <xhtml:link rel="alternate" hreflang="ar" href="https://grasp.alsouq.tech/ar/exercises/superman/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://grasp.alsouq.tech/exercises/superman/"/>
+  </url>
+  <url>
+    <loc>https://grasp.alsouq.tech/exercises/thruster/</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://grasp.alsouq.tech/exercises/thruster/"/>
+    <xhtml:link rel="alternate" hreflang="ar" href="https://grasp.alsouq.tech/ar/exercises/thruster/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://grasp.alsouq.tech/exercises/thruster/"/>
+  </url>
+  <url>
+    <loc>https://grasp.alsouq.tech/ar/exercises/thruster/</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://grasp.alsouq.tech/exercises/thruster/"/>
+    <xhtml:link rel="alternate" hreflang="ar" href="https://grasp.alsouq.tech/ar/exercises/thruster/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://grasp.alsouq.tech/exercises/thruster/"/>
+  </url>
+  <url>
+    <loc>https://grasp.alsouq.tech/exercises/v_ups/</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://grasp.alsouq.tech/exercises/v_ups/"/>
+    <xhtml:link rel="alternate" hreflang="ar" href="https://grasp.alsouq.tech/ar/exercises/v_ups/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://grasp.alsouq.tech/exercises/v_ups/"/>
+  </url>
+  <url>
+    <loc>https://grasp.alsouq.tech/ar/exercises/v_ups/</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://grasp.alsouq.tech/exercises/v_ups/"/>
+    <xhtml:link rel="alternate" hreflang="ar" href="https://grasp.alsouq.tech/ar/exercises/v_ups/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://grasp.alsouq.tech/exercises/v_ups/"/>
+  </url>
+  <url>
+    <loc>https://grasp.alsouq.tech/exercises/barbell_front_raise/</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://grasp.alsouq.tech/exercises/barbell_front_raise/"/>
+    <xhtml:link rel="alternate" hreflang="ar" href="https://grasp.alsouq.tech/ar/exercises/barbell_front_raise/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://grasp.alsouq.tech/exercises/barbell_front_raise/"/>
+  </url>
+  <url>
+    <loc>https://grasp.alsouq.tech/ar/exercises/barbell_front_raise/</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://grasp.alsouq.tech/exercises/barbell_front_raise/"/>
+    <xhtml:link rel="alternate" hreflang="ar" href="https://grasp.alsouq.tech/ar/exercises/barbell_front_raise/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://grasp.alsouq.tech/exercises/barbell_front_raise/"/>
+  </url>
+  <url>
+    <loc>https://grasp.alsouq.tech/exercises/barbell_glute_bridge/</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://grasp.alsouq.tech/exercises/barbell_glute_bridge/"/>
+    <xhtml:link rel="alternate" hreflang="ar" href="https://grasp.alsouq.tech/ar/exercises/barbell_glute_bridge/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://grasp.alsouq.tech/exercises/barbell_glute_bridge/"/>
+  </url>
+  <url>
+    <loc>https://grasp.alsouq.tech/ar/exercises/barbell_glute_bridge/</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://grasp.alsouq.tech/exercises/barbell_glute_bridge/"/>
+    <xhtml:link rel="alternate" hreflang="ar" href="https://grasp.alsouq.tech/ar/exercises/barbell_glute_bridge/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://grasp.alsouq.tech/exercises/barbell_glute_bridge/"/>
+  </url>
+  <url>
+    <loc>https://grasp.alsouq.tech/exercises/barbell_overhead_extension/</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://grasp.alsouq.tech/exercises/barbell_overhead_extension/"/>
+    <xhtml:link rel="alternate" hreflang="ar" href="https://grasp.alsouq.tech/ar/exercises/barbell_overhead_extension/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://grasp.alsouq.tech/exercises/barbell_overhead_extension/"/>
+  </url>
+  <url>
+    <loc>https://grasp.alsouq.tech/ar/exercises/barbell_overhead_extension/</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://grasp.alsouq.tech/exercises/barbell_overhead_extension/"/>
+    <xhtml:link rel="alternate" hreflang="ar" href="https://grasp.alsouq.tech/ar/exercises/barbell_overhead_extension/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://grasp.alsouq.tech/exercises/barbell_overhead_extension/"/>
+  </url>
+  <url>
+    <loc>https://grasp.alsouq.tech/exercises/barbell_preacher_curl/</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://grasp.alsouq.tech/exercises/barbell_preacher_curl/"/>
+    <xhtml:link rel="alternate" hreflang="ar" href="https://grasp.alsouq.tech/ar/exercises/barbell_preacher_curl/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://grasp.alsouq.tech/exercises/barbell_preacher_curl/"/>
+  </url>
+  <url>
+    <loc>https://grasp.alsouq.tech/ar/exercises/barbell_preacher_curl/</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://grasp.alsouq.tech/exercises/barbell_preacher_curl/"/>
+    <xhtml:link rel="alternate" hreflang="ar" href="https://grasp.alsouq.tech/ar/exercises/barbell_preacher_curl/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://grasp.alsouq.tech/exercises/barbell_preacher_curl/"/>
+  </url>
+  <url>
+    <loc>https://grasp.alsouq.tech/exercises/barbell_reverse_lunge/</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://grasp.alsouq.tech/exercises/barbell_reverse_lunge/"/>
+    <xhtml:link rel="alternate" hreflang="ar" href="https://grasp.alsouq.tech/ar/exercises/barbell_reverse_lunge/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://grasp.alsouq.tech/exercises/barbell_reverse_lunge/"/>
+  </url>
+  <url>
+    <loc>https://grasp.alsouq.tech/ar/exercises/barbell_reverse_lunge/</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://grasp.alsouq.tech/exercises/barbell_reverse_lunge/"/>
+    <xhtml:link rel="alternate" hreflang="ar" href="https://grasp.alsouq.tech/ar/exercises/barbell_reverse_lunge/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://grasp.alsouq.tech/exercises/barbell_reverse_lunge/"/>
+  </url>
+  <url>
+    <loc>https://grasp.alsouq.tech/exercises/barbell_wrist_curl/</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://grasp.alsouq.tech/exercises/barbell_wrist_curl/"/>
+    <xhtml:link rel="alternate" hreflang="ar" href="https://grasp.alsouq.tech/ar/exercises/barbell_wrist_curl/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://grasp.alsouq.tech/exercises/barbell_wrist_curl/"/>
+  </url>
+  <url>
+    <loc>https://grasp.alsouq.tech/ar/exercises/barbell_wrist_curl/</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://grasp.alsouq.tech/exercises/barbell_wrist_curl/"/>
+    <xhtml:link rel="alternate" hreflang="ar" href="https://grasp.alsouq.tech/ar/exercises/barbell_wrist_curl/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://grasp.alsouq.tech/exercises/barbell_wrist_curl/"/>
+  </url>
+  <url>
+    <loc>https://grasp.alsouq.tech/exercises/bodyweight_calf_raise/</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://grasp.alsouq.tech/exercises/bodyweight_calf_raise/"/>
+    <xhtml:link rel="alternate" hreflang="ar" href="https://grasp.alsouq.tech/ar/exercises/bodyweight_calf_raise/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://grasp.alsouq.tech/exercises/bodyweight_calf_raise/"/>
+  </url>
+  <url>
+    <loc>https://grasp.alsouq.tech/ar/exercises/bodyweight_calf_raise/</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://grasp.alsouq.tech/exercises/bodyweight_calf_raise/"/>
+    <xhtml:link rel="alternate" hreflang="ar" href="https://grasp.alsouq.tech/ar/exercises/bodyweight_calf_raise/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://grasp.alsouq.tech/exercises/bodyweight_calf_raise/"/>
+  </url>
+  <url>
+    <loc>https://grasp.alsouq.tech/exercises/bodyweight_good_morning/</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://grasp.alsouq.tech/exercises/bodyweight_good_morning/"/>
+    <xhtml:link rel="alternate" hreflang="ar" href="https://grasp.alsouq.tech/ar/exercises/bodyweight_good_morning/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://grasp.alsouq.tech/exercises/bodyweight_good_morning/"/>
+  </url>
+  <url>
+    <loc>https://grasp.alsouq.tech/ar/exercises/bodyweight_good_morning/</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://grasp.alsouq.tech/exercises/bodyweight_good_morning/"/>
+    <xhtml:link rel="alternate" hreflang="ar" href="https://grasp.alsouq.tech/ar/exercises/bodyweight_good_morning/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://grasp.alsouq.tech/exercises/bodyweight_good_morning/"/>
+  </url>
+  <url>
+    <loc>https://grasp.alsouq.tech/exercises/bodyweight_reverse_lunge/</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://grasp.alsouq.tech/exercises/bodyweight_reverse_lunge/"/>
+    <xhtml:link rel="alternate" hreflang="ar" href="https://grasp.alsouq.tech/ar/exercises/bodyweight_reverse_lunge/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://grasp.alsouq.tech/exercises/bodyweight_reverse_lunge/"/>
+  </url>
+  <url>
+    <loc>https://grasp.alsouq.tech/ar/exercises/bodyweight_reverse_lunge/</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://grasp.alsouq.tech/exercises/bodyweight_reverse_lunge/"/>
+    <xhtml:link rel="alternate" hreflang="ar" href="https://grasp.alsouq.tech/ar/exercises/bodyweight_reverse_lunge/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://grasp.alsouq.tech/exercises/bodyweight_reverse_lunge/"/>
+  </url>
+  <url>
+    <loc>https://grasp.alsouq.tech/exercises/cable_bent_over_row/</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://grasp.alsouq.tech/exercises/cable_bent_over_row/"/>
+    <xhtml:link rel="alternate" hreflang="ar" href="https://grasp.alsouq.tech/ar/exercises/cable_bent_over_row/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://grasp.alsouq.tech/exercises/cable_bent_over_row/"/>
+  </url>
+  <url>
+    <loc>https://grasp.alsouq.tech/ar/exercises/cable_bent_over_row/</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://grasp.alsouq.tech/exercises/cable_bent_over_row/"/>
+    <xhtml:link rel="alternate" hreflang="ar" href="https://grasp.alsouq.tech/ar/exercises/cable_bent_over_row/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://grasp.alsouq.tech/exercises/cable_bent_over_row/"/>
+  </url>
+  <url>
+    <loc>https://grasp.alsouq.tech/exercises/cable_hammer_curl/</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://grasp.alsouq.tech/exercises/cable_hammer_curl/"/>
+    <xhtml:link rel="alternate" hreflang="ar" href="https://grasp.alsouq.tech/ar/exercises/cable_hammer_curl/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://grasp.alsouq.tech/exercises/cable_hammer_curl/"/>
+  </url>
+  <url>
+    <loc>https://grasp.alsouq.tech/ar/exercises/cable_hammer_curl/</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://grasp.alsouq.tech/exercises/cable_hammer_curl/"/>
+    <xhtml:link rel="alternate" hreflang="ar" href="https://grasp.alsouq.tech/ar/exercises/cable_hammer_curl/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://grasp.alsouq.tech/exercises/cable_hammer_curl/"/>
+  </url>
+  <url>
+    <loc>https://grasp.alsouq.tech/exercises/cable_tricep_kickback/</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://grasp.alsouq.tech/exercises/cable_tricep_kickback/"/>
+    <xhtml:link rel="alternate" hreflang="ar" href="https://grasp.alsouq.tech/ar/exercises/cable_tricep_kickback/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://grasp.alsouq.tech/exercises/cable_tricep_kickback/"/>
+  </url>
+  <url>
+    <loc>https://grasp.alsouq.tech/ar/exercises/cable_tricep_kickback/</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://grasp.alsouq.tech/exercises/cable_tricep_kickback/"/>
+    <xhtml:link rel="alternate" hreflang="ar" href="https://grasp.alsouq.tech/ar/exercises/cable_tricep_kickback/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://grasp.alsouq.tech/exercises/cable_tricep_kickback/"/>
+  </url>
+  <url>
+    <loc>https://grasp.alsouq.tech/exercises/chest_supported_kettlebell_row/</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://grasp.alsouq.tech/exercises/chest_supported_kettlebell_row/"/>
+    <xhtml:link rel="alternate" hreflang="ar" href="https://grasp.alsouq.tech/ar/exercises/chest_supported_kettlebell_row/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://grasp.alsouq.tech/exercises/chest_supported_kettlebell_row/"/>
+  </url>
+  <url>
+    <loc>https://grasp.alsouq.tech/ar/exercises/chest_supported_kettlebell_row/</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://grasp.alsouq.tech/exercises/chest_supported_kettlebell_row/"/>
+    <xhtml:link rel="alternate" hreflang="ar" href="https://grasp.alsouq.tech/ar/exercises/chest_supported_kettlebell_row/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://grasp.alsouq.tech/exercises/chest_supported_kettlebell_row/"/>
+  </url>
+  <url>
+    <loc>https://grasp.alsouq.tech/exercises/decline_db_fly/</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://grasp.alsouq.tech/exercises/decline_db_fly/"/>
+    <xhtml:link rel="alternate" hreflang="ar" href="https://grasp.alsouq.tech/ar/exercises/decline_db_fly/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://grasp.alsouq.tech/exercises/decline_db_fly/"/>
+  </url>
+  <url>
+    <loc>https://grasp.alsouq.tech/ar/exercises/decline_db_fly/</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://grasp.alsouq.tech/exercises/decline_db_fly/"/>
+    <xhtml:link rel="alternate" hreflang="ar" href="https://grasp.alsouq.tech/ar/exercises/decline_db_fly/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://grasp.alsouq.tech/exercises/decline_db_fly/"/>
+  </url>
+  <url>
+    <loc>https://grasp.alsouq.tech/exercises/diamond_push_ups/</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://grasp.alsouq.tech/exercises/diamond_push_ups/"/>
+    <xhtml:link rel="alternate" hreflang="ar" href="https://grasp.alsouq.tech/ar/exercises/diamond_push_ups/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://grasp.alsouq.tech/exercises/diamond_push_ups/"/>
+  </url>
+  <url>
+    <loc>https://grasp.alsouq.tech/ar/exercises/diamond_push_ups/</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://grasp.alsouq.tech/exercises/diamond_push_ups/"/>
+    <xhtml:link rel="alternate" hreflang="ar" href="https://grasp.alsouq.tech/ar/exercises/diamond_push_ups/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://grasp.alsouq.tech/exercises/diamond_push_ups/"/>
+  </url>
+  <url>
+    <loc>https://grasp.alsouq.tech/exercises/donkey_calf_raise/</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://grasp.alsouq.tech/exercises/donkey_calf_raise/"/>
+    <xhtml:link rel="alternate" hreflang="ar" href="https://grasp.alsouq.tech/ar/exercises/donkey_calf_raise/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://grasp.alsouq.tech/exercises/donkey_calf_raise/"/>
+  </url>
+  <url>
+    <loc>https://grasp.alsouq.tech/ar/exercises/donkey_calf_raise/</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://grasp.alsouq.tech/exercises/donkey_calf_raise/"/>
+    <xhtml:link rel="alternate" hreflang="ar" href="https://grasp.alsouq.tech/ar/exercises/donkey_calf_raise/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://grasp.alsouq.tech/exercises/donkey_calf_raise/"/>
+  </url>
+  <url>
+    <loc>https://grasp.alsouq.tech/exercises/double_kettlebell_row/</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://grasp.alsouq.tech/exercises/double_kettlebell_row/"/>
+    <xhtml:link rel="alternate" hreflang="ar" href="https://grasp.alsouq.tech/ar/exercises/double_kettlebell_row/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://grasp.alsouq.tech/exercises/double_kettlebell_row/"/>
+  </url>
+  <url>
+    <loc>https://grasp.alsouq.tech/ar/exercises/double_kettlebell_row/</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://grasp.alsouq.tech/exercises/double_kettlebell_row/"/>
+    <xhtml:link rel="alternate" hreflang="ar" href="https://grasp.alsouq.tech/ar/exercises/double_kettlebell_row/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://grasp.alsouq.tech/exercises/double_kettlebell_row/"/>
+  </url>
+  <url>
+    <loc>https://grasp.alsouq.tech/exercises/dumbbell_bench_pull/</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://grasp.alsouq.tech/exercises/dumbbell_bench_pull/"/>
+    <xhtml:link rel="alternate" hreflang="ar" href="https://grasp.alsouq.tech/ar/exercises/dumbbell_bench_pull/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://grasp.alsouq.tech/exercises/dumbbell_bench_pull/"/>
+  </url>
+  <url>
+    <loc>https://grasp.alsouq.tech/ar/exercises/dumbbell_bench_pull/</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://grasp.alsouq.tech/exercises/dumbbell_bench_pull/"/>
+    <xhtml:link rel="alternate" hreflang="ar" href="https://grasp.alsouq.tech/ar/exercises/dumbbell_bench_pull/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://grasp.alsouq.tech/exercises/dumbbell_bench_pull/"/>
+  </url>
+  <url>
+    <loc>https://grasp.alsouq.tech/exercises/dumbbell_face_pull/</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://grasp.alsouq.tech/exercises/dumbbell_face_pull/"/>
+    <xhtml:link rel="alternate" hreflang="ar" href="https://grasp.alsouq.tech/ar/exercises/dumbbell_face_pull/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://grasp.alsouq.tech/exercises/dumbbell_face_pull/"/>
+  </url>
+  <url>
+    <loc>https://grasp.alsouq.tech/ar/exercises/dumbbell_face_pull/</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://grasp.alsouq.tech/exercises/dumbbell_face_pull/"/>
+    <xhtml:link rel="alternate" hreflang="ar" href="https://grasp.alsouq.tech/ar/exercises/dumbbell_face_pull/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://grasp.alsouq.tech/exercises/dumbbell_face_pull/"/>
+  </url>
+  <url>
+    <loc>https://grasp.alsouq.tech/exercises/dumbbell_farmers_walk/</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://grasp.alsouq.tech/exercises/dumbbell_farmers_walk/"/>
+    <xhtml:link rel="alternate" hreflang="ar" href="https://grasp.alsouq.tech/ar/exercises/dumbbell_farmers_walk/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://grasp.alsouq.tech/exercises/dumbbell_farmers_walk/"/>
+  </url>
+  <url>
+    <loc>https://grasp.alsouq.tech/ar/exercises/dumbbell_farmers_walk/</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://grasp.alsouq.tech/exercises/dumbbell_farmers_walk/"/>
+    <xhtml:link rel="alternate" hreflang="ar" href="https://grasp.alsouq.tech/ar/exercises/dumbbell_farmers_walk/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://grasp.alsouq.tech/exercises/dumbbell_farmers_walk/"/>
+  </url>
+  <url>
+    <loc>https://grasp.alsouq.tech/exercises/dumbbell_floor_press/</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://grasp.alsouq.tech/exercises/dumbbell_floor_press/"/>
+    <xhtml:link rel="alternate" hreflang="ar" href="https://grasp.alsouq.tech/ar/exercises/dumbbell_floor_press/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://grasp.alsouq.tech/exercises/dumbbell_floor_press/"/>
+  </url>
+  <url>
+    <loc>https://grasp.alsouq.tech/ar/exercises/dumbbell_floor_press/</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://grasp.alsouq.tech/exercises/dumbbell_floor_press/"/>
+    <xhtml:link rel="alternate" hreflang="ar" href="https://grasp.alsouq.tech/ar/exercises/dumbbell_floor_press/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://grasp.alsouq.tech/exercises/dumbbell_floor_press/"/>
+  </url>
+  <url>
+    <loc>https://grasp.alsouq.tech/exercises/dumbbell_front_squat/</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://grasp.alsouq.tech/exercises/dumbbell_front_squat/"/>
+    <xhtml:link rel="alternate" hreflang="ar" href="https://grasp.alsouq.tech/ar/exercises/dumbbell_front_squat/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://grasp.alsouq.tech/exercises/dumbbell_front_squat/"/>
+  </url>
+  <url>
+    <loc>https://grasp.alsouq.tech/ar/exercises/dumbbell_front_squat/</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://grasp.alsouq.tech/exercises/dumbbell_front_squat/"/>
+    <xhtml:link rel="alternate" hreflang="ar" href="https://grasp.alsouq.tech/ar/exercises/dumbbell_front_squat/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://grasp.alsouq.tech/exercises/dumbbell_front_squat/"/>
+  </url>
+  <url>
+    <loc>https://grasp.alsouq.tech/exercises/dumbbell_hip_thrust/</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://grasp.alsouq.tech/exercises/dumbbell_hip_thrust/"/>
+    <xhtml:link rel="alternate" hreflang="ar" href="https://grasp.alsouq.tech/ar/exercises/dumbbell_hip_thrust/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://grasp.alsouq.tech/exercises/dumbbell_hip_thrust/"/>
+  </url>
+  <url>
+    <loc>https://grasp.alsouq.tech/ar/exercises/dumbbell_hip_thrust/</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://grasp.alsouq.tech/exercises/dumbbell_hip_thrust/"/>
+    <xhtml:link rel="alternate" hreflang="ar" href="https://grasp.alsouq.tech/ar/exercises/dumbbell_hip_thrust/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://grasp.alsouq.tech/exercises/dumbbell_hip_thrust/"/>
+  </url>
+  <url>
+    <loc>https://grasp.alsouq.tech/exercises/db_kickstand_deadlift/</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://grasp.alsouq.tech/exercises/db_kickstand_deadlift/"/>
+    <xhtml:link rel="alternate" hreflang="ar" href="https://grasp.alsouq.tech/ar/exercises/db_kickstand_deadlift/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://grasp.alsouq.tech/exercises/db_kickstand_deadlift/"/>
+  </url>
+  <url>
+    <loc>https://grasp.alsouq.tech/ar/exercises/db_kickstand_deadlift/</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://grasp.alsouq.tech/exercises/db_kickstand_deadlift/"/>
+    <xhtml:link rel="alternate" hreflang="ar" href="https://grasp.alsouq.tech/ar/exercises/db_kickstand_deadlift/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://grasp.alsouq.tech/exercises/db_kickstand_deadlift/"/>
+  </url>
+  <url>
+    <loc>https://grasp.alsouq.tech/exercises/db_overhead_carry/</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://grasp.alsouq.tech/exercises/db_overhead_carry/"/>
+    <xhtml:link rel="alternate" hreflang="ar" href="https://grasp.alsouq.tech/ar/exercises/db_overhead_carry/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://grasp.alsouq.tech/exercises/db_overhead_carry/"/>
+  </url>
+  <url>
+    <loc>https://grasp.alsouq.tech/ar/exercises/db_overhead_carry/</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://grasp.alsouq.tech/exercises/db_overhead_carry/"/>
+    <xhtml:link rel="alternate" hreflang="ar" href="https://grasp.alsouq.tech/ar/exercises/db_overhead_carry/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://grasp.alsouq.tech/exercises/db_overhead_carry/"/>
+  </url>
+  <url>
+    <loc>https://grasp.alsouq.tech/exercises/dumbbell_push_press/</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://grasp.alsouq.tech/exercises/dumbbell_push_press/"/>
+    <xhtml:link rel="alternate" hreflang="ar" href="https://grasp.alsouq.tech/ar/exercises/dumbbell_push_press/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://grasp.alsouq.tech/exercises/dumbbell_push_press/"/>
+  </url>
+  <url>
+    <loc>https://grasp.alsouq.tech/ar/exercises/dumbbell_push_press/</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://grasp.alsouq.tech/exercises/dumbbell_push_press/"/>
+    <xhtml:link rel="alternate" hreflang="ar" href="https://grasp.alsouq.tech/ar/exercises/dumbbell_push_press/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://grasp.alsouq.tech/exercises/dumbbell_push_press/"/>
+  </url>
+  <!-- exercises:end -->
 </urlset>

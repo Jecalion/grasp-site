@@ -124,3 +124,64 @@
   text-transform: none;
   letter-spacing: 0;
 }
+.ex-dose {
+  margin-bottom: 32px;
+}
+.ex-dose p {
+  color: var(--muted);
+  margin: 0 0 14px;
+}
+.ex-dose table {
+  width: 100%;
+  border-collapse: collapse;
+  font-variant-numeric: tabular-nums;
+}
+.ex-dose th,
+.ex-dose td {
+  text-align: start;
+  padding: 10px 8px;
+  border-bottom: 1px solid var(--border);
+}
+.ex-dose thead th {
+  font-size: 0.8rem;
+  color: var(--faint);
+  font-weight: 600;
+}
+.ex-dose tbody th {
+  font-weight: 600;
+}
+.ex-list {
+  list-style: none;
+  margin: 0 0 28px;
+  padding: 0;
+}
+.ex-list li {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 10px 0;
+  border-bottom: 1px solid var(--border);
+}
+.ex-list a {
+  color: var(--text);
+  font-weight: 600;
+  text-decoration: none;
+}
+.lvl {
+  color: var(--faint);
+  font-size: 0.9rem;
+  font-weight: 400;
+}
+.ex-group h2 {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+}
+.ex-group h2 a {
+  color: var(--text);
+}
+/* Exercises not published yet: named, not linked, and visibly quieter. */
+.ex-similar li:not(:has(a)) {
+  color: var(--faint);
+  border-style: dashed;
+}
