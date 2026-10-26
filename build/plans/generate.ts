@@ -30,8 +30,8 @@ const SETUPS: Setup[] = [
   { key: 'kettlebell', equipment: ['kettlebell'] },
 ];
 const DAYS = [3, 4, 5];
-const LEVELS = ['beginner', 'intermediate'];
-const GOALS = ['hypertrophy', 'fat_loss'];
+const LEVELS = ['beginner'];  // home plans are for beginners (owner, 27 Oct 2026)
+const GOALS = ['general_fitness'];  // one simple goal, no switch
 const MINUTES = 45;
 const SEED = 11;
 

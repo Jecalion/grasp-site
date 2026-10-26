@@ -38,10 +38,10 @@ SETUPS = {
 S = {
     'en': {
         'crumbs': 'Workout plans',
-        'title': '{days}-Day {setup} Home Workout Plan for {level_pl}',
-        'h1': '{days}-Day {setup} Workout Plan for {level_pl}',
+        'title': '{days}-Day {setup} Home Workout Plan for Beginners',
+        'h1': '{days}-Day {setup} Home Workout Plan',
         'level_pl': {'beginner': 'Beginners', 'intermediate': 'Intermediate Lifters'},
-        'desc': 'A {days}-day home workout plan with {eq}: every exercise, sets, reps and rest, for building muscle or losing fat. Made by Grasp\'s planner.',
+        'desc': 'A simple {days}-day home workout plan for beginners with {eq}: every exercise with its sets, reps and rest. Made by Grasp\'s planner.',
         'lede': '{days} days a week at home, about {mins} minutes a session, with {eq}.',
         'made': 'Made by Grasp\'s planner, the one in the app.',
         'k_days': 'Days a week', 'k_time': 'Session', 'k_level': 'Level', 'k_eq': 'Equipment', 'k_split': 'Split',
@@ -66,17 +66,20 @@ S = {
         'more': 'More home workout plans', 'other_setups': 'Other equipment',
         'hub_title': 'Home Workout Plans: Dumbbells, Bodyweight, Bands and More',
         'hub_h1': 'Home workout plans',
-        'hub_p': 'Free plans for training at home, by equipment and days a week. Each one is made by Grasp\'s planner.',
-        'hub_item': '{days} days · {level}',
+        'hub_p': 'Simple, free plans for beginners training at home. Pick your equipment and how many days a week.',
+        'hub_item': '{days} days a week', 'train_on': 'Train on',
         'level': {'beginner': 'Beginner', 'intermediate': 'Intermediate'},
         'used_h': 'Used in these workout plans',
+        'wd_short': ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],
+        'n_ex': '{n} exercises', 'mins_short': '~{n} min',
+        'sticky': 'Do this plan in Grasp, free', 'sticky_btn': 'Get the app',
     },
     'ar': {
         'crumbs': 'جداول التمارين',
-        'title': 'جدول تمارين في البيت {days} أيام {setup} لل{level_pl}',
-        'h1': 'جدول تمارين {days} أيام {setup} لل{level_pl}',
+        'title': 'جدول تمارين في البيت {days} أيام {setup} للمبتدئين',
+        'h1': 'جدول تمارين في البيت {days} أيام {setup}',
         'level_pl': {'beginner': 'مبتدئين', 'intermediate': 'متوسطين'},
-        'desc': 'جدول تمارين في البيت {days} أيام {setup}: كل تمرين بجلساته وتكراراته وراحته، لبناء العضل أو حرق الدهون. من مخطط Grasp.',
+        'desc': 'جدول تمارين بسيط في البيت {days} أيام {setup} للمبتدئين: كل تمرين بجلساته وتكراراته وراحته. من مخطط Grasp.',
         'lede': '{days} أيام في الأسبوع في البيت، حوالي {mins} دقيقة للتمرين، وتحتاج {eq}.',
         'made': 'من مخطط Grasp نفسه اللي في التطبيق.',
         'k_days': 'أيام الأسبوع', 'k_time': 'مدة التمرين', 'k_level': 'المستوى', 'k_eq': 'الأدوات', 'k_split': 'التقسيم',
@@ -102,17 +105,20 @@ S = {
         'more': 'جداول تمارين ثانية في البيت', 'other_setups': 'أدوات ثانية',
         'hub_title': 'جداول تمارين في البيت: دمبل، بدون أدوات، حبال مقاومة وغيرها',
         'hub_h1': 'جداول تمارين في البيت',
-        'hub_p': 'جداول مجانية للتمرين في البيت حسب الأدوات وعدد الأيام. كلها من مخطط Grasp.',
-        'hub_item': '{days} أيام · {level}',
+        'hub_p': 'جداول بسيطة ومجانية للمبتدئين في البيت. اختر أدواتك وكم يوم في الأسبوع.',
+        'hub_item': '{days} أيام في الأسبوع', 'train_on': 'أيام التمرين',
         'level': {'beginner': 'مبتدئ', 'intermediate': 'متوسط'},
         'used_h': 'موجود في جداول التمارين هذي',
+        'wd_short': ['أحد', 'اثنين', 'ثلاثاء', 'أربعاء', 'خميس', 'جمعة', 'سبت'],
+        'n_ex': '{n} تمارين', 'mins_short': '~{n} دقيقة',
+        'sticky': 'مشّ الجدول في Grasp، مجاناً', 'sticky_btn': 'حمّل التطبيق',
     },
 }
 WEEKDAY = {3: [0, 2, 4], 4: [0, 1, 3, 4], 5: [0, 1, 2, 4, 5]}
 
 
 def key(p):
-    return f"{p['setup']}-{p['days']}-day-{p['level']}"
+    return f"{p['setup']}-{p['days']}-day"
 
 
 def ppath(lang, k):
@@ -128,7 +134,7 @@ def sig(p):
 
 
 def select():
-    """One plan per setup/days/level, with both goals; drop copies of another setup."""
+    """One plan per setup and days a week; drop copies of another setup."""
     pages, seen = {}, {}
     for p in PLANS:
         k = key(p)
@@ -136,7 +142,7 @@ def select():
                              'equipment': p['equipment'], 'goals': {}})['goals'][p['goal']] = p
     out = {}
     for k, pg in pages.items():
-        s = sig(pg['goals']['hypertrophy'])
+        s = sig(pg['goals']['general_fitness'])
         if s in seen:  # same exercises as a smaller setup: nothing new to say
             continue
         seen[s] = k
@@ -167,24 +173,56 @@ def rest(lang, sec):
     return X.rest_text(lang, sec) if sec else S[lang]['none']
 
 
+def sets_txt(lang, n):
+    if lang == 'ar':
+        return {1: 'جلسة', 2: 'جلستين'}.get(n, f'{n} جلسات')
+    return f'{n} set' if n == 1 else f'{n} sets'
+
+
+def rounds_txt(lang, n):
+    if lang == 'ar':
+        return {1: 'جولة', 2: 'جولتين'}.get(n, f'{n} جولات')
+    return f'{n} round' if n == 1 else f'{n} rounds'
+
+
+def dose(lang, e):
+    """'3 sets × 6–10 reps · 90 s rest', the way a coach writes it on a card."""
+    if e['seconds']:
+        work = e['work'] or e['seconds']
+        r = max(1, round(e['seconds'] / work))
+        unit = f'{work} ثانية' if lang == 'ar' else f'{work} s'
+        main = f'{rounds_txt(lang, r)} × {unit}'
+    else:
+        rng = f'<bdi dir="ltr">{e["repMin"]}–{e["repMax"]}</bdi>'
+        main = f'{sets_txt(lang, e["sets"])} × {rng} ' + ('تكرار' if lang == 'ar' else 'reps')
+    sec = int(round(e['rest'] / 30) * 30) if e['rest'] else 0  # beginners: 30 s steps (45 s → 1 min, 75 s → 90 s)
+    if not sec:
+        return main
+    r = X.rest_text(lang, sec)
+    return f'{main} · ' + (f'راحة {r}' if lang == 'ar' else f'{r} rest')
+
+
+def thumb(slug):
+    """The exercise's animation still; Grasp's own holds have none, so they get the app's drawing of the body."""
+    if slug in PUBLISHED:
+        return f'<img class="exr-img" src="/img/exercises/{slug}.webp" alt="" width="56" height="56" loading="lazy" />'
+    gear = [q['equipment'] for q in X.LIB.get(slug, {}).get('equipment', []) if q.get('required', True)]
+    icon = X.eq_icon(next((g for g in gear if g != 'bodyweight_only'), 'bodyweight_only'))
+    return f'<span class="exr-img exr-draw">{icon}</span>'
+
+
 def plan_page(k, pg, pages, lang):
     s, t = S[lang], X.T[lang]
     sp = splits(lang)
     setup = SETUPS[pg['setup']]
-    m, f = pg['goals']['hypertrophy'], pg['goals']['fat_loss']
+    m = pg['goals']['general_fitness']
     mins = round(sum(d['minutes'] for d in m['sessions']) / len(m['sessions']) / 5) * 5
     fmt = dict(days=pg['days'], setup=setup[lang], eq=setup[lang + '_eq'], level_pl=s['level_pl'][pg['level']], mins=mins)
     title, h1 = s['title'].format(**fmt), s['h1'].format(**fmt)
-    split_names = []
-    for d in m['sessions']:
-        n = sp.get(d['split'], d['splitName'])
-        if n not in split_names:
-            split_names.append(n)
 
-    # Sessions that repeat an earlier one are named A/B and not printed twice.
-    first_of, labels = {}, []
-    variants = {}
-    for i, d in enumerate(m['sessions']):
+    # Sessions that repeat an earlier one are named A/B and shown once.
+    labels, variants = [], {}
+    for d in m['sessions']:
         sg = tuple(e['slug'] for e in d['exercises'])
         name = sp.get(d['split'], d['splitName'])
         variants.setdefault(name, [])
@@ -197,50 +235,42 @@ def plan_page(k, pg, pages, lang):
         n, v, _ = labels[i]
         return f'{n} {s["ab"][v] if v < 2 else v + 1}' if n in multi else n
 
-    week = []
-    for i, wd in enumerate(WEEKDAY[pg['days']]):
-        week.append(f'<li><span class="wd">{s["weekdays"][wd]}</span> <a href="#day-{i + 1}">{esc(label(i))}</a></li>')
-    days_html = []
-    for i, (d, df) in enumerate(zip(m['sessions'], f['sessions'])):
+    first_of, days_html = {}, []
+    for i, d in enumerate(m['sessions']):
         sg = labels[i][2]
-        h = (f'<div class="day-head"><span class="day-num" aria-hidden="true">{i + 1}</span>'
-             f'<h3 id="day-{i + 1}">{s["day"].format(n=i + 1)}: {esc(label(i))}</h3>'
-             f'<span class="day-min">{s["mins"].format(n=round(d["minutes"] / 5) * 5)}</span></div>')
+        head = (f'<div class="day-head"><span class="day-num" aria-hidden="true">{i + 1}</span>'
+                f'<div><h3 id="day-{i + 1}">{s["day"].format(n=i + 1)}: {esc(label(i))}</h3>'
+                f'<span class="day-min">{s["mins"].format(n=round(d["minutes"] / 5) * 5)} · '
+                f'{s["n_ex"].format(n=len(d["exercises"]))}</span></div></div>')
         if sg in first_of:
-            days_html.append(f'        <section class="plan-day repeat">{h}<p class="same"><a href="#day-{first_of[sg] + 1}">{s["same_as"].format(n=first_of[sg] + 1)}</a></p></section>')
+            days_html.append(f'        <section class="plan-day repeat">{head}'
+                             f'<a class="same" href="#day-{first_of[sg] + 1}">{s["same_as"].format(n=first_of[sg] + 1)} ↑</a></section>')
             continue
         first_of[sg] = i
         rows = []
-        for e, ef in zip(d['exercises'], df['exercises']):
-            nm = X.name(lang, e['slug'])
-            pub = e['slug'] in PUBLISHED
-            thumb = (f'<img class="ex-thumb" src="/img/exercises/{e["slug"]}.webp" alt="" width="46" height="46" loading="lazy" />'
-                     if pub else '<span class="ex-thumb"></span>')
-            link = f'<a href="{X.path(lang, e["slug"])}">{esc(nm)}</a>' if pub else esc(nm)
-            rows.append(
-                f'<tr><th scope="row"><span class="ex-cell">{thumb}<span>{link}</span></span></th>'
-                f'<td><span class="gm"><bdi dir="ltr">{e["sets"]}</bdi></span><span class="gf"><bdi dir="ltr">{ef["sets"]}</bdi></span></td>'
-                f'<td><span class="gm">{num(cell_reps(e, s), e)}</span><span class="gf">{num(cell_reps(ef, s), ef)}</span></td>'
-                f'<td><span class="gm">{rest(lang, e["rest"])}</span><span class="gf">{rest(lang, ef["rest"])}</span></td></tr>')
-        days_html.append(f'''        <section class="plan-day">{h}
-          <table class="plan-table">
-            <thead><tr><th scope="col">{s['th_ex']}</th><th scope="col">{s['th_sets']}</th><th scope="col">{s['th_reps']}</th><th scope="col">{s['th_rest']}</th></tr></thead>
-            <tbody>
-              {chr(10).join('              ' + r for r in rows).strip()}
-            </tbody>
-          </table>
-        </section>''')
+        for n, e in enumerate(d['exercises'], 1):
+            nm = esc(X.name(lang, e['slug']))
+            name = (f'<a class="exr-name" href="{X.path(lang, e["slug"])}">{nm}</a>' if e['slug'] in PUBLISHED
+                    else f'<span class="exr-name">{nm}</span>')
+            rows.append(f'<li class="exr">{thumb(e["slug"])}<div class="exr-main">{name}'
+                        f'<span class="exr-meta">{dose(lang, e)}</span>'
+                        f'</div><span class="exr-n" aria-hidden="true">{n}</span></li>')
+        days_html.append(f'        <section class="plan-day">{head}\n          <ol class="exr-list">{"".join(rows)}</ol>\n        </section>')
 
     bodyweight_only = all(not X.LIB[e['slug']]['loadable'] for d in m['sessions'] for e in d['exercises'] if e['slug'] in X.LIB)
     prog = s['prog'] if not bodyweight_only else s['prog'][1:2] + [s['prog_bw']]
-    same_setup = [kk for kk, p in pages.items() if p['setup'] == pg['setup'] and kk != k]
-    other = [kk for kk, p in pages.items() if p['setup'] != pg['setup'] and p['days'] == pg['days'] and p['level'] == pg['level']]
+    related = [kk for kk, p in pages.items() if p['setup'] == pg['setup'] and kk != k]
+    related += [kk for kk, p in pages.items() if p['setup'] != pg['setup'] and p['days'] == pg['days']]
 
-    def plan_link(kk):
+    def card(kk):
         p = pages[kk]
-        name = s['h1'].format(days=p['days'], setup=SETUPS[p['setup']][lang], level_pl=s['level_pl'][p['level']])
-        return f'<li><a href="{ppath(lang, kk)}">{esc(name)}</a></li>'
+        icons = ''.join(X.eq_icon(g) for g in (p['equipment'] or ['bodyweight_only']))
+        return (f'<li><a href="{ppath(lang, kk)}"><span class="eq-icons">{icons}</span>'
+                f'<b>{esc(SETUPS[p["setup"]][lang])}</b>'
+                f'<span>{s["hub_item"].format(days=p["days"])}</span></a></li>')
 
+    gear = pg['equipment'] or ['bodyweight_only']
+    icons = ''.join(X.eq_icon(g, setup[lang + '_eq'] if j == 0 else '') for j, g in enumerate(gear))
     ld = {'@context': 'https://schema.org', '@graph': [
         {'@type': 'ExercisePlan', 'name': h1, 'inLanguage': lang, 'description': s['desc'].format(**fmt),
          'activityFrequency': f"{pg['days']}/week", 'activityDuration': f'PT{mins}M',
@@ -252,43 +282,27 @@ def plan_page(k, pg, pages, lang):
                                             for q, a in s['faq']]},
     ]}
     faq = '\n'.join(f'          <details><summary>{q}</summary><p>{a}</p></details>' for q, a in s['faq'])
-    gear = pg['equipment'] or ['bodyweight_only']
-    icons = ''.join(X.eq_icon(g, setup[lang + '_eq'] if j == 0 else '') for j, g in enumerate(gear))
+    steps = ''.join(f'<li><span class="step-n">{n}</span><p>{p}</p></li>' for n, p in enumerate(prog, 1))
     body = f'''        <nav class="crumbs" aria-label="breadcrumb"><a href="{hub(lang)}">{s['crumbs']}</a></nav>
         <header class="plan-hero">
           <div class="hero-gear">{icons}</div>
           <h1>{esc(h1)}</h1>
           <p class="lede">{esc(s['lede'].format(**fmt))} {s['made']}</p>
+          <dl class="hero-stats">
+            <div><dt>{s['k_days']}</dt><dd>{pg['days']}</dd></div>
+            <div><dt>{s['k_time']}</dt><dd>{s['mins_short'].format(n=mins)}</dd></div>
+            <div><dt>{s['k_level']}</dt><dd>{s['level'][pg['level']]}</dd></div>
+          </dl>
+          <p class="train-on"><span>{s['train_on']}</span> {' · '.join(s['weekdays'][wd] for wd in WEEKDAY[pg['days']])}</p>
         </header>
 
-        <dl class="plan-facts">
-          <div><dt>{s['k_days']}</dt><dd>{pg['days']}</dd></div>
-          <div><dt>{s['k_time']}</dt><dd>{s['mins'].format(n=mins)}</dd></div>
-          <div><dt>{s['k_level']}</dt><dd>{s['level'][pg['level']]}</dd></div>
-          <div><dt>{s['k_split']}</dt><dd>{esc(' / '.join(split_names))}</dd></div>
-          <div class="wide"><dt>{s['k_eq']}</dt><dd><span class="eq-icons">{''.join(X.eq_icon(g) for g in gear)}</span>{esc(setup[lang + '_eq'])}</dd></div>
-        </dl>
-
         <div class="plan">
-          <input type="radio" name="goal" id="goal-m" checked />
-          <input type="radio" name="goal" id="goal-f" />
-          <div class="goal-switch" role="group" aria-label="{s['goal_label']}">
-            <label for="goal-m">{s['g_m']}</label><label for="goal-f">{s['g_f']}</label>
-          </div>
-
-          <section class="plan-week">
-            <h2>{s['week']}</h2>
-            <ul>
-              {chr(10).join('              ' + w for w in week).strip()}
-            </ul>
-          </section>
-
 {chr(10).join(days_html)}
         </div>
 
-        <section class="about-sec">
+        <section class="plan-steps">
           <h2>{s['prog_h']}</h2>
-          <ul class="plain">{''.join(f'<li>{p}</li>' for p in prog)}</ul>
+          <ol>{steps}</ol>
         </section>
 
 {X.cta(t, s['cta_h'], s['cta_p'])}
@@ -298,14 +312,13 @@ def plan_page(k, pg, pages, lang):
 {faq}
         </section>
 
-        <section class="ex-similar">
+        <section class="plan-related">
           <h2>{s['more']}</h2>
-          <ul class="plain-links">{''.join(plan_link(kk) for kk in same_setup)}</ul>
-          <h2>{s['other_setups']}</h2>
-          <ul class="plain-links">{''.join(plan_link(kk) for kk in other)}</ul>
+          <ul class="rel-cards">{''.join(card(kk) for kk in related)}</ul>
         </section>
 
-        <p class="meta disclaimer">{t['disclaimer']}</p>'''
+        <p class="meta disclaimer">{t['disclaimer']}</p>
+'''
     return X.shell(lang, ppath(lang, k), title, s['desc'].format(**fmt), body,
                    [(l, ppath(l, k)) for l in LANGS], ld)
 
@@ -317,8 +330,8 @@ def hub_page(pages, lang):
         items = [(k, p) for k, p in pages.items() if p['setup'] == setup]
         if not items:
             continue
-        li = ''.join(f'<li><a href="{ppath(lang, k)}"><b>{p["days"]}</b> {s["hub_item"].format(days=p["days"], level=s["level"][p["level"]]).split("·", 1)[0].replace(str(p["days"]), "").strip()}<small>{s["level"][p["level"]]}</small></a></li>'
-                     for k, p in sorted(items, key=lambda kp: (kp[1]['level'] != 'beginner', kp[1]['days'])))
+        li = ''.join(f'<li><a href="{ppath(lang, k)}"><b>{p["days"]}</b><small>{s["hub_item"].format(days=p["days"]).replace(str(p["days"]), "", 1).strip()}</small></a></li>'
+                     for k, p in sorted(items, key=lambda kp: kp[1]['days']))
         gear = items[0][1]['equipment'] or ['bodyweight_only']
         icons = ''.join(X.eq_icon(g) for g in gear)
         groups.append(f'        <section class="setup-card" id="{setup}"><div class="setup-head"><span class="hero-gear">{icons}</span><h2>{SETUPS[setup][lang]}</h2></div><ul class="plan-tiles">{li}</ul></section>')
@@ -337,7 +350,7 @@ def used_in_plans(pages, lang):
     s = S[lang]
     uses = {}
     for k, pg in sorted(pages.items(), key=lambda kp: (kp[1]['level'] != 'beginner', kp[1]['days'], kp[0])):
-        for d in pg['goals']['hypertrophy']['sessions']:
+        for d in pg['goals']['general_fitness']['sessions']:
             for e in d['exercises']:
                 if k not in uses.setdefault(e['slug'], []):
                     uses[e['slug']].append(k)
@@ -351,7 +364,7 @@ def used_in_plans(pages, lang):
             li = ''
             for k in uses[slug][:4]:
                 p = pages[k]
-                name = s['h1'].format(days=p['days'], setup=SETUPS[p['setup']][lang], level_pl=s['level_pl'][p['level']])
+                name = s['h1'].format(days=p['days'], setup=SETUPS[p['setup']][lang])
                 icons = ''.join(X.eq_icon(g) for g in (p['equipment'] or ['bodyweight_only']))
                 li += f'<li><a href="{ppath(lang, k)}"><span class="eq-icons">{icons}</span>{esc(name)}</a></li>'
             block = f'        <section class="used-in"><h2>{s["used_h"]}</h2><ul class="plain-links">{li}</ul></section>'
