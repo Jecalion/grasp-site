@@ -6,7 +6,7 @@ a lift is done or how it is programmed.
     python build/exercises.py              the top TOP exercises by prominence
     python build/exercises.py slug ...     just these
 
-Reads the app repo at ../fitbud (override with FITBUD=...). Writes, per language
+Reads the app release tree at ../fitbud-viral (override with FITBUD=...). Writes, per language
 (English at the root, others under /<lang>/):
 
     exercises/index.html                 all published exercises, by muscle
@@ -34,7 +34,7 @@ import shutil
 import sys
 
 SITE = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-APP = os.environ.get('FITBUD', os.path.join(os.path.dirname(SITE), 'fitbud'))
+APP = os.environ.get('FITBUD', os.path.join(os.path.dirname(SITE), 'fitbud-viral'))  # the release tree: what the stores ship
 CONTENT = os.path.join(APP, 'packages', 'content', 'src')
 ANIM = os.path.join(APP, 'apps', 'mobile', 'assets', 'exercises', 'animations')
 I18N = os.path.join(APP, 'apps', 'mobile', 'src', 'i18n')
@@ -52,6 +52,8 @@ TOP = 100
 MIN_HUB = 3
 HUBS = {}  # set in main(): the muscle pages that exist
 LEVELS = ['beginner', 'intermediate', 'advanced']
+PUBLISHED = os.path.join(SITE, 'build', 'exercises-published.txt')
+PLANS = os.path.join(SITE, 'build', 'plans', 'plans.json')
 STR = r"'((?:[^'\\]|\\.)*)'"
 
 
@@ -197,6 +199,14 @@ def path(lang, slug):
 
 def mpath(lang, muscle):
     return prefix(lang) + f'exercises/muscle/{muscle}/'
+
+
+def plan_exercises():
+    """Every exercise the workout-plan pages link to."""
+    if not os.path.exists(PLANS):
+        return []
+    plans = json.load(open(PLANS, encoding='utf8'))
+    return sorted({e['slug'] for p in plans for d in p['sessions'] for e in d['exercises']})
 
 
 def is_cardio(slug):
@@ -515,6 +525,9 @@ def main(slugs):
     if not slugs:
         pool = [s for s, e in LIB.items() if e.get('active', True) and has_anim(s) and not is_cardio(s)]
         slugs = sorted(pool, key=lambda s: -LIB[s].get('prominence', 0))[:TOP]
+        # Once a page is live it stays: Google has the URL. Plus every exercise a plan page uses.
+        keep = [l.strip() for l in open(PUBLISHED, encoding='utf8') if l.strip()]
+        slugs += [s for s in keep + plan_exercises() if s not in slugs and s in LIB and has_anim(s)]
     built = set(slugs)
     os.makedirs(os.path.join(SITE, 'img', 'exercises'), exist_ok=True)
     for f in os.listdir(os.path.join(SITE, 'img', 'exercises')):
@@ -539,6 +552,8 @@ def main(slugs):
     sitemap([[(l, prefix(l) + 'exercises/') for l in LANGS]]
             + [[(l, mpath(l, m)) for l in LANGS if has_mp(l)] for m in groups]
             + [[(l, path(l, s)) for l in LANGS] for s in slugs])
+    with open(PUBLISHED, 'w', encoding='utf8', newline='\n') as f:
+        f.write('\n'.join(sorted(slugs)) + '\n')
     print(f'{len(slugs)} exercises, {len(groups)} muscles, {len(LANGS)} languages')
 
 

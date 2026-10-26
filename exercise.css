@@ -195,3 +195,155 @@
   margin: 0 0 8px;
   line-height: 1.6;
 }
+/* Workout plans (build/plans.py) */
+.plan-facts {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 10px;
+  margin: 0 0 24px;
+}
+.plan-facts div {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  padding: 10px 14px;
+}
+.plan-facts .wide {
+  grid-column: 1 / -1;
+}
+.plan-facts dt {
+  font-size: 0.8rem;
+  color: var(--faint);
+}
+.plan-facts dd {
+  margin: 2px 0 0;
+  font-weight: 600;
+}
+@media (min-width: 640px) {
+  .plan-facts {
+    grid-template-columns: repeat(4, 1fr);
+  }
+}
+.plan > input {
+  position: absolute;
+  opacity: 0;
+  pointer-events: none;
+}
+.goal-switch {
+  display: inline-flex;
+  border: 1px solid var(--border-strong);
+  border-radius: 999px;
+  padding: 3px;
+  margin-bottom: 22px;
+}
+.goal-switch label {
+  padding: 7px 16px;
+  border-radius: 999px;
+  cursor: pointer;
+  font-weight: 600;
+  color: var(--muted);
+}
+#goal-m:checked ~ .goal-switch label[for='goal-m'],
+#goal-f:checked ~ .goal-switch label[for='goal-f'] {
+  background: var(--accent);
+  color: var(--on-accent);
+}
+#goal-m:focus-visible ~ .goal-switch label[for='goal-m'],
+#goal-f:focus-visible ~ .goal-switch label[for='goal-f'] {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+}
+.plan .gf {
+  display: none;
+}
+#goal-f:checked ~ .plan-day .gm {
+  display: none;
+}
+#goal-f:checked ~ .plan-day .gf {
+  display: inline;
+}
+.plan-week ul {
+  list-style: none;
+  margin: 0 0 24px;
+  padding: 0;
+}
+.plan-week li {
+  display: flex;
+  gap: 12px;
+  padding: 8px 0;
+  border-bottom: 1px solid var(--border);
+}
+.plan-week .wd {
+  width: 5.5em;
+  color: var(--faint);
+}
+.plan-day {
+  margin-bottom: 26px;
+}
+.plan-day h3 {
+  margin: 0 0 10px;
+}
+.plan-day .same {
+  color: var(--muted);
+  margin: 0;
+}
+.plan-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-variant-numeric: tabular-nums;
+}
+.plan-table th,
+.plan-table td {
+  text-align: start;
+  padding: 10px 6px;
+  border-bottom: 1px solid var(--border);
+  vertical-align: top;
+}
+.plan-table thead th {
+  font-size: 0.8rem;
+  color: var(--faint);
+  font-weight: 600;
+}
+.plan-table tbody th {
+  font-weight: 600;
+}
+.plan-table tbody th a {
+  color: var(--text);
+}
+.plan-table td {
+  white-space: nowrap;
+}
+ul.plain {
+  margin: 0;
+  padding-inline-start: 1.2em;
+  line-height: 1.6;
+}
+ul.plain-links {
+  list-style: none;
+  margin: 0 0 20px;
+  padding: 0;
+}
+ul.plain-links li {
+  padding: 8px 0;
+  border-bottom: 1px solid var(--border);
+}
+ul.plain-links a {
+  color: var(--text);
+  font-weight: 600;
+  text-decoration: none;
+}
+.plan-faq {
+  margin-bottom: 28px;
+}
+.plan-faq details {
+  border-bottom: 1px solid var(--border);
+  padding: 12px 0;
+}
+.plan-faq summary {
+  font-weight: 600;
+  cursor: pointer;
+}
+.plan-faq p {
+  margin: 8px 0 0;
+  color: var(--muted);
+}
