@@ -312,15 +312,34 @@ def shell(lang, url_path, title, desc, body, alternates, ld, og_image=None, og_t
 '''
 
 
-def cta(t):
+def eq_icon(slug, label=''):
+    """The app's own line drawing of a piece of equipment, tinted by CSS (lime in dark, green in light)."""
+    f = slug.replace('_', '-')
+    if not os.path.exists(os.path.join(SITE, 'img', 'eq', f + '.webp')):
+        return ''
+    alt = f' role="img" aria-label="{esc(label)}"' if label else ' aria-hidden="true"'
+    return f'<span class="eq-icon" style="--icon:url(/img/eq/{f}.webp)"{alt}></span>'
+
+
+def cta(t, h=None, p=None, pose='explain-plan'):
+    """The get-the-app box: Grasp says the line in his lime bubble, as he does in the app."""
     return f'''        <section class="ex-cta">
-          <h2>{t['cta_h']}</h2>
-          <p>{t['cta_p']}</p>
+          <img class="cta-grasp" src="/img/grasp/{pose}.webp" alt="" width="150" height="176" loading="lazy" />
+          <div class="cta-body">
+          <p class="hero-bubble">{h or t['cta_h']}</p>
+          <p>{p or t['cta_p']}</p>
           <div class="stores">
             <a class="store-badge" href="{APPSTORE}" aria-label="{t['badge_aria_a']}"><img src="/img/app-store-badge.svg" alt="{t['badge_a']}" width="180" height="60" loading="lazy" /></a>
             <a class="store-badge play" href="{PLAY}" aria-label="{t['badge_aria_p']}"><img src="/img/google-play-badge.png" alt="Get it on Google Play" width="231" height="89" loading="lazy" /></a>
           </div>
+          </div>
         </section>'''
+
+
+def eq_row(e, lang, eq, t):
+    req = [q['equipment'] for q in e['equipment'] if q.get('required', True) and q['equipment'] != 'bodyweight_only']
+    icons = ''.join(eq_icon(q) for q in req) or eq_icon('bodyweight_only')
+    return f'<span class="eq-icons">{icons}</span>' + (esc(t['list'].join(eq)) if eq else t['none'])
 
 
 def links(lang, slugs, built):
@@ -416,7 +435,7 @@ def exercise_page(slug, lang, built):
             <dl>
               <dt>{t['primary']}</dt><dd>{esc(join(prim, t))}</dd>
               {sec_row}
-              <dt>{t['needs']}</dt><dd>{esc(t['list'].join(eq)) if eq else t['none']}</dd>
+              <dt>{t['needs']}</dt><dd>{eq_row(e, lang, eq, t)}</dd>
               <dt>{t['lvl']}</dt><dd>{t['Level'][e['difficulty']]}</dd>
             </dl>
           </aside>

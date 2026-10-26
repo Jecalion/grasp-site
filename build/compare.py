@@ -157,6 +157,30 @@ APPS = {
     },
 }
 
+# Compact view for the all-apps table, from the facts above.
+# '+' yes / free, '$' only when paying, '-' no, '~' partly, '?' not stated by the app.
+SHORT = {
+    'grasp':              {'price': ('Free', 'مجاني'), 'plans': '+', 'weights': '+', 'noads': '+', 'arabic': '+', 'offline': '+'},
+    'hevy':               {'price': ('Free · $23.99/yr Pro', 'مجاني · 23.99 دولار سنوياً للـPro'), 'plans': '$', 'weights': '$', 'noads': '+', 'arabic': '+', 'offline': '+'},
+    'strong':             {'price': ('Free · $29.99/yr Pro', 'مجاني · 29.99 دولار سنوياً للـPro'), 'plans': '-', 'weights': '-', 'noads': '+', 'arabic': '-', 'offline': '?'},
+    'jefit':              {'price': ('Free · $69.99/yr Elite', 'مجاني · 69.99 دولار سنوياً للـElite'), 'plans': '$', 'weights': '$', 'noads': '-', 'arabic': '-', 'offline': '?'},
+    'fitbod':             {'price': ('$95.99/yr after a 7-day trial', '95.99 دولار سنوياً بعد تجربة 7 أيام'), 'plans': '$', 'weights': '$', 'noads': '+', 'arabic': '-', 'offline': '~'},
+    'nike-training-club': {'price': ('Free', 'مجاني'), 'plans': '~', 'weights': '-', 'noads': '+', 'arabic': '+', 'offline': '?'},
+    'boostcamp':          {'price': ('Free · $59.99/yr Pro', 'مجاني · 59.99 دولار سنوياً للـPro'), 'plans': '~', 'weights': '$', 'noads': '+', 'arabic': '-', 'offline': '+'},
+}
+BEST = [  # (en, ar, app key): the honest "best for" line per need
+    ('Free planning and weight progression', 'تخطيط وزيادة أوزان مجاناً', 'grasp'),
+    ('A social feed and watch apps', 'مجتمع وتطبيقات للساعة', 'hevy'),
+    ('The simplest logger', 'أبسط مسجّل', 'strong'),
+    ('The biggest exercise database', 'أكبر قاعدة تمارين', 'jefit'),
+    ('A mature paid AI planner', 'مخطط ذكي مدفوع ومتكامل', 'fitbod'),
+    ('Follow-along video classes', 'حصص فيديو تتبعها', 'nike-training-club'),
+    ('Famous coach programs', 'برامج مدربين معروفة', 'boostcamp'),
+]
+SYMBOL = {'+': ('ok', '✓'), '$': ('paid', '$'), '-': ('no', '✗'), '~': ('part', '~'), '?': ('unk', '?')}
+COLS = [('plans', 'Plans for you', 'يخطط لك'), ('weights', 'Sets your weights', 'يحدد أوزانك'),
+        ('noads', 'No ads', 'بدون إعلانات'), ('arabic', 'Arabic', 'عربي'), ('offline', 'Offline', 'بدون نت')]
+
 ROWS = [('price', 'Price', 'السعر'), ('free', 'What\'s free', 'وش المجاني'), ('ads', 'Ads', 'الإعلانات'),
         ('plans', 'Plans your sessions', 'يخطط تمارينك'), ('weights', 'Sets your next weights', 'يحدد أوزانك الجاية'),
         ('offline', 'Works offline', 'يشتغل بدون نت'), ('arabic', 'Arabic', 'العربي'), ('platforms', 'Platforms', 'الأجهزة')]
@@ -177,8 +201,12 @@ S = {
                 ('Is {app} free?', '{free}.'),
                 ('Does {app} work in Arabic?', '{arabic}.')],
         'sources': 'Sources', 'others': 'More comparisons', 'feature': 'Feature',
-        'hub_title': 'Free alternatives to Hevy, Strong, JEFIT, Fitbod and more',
-        'hub_h1': 'Grasp compared',
+        'tm': 'App names and icons belong to their owners and are shown only to compare.',
+        'all_h': 'All apps side by side', 'best_h': 'Best for', 'app': 'App',
+        'legend': '✓ yes, free · $ only when paying · ~ partly · ✗ no · ? not stated by the app',
+        'one_h': 'One-on-one comparisons',
+        'hub_title': 'Best Free Workout Apps Compared (2026): Grasp, Hevy, Strong, JEFIT, Fitbod, NTC, Boostcamp',
+        'hub_h1': 'Workout apps compared',
         'hub_p': 'How Grasp compares with the big workout apps on price, planning and progression. Facts checked {date}.',
         'hub_item': 'Grasp vs {app}',
     },
@@ -197,12 +225,20 @@ S = {
                 ('{app} مجاني؟', '{free}.'),
                 ('{app} يدعم العربي؟', '{arabic}.')],
         'sources': 'المصادر', 'others': 'مقارنات ثانية', 'feature': 'الميزة',
-        'hub_title': 'بدائل مجانية لـHevy وStrong وJEFIT وFitbod وغيرها',
-        'hub_h1': 'مقارنة Grasp',
+        'tm': 'أسماء التطبيقات وأيقوناتها ملك أصحابها، ومعروضة للمقارنة فقط.',
+        'all_h': 'كل التطبيقات جنب بعض', 'best_h': 'الأفضل لـ', 'app': 'التطبيق',
+        'legend': '✓ إيه ومجاناً · $ بالاشتراك فقط · ~ جزئياً · ✗ لا · ? ما ذكره التطبيق',
+        'one_h': 'مقارنة كل تطبيق مع Grasp',
+        'hub_title': 'أفضل تطبيقات التمارين المجانية: مقارنة Grasp وHevy وStrong وJEFIT وFitbod وغيرها (2026)',
+        'hub_h1': 'مقارنة تطبيقات التمارين',
         'hub_p': 'كيف يقارن Grasp بتطبيقات التمارين الكبيرة في السعر والتخطيط وزيادة الأوزان. تم التحقق {date}.',
         'hub_item': 'Grasp أو {app}',
     },
 }
+
+
+def logo(k, name, size=40):
+    return f'<img class="app-logo" src="/img/apps/{k}.webp" alt="{esc(name)}" width="{size}" height="{size}" loading="lazy" />'
 
 
 def cpath(lang, k):
@@ -241,8 +277,11 @@ def page(k, a, lang):
             {'@type': 'ListItem', 'position': 2, 'name': s['h1'].format(app=app), 'item': X.BASE + cpath(lang, k)}]},
     ]}
     body = f'''        <nav class="crumbs" aria-label="breadcrumb"><a href="{hub(lang)}">{s['crumbs']}</a></nav>
-        <h1>{esc(s['h1'].format(app=app))}</h1>
-        <p class="meta">{s['checked'].format(date=CHECKED[lang])}</p>
+        <header class="cmp-hero">
+          <div class="vs">{logo('grasp', 'Grasp', 64)}<span>{'vs' if lang == 'en' else 'أو'}</span>{logo(k, app, 64)}</div>
+          <h1>{esc(s['h1'].format(app=app))}</h1>
+          <p class="meta">{s['checked'].format(date=CHECKED[lang])}</p>
+        </header>
 
         <section class="about-sec">
           <h2>{s['short']}</h2>
@@ -252,7 +291,7 @@ def page(k, a, lang):
         <section class="ex-dose">
           <h2>{s['glance']}</h2>
           <table class="cmp">
-            <thead><tr><th scope="col">{s['feature']}</th><th scope="col">Grasp</th><th scope="col">{esc(app)}</th></tr></thead>
+            <thead><tr><th scope="col">{s['feature']}</th><th scope="col">{logo('grasp', 'Grasp', 28)} Grasp</th><th scope="col">{logo(k, app, 28)} {esc(app)}</th></tr></thead>
             <tbody>
 {rows}
             </tbody>
@@ -270,7 +309,7 @@ def page(k, a, lang):
           <section><h2>{esc(s['pick_them'].format(app=app))}</h2><ul class="plain">{''.join(f'<li>{esc(r)}</li>' for r in a['pick_them'][i])}</ul></section>
         </div>
 
-{X.cta(t)}
+{X.cta(t, pose='thumbs-up-side')}
 
         <section class="plan-faq">
           <h2>{s['faq_h']}</h2>
@@ -282,20 +321,58 @@ def page(k, a, lang):
           <ul class="plain-links">{others}</ul>
         </section>
 
-        <p class="meta sources">{s['sources']}: {' · '.join(f'<a href="{u}" rel="nofollow noopener">{esc(re.sub(r"^https?://(www\.)?", "", u).split("/")[0])}</a>' for u in a['sources'])}</p>'''
+        <p class="meta sources">{s['tm']}<br />{s['sources']}: {' · '.join(f'<a href="{u}" rel="nofollow noopener">{esc(re.sub(r"^https?://(www\.)?", "", u).split("/")[0])}</a>' for u in a['sources'])}</p>'''
     return X.shell(lang, cpath(lang, k), s['title'].format(app=app), s['desc'].format(app=app, date=CHECKED[lang]),
                    body, [(l, cpath(l, k)) for l in LANGS], ld)
 
 
 def hub_page(lang):
+    """All apps in one table, the honest best-for list, then the one-on-one pages."""
     s, t = S[lang], X.T[lang]
-    li = ''.join(f'<li><a href="{cpath(lang, k)}">{esc(s["hub_item"].format(app=a["name"]))}</a></li>' for k, a in APPS.items())
-    ld = {'@context': 'https://schema.org', '@type': 'CollectionPage', 'name': s['hub_h1'], 'inLanguage': lang}
-    body = f'''        <h1>{s['hub_h1']}</h1>
+    i = 0 if lang == 'en' else 1
+    names = {'grasp': 'Grasp', **{k: a['name'] for k, a in APPS.items()}}
+    head = ''.join(f'<th scope="col">{c[1 + i]}</th>' for c in COLS)
+    rows = []
+    for k in ['grasp', *APPS]:
+        sh = SHORT[k]
+        cells = ''.join(f'<td><span class="sym {SYMBOL[sh[c[0]]][0]}">{SYMBOL[sh[c[0]]][1]}</span></td>' for c in COLS)
+        name = f'<a href="{cpath(lang, k)}">{esc(names[k])}</a>' if k != 'grasp' else 'Grasp'
+        me = ' class="me"' if k == 'grasp' else ''
+        rows.append(f'<tr{me}><th scope="row"><span class="app-cell">{logo(k, "", 32)}<span>{name}<small>{esc(sh["price"][i])}</small></span></span></th>{cells}</tr>')
+    best = ''.join(f'<li>{logo(b[2], "", 28)}<span><b>{esc(names[b[2]])}</b>: {esc(b[i])}</span></li>' for b in BEST)
+    cards = ''.join(f'<li><a href="{cpath(lang, k)}">{logo("grasp", "", 28)}<span>{'vs' if lang == 'en' else 'أو'}</span>{logo(k, "", 28)}<b>{esc(a["name"])}</b></a></li>'
+                    for k, a in APPS.items())
+    ld = {'@context': 'https://schema.org', '@type': 'CollectionPage', 'name': s['hub_h1'], 'inLanguage': lang,
+          'dateModified': '2026-10-27'}
+    body = f"""        <h1>{s['hub_h1']}</h1>
         <p class="lede">{s['hub_p'].format(date=CHECKED[lang])}</p>
-        <ul class="plain-links">{li}</ul>
 
-{X.cta(t)}'''
+        <section class="ex-dose">
+          <h2>{s['all_h']}</h2>
+          <div class="table-scroll">
+          <table class="cmp-all">
+            <thead><tr><th scope="col">{s['app']}</th>{head}</tr></thead>
+            <tbody>
+              {chr(10).join(rows)}
+            </tbody>
+          </table>
+          </div>
+          <p class="meta">{s['legend']}</p>
+        </section>
+
+        <section class="about-sec">
+          <h2>{s['best_h']}</h2>
+          <ul class="best-list">{best}</ul>
+        </section>
+
+        <section class="about-sec">
+          <h2>{s['one_h']}</h2>
+          <ul class="vs-cards">{cards}</ul>
+        </section>
+
+{X.cta(t, pose='thumbs-up-side')}
+
+        <p class="meta sources">{s['tm']}</p>"""
     return X.shell(lang, hub(lang), s['hub_title'], s['hub_p'].format(date=CHECKED[lang]), body,
                    [(l, hub(l)) for l in LANGS], ld, og_type='website')
 

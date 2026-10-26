@@ -201,17 +201,22 @@ def plan_page(k, pg, pages, lang):
     days_html = []
     for i, (d, df) in enumerate(zip(m['sessions'], f['sessions'])):
         sg = labels[i][2]
-        h = f'<h3 id="day-{i + 1}">{s["day"].format(n=i + 1)}: {esc(label(i))}</h3>'
+        h = (f'<div class="day-head"><span class="day-num" aria-hidden="true">{i + 1}</span>'
+             f'<h3 id="day-{i + 1}">{s["day"].format(n=i + 1)}: {esc(label(i))}</h3>'
+             f'<span class="day-min">{s["mins"].format(n=round(d["minutes"] / 5) * 5)}</span></div>')
         if sg in first_of:
-            days_html.append(f'        <section class="plan-day">{h}<p class="same">{s["same_as"].format(n=first_of[sg] + 1)}</p></section>')
+            days_html.append(f'        <section class="plan-day repeat">{h}<p class="same"><a href="#day-{first_of[sg] + 1}">{s["same_as"].format(n=first_of[sg] + 1)}</a></p></section>')
             continue
         first_of[sg] = i
         rows = []
         for e, ef in zip(d['exercises'], df['exercises']):
             nm = X.name(lang, e['slug'])
-            link = f'<a href="{X.path(lang, e["slug"])}">{esc(nm)}</a>' if e['slug'] in PUBLISHED else esc(nm)
+            pub = e['slug'] in PUBLISHED
+            thumb = (f'<img class="ex-thumb" src="/img/exercises/{e["slug"]}.webp" alt="" width="46" height="46" loading="lazy" />'
+                     if pub else '<span class="ex-thumb"></span>')
+            link = f'<a href="{X.path(lang, e["slug"])}">{esc(nm)}</a>' if pub else esc(nm)
             rows.append(
-                f'<tr><th scope="row">{link}</th>'
+                f'<tr><th scope="row"><span class="ex-cell">{thumb}<span>{link}</span></span></th>'
                 f'<td><span class="gm"><bdi dir="ltr">{e["sets"]}</bdi></span><span class="gf"><bdi dir="ltr">{ef["sets"]}</bdi></span></td>'
                 f'<td><span class="gm">{num(cell_reps(e, s), e)}</span><span class="gf">{num(cell_reps(ef, s), ef)}</span></td>'
                 f'<td><span class="gm">{rest(lang, e["rest"])}</span><span class="gf">{rest(lang, ef["rest"])}</span></td></tr>')
@@ -245,16 +250,21 @@ def plan_page(k, pg, pages, lang):
                                             for q, a in s['faq']]},
     ]}
     faq = '\n'.join(f'          <details><summary>{q}</summary><p>{a}</p></details>' for q, a in s['faq'])
+    gear = pg['equipment'] or ['bodyweight_only']
+    icons = ''.join(X.eq_icon(g, setup[lang + '_eq'] if j == 0 else '') for j, g in enumerate(gear))
     body = f'''        <nav class="crumbs" aria-label="breadcrumb"><a href="{hub(lang)}">{s['crumbs']}</a></nav>
-        <h1>{esc(h1)}</h1>
-        <p class="lede">{esc(s['lede'].format(**fmt))} {s['made']}</p>
+        <header class="plan-hero">
+          <div class="hero-gear">{icons}</div>
+          <h1>{esc(h1)}</h1>
+          <p class="lede">{esc(s['lede'].format(**fmt))} {s['made']}</p>
+        </header>
 
         <dl class="plan-facts">
           <div><dt>{s['k_days']}</dt><dd>{pg['days']}</dd></div>
           <div><dt>{s['k_time']}</dt><dd>{s['mins'].format(n=mins)}</dd></div>
           <div><dt>{s['k_level']}</dt><dd>{s['level'][pg['level']]}</dd></div>
           <div><dt>{s['k_split']}</dt><dd>{esc(' / '.join(split_names))}</dd></div>
-          <div class="wide"><dt>{s['k_eq']}</dt><dd>{esc(setup[lang + '_eq'])}</dd></div>
+          <div class="wide"><dt>{s['k_eq']}</dt><dd><span class="eq-icons">{''.join(X.eq_icon(g) for g in gear)}</span>{esc(setup[lang + '_eq'])}</dd></div>
         </dl>
 
         <div class="plan">
@@ -279,7 +289,7 @@ def plan_page(k, pg, pages, lang):
           <ul class="plain">{''.join(f'<li>{p}</li>' for p in prog)}</ul>
         </section>
 
-{X.cta(t).replace(t['cta_h'], s['cta_h']).replace(t['cta_p'], s['cta_p'])}
+{X.cta(t, s['cta_h'], s['cta_p'])}
 
         <section class="plan-faq">
           <h2>{s['faq_h']}</h2>
@@ -305,9 +315,11 @@ def hub_page(pages, lang):
         items = [(k, p) for k, p in pages.items() if p['setup'] == setup]
         if not items:
             continue
-        li = ''.join(f'<li><a href="{ppath(lang, k)}">{s["hub_item"].format(days=p["days"], level=s["level"][p["level"]])}</a></li>'
+        li = ''.join(f'<li><a href="{ppath(lang, k)}"><b>{p["days"]}</b> {s["hub_item"].format(days=p["days"], level=s["level"][p["level"]]).split("·", 1)[0].replace(str(p["days"]), "").strip()}<small>{s["level"][p["level"]]}</small></a></li>'
                      for k, p in sorted(items, key=lambda kp: (kp[1]['level'] != 'beginner', kp[1]['days'])))
-        groups.append(f'        <section class="ex-group"><h2>{SETUPS[setup][lang]}</h2><ul class="plain-links">{li}</ul></section>')
+        gear = items[0][1]['equipment'] or ['bodyweight_only']
+        icons = ''.join(X.eq_icon(g) for g in gear)
+        groups.append(f'        <section class="setup-card"><div class="setup-head"><span class="hero-gear">{icons}</span><h2>{SETUPS[setup][lang]}</h2></div><ul class="plan-tiles">{li}</ul></section>')
     ld = {'@context': 'https://schema.org', '@type': 'CollectionPage', 'name': s['hub_h1'], 'inLanguage': lang,
           'description': s['hub_p']}
     body = f'''        <h1>{s['hub_h1']}</h1>
