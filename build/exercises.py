@@ -472,6 +472,8 @@ def hub_page(groups, lang):
 def write(rel, text):
     out = os.path.join(SITE, rel.strip('/'), 'index.html')
     os.makedirs(os.path.dirname(out), exist_ok=True)
+    # Many Arabic names already start with "تمرين" (push-up = تمرين الضغط); don't say it twice.
+    text = text.replace('تمرين تمرين', 'تمرين')
     with open(out, 'w', encoding='utf8', newline='\n') as f:
         f.write(text)
 
