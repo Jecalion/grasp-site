@@ -82,7 +82,8 @@ S = {
         'mins': 'حوالي {n} دقيقة', 'goal_label': 'هدفك',
         'g_m': 'بناء العضل', 'g_f': 'حرق الدهون',
         'week': 'أسبوعك', 'day': 'اليوم {n}', 'rest_day': 'راحة',
-        'weekdays': ['الاثنين', 'الثلاثاء', 'الأربعاء', 'الخميس', 'الجمعة', 'السبت', 'الأحد'],
+        # The Saudi week starts on Sunday, with Friday and Saturday off: the same spacing, shifted.
+        'weekdays': ['الأحد', 'الاثنين', 'الثلاثاء', 'الأربعاء', 'الخميس', 'الجمعة', 'السبت'],
         'same_as': 'نفس اليوم {n}.',
         'th_ex': 'التمرين', 'th_sets': 'الجلسات', 'th_reps': 'التكرارات', 'th_rest': 'الراحة',
         'hold': '{r} × {s} ثانية', 'none': '—', 'ab': 'أب',
@@ -240,6 +241,8 @@ def plan_page(k, pg, pages, lang):
         {'@type': 'BreadcrumbList', 'itemListElement': [
             {'@type': 'ListItem', 'position': 1, 'name': s['crumbs'], 'item': X.BASE + hub(lang)},
             {'@type': 'ListItem', 'position': 2, 'name': h1, 'item': X.BASE + ppath(lang, k)}]},
+        {'@type': 'FAQPage', 'mainEntity': [{'@type': 'Question', 'name': q, 'acceptedAnswer': {'@type': 'Answer', 'text': a}}
+                                            for q, a in s['faq']]},
     ]}
     faq = '\n'.join(f'          <details><summary>{q}</summary><p>{a}</p></details>' for q, a in s['faq'])
     body = f'''        <nav class="crumbs" aria-label="breadcrumb"><a href="{hub(lang)}">{s['crumbs']}</a></nav>

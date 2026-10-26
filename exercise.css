@@ -347,3 +347,54 @@ ul.plain-links a {
   margin: 8px 0 0;
   color: var(--muted);
 }
+/* Comparisons (build/compare.py) */
+.cmp {
+  width: 100%;
+  border-collapse: collapse;
+}
+.cmp th,
+.cmp td {
+  text-align: start;
+  padding: 10px 6px;
+  border-bottom: 1px solid var(--border);
+  vertical-align: top;
+}
+.cmp thead th {
+  font-size: 0.8rem;
+  color: var(--faint);
+}
+.cmp tbody th {
+  font-weight: 600;
+  width: 34%;
+}
+.cmp .ok {
+  color: var(--accent);
+  font-weight: 700;
+}
+.cmp .no {
+  color: var(--faint);
+  font-weight: 700;
+}
+.cmp-pick {
+  display: grid;
+  gap: 18px;
+  margin-bottom: 28px;
+}
+@media (min-width: 640px) {
+  .cmp-pick {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+.cmp-pick section {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 18px;
+  padding: 16px 18px;
+}
+.cmp-pick h2 {
+  font-size: 1.05rem;
+  margin: 0 0 8px;
+}
+.sources a {
+  color: var(--muted);
+}

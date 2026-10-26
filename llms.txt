@@ -26,6 +26,7 @@ Also listed on the App Store as "Grasp: Workout Planner & Log". Several unrelate
 - [Exercise library (Arabic)](https://grasp.alsouq.tech/ar/exercises/)
 - [Home workout plans (English)](https://grasp.alsouq.tech/workout-plans/): free 3-, 4- and 5-day plans for bodyweight, dumbbells, a bench, bands or a kettlebell, made by Grasp's planner
 - [Home workout plans (Arabic)](https://grasp.alsouq.tech/ar/workout-plans/)
+- [Grasp compared with Hevy, Strong, JEFIT, Fitbod, Nike Training Club and Boostcamp](https://grasp.alsouq.tech/compare/): price, what is free, planning and progression, sourced and dated
 - [App Store](https://apps.apple.com/app/id6804474068)
 - [Support](https://grasp.alsouq.tech/support.html)
 - [Privacy policy](https://grasp.alsouq.tech/privacy.html)
