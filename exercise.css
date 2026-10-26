@@ -1,0 +1,126 @@
+/*
+  Exercise pages (build/exercises.py). Everything else comes from style.css;
+  this only lays out the page and keeps the RepDB animation inside our own
+  layout, well under the 70 % of the page its licence allows.
+*/
+.ex {
+  padding-top: 28px;
+  padding-bottom: 48px;
+}
+.crumbs {
+  font-size: 0.9rem;
+  color: var(--muted);
+  margin-bottom: 10px;
+}
+.crumbs a {
+  color: var(--muted);
+}
+.ex h1 {
+  font-size: clamp(1.8rem, 5vw, 2.4rem);
+  line-height: 1.15;
+  margin: 0 0 10px;
+}
+.ex .lede {
+  color: var(--muted);
+  font-size: 1.1rem;
+  margin: 0 0 22px;
+}
+.ex-demo {
+  margin: 0 0 28px;
+  background: #fff;
+  border: 1px solid var(--border);
+  border-radius: 18px;
+  overflow: hidden;
+}
+.ex-demo video {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+.ex h2 {
+  font-size: 1.2rem;
+  margin: 0 0 12px;
+}
+.ex-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 24px;
+  margin-bottom: 32px;
+}
+@media (min-width: 640px) {
+  .ex-grid {
+    grid-template-columns: 3fr 2fr;
+  }
+}
+.ex-steps {
+  margin: 0;
+  padding-inline-start: 1.3em;
+}
+.ex-steps li {
+  margin-bottom: 10px;
+  line-height: 1.55;
+}
+.ex-steps li::marker {
+  color: var(--accent);
+  font-weight: 700;
+}
+.ex-facts {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 18px;
+  padding: 18px 20px;
+  align-self: start;
+}
+.ex-facts dl {
+  margin: 0;
+}
+.ex-facts dt {
+  font-size: 0.8rem;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: var(--faint);
+  margin-top: 10px;
+}
+.ex-facts dt:first-child {
+  margin-top: 0;
+}
+.ex-facts dd {
+  margin: 2px 0 0;
+  font-weight: 600;
+}
+.ex-cta {
+  background: var(--accent-muted);
+  border-radius: 18px;
+  padding: 22px 22px 18px;
+  margin-bottom: 32px;
+}
+.ex-cta p {
+  margin: 0 0 16px;
+}
+.ex-cta .stores {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 14px;
+}
+.ex-similar ul {
+  list-style: none;
+  margin: 0 0 28px;
+  padding: 0;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+.ex-similar li {
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  padding: 6px 14px;
+}
+.ex-similar a {
+  color: var(--text);
+  text-decoration: none;
+}
+[dir='rtl'] .ex-facts dt {
+  text-transform: none;
+  letter-spacing: 0;
+}
