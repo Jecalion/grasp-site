@@ -22,6 +22,8 @@ Also listed on the App Store as "Grasp: Workout Planner & Log". Several unrelate
 
 - [Website (English)](https://grasp.alsouq.tech/)
 - [Website (Arabic)](https://grasp.alsouq.tech/ar/)
+- [Exercise library (English)](https://grasp.alsouq.tech/exercises/): how to do each exercise, the muscles it works, and the sets, reps and rest Grasp prescribes by goal
+- [Exercise library (Arabic)](https://grasp.alsouq.tech/ar/exercises/)
 - [App Store](https://apps.apple.com/app/id6804474068)
 - [Support](https://grasp.alsouq.tech/support.html)
 - [Privacy policy](https://grasp.alsouq.tech/privacy.html)
