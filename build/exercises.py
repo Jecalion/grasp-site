@@ -43,17 +43,33 @@ BASE = 'https://grasp.alsouq.tech'
 APPSTORE = 'https://apps.apple.com/app/id6804474068'
 PLAY = 'https://play.google.com/store/apps/details?id=com.graspapp.mobile'
 
-LANGS = ['en', 'ar']
+# Same order as the site's language switcher.
+ALL_LANGS = ['en', 'ar', 'fr', 'de', 'es', 'it', 'tr', 'pl', 'ru', 'hi', 'zh', 'ko', 'ja', 'id', 'pt']
+STRINGS = os.path.join(SITE, 'build', 'exercise-i18n')
+# A language goes live when its page strings exist (build/exercise-i18n/<lang>.json).
+LANGS = [l for l in ALL_LANGS if os.path.exists(os.path.join(STRINGS, l + '.json'))]
 TOP = 100
 MIN_HUB = 3
 HUBS = {}  # set in main(): the muscle pages that exist
 LEVELS = ['beginner', 'intermediate', 'advanced']
+STR = r"'((?:[^'\\]|\\.)*)'"
+
+
+def unq(v):
+    return v.replace("\\'", "'")
 
 
 def ts_map(path):
-    """Flat `key: 'value'` pairs from a TS object literal."""
+    """Flat `key: 'value'` pairs from a TS object literal (a value may sit on the next line)."""
     text = open(path, encoding='utf8').read()
-    return {k: v.replace("\\'", "'") for k, v in re.findall(r"^\s+(\w+): '((?:[^'\\]|\\.)*)',", text, re.M)}
+    return {k: unq(v) for k, v in re.findall(r"^\s+(\w+):\s*\n?\s*" + STR + ",", text, re.M)}
+
+
+def ts_section(path, name):
+    text = open(path, encoding='utf8').read()
+    i = text.index('\n  ' + name + ': {')
+    block = text[i: text.index('\n  },', i)]
+    return {k: unq(v) for k, v in re.findall(r"^\s+(\w+):\s*\n?\s*" + STR + ",", block, re.M)}
 
 
 def ts_lists(path):
@@ -61,7 +77,7 @@ def ts_lists(path):
     text = open(path, encoding='utf8').read()
     out = {}
     for slug, body in re.findall(r"^  (\w+): \[\n(.*?)\n  \],", text, re.M | re.S):
-        out[slug] = [s.replace("\\'", "'") for s in re.findall(r"'((?:[^'\\]|\\.)*)',", body)]
+        out[slug] = [unq(s) for s in re.findall(STR + ",", body)]
     return out
 
 
@@ -80,90 +96,64 @@ def engine_goals():
 
 
 LIB = {e['slug']: e for e in json.load(open(os.path.join(CONTENT, 'generated', 'library.json'), encoding='utf8'))}
-NAMES = {'en': {s: e['name'] for s, e in LIB.items()}, 'ar': ts_map(os.path.join(CONTENT, 'names-ar.ts'))}
-STEPS = {'en': {s: e['instructions'] for s, e in LIB.items()}, 'ar': ts_lists(os.path.join(CONTENT, 'instructions-ar.ts'))}
-EQUIP = {'en': ts_map(os.path.join(APP, 'apps', 'mobile', 'src', 'lib', 'equipment.ts')), 'ar': NAMES['ar']}
-MUSCLE = {}
-# The muscle labels are the string-table block holding `quads`.
-for lang, f in (('en', 'strings.ts'), ('ar', 'ar.ts')):
-    text = open(os.path.join(I18N, f), encoding='utf8').read()
-    i = text.index("    quads: '")
-    block = text[text.rindex('{', 0, i): text.index('\n  },', i)]
-    MUSCLE[lang] = dict(re.findall(r"^\s+(\w+): '([^']*)',", block, re.M))
+REPDB_STEPS = json.load(open(os.path.join(CONTENT, 'generated', 'instructions-repdb.json'), encoding='utf8'))
 GOALS, UNLOADABLE = engine_goals()
+NAMES, STEPS, EQUIP, MUSCLE, T = {}, {}, {}, {}, {}
 
-T = {
-    'en': {
-        'dir': 'ltr', 'home': '/', 'title': 'How to do the {name}: form, muscles, sets and reps',
-        'h1': 'How to do the {name}',
-        'desc': '{name}: step-by-step form, the muscles it works ({muscles}), sets and reps for your goal, and easier and harder versions.',
-        'crumbs': 'Exercises',
-        'intro': 'A {level} {mechanic} exercise for the {primary}. You need {equipment}.',
-        'intro_bw': 'A {level} {mechanic} exercise for the {primary}. No equipment needed.',
-        'level': {'beginner': 'beginner', 'intermediate': 'intermediate', 'advanced': 'advanced'},
-        'Level': {'beginner': 'Beginner', 'intermediate': 'Intermediate', 'advanced': 'Advanced'},
-        'mechanic': {'compound': 'compound', 'isolation': 'isolation'},
-        'and': ' and ', 'or': ' or ', 'list': ', ',
-        'how': 'How to do it', 'works': 'Muscles worked', 'primary': 'Main', 'secondary': 'Also',
-        'needs': 'Equipment', 'none': 'None', 'lvl': 'Level',
-        'dose': 'Sets, reps and rest by goal',
-        'dose_p': 'What Grasp prescribes for the {name}. In the app, the weight then goes up when you reach the top of the range on every set.',
-        'dose_p_bw': 'What Grasp prescribes for the {name}. It is your body weight, so there is no weight to add: work up through the rep range, then move on to a harder version.',
-        'dose_hold': 'Grasp times this one rather than counting reps: hold for the time set in your plan, rest, repeat.',
-        'goal': 'Goal', 'sets': 'Sets', 'reps': 'Reps', 'rest': 'Rest',
-        'goals': {'hypertrophy': 'Build muscle', 'strength': 'Get stronger', 'fat_loss': 'Lose fat', 'general_fitness': 'General fitness'},
-        'easier': 'Easier versions', 'harder': 'Harder versions', 'similar': 'Similar exercises',
-        'cta_h': 'Let Grasp put it in your workout',
-        'cta_p': 'Grasp builds your session around your goal and the equipment you have, then works out your next weights from what you lifted last time. Free, no ads, works offline.',
-        'badge_a': 'Download on the App Store', 'badge_aria_a': 'Download Grasp on the App Store',
-        'badge_aria_p': 'Get Grasp on Google Play',
-        'video': 'Animation of the {name}',
-        'disclaimer': 'General information, not medical advice. Stop if anything hurts, and talk to a doctor before starting a new training program, particularly if you have an injury or a health condition.',
-        'hub_title': 'Exercises by muscle: how to do them, sets and reps',
-        'hub_h1': 'Exercises by muscle',
-        'hub_p': 'How to do each exercise, the muscles it works and the sets and reps for your goal — the same library the Grasp app plans your workouts from.',
-        'm_title': '{muscle} exercises: how to do them, sets and reps',
-        'm_h1': '{muscle} exercises',
-        'm_p': '{n} exercises that work the {muscle_l}, from beginner to advanced. Each page has the steps, the equipment and the sets and reps for your goal.',
-        'count': '{n} exercises',
-        'rest_fmt': lambda s: f'{s // 60} min' if s % 60 == 0 else f'{s} s',
-    },
-    'ar': {
-        'dir': 'rtl', 'home': '/ar/', 'title': 'طريقة {name}: الأداء والعضلات والمجموعات والتكرارات',
-        'h1': 'طريقة أداء {name}',
-        'desc': '{name}: الخطوات بالترتيب، والعضلات اللي يشتغل عليها ({muscles})، وكم مجموعة وتكرار حسب هدفك، ونسخ أسهل وأصعب منه.',
-        'crumbs': 'التمارين',
-        'intro': 'تمرين {mechanic} لمستوى {level}، يستهدف {primary}. تحتاج له {equipment}.',
-        'intro_bw': 'تمرين {mechanic} لمستوى {level}، يستهدف {primary}. ما يحتاج أي أدوات.',
-        'level': {'beginner': 'مبتدئ', 'intermediate': 'متوسط', 'advanced': 'متقدّم'},
-        'Level': {'beginner': 'مبتدئ', 'intermediate': 'متوسط', 'advanced': 'متقدّم'},
-        'mechanic': {'compound': 'مركّب', 'isolation': 'عزل'},
-        'and': ' و', 'or': ' أو ', 'list': '، ',
-        'how': 'طريقة الأداء', 'works': 'العضلات المستهدفة', 'primary': 'الأساسية', 'secondary': 'المساعدة',
-        'needs': 'الأدوات', 'none': 'بدون أدوات', 'lvl': 'المستوى',
-        'dose': 'المجموعات والتكرارات والراحة حسب هدفك',
-        'dose_p': 'هذي الأرقام اللي يعطيك إياها Grasp لتمرين {name}. وفي التطبيق يزيد الوزن لما توصل لأعلى التكرارات في كل المجموعات.',
-        'dose_p_bw': 'هذي الأرقام اللي يعطيك إياها Grasp لتمرين {name}. التمرين بوزن جسمك، فما فيه وزن تزيده: زِد التكرارات لين توصل لأعلاها، وبعدها انتقل لنسخة أصعب.',
-        'dose_hold': 'هذا التمرين يُحسب بالوقت مو بالتكرارات: اثبت للمدة اللي في خطتك، ارتاح، وكرّر.',
-        'goal': 'الهدف', 'sets': 'المجموعات', 'reps': 'التكرارات', 'rest': 'الراحة',
-        'goals': {'hypertrophy': 'بناء العضل', 'strength': 'القوة', 'fat_loss': 'حرق الدهون', 'general_fitness': 'لياقة عامة'},
-        'easier': 'نسخ أسهل', 'harder': 'نسخ أصعب', 'similar': 'تمارين مشابهة',
-        'cta_h': 'خل Grasp يحطه في تمرينك',
-        'cta_p': 'Grasp يبني تمرينك على هدفك والأدوات اللي عندك، ويحسب أوزانك الجاية من اللي رفعته آخر مرة. مجاني، بدون إعلانات، ويشتغل بدون نت.',
-        'badge_a': 'حمّله من App Store', 'badge_aria_a': 'حمّل Grasp من App Store',
-        'badge_aria_p': 'حمّل Grasp من Google Play',
-        'video': 'رسم متحرك لتمرين {name}',
-        'disclaimer': 'معلومات عامة وليست استشارة طبية. وقّف لو حسيت بألم، واستشر دكتور قبل ما تبدأ برنامج تمارين جديد، خصوصاً لو عندك إصابة أو حالة صحية.',
-        'hub_title': 'التمارين حسب العضلة: طريقة الأداء والمجموعات والتكرارات',
-        'hub_h1': 'التمارين حسب العضلة',
-        'hub_p': 'طريقة أداء كل تمرين، والعضلات اللي يشتغل عليها، وكم مجموعة وتكرار حسب هدفك — نفس مكتبة التمارين اللي يبني منها تطبيق Grasp تمارينك.',
-        'm_title': 'تمارين {muscle}: طريقة الأداء والمجموعات والتكرارات',
-        'm_h1': 'تمارين {muscle}',
-        'm_p': '{n} تمرين لـ{muscle_l}، من المبتدئ إلى المتقدّم. في كل صفحة الخطوات والأدوات وكم مجموعة وتكرار حسب هدفك.',
-        'count': '{n} تمرين',
-        'rest_fmt': lambda s: {60: 'دقيقة', 120: 'دقيقتين'}.get(s, f'{s // 60} دقائق' if s % 60 == 0 else f'{s} ثانية'),
-    },
-}
+for lang in LANGS:
+    app = os.path.join(I18N, 'strings.ts' if lang == 'en' else lang + '.ts')
+    if lang == 'en':
+        NAMES[lang] = {s: e['name'] for s, e in LIB.items()}
+        STEPS[lang] = {s: e['instructions'] for s, e in LIB.items()}
+        EQUIP[lang] = ts_map(os.path.join(APP, 'apps', 'mobile', 'src', 'lib', 'equipment.ts'))
+    else:
+        NAMES[lang] = ts_map(os.path.join(CONTENT, f'names-{lang}.ts'))
+        STEPS[lang] = REPDB_STEPS[lang] if lang in REPDB_STEPS else ts_lists(os.path.join(CONTENT, f'instructions-{lang}.ts'))
+        EQUIP[lang] = NAMES[lang]  # equipment names live in the same file
+    text = open(app, encoding='utf8').read()
+    i = text.index("    quads: '")
+    MUSCLE[lang] = {k: unq(v) for k, v in re.findall(r"^\s+(\w+): " + STR + ",", text[text.rindex('{', 0, i): text.index('\n  },', i)], re.M)}
+
+    # The page's own phrases, then the words the app already uses for the same things.
+    t = json.load(open(os.path.join(STRINGS, lang + '.json'), encoding='utf8'))
+    ex, goals, summ = ts_section(app, 'exercise'), ts_section(app, 'goals'), ts_section(app, 'summary')
+    site = json.load(open(os.path.join(SITE, 'build', 'i18n', lang + '.json'), encoding='utf8'))
+    vocab = {
+        'how': ex['howTo'], 'primary': ex['primary'], 'secondary': ex['secondary'], 'needs': ex['equipment'],
+        'Level': {l: ex[l] for l in LEVELS}, 'mechanic': {m: ex[m] for m in ('compound', 'isolation')},
+        'goals': {'hypertrophy': goals['hypertrophyTitle'], 'strength': goals['strengthTitle'],
+                  'fat_loss': goals['fatLossTitle'], 'general_fitness': goals['generalTitle']},
+        'sets': summ['sets'], 'reps': summ['reps'],
+        'badge_a': site['store_alt'], 'badge_aria_a': site['store_aria'], 'badge_aria_p': site['play_aria'],
+    }
+    for k, v in vocab.items():
+        t.setdefault(k, v)
+    lower = t.get('lower_muscles', False)
+    t.setdefault('level', {l: ((({'İ': 'i', 'I': 'ı'}.get(w[0], w[0].lower()) + w[1:]) if lang == 'tr' else w.lower())
+                               if lower else w) for l, w in t['Level'].items()})
+    if lower:
+        t['mechanic'] = {m: (({'İ': 'i', 'I': 'ı'}.get(w[0], w[0].lower()) + w[1:]) if lang == 'tr' else w.lower())
+                         for m, w in t['mechanic'].items()}
+    t['dir'] = 'rtl' if lang == 'ar' else 'ltr'
+    t['home'] = '/' if lang == 'en' else f'/{lang}/'
+    T[lang] = t
+
+
+def rest_text(lang, s):
+    t = T[lang]
+    if lang == 'ar' and s in (60, 120):
+        return {60: 'دقيقة', 120: 'دقيقتين'}[s]
+    return t['min'].format(n=s // 60) if s % 60 == 0 else t['sec'].format(n=s)
+
+
+def low(lang, word):
+    """Mid-sentence form of a label: lower-cased where the language does that (keeps "EZ bar")."""
+    if not T[lang].get('lower_muscles') or word[1:2].isupper():
+        return word
+    if lang == 'tr':  # Turkish dotted/dotless i: İ→i, I→ı (Python's lower() gets İ wrong)
+        return {'İ': 'i', 'I': 'ı'}.get(word[0], word[0].lower()) + word[1:]
+    return word[0].lower() + word[1:]
+
 
 esc = html.escape
 
@@ -172,7 +162,24 @@ def join(items, t):
     items = list(items)
     if len(items) <= 1:
         return ''.join(items)
-    return t['list'].join(items[:-1]) + t['and'] + items[-1]
+    return t['list'].join(items[:-1]) + conj(t['and'], items[-1]) + items[-1]
+
+
+def conj(word, nxt):
+    """Spanish 'y' is 'e' before an i- sound, and 'o' is 'u' before an o- sound."""
+    w, n = word.strip(), nxt.lower()
+    if w == 'y' and (n.startswith('i') or n.startswith('hi')) and not n.startswith('hie'):
+        return word.replace('y', 'e')
+    if w == 'o' and (n.startswith('o') or n.startswith('ho')):
+        return word.replace('o', 'u')
+    return word
+
+
+def orjoin(parts, t):
+    out = parts[0]
+    for p in parts[1:]:
+        out += conj(t['or'], p) + p
+    return out
 
 
 def prefix(lang):
@@ -237,13 +244,16 @@ def equipment_text(e, t, lang):
             continue
         names = [EQUIP[lang].get(q['equipment'], q['equipment'].replace('_', ' '))]
         names += [EQUIP[lang].get(a, a.replace('_', ' ')) for a in q.get('alternatives', [])]
-        parts.append(t['or'].join(names))
+        parts.append(orjoin(names, t))
     return parts
 
 
 def shell(lang, url_path, title, desc, body, alternates, ld, og_image=None, og_type='article'):
     t = T[lang]
     head, foot = chrome(lang)
+    # The language menu goes to this same page in the other language, not to that language's home page.
+    for l, p in alternates:
+        head = head.replace(f'href="{prefix(l)}" hreflang="{l}"', f'href="{p}" hreflang="{l}"')
     url = BASE + url_path
     alts = '\n'.join(f'    <link rel="alternate" hreflang="{l}" href="{BASE}{p}" />' for l, p in alternates)
     img = f'\n    <meta property="og:image" content="{og_image}" />' if og_image else ''
@@ -304,7 +314,7 @@ def links(lang, slugs, built):
         else f'            <li>{esc(name(lang, s))}</li>' for s in slugs)
 
 
-def dose_table(e, t, nm):
+def dose_table(e, t, nm, lang):
     if e['tracking'] == 'duration':
         return f'''        <section class="ex-dose">
           <h2>{t['dose']}</h2>
@@ -315,7 +325,7 @@ def dose_table(e, t, nm):
         (lo, hi), rest = GOALS[goal][e['mechanic']]
         if not e['loadable']:
             lo, hi = UNLOADABLE
-        rows.append(f'            <tr><th scope="row">{t["goals"][goal]}</th><td><bdi dir="ltr">3–4</bdi></td><td><bdi dir="ltr">{lo}–{hi}</bdi></td><td>{t["rest_fmt"](rest)}</td></tr>')
+        rows.append(f'            <tr><th scope="row">{t["goals"][goal]}</th><td><bdi dir="ltr">3–4</bdi></td><td><bdi dir="ltr">{lo}–{hi}</bdi></td><td>{rest_text(lang, rest)}</td></tr>')
     return f'''        <section class="ex-dose">
           <h2>{t['dose']}</h2>
           <p>{esc(t['dose_p' if e['loadable'] else 'dose_p_bw'].format(name=nm))}</p>
@@ -338,12 +348,11 @@ def exercise_page(slug, lang, built):
     eq_s = eq
     if lang == 'en':
         # Mid-sentence: "a barbell and a squat rack or power rack", but "an EZ bar" keeps its capitals.
-        low = lambda x: x if x[1:2].isupper() else x[0].lower() + x[1:]
         art = lambda x: '' if x.endswith('s') else ('an ' if x[0] in 'aeiouAEIOU' else 'a ')
-        eq_s = [art(x) + t['or'].join(low(p) for p in x.split(t['or'])) for x in eq]
+        eq_s = [art(x) + t['or'].join(low(lang, p) for p in x.split(t['or'])) for x in eq]
     intro = (t['intro'] if eq else t['intro_bw']).format(
         level=t['level'][e['difficulty']], mechanic=t['mechanic'][e['mechanic']],
-        primary=join([p if lang != 'en' else p.lower() for p in prim], t), equipment=join(eq_s, t))
+        primary=join([low(lang, p) for p in prim], t), equipment=join(eq_s, t))
     if lang == 'en':
         intro = ('An ' if intro[2] in 'aeiou' else 'A ') + intro[2:]
     steps = STEPS[lang].get(slug) or STEPS['en'][slug]
@@ -398,13 +407,13 @@ def exercise_page(slug, lang, built):
           </aside>
         </div>
 
-{dose_table(e, t, nm)}
+{dose_table(e, t, nm, lang)}
 
 {cta(t)}
 {groups}
 
         <p class="meta disclaimer">{t['disclaimer']}</p>'''
-    desc = t['desc'].format(name=nm, muscles=join(prim + sec[:2], t))
+    desc = t['desc'].format(name=nm, muscles=join([low(lang, m) for m in prim + sec[:2]], t))
     return shell(lang, path(lang, slug), t['title'].format(name=nm), desc, body,
                  [(l, path(l, slug)) for l in LANGS], ld, f'{BASE}/img/exercises/{slug}.webp')
 
@@ -430,15 +439,17 @@ def exercise_list(lang, slugs):
 def muscle_page(muscle, slugs, lang):
     t = T[lang]
     mn = MUSCLE[lang][muscle]
-    title = t['m_title'].format(muscle=mn)
-    intro = t['m_p'].format(n=len(slugs), muscle_l=mn if lang != 'en' else mn.lower())
+    # Mid-sentence the muscle takes the language's lower case ("Ejercicios de pecho"); first word keeps its capital.
+    mfmt = lambda key: t[key].format(muscle=mn if t[key].startswith('{muscle}') else low(lang, mn))
+    title = mfmt('m_title')
+    intro = t['m_p'].format(n=len(slugs), muscle=low(lang, mn), muscle_l=low(lang, mn))
     ld = {'@context': 'https://schema.org', '@graph': [
-        {'@type': 'CollectionPage', 'name': t['m_h1'].format(muscle=mn), 'inLanguage': lang, 'description': intro},
+        {'@type': 'CollectionPage', 'name': mfmt('m_h1'), 'inLanguage': lang, 'description': intro},
         {'@type': 'BreadcrumbList', 'itemListElement': [
             {'@type': 'ListItem', 'position': 1, 'name': t['crumbs'], 'item': BASE + prefix(lang) + 'exercises/'},
             {'@type': 'ListItem', 'position': 2, 'name': mn, 'item': BASE + mpath(lang, muscle)}]}]}
     body = f'''        <nav class="crumbs" aria-label="breadcrumb"><a href="{prefix(lang)}exercises/">{t['crumbs']}</a></nav>
-        <h1>{esc(t['m_h1'].format(muscle=mn))}</h1>
+        <h1>{esc(mfmt('m_h1'))}</h1>
         <p class="lede">{esc(intro)}</p>
         <ul class="ex-list">
 {exercise_list(lang, slugs)}
