@@ -12,7 +12,8 @@ Reads the app release tree at ../fitbud-viral (override with FITBUD=...). Writes
     exercises/index.html                 all published exercises, by muscle
     exercises/muscle/<muscle>/index.html exercises for one muscle
     exercises/<slug>/index.html          the exercise
-    img/exercises/<slug>.mp4|.webp       the animation and its poster (shared)
+    img/exercises/<slug>.mp4|.webp       the animation and its poster (shared): web copies,
+                                         720 px wide with the Grasp logo in the corner
 
 and rewrites the exercise block in sitemap.xml.
 
@@ -25,12 +26,15 @@ Keep that bar when adding anything: a page that only swaps the name in is the
 Animations are RepDB, licensed for Grasp's own pages: one clip per page, inside
 our own layout and text. Hub pages list names only, never a gallery of clips:
 the licence forbids anything that works as a browsable catalogue of the assets.
+The web gets smaller, logo-marked copies, never the app's originals, so a scraped
+clip is less useful and still says where it came from.
 """
 import html
 import json
 import os
 import re
 import shutil
+import subprocess
 import sys
 
 SITE = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -42,6 +46,8 @@ ENGINE = os.path.join(APP, 'packages', 'fitness-engine', 'src', 'config', 'index
 BASE = 'https://grasp.alsouq.tech'
 APPSTORE = 'https://apps.apple.com/app/id6804474068'
 PLAY = 'https://play.google.com/store/apps/details?id=com.graspapp.mobile'
+WATERMARK = os.path.join(SITE, 'build', 'watermark.png')  # python build/watermark.py
+WEB_W = 720
 
 # Same order as the site's language switcher.
 ALL_LANGS = ['en', 'ar', 'fr', 'de', 'es', 'it', 'tr', 'pl', 'ru', 'hi', 'zh', 'ko', 'ja', 'id', 'pt']
@@ -418,7 +424,7 @@ def exercise_page(slug, lang, built):
         <p class="lede">{esc(intro)}</p>
 
         <figure class="ex-demo">
-          <video autoplay muted loop playsinline preload="metadata" poster="/img/exercises/{slug}.webp" aria-label="{esc(t['video'].format(name=nm))}" width="1056" height="480">
+          <video autoplay muted loop playsinline preload="metadata" poster="/img/exercises/{slug}.webp" aria-label="{esc(t['video'].format(name=nm))}" width="720" height="328">
             <source src="/img/exercises/{slug}.mp4" type="video/mp4" />
           </video>
         </figure>
@@ -541,6 +547,22 @@ def sitemap(paths):
         f.write(text)
 
 
+def web_copy(slug):
+    """The clip and its poster for the web: 720 px wide, Grasp logo bottom right.
+    Skipped when the copy is newer than both the app's clip and the logo."""
+    out = os.path.join(SITE, 'img', 'exercises', slug)
+    newest = max(os.path.getmtime(os.path.join(ANIM, f'{slug}.mp4')), os.path.getmtime(WATERMARK))
+    if all(os.path.exists(f'{out}.{x}') and os.path.getmtime(f'{out}.{x}') > newest for x in ('mp4', 'webp')):
+        return
+    mark = f'[0:v]scale={WEB_W}:-2:flags=lanczos[v];[v][1:v]overlay=W-w-18:H-h-16'
+    run = ['ffmpeg', '-v', 'error', '-y']
+    subprocess.run(run + ['-i', os.path.join(ANIM, f'{slug}.mp4'), '-i', WATERMARK,
+                          '-filter_complex', mark + ',format=yuv420p', '-c:v', 'libx264', '-crf', '26',
+                          '-preset', 'slow', '-an', '-movflags', '+faststart', f'{out}.mp4'], check=True)
+    subprocess.run(run + ['-i', os.path.join(ANIM, f'{slug}.webp'), '-i', WATERMARK,
+                          '-filter_complex', mark, '-c:v', 'libwebp', '-quality', '80', f'{out}.webp'], check=True)
+
+
 def main(slugs):
     if not slugs:
         pool = [s for s, e in LIB.items() if e.get('active', True) and has_anim(s) and not is_cardio(s)]
@@ -554,8 +576,7 @@ def main(slugs):
         if f.rsplit('.', 1)[0] not in built:  # never leave clips online that no page shows
             os.remove(os.path.join(SITE, 'img', 'exercises', f))
     for slug in slugs:
-        for ext in ('mp4', 'webp'):
-            shutil.copyfile(os.path.join(ANIM, f'{slug}.{ext}'), os.path.join(SITE, 'img', 'exercises', f'{slug}.{ext}'))
+        web_copy(slug)
     groups = by_muscle(built)
     HUBS.clear()
     HUBS.update(groups)
