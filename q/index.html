@@ -1,0 +1,217 @@
+<!doctype html>
+<!--
+  grasp.alsouq.tech/q/?u=<username> — «اسألني» on the web (owner, 2026-10-31:
+  "people can use it without the app, online"). The link a coach puts in
+  their Instagram or TikTok bio.
+
+  Anyone asks the coach without an account, anonymously or with a name they
+  type; the coach answers in the app, and the answers show here and on their
+  page in Grasp. Five questions an hour from one address at most, and a coach
+  can block an address (public.ask_coach).
+
+  The coach and the answers are read through public.coach_by_username and
+  public.coach_answers with the publishable key; everything people wrote is
+  set with textContent, never as HTML.
+
+  Hand-written, not generated: build/build.py does not touch this folder.
+-->
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Ask me · Grasp</title>
+    <meta name="description" content="Ask a Grasp coach anything about training, anonymously." />
+    <meta property="og:title" content="Ask me anything 💪" />
+    <meta property="og:description" content="Ask a coach on Grasp, anonymously. Their answers are right here." />
+    <meta property="og:image" content="https://grasp.alsouq.tech/img/screens/en/home.webp" />
+    <link rel="icon" href="/favicon.png" />
+    <link rel="stylesheet" href="/style.css" />
+    <style>
+      .q { min-height: 100vh; display: grid; place-items: start center; padding: 48px 16px 40px; }
+      .q-card { display: grid; gap: 18px; width: 100%; max-width: 30rem; }
+      .q-head { display: grid; gap: 8px; justify-items: center; text-align: center; }
+      .q-avatar { width: 84px; height: 84px; border-radius: 50%; display: grid; place-items: center;
+        background: var(--accent, #c6f432); color: var(--on-accent, #0d0e10); font-size: 2.2rem; font-weight: 800; }
+      .q-head h1 { margin: 0; font-size: 1.6rem; line-height: 1.25; overflow-wrap: anywhere; }
+      .q-head p { margin: 0; color: var(--muted, #8a8f95); overflow-wrap: anywhere; }
+      .q-box { display: grid; gap: 10px; padding: 14px; border-radius: 18px; background: var(--surface, #17191c); }
+      .q-box textarea, .q-box input { width: 100%; box-sizing: border-box; border: 0; border-radius: 12px; padding: 12px 14px;
+        font: inherit; color: inherit; background: var(--bg, #0d0e10); resize: vertical; }
+      .q-box textarea { min-height: 96px; }
+      .q-send { border: 0; border-radius: 999px; padding: 14px 18px; font: inherit; font-weight: 700; cursor: pointer;
+        background: var(--accent, #c6f432); color: var(--on-accent, #0d0e10); }
+      .q-send[disabled] { opacity: 0.5; cursor: default; }
+      .q-msg { margin: 0; text-align: center; }
+      .q-answers { display: grid; gap: 12px; }
+      .q-answers h2 { margin: 6px 0 0; font-size: 1.15rem; }
+      .q-item { display: grid; gap: 6px; padding: 14px; border-radius: 18px; background: var(--surface, #17191c); }
+      .q-who { margin: 0; font-size: 0.85rem; color: var(--muted, #8a8f95); }
+      .q-ask { margin: 0; font-weight: 700; overflow-wrap: anywhere; }
+      .q-ans { margin: 0; padding-inline-start: 10px; border-inline-start: 3px solid var(--accent, #c6f432); overflow-wrap: anywhere; white-space: pre-wrap; }
+      .q-app { display: grid; gap: 10px; justify-items: center; text-align: center; margin-top: 8px; }
+      .q-app p { margin: 0; color: var(--muted, #8a8f95); }
+      .q-open { display: block; width: 100%; text-align: center; padding: 14px 18px; border-radius: 999px; font-weight: 700;
+        text-decoration: none; border: 1px solid var(--accent, #c6f432); color: inherit; }
+      .q-badges { display: flex; flex-wrap: wrap; gap: 12px; justify-content: center; align-items: center; }
+      .q-badges img { height: 50px; width: auto; }
+      .q-badges .play img { height: 74px; margin: -12px; }
+      [hidden] { display: none !important; }
+    </style>
+    <script>
+      (function () {
+        if (/^ar\b/i.test(navigator.language || '')) {
+          document.documentElement.lang = 'ar';
+          document.documentElement.dir = 'rtl';
+        }
+      })();
+    </script>
+    <script src="/theme.js"></script>
+  </head>
+  <body>
+    <main class="q">
+      <div class="q-card">
+        <div class="q-head">
+          <div class="q-avatar" id="initial" aria-hidden="true">G</div>
+          <h1 id="title" data-en="Ask me" data-ar="اسألني">Ask me</h1>
+          <p id="bio" hidden></p>
+        </div>
+
+        <form class="q-box" id="form" hidden>
+          <textarea id="body" maxlength="300" required aria-label="Your question" data-en-ph="Write your question… anonymously" data-ar-ph="اكتب سؤالك… بدون اسمك"></textarea>
+          <input id="name" maxlength="30" autocomplete="nickname" data-en-ph="Your name (optional)" data-ar-ph="اسمك (اختياري)" />
+          <button class="q-send" id="send" type="submit" data-en="Send" data-ar="أرسل">Send</button>
+          <p class="q-msg" id="msg" hidden></p>
+        </form>
+
+        <section class="q-answers" id="answers" hidden>
+          <h2 data-en="Answers" data-ar="الأجوبة">Answers</h2>
+        </section>
+
+        <div class="q-app">
+          <a class="q-open" id="open" href="#" hidden data-en="Open their page in Grasp" data-ar="افتح صفحته في Grasp">Open their page in Grasp</a>
+          <p data-en="Grasp is the free workout app. Train with their programs." data-ar="Grasp تطبيق تمارين مجاني. تمرّن على برامجه.">Grasp is the free workout app. Train with their programs.</p>
+          <div class="q-badges">
+            <a class="store-badge" id="ios" href="https://apps.apple.com/app/id6804474068" aria-label="Download Grasp on the App Store"><img src="/img/app-store-badge.svg" alt="Download on the App Store" width="180" height="60" /></a>
+            <a class="store-badge play" id="android" href="https://play.google.com/store/apps/details?id=com.graspapp.mobile" aria-label="Get Grasp on Google Play"><img src="/img/google-play-badge.png" alt="Get it on Google Play" width="231" height="89" /></a>
+          </div>
+        </div>
+        <p class="q-msg" id="gone" hidden></p>
+      </div>
+    </main>
+    <script>
+      (function () {
+        var ar = document.documentElement.lang === 'ar';
+        var API = 'https://krwwhpdetdcqimaqwphd.supabase.co/rest/v1/rpc/';
+        var KEY = 'sb_publishable__b43F0Q1LeDY5eWRQPxAOw_-aAi59eD';
+        var say = function (en, arText) { return ar ? arText : en; };
+        document.querySelectorAll('[data-en]').forEach(function (el) {
+          el.textContent = el.getAttribute(ar ? 'data-ar' : 'data-en');
+        });
+        document.querySelectorAll('[data-en-ph]').forEach(function (el) {
+          el.placeholder = el.getAttribute(ar ? 'data-ar-ph' : 'data-en-ph');
+        });
+
+        var ua = navigator.userAgent || '';
+        var ios = /iPhone|iPad|iPod/.test(ua) || (/Macintosh/.test(ua) && navigator.maxTouchPoints > 1);
+        if (ios) document.getElementById('android').hidden = true;
+        if (/Android/i.test(ua)) document.getElementById('ios').hidden = true;
+
+        var rpc = function (name, body) {
+          return fetch(API + name, {
+            method: 'POST',
+            headers: { apikey: KEY, 'Content-Type': 'application/json' },
+            body: JSON.stringify(body),
+          }).then(function (r) { return r.ok ? r.json() : null; });
+        };
+
+        var gone = document.getElementById('gone');
+        var user = (new URLSearchParams(location.search).get('u') || '').replace(/^@/, '').trim();
+        if (!/^[A-Za-z0-9._]{2,30}$/.test(user)) {
+          gone.textContent = say('This link is incomplete.', 'هذا الرابط ناقص.');
+          gone.hidden = false;
+          return;
+        }
+
+        rpc('coach_by_username', { p_username: user })
+          .then(function (coach) {
+            if (!coach || !coach.coach) {
+              gone.textContent = say('This coach page is not on Grasp any more.', 'صفحة المدرب هذي ما عادت موجودة.');
+              gone.hidden = false;
+              return;
+            }
+            var name = (coach.name || '').trim() || '@' + user;
+            document.getElementById('initial').textContent = name.charAt(0).toUpperCase();
+            document.getElementById('title').textContent = say('Ask ' + name, 'اسأل ' + name);
+            document.title = say('Ask ' + name, 'اسأل ' + name) + ' · Grasp';
+            if (coach.bio) {
+              var bio = document.getElementById('bio');
+              bio.textContent = coach.bio;
+              bio.hidden = false;
+            }
+            var open = document.getElementById('open');
+            open.href = 'grasp://author/u:' + coach.coach;
+            open.hidden = false;
+
+            var form = document.getElementById('form');
+            var body = document.getElementById('body');
+            var send = document.getElementById('send');
+            var msg = document.getElementById('msg');
+            form.hidden = false;
+            form.addEventListener('submit', function (e) {
+              e.preventDefault();
+              var text = body.value.trim();
+              if (text.length < 2) {
+                msg.textContent = say('Write your question first.', 'اكتب سؤالك أول.');
+                msg.hidden = false;
+                return;
+              }
+              send.disabled = true;
+              rpc('ask_coach', { p_coach: coach.coach, p_body: text, p_show_name: false, p_name: document.getElementById('name').value })
+                .then(function (result) {
+                  send.disabled = false;
+                  if (result === 'ok') {
+                    body.value = '';
+                    msg.textContent = say('Your question is in. Their answer will show here.', 'وصل سؤالك. جوابه بيطلع هنا.');
+                  } else if (result === 'slow') {
+                    msg.textContent = say('That’s a lot of questions. Try again in a bit.', 'أرسلت أسئلة كثير. جرّب بعد شوي.');
+                  } else {
+                    msg.textContent = say('That did not go through. Try again.', 'ما وصل. جرّب مرة ثانية.');
+                  }
+                  msg.hidden = false;
+                })
+                .catch(function () {
+                  send.disabled = false;
+                  msg.textContent = say('That did not go through. Try again.', 'ما وصل. جرّب مرة ثانية.');
+                  msg.hidden = false;
+                });
+            });
+
+            return rpc('coach_answers', { p_coach: coach.coach, p_limit: 30 }).then(function (answers) {
+              if (!Array.isArray(answers) || answers.length === 0) return;
+              var list = document.getElementById('answers');
+              answers.forEach(function (a) {
+                var item = document.createElement('article');
+                item.className = 'q-item';
+                var who = document.createElement('p');
+                who.className = 'q-who';
+                who.textContent = a.asker_name || say('Anonymous', 'مجهول');
+                var ask = document.createElement('p');
+                ask.className = 'q-ask';
+                ask.textContent = a.body || '';
+                var ans = document.createElement('p');
+                ans.className = 'q-ans';
+                ans.textContent = a.answer || '';
+                item.appendChild(who);
+                item.appendChild(ask);
+                item.appendChild(ans);
+                list.appendChild(item);
+              });
+              list.hidden = false;
+            });
+          })
+          .catch(function () {});
+      })();
+    </script>
+    <script src="/hit.js"></script>
+  </body>
+</html>

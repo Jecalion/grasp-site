@@ -392,6 +392,15 @@
         WhatsApp can open a chat. A coach can ask for a verified tick, which we give by hand.
       </p>
       <p>
+        <strong>Questions to a coach.</strong> Anyone can ask a coach a question from the coach's page in the
+        app or on the web (“Ask me”). Questions are anonymous unless a signed-in asker turns on “Show my
+        name”, or a web asker types a name. The coach sees the question; only the ones the coach answers are
+        shown, with the answer, on the coach's page for everyone. For a question asked on the web we keep a
+        one-way hash of the internet address it came from, mixed with the coach, so we can limit how many
+        questions one address sends and let the coach block it; the address itself is not kept. A signed-in
+        asker is told in the app when their question is answered. The coach can remove any question.
+      </p>
+      <p>
         <strong>Clients.</strong> A coach invites a client with a link. Nothing is shared until the client
         opens it and agrees. From then on, that coach — and only that coach — can see the client's
         workouts (when, which exercises, sets, reps and weights), records, and how many workouts they did
