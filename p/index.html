@@ -1,0 +1,280 @@
+<!doctype html>
+<!--
+  grasp.alsouq.tech/p/?id=<plan id> — a program someone published in Grasp.
+
+  The page an author shares: on Instagram, in a bio, on WhatsApp. Shows the
+  cover, the title, who made it and how many follow them, the days and their
+  exercises, and more from the same author; then "Open in Grasp"
+  (grasp://plan/<id>, the program's screen in the app) and the store badges
+  for anyone who does not have the app yet.
+
+  Read through public.get_plan, author_page and author_plans with the
+  publishable key, the same one the app ships with. Everything people wrote
+  is set with textContent, never as HTML.
+
+  Hand-written, not generated: build/build.py does not touch this folder.
+-->
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>A program on Grasp</title>
+    <meta name="description" content="A workout program on Grasp, the free workout app. Open it in Grasp to start it." />
+    <meta property="og:title" content="A workout program on Grasp 💪" />
+    <meta property="og:description" content="Open it in Grasp and start it today. Free on iPhone and Android." />
+    <meta property="og:image" content="https://grasp.alsouq.tech/img/screens/en/home.webp" />
+    <link rel="icon" href="/favicon.png" />
+    <link rel="stylesheet" href="/style.css" />
+    <style>
+      .p { min-height: 100vh; display: grid; place-items: start center; padding: 24px 16px 48px; }
+      .p-card { display: grid; gap: 18px; width: 100%; max-width: 32rem; }
+      .p-cover { width: 100%; aspect-ratio: 4 / 3; border-radius: 18px; object-fit: cover; object-position: top;
+        background: var(--surface, #16181b); }
+      .p-kind { margin: 0; color: var(--muted, #8a8f95); font-size: 0.85rem; }
+      .p-card h1 { margin: 2px 0 0; font-size: 1.8rem; line-height: 1.2; overflow-wrap: anywhere; }
+      .p-author { display: flex; gap: 10px; align-items: center; }
+      .p-author .a { width: 36px; height: 36px; border-radius: 50%; display: grid; place-items: center; flex: none;
+        background: var(--accent-muted, #2a3a10); color: var(--accent, #c6f84e); font-weight: 800; }
+      .p-author b { display: block; overflow-wrap: anywhere; }
+      .p-author span { color: var(--muted, #8a8f95); font-size: 0.85rem; }
+      .p-facts { display: flex; flex-wrap: wrap; gap: 8px; margin: 0; padding: 0; list-style: none; }
+      .p-facts li { margin: 0; padding: 6px 12px; border-radius: 999px; background: var(--surface, #16181b); font-size: 0.9rem; }
+      .p-about { margin: 0; white-space: pre-line; overflow-wrap: anywhere; }
+      .p-list { list-style: none; margin: 0; padding: 0; border: 1px solid var(--border, #2a2d31); border-radius: 14px; overflow: hidden; }
+      .p-list li { margin: 0; display: flex; gap: 12px; justify-content: space-between; align-items: baseline; padding: 12px 16px; }
+      .p-list li + li { border-top: 1px solid var(--border, #2a2d31); }
+      .p-list li.h { background: var(--surface, #16181b); font-weight: 700; }
+      .p-list .n { overflow-wrap: anywhere; }
+      .p-list .s { color: var(--muted, #8a8f95); white-space: nowrap; font-variant-numeric: tabular-nums; direction: ltr; unicode-bidi: isolate; }
+      .p-open { display: block; width: 100%; text-align: center; padding: 15px 18px; border-radius: 999px; font-weight: 700;
+        text-decoration: none; background: var(--accent, #c6f84e); color: var(--on-accent, #0d0e10); }
+      .p-sticky { position: sticky; bottom: 12px; }
+      .p-get { display: grid; gap: 10px; justify-items: center; text-align: center; }
+      .p-get p { margin: 0; color: var(--muted, #8a8f95); }
+      .p-badges { display: flex; flex-wrap: wrap; gap: 12px; justify-content: center; align-items: center; }
+      .p-badges img { height: 50px; width: auto; }
+      .p-badges .play img { height: 74px; margin: -12px; }
+      .p-more { display: grid; gap: 10px; }
+      .p-more h2 { margin: 8px 0 0; font-size: 1.15rem; }
+      .p-more a { display: flex; gap: 12px; align-items: center; padding: 10px; border-radius: 14px; background: var(--surface, #16181b);
+        color: inherit; text-decoration: none; }
+      .p-more img { width: 64px; height: 64px; border-radius: 10px; object-fit: cover; flex: none; background: var(--border, #2a2d31); }
+      .p-more span { color: var(--muted, #8a8f95); font-size: 0.85rem; display: block; }
+      .p-msg { margin: 0; color: var(--muted, #8a8f95); }
+      [hidden] { display: none !important; }
+    </style>
+    <script>
+      (function () {
+        if (/^ar\b/i.test(navigator.language || '')) {
+          document.documentElement.lang = 'ar';
+          document.documentElement.dir = 'rtl';
+        }
+      })();
+    </script>
+    <script src="/theme.js"></script>
+  </head>
+  <body>
+    <main class="p">
+      <div class="p-card">
+        <img class="p-cover" id="cover" alt="" hidden />
+        <div>
+          <p class="p-kind" id="kind" data-en="A program on Grasp" data-ar="برنامج على Grasp">A program on Grasp</p>
+          <h1 id="title">…</h1>
+        </div>
+        <div class="p-author" id="author" hidden>
+          <div class="a" id="initial" aria-hidden="true"></div>
+          <div><b id="authorName"></b><span id="followers"></span></div>
+        </div>
+        <ul class="p-facts" id="facts" hidden></ul>
+        <p class="p-about" id="about" hidden></p>
+        <p class="p-msg" id="msg" hidden></p>
+        <ul class="p-list" id="list" hidden></ul>
+
+        <div class="p-sticky">
+          <a class="p-open" id="open" href="#" hidden data-en="Open in Grasp and start it" data-ar="افتحه في Grasp وابدأه">Open in Grasp and start it</a>
+        </div>
+
+        <div class="p-get">
+          <p data-en="Don't have Grasp? It's free, with no ads." data-ar="ما عندك Grasp؟ مجاني وبدون إعلانات.">Don't have Grasp? It's free, with no ads.</p>
+          <div class="p-badges">
+            <a class="store-badge" id="ios" href="https://apps.apple.com/app/id6804474068" aria-label="Download Grasp on the App Store"><img src="/img/app-store-badge.svg" alt="Download on the App Store" width="180" height="60" /></a>
+            <a class="store-badge play" id="android" href="https://play.google.com/store/apps/details?id=com.graspapp.mobile" aria-label="Get Grasp on Google Play"><img src="/img/google-play-badge.png" alt="Get it on Google Play" width="231" height="89" /></a>
+          </div>
+        </div>
+
+        <section class="p-more" id="more" hidden>
+          <h2 id="moreTitle"></h2>
+        </section>
+      </div>
+    </main>
+    <script>
+      (function () {
+        var ar = document.documentElement.lang === 'ar';
+        if (ar) {
+          document.querySelectorAll('[data-ar]').forEach(function (el) {
+            el.textContent = el.getAttribute('data-ar');
+          });
+        }
+
+        var ua = navigator.userAgent || '';
+        var ios = /iPhone|iPad|iPod/.test(ua) || (/Macintosh/.test(ua) && navigator.maxTouchPoints > 1);
+        var android = /Android/i.test(ua);
+        if (ios) document.getElementById('android').hidden = true;
+        if (android) document.getElementById('ios').hidden = true;
+
+        var BASE = 'https://krwwhpdetdcqimaqwphd.supabase.co';
+        var KEY = 'sb_publishable__b43F0Q1LeDY5eWRQPxAOw_-aAi59eD';
+        function rpc(name, body) {
+          return fetch(BASE + '/rest/v1/rpc/' + name, {
+            method: 'POST',
+            headers: { apikey: KEY, 'Content-Type': 'application/json' },
+            body: JSON.stringify(body),
+          }).then(function (r) { return r.ok ? r.json() : null; });
+        }
+        function coverUrl(path) {
+          return path ? BASE + '/storage/v1/object/public/plan-covers/' + path.split('/').map(encodeURIComponent).join('/') : null;
+        }
+        function el(tag, text, cls) {
+          var e = document.createElement(tag);
+          if (text != null) e.textContent = text;
+          if (cls) e.className = cls;
+          return e;
+        }
+
+        var title = document.getElementById('title');
+        var msg = document.getElementById('msg');
+        function say(en, arText) {
+          title.textContent = '';
+          msg.textContent = ar ? arText : en;
+          msg.hidden = false;
+        }
+
+        var id = (new URLSearchParams(location.search).get('id') || '').toLowerCase();
+        if (!/^[0-9a-f-]{36}$/.test(id)) {
+          say('This link is incomplete.', 'هذا الرابط ناقص.');
+          return;
+        }
+        var open = document.getElementById('open');
+        open.href = 'grasp://plan/' + id;
+
+        var LEVEL = {
+          beginner: ['Beginner', 'مبتدئ'],
+          intermediate: ['Intermediate', 'متوسط'],
+          advanced: ['Advanced', 'متقدم'],
+        };
+
+        Promise.all([rpc('get_plan', { p_id: id }), rpc('author_page', { p_plan: id }), rpc('author_plans', { p_plan: id })])
+          .then(function (got) {
+            var row = Array.isArray(got[0]) ? got[0][0] : got[0];
+            if (!row || !row.payload) {
+              say('This program is not available any more.', 'هذا البرنامج ما عاد متاح.');
+              return;
+            }
+            var page = got[1];
+            var others = Array.isArray(got[2]) ? got[2].filter(function (p) { return p.id !== id; }) : [];
+            var program = row.kind === 'program';
+
+            title.textContent = String(row.title || '');
+            document.title = String(row.title || 'Program') + ' · Grasp';
+            if (!program) document.getElementById('kind').textContent = ar ? 'روتين على Grasp' : 'A routine on Grasp';
+            open.hidden = false;
+
+            var cover = coverUrl(row.cover_path);
+            if (cover) {
+              var img = document.getElementById('cover');
+              img.src = cover;
+              img.hidden = false;
+            }
+
+            var name = String((page && page.name) || row.author || '').trim();
+            if (name) {
+              document.getElementById('initial').textContent = name.charAt(0).toUpperCase();
+              document.getElementById('authorName').textContent = name;
+              var n = page ? Number(page.followers) || 0 : 0;
+              document.getElementById('followers').textContent = ar ? n + ' متابع' : n + (n === 1 ? ' follower' : ' followers');
+              document.getElementById('author').hidden = false;
+            }
+
+            var facts = document.getElementById('facts');
+            var days = Number(row.days_per_week) || 0;
+            var weeks = Number(row.weeks) || 0;
+            var minutes = Number(row.minutes) || 0;
+            var level = LEVEL[row.level];
+            [
+              days ? (ar ? days + ' أيام بالأسبوع' : days + ' days a week') : null,
+              program && weeks ? (ar ? weeks + ' أسابيع' : weeks + ' weeks') : null,
+              minutes ? (ar ? minutes + ' دقيقة' : minutes + ' min') : null,
+              level ? level[ar ? 1 : 0] : null,
+              row.saves ? (ar ? row.saves + ' حفظوه' : row.saves + ' saved') : null,
+            ].forEach(function (f) {
+              if (f) facts.appendChild(el('li', f));
+            });
+            facts.hidden = facts.children.length === 0;
+
+            if (row.description) {
+              var about = document.getElementById('about');
+              about.textContent = String(row.description);
+              about.hidden = false;
+            }
+
+            // The days and their exercises: a program is a folder of routines, a routine is one day.
+            var payload = row.payload;
+            var routines = payload.kind === 'folder' && Array.isArray(payload.routines) ? payload.routines : [payload];
+            var list = document.getElementById('list');
+            routines.slice(0, 14).forEach(function (r) {
+              if (!r || !Array.isArray(r.exercises)) return;
+              if (routines.length > 1) {
+                var h = el('li', null, 'h');
+                h.appendChild(el('span', String(r.name || ''), 'n'));
+                var c = r.exercises.length;
+                h.appendChild(el('span', ar ? c + ' تمارين' : c + (c === 1 ? ' exercise' : ' exercises'), 's'));
+                list.appendChild(h);
+              }
+              r.exercises.slice(0, 40).forEach(function (e) {
+                var li = el('li');
+                li.appendChild(el('span', String(e.name || ''), 'n'));
+                var sets = Number(e.sets) || 1;
+                var detail;
+                if (e.durationSeconds) {
+                  var sec = Number(e.durationSeconds);
+                  detail = sets + ' × ' + (sec < 60 ? sec + 's' : Math.round(sec / 60) + ' min');
+                } else {
+                  var lo = Number(e.repMin), hi = Number(e.repMax);
+                  detail = sets + ' × ' + (lo === hi ? lo : lo + '–' + hi);
+                }
+                li.appendChild(el('span', detail, 's'));
+                list.appendChild(li);
+              });
+            });
+            list.hidden = list.children.length === 0;
+
+            // More from the same author: each a page of its own.
+            if (others.length > 0 && name) {
+              var more = document.getElementById('more');
+              document.getElementById('moreTitle').textContent = ar ? 'برامج ثانية من ' + name : 'More from ' + name;
+              others.slice(0, 6).forEach(function (p) {
+                var a = el('a');
+                a.href = '/p/?id=' + encodeURIComponent(p.id);
+                var thumb = el('img');
+                thumb.alt = '';
+                var u = coverUrl(p.cover_path);
+                if (u) thumb.src = u;
+                a.appendChild(thumb);
+                var text = el('div');
+                text.appendChild(el('b', String(p.title || '')));
+                var d = Number(p.days_per_week) || 0;
+                text.appendChild(el('span', d ? (ar ? d + ' أيام بالأسبوع' : d + ' days a week') : ''));
+                a.appendChild(text);
+                more.appendChild(a);
+              });
+              more.hidden = false;
+            }
+          })
+          .catch(function () {
+            say('Could not load the program. Check your connection and refresh.', 'تعذّر تحميل البرنامج. تأكد من الاتصال وحدّث الصفحة.');
+          });
+      })();
+    </script>
+    <script src="/hit.js"></script>
+  </body>
+</html>
