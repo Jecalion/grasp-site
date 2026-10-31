@@ -4,14 +4,21 @@
   "people can use it without the app, online"). The link a coach puts in
   their Instagram or TikTok bio.
 
+  The coach's page in one scroll (owner, 2026-10-31: "show the coach profile
+  and some teaser of the programs and his متجر"): their photos and who they
+  are, the ask box right after, the latest answers, a few programs (each opens
+  its own page) and their store, whose codes copy right here.
+
   Anyone asks the coach without an account, anonymously or with a name they
   type; the coach answers in the app, and the answers show here and on their
   page in Grasp. Five questions an hour from one address at most, and a coach
   can block an address (public.ask_coach).
 
-  The coach and the answers are read through public.coach_by_username and
-  public.coach_answers with the publishable key; everything people wrote is
-  set with textContent, never as HTML.
+  Read with the publishable key through public.coach_by_username,
+  author_page_for, author_plans_for, coach_items and coach_answers; a store
+  tap is counted with tap_coach_item, as in the app. Everything people wrote
+  is set with textContent, never as HTML. Character avatars are copies of the
+  app's (img/avatars).
 
   Hand-written, not generated: build/build.py does not touch this folder.
 -->
@@ -22,19 +29,31 @@
     <title>Ask me · Grasp</title>
     <meta name="description" content="Ask a Grasp coach anything about training, anonymously." />
     <meta property="og:title" content="Ask me anything 💪" />
-    <meta property="og:description" content="Ask a coach on Grasp, anonymously. Their answers are right here." />
+    <meta property="og:description" content="Ask a coach on Grasp, anonymously. Their answers, programs and store are right here." />
     <meta property="og:image" content="https://grasp.alsouq.tech/img/screens/en/home.webp" />
     <link rel="icon" href="/favicon.png" />
     <link rel="stylesheet" href="/style.css" />
     <style>
-      .q { min-height: 100vh; display: grid; place-items: start center; padding: 48px 16px 40px; }
-      .q-card { display: grid; gap: 18px; width: 100%; max-width: 30rem; }
-      .q-head { display: grid; gap: 8px; justify-items: center; text-align: center; }
-      .q-avatar { width: 84px; height: 84px; border-radius: 50%; display: grid; place-items: center;
-        background: var(--accent, #c6f432); color: var(--on-accent, #0d0e10); font-size: 2.2rem; font-weight: 800; }
-      .q-head h1 { margin: 0; font-size: 1.6rem; line-height: 1.25; overflow-wrap: anywhere; }
-      .q-head p { margin: 0; color: var(--muted, #8a8f95); overflow-wrap: anywhere; }
+      .q { min-height: 100vh; display: grid; place-items: start center; padding: 0 0 40px; }
+      .q-card { display: grid; gap: 22px; width: 100%; max-width: 30rem; }
+      .q-pad { padding: 0 16px; }
+      .q-photos { display: flex; overflow-x: auto; scroll-snap-type: x mandatory; gap: 6px; height: 240px;
+        scrollbar-width: none; background: var(--surface, #17191c); }
+      .q-photos::-webkit-scrollbar { display: none; }
+      .q-photos img { flex: 0 0 82%; height: 100%; object-fit: cover; scroll-snap-align: center; }
+      .q-photos img:only-child { flex-basis: 100%; }
+      .q-head { display: grid; gap: 6px; justify-items: center; text-align: center; padding-top: 40px; }
+      .q-photos:not([hidden]) + .q-head { margin-top: -54px; padding-top: 0; }
+      .q-avatar { width: 96px; height: 96px; border-radius: 50%; display: grid; place-items: center; overflow: hidden;
+        background: var(--accent, #c6f432); color: var(--on-accent, #0d0e10); font-size: 2.4rem; font-weight: 800;
+        border: 4px solid var(--bg, #0d0e10); position: relative; }
+      .q-avatar img { width: 100%; height: 100%; object-fit: cover; }
+      .q-head h1 { margin: 6px 0 0; font-size: 1.6rem; line-height: 1.25; overflow-wrap: anywhere; }
+      .q-tick { color: var(--accent, #c6f432); font-size: 1.1rem; }
+      .q-meta { margin: 0; color: var(--muted, #8a8f95); font-size: 0.9rem; }
+      .q-bio { margin: 4px 0 0; overflow-wrap: anywhere; white-space: pre-wrap; max-width: 26rem; }
       .q-box { display: grid; gap: 10px; padding: 14px; border-radius: 18px; background: var(--surface, #17191c); }
+      .q-box h2 { margin: 0; font-size: 1.1rem; }
       .q-box textarea, .q-box input { width: 100%; box-sizing: border-box; border: 0; border-radius: 12px; padding: 12px 14px;
         font: inherit; color: inherit; background: var(--bg, #0d0e10); resize: vertical; }
       .q-box textarea { min-height: 96px; }
@@ -42,15 +61,30 @@
         background: var(--accent, #c6f432); color: var(--on-accent, #0d0e10); }
       .q-send[disabled] { opacity: 0.5; cursor: default; }
       .q-msg { margin: 0; text-align: center; }
-      .q-answers { display: grid; gap: 12px; }
-      .q-answers h2 { margin: 6px 0 0; font-size: 1.15rem; }
+      .q-sec { display: grid; gap: 10px; }
+      .q-sec h2 { margin: 0; font-size: 1.15rem; }
       .q-item { display: grid; gap: 6px; padding: 14px; border-radius: 18px; background: var(--surface, #17191c); }
       .q-who { margin: 0; font-size: 0.85rem; color: var(--muted, #8a8f95); }
       .q-ask { margin: 0; font-weight: 700; overflow-wrap: anywhere; }
       .q-ans { margin: 0; padding-inline-start: 10px; border-inline-start: 3px solid var(--accent, #c6f432); overflow-wrap: anywhere; white-space: pre-wrap; }
-      .q-app { display: grid; gap: 10px; justify-items: center; text-align: center; margin-top: 8px; }
+      .q-more { justify-self: center; border: 0; background: none; color: var(--accent, #c6f432); font: inherit; font-weight: 700; cursor: pointer; padding: 6px; }
+      .q-row { display: flex; gap: 10px; overflow-x: auto; scroll-snap-type: x mandatory; scrollbar-width: none;
+        margin: 0 -16px; padding: 0 16px; }
+      .q-row::-webkit-scrollbar { display: none; }
+      .q-tile { flex: 0 0 44%; min-width: 0; scroll-snap-align: start; display: grid; align-content: start; gap: 6px;
+        border-radius: 16px; background: var(--surface, #17191c); overflow: hidden; color: inherit; text-decoration: none; }
+      .q-tile .pic { aspect-ratio: 4 / 3; width: 100%; object-fit: cover; background: var(--bg, #0d0e10); display: block; }
+      .q-tile .shop { aspect-ratio: 1; object-fit: contain; background: #fff; }
+      .q-tile div.pic { display: grid; place-items: center; font-size: 2rem; background: #1d2a10; }
+      .q-tile .txt { display: grid; gap: 2px; padding: 0 10px 10px; }
+      .q-tile b { font-size: 0.95rem; overflow-wrap: anywhere; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
+      .q-tile span { font-size: 0.82rem; color: var(--muted, #8a8f95); }
+      .q-code { justify-self: start; border: 1px dashed var(--accent, #c6f432); border-radius: 8px; background: none;
+        color: var(--accent, #c6f432); font: inherit; font-size: 0.82rem; font-weight: 700; padding: 3px 8px; cursor: pointer; }
+      .q-app { display: grid; gap: 10px; justify-items: center; text-align: center; }
       .q-app p { margin: 0; color: var(--muted, #8a8f95); }
-      .q-open { display: block; width: 100%; text-align: center; padding: 14px 18px; border-radius: 999px; font-weight: 700;
+      .q-app.wanted p { color: inherit; font-weight: 700; }
+      .q-open { display: block; width: 100%; box-sizing: border-box; text-align: center; padding: 14px 18px; border-radius: 999px; font-weight: 700;
         text-decoration: none; border: 1px solid var(--accent, #c6f432); color: inherit; }
       .q-badges { display: flex; flex-wrap: wrap; gap: 12px; justify-content: center; align-items: center; }
       .q-badges img { height: 50px; width: auto; }
@@ -59,7 +93,8 @@
     </style>
     <script>
       (function () {
-        if (/^ar\b/i.test(navigator.language || '')) {
+        var forced = (location.search.match(/[?&]lang=(ar|en)\b/) || [])[1];
+        if (forced ? forced === 'ar' : /^ar\b/i.test(navigator.language || '')) {
           document.documentElement.lang = 'ar';
           document.documentElement.dir = 'rtl';
         }
@@ -70,40 +105,57 @@
   <body>
     <main class="q">
       <div class="q-card">
-        <div class="q-head">
-          <div class="q-avatar" id="initial" aria-hidden="true">G</div>
-          <h1 id="title" data-en="Ask me" data-ar="اسألني">Ask me</h1>
-          <p id="bio" hidden></p>
+        <div class="q-photos" id="photos" hidden></div>
+        <div class="q-head q-pad">
+          <div class="q-avatar" id="avatar" aria-hidden="true">G</div>
+          <h1><span id="title" data-en="Ask me" data-ar="اسألني">Ask me</span> <span class="q-tick" id="tick" hidden>✓</span></h1>
+          <p class="q-meta" id="meta" hidden></p>
+          <p class="q-bio" id="bio" hidden></p>
         </div>
 
-        <form class="q-box" id="form" hidden>
+        <form class="q-box q-pad" id="form" hidden>
+          <h2 data-en="Ask me 👋" data-ar="اسألني 👋">Ask me 👋</h2>
           <textarea id="body" maxlength="300" required aria-label="Your question" data-en-ph="Write your question… anonymously" data-ar-ph="اكتب سؤالك… بدون اسمك"></textarea>
           <input id="name" maxlength="30" autocomplete="nickname" data-en-ph="Your name (optional)" data-ar-ph="اسمك (اختياري)" />
           <button class="q-send" id="send" type="submit" data-en="Send" data-ar="أرسل">Send</button>
           <p class="q-msg" id="msg" hidden></p>
         </form>
 
-        <section class="q-answers" id="answers" hidden>
-          <h2 data-en="Answers" data-ar="الأجوبة">Answers</h2>
+        <section class="q-sec q-pad" id="answers" hidden>
+          <h2 data-en="Latest answers" data-ar="آخر الأجوبة">Latest answers</h2>
+          <div class="q-sec" id="answerList"></div>
+          <button class="q-more" id="moreAnswers" type="button" hidden data-en="All answers" data-ar="كل الأجوبة">All answers</button>
         </section>
 
-        <div class="q-app">
-          <a class="q-open" id="open" href="#" hidden data-en="Open their page in Grasp" data-ar="افتح صفحته في Grasp">Open their page in Grasp</a>
-          <p data-en="Grasp is the free workout app. Train with their programs." data-ar="Grasp تطبيق تمارين مجاني. تمرّن على برامجه.">Grasp is the free workout app. Train with their programs.</p>
+        <section class="q-sec q-pad" id="programs" hidden>
+          <h2 data-en="My programs" data-ar="برامجي">My programs</h2>
+          <div class="q-row" id="programRow"></div>
+        </section>
+
+        <section class="q-sec q-pad" id="store" hidden>
+          <h2 data-en="My store" data-ar="متجري">My store</h2>
+          <div class="q-row" id="storeRow"></div>
+        </section>
+
+        <div class="q-app q-pad" id="app">
+          <a class="q-open" id="open" href="#" hidden data-en="Follow and train with their programs in Grasp" data-ar="تابعه وتمرّن ببرامجه في Grasp">Follow and train with their programs in Grasp</a>
+          <p id="appLine" data-en="Grasp is the free workout app." data-ar="Grasp تطبيق تمارين مجاني.">Grasp is the free workout app.</p>
           <div class="q-badges">
             <a class="store-badge" id="ios" href="https://apps.apple.com/app/id6804474068" aria-label="Download Grasp on the App Store"><img src="/img/app-store-badge.svg" alt="Download on the App Store" width="180" height="60" /></a>
             <a class="store-badge play" id="android" href="https://play.google.com/store/apps/details?id=com.graspapp.mobile" aria-label="Get Grasp on Google Play"><img src="/img/google-play-badge.png" alt="Get it on Google Play" width="231" height="89" /></a>
           </div>
         </div>
-        <p class="q-msg" id="gone" hidden></p>
+        <p class="q-msg q-pad" id="gone" hidden></p>
       </div>
     </main>
     <script>
       (function () {
         var ar = document.documentElement.lang === 'ar';
-        var API = 'https://krwwhpdetdcqimaqwphd.supabase.co/rest/v1/rpc/';
+        var BASE = 'https://krwwhpdetdcqimaqwphd.supabase.co';
+        var API = BASE + '/rest/v1/rpc/';
         var KEY = 'sb_publishable__b43F0Q1LeDY5eWRQPxAOw_-aAi59eD';
         var say = function (en, arText) { return ar ? arText : en; };
+        var $ = function (id) { return document.getElementById(id); };
         document.querySelectorAll('[data-en]').forEach(function (el) {
           el.textContent = el.getAttribute(ar ? 'data-ar' : 'data-en');
         });
@@ -113,18 +165,69 @@
 
         var ua = navigator.userAgent || '';
         var ios = /iPhone|iPad|iPod/.test(ua) || (/Macintosh/.test(ua) && navigator.maxTouchPoints > 1);
-        if (ios) document.getElementById('android').hidden = true;
-        if (/Android/i.test(ua)) document.getElementById('ios').hidden = true;
+        if (ios) $('android').hidden = true;
+        if (/Android/i.test(ua)) $('ios').hidden = true;
+
+        // A filled page to look at while working on it: localhost and ?u=demo only.
+        var DEMO = location.hostname === 'localhost' && /[?&]u=demo\b/.test(location.search) ? {
+          coach_by_username: { coach: 'demo', name: 'فهد السبيعي', avatar: 'a:falconer', verified: true,
+            bio: 'مدرب معتمد · ٨ سنين خبرة\nتنشيف بدون حرمان 🔥' },
+          author_page_for: { photos: [], followers: 1240, specialties: ['fat_loss', 'strength'] },
+          coach_answers: [
+            { asker_name: null, body: 'كم يوم أتمرن بالأسبوع وأنا مبتدئ؟', answer: '٣ أيام، جسم كامل، وزد تدريجيًا 💪' },
+            { asker_name: 'عبدالله', body: 'أقدر أنشف وأنا أبني عضل بنفس الوقت؟', answer: 'إيه للمبتدئ: بروتين عالي وعجز بسيط.' },
+            { asker_name: null, body: 'وش أفضل وقت للبروتين؟', answer: 'مجموع اليوم أهم من التوقيت.' },
+            { asker_name: 'نورة', body: 'كارديو قبل ولا بعد الحديد؟', answer: 'بعد.' },
+          ],
+          author_plans_for: [
+            { id: 'x1', title: 'تنشيف الصيف', days_per_week: 4, weeks: 8 },
+            { id: 'x2', title: 'يومين رجل بالأسبوع', days_per_week: 2, weeks: 6 },
+            { id: 'x3', title: 'قوة للمبتدئين', days_per_week: 3, weeks: 10 },
+          ],
+          coach_items: [
+            { id: 'i1', name: 'دمبلز قابلة للتعديل', store: 'نون', url: 'https://www.noon.com', code: 'FAHAD10', image_url: '/img/equipment/dumbbell.webp' },
+            { id: 'i2', name: 'كيتل بيل ١٦ كيلو', store: 'أمازون', url: 'https://www.amazon.sa', image_url: '/img/equipment/kettlebell.webp' },
+            { id: 'i3', name: 'حبال مقاومة', store: 'بوتيكات', url: 'https://www.boutiqaat.com', code: 'FAHAD', image_url: '/img/gym/band.webp' },
+          ],
+        } : null;
+        if (DEMO) DEMO.author_page_for.photos = ['/img/exercises/alternating_renegade_row.webp', '/img/exercises/band_pull_apart.webp'];
 
         var rpc = function (name, body) {
+          if (DEMO) return Promise.resolve(name in DEMO ? DEMO[name] : name === 'ask_coach' ? 'ok' : null);
           return fetch(API + name, {
             method: 'POST',
             headers: { apikey: KEY, 'Content-Type': 'application/json' },
             body: JSON.stringify(body),
-          }).then(function (r) { return r.ok ? r.json() : null; });
+          }).then(function (r) { return r.ok ? r.json() : null; }).catch(function () { return null; });
+        };
+        var stored = function (bucket, path) {
+          return path ? BASE + '/storage/v1/object/public/' + bucket + '/' + String(path).split('/').map(encodeURIComponent).join('/') : null;
+        };
+        var el = function (tag, cls, text) {
+          var e = document.createElement(tag);
+          if (cls) e.className = cls;
+          if (text != null) e.textContent = text;
+          return e;
+        };
+        var img = function (src, cls, alt) {
+          var i = el('img', cls);
+          i.src = src;
+          i.alt = alt || '';
+          i.loading = 'lazy';
+          i.referrerPolicy = 'no-referrer';
+          return i;
+        };
+        var count = function (n) {
+          return n >= 1000 ? (Math.round(n / 100) / 10).toString().replace(/\.0$/, '') + 'k' : String(n);
+        };
+        var SPECIALTY = {
+          fat_loss: ['Fat loss', 'تنشيف'], strength: ['Strength', 'قوة'], hypertrophy: ['Muscle', 'تضخيم'],
+          beginners: ['Beginners', 'مبتدئين'], women: ['Women', 'نساء'], home: ['Home', 'بالبيت'],
+          fitness: ['Fitness', 'لياقة'], mobility: ['Mobility', 'مرونة'], calisthenics: ['Calisthenics', 'كاليستنكس'],
+          yoga: ['Yoga', 'يوغا'], crossfit: ['CrossFit', 'كروس فت'],
         };
 
-        var gone = document.getElementById('gone');
+        var gone = $('gone');
         var user = (new URLSearchParams(location.search).get('u') || '').replace(/^@/, '').trim();
         if (!/^[A-Za-z0-9._]{2,30}$/.test(user)) {
           gone.textContent = say('This link is incomplete.', 'هذا الرابط ناقص.');
@@ -132,84 +235,189 @@
           return;
         }
 
-        rpc('coach_by_username', { p_username: user })
-          .then(function (coach) {
-            if (!coach || !coach.coach) {
-              gone.textContent = say('This coach page is not on Grasp any more.', 'صفحة المدرب هذي ما عادت موجودة.');
-              gone.hidden = false;
+        rpc('coach_by_username', { p_username: user }).then(function (coach) {
+          if (!coach || !coach.coach) {
+            gone.textContent = say('This coach page is not on Grasp any more.', 'صفحة المدرب هذي ما عادت موجودة.');
+            gone.hidden = false;
+            return;
+          }
+          var id = coach.coach;
+          var name = (coach.name || '').trim() || '@' + user;
+          $('title').textContent = name;
+          document.title = say('Ask ' + name, 'اسأل ' + name) + ' · Grasp';
+          $('tick').hidden = !coach.verified;
+          var avatar = $('avatar');
+          var a = coach.avatar || '';
+          var src = /^a:[a-z-]+$/.test(a) ? '/img/avatars/' + a.slice(2) + '.webp' : a.indexOf('p:') === 0 ? stored('avatars', a.slice(2)) : null;
+          avatar.textContent = '';
+          if (src) avatar.appendChild(img(src, '', name));
+          else avatar.textContent = name.charAt(0).toUpperCase();
+          if (coach.bio) {
+            $('bio').textContent = coach.bio;
+            $('bio').hidden = false;
+          }
+          var open = $('open');
+          open.href = 'grasp://author/u:' + id;
+          open.hidden = false;
+
+          ask(id);
+          page(id);
+          answers(id);
+          programs(id);
+          store(id);
+        });
+
+        // Their photos, what they coach and how many follow them.
+        function page(id) {
+          rpc('author_page_for', { p_user: id }).then(function (p) {
+            if (!p) return;
+            var photos = (p.photos || []).map(function (path) { return DEMO ? path : stored('plan-covers', path); }).filter(Boolean);
+            if (photos.length) {
+              var strip = $('photos');
+              photos.slice(0, 6).forEach(function (u) { strip.appendChild(img(u, '', '')); });
+              strip.hidden = false;
+            }
+            var meta = (p.specialties || [])
+              .map(function (k) { return SPECIALTY[k] ? SPECIALTY[k][ar ? 1 : 0] : null; })
+              .filter(Boolean)
+              .slice(0, 3);
+            if (p.followers > 0) meta.push(say(count(p.followers) + ' followers', count(p.followers) + ' متابع'));
+            if (meta.length) {
+              $('meta').textContent = meta.join(' · ');
+              $('meta').hidden = false;
+            }
+          });
+        }
+
+        function ask(id) {
+          var form = $('form');
+          var body = $('body');
+          var send = $('send');
+          var msg = $('msg');
+          form.hidden = false;
+          form.addEventListener('submit', function (e) {
+            e.preventDefault();
+            var text = body.value.trim();
+            if (text.length < 2) {
+              msg.textContent = say('Write your question first.', 'اكتب سؤالك أول.');
+              msg.hidden = false;
               return;
             }
-            var name = (coach.name || '').trim() || '@' + user;
-            document.getElementById('initial').textContent = name.charAt(0).toUpperCase();
-            document.getElementById('title').textContent = say('Ask ' + name, 'اسأل ' + name);
-            document.title = say('Ask ' + name, 'اسأل ' + name) + ' · Grasp';
-            if (coach.bio) {
-              var bio = document.getElementById('bio');
-              bio.textContent = coach.bio;
-              bio.hidden = false;
-            }
-            var open = document.getElementById('open');
-            open.href = 'grasp://author/u:' + coach.coach;
-            open.hidden = false;
-
-            var form = document.getElementById('form');
-            var body = document.getElementById('body');
-            var send = document.getElementById('send');
-            var msg = document.getElementById('msg');
-            form.hidden = false;
-            form.addEventListener('submit', function (e) {
-              e.preventDefault();
-              var text = body.value.trim();
-              if (text.length < 2) {
-                msg.textContent = say('Write your question first.', 'اكتب سؤالك أول.');
-                msg.hidden = false;
-                return;
+            send.disabled = true;
+            rpc('ask_coach', { p_coach: id, p_body: text, p_show_name: false, p_name: $('name').value }).then(function (result) {
+              send.disabled = false;
+              if (result === 'ok') {
+                body.value = '';
+                msg.textContent = say('Your question is in. Their answer will show here.', 'وصل سؤالك. جوابه بيطلع هنا.');
+                // No account, no notification: the app is how the answer finds you.
+                $('appLine').textContent = say('Get Grasp so their answer reaches you.', 'نزّل Grasp عشان يوصلك الجواب.');
+                $('app').classList.add('wanted');
+              } else if (result === 'slow') {
+                msg.textContent = say('That’s a lot of questions. Try again in a bit.', 'أرسلت أسئلة كثير. جرّب بعد شوي.');
+              } else if (result === 'words') {
+                msg.textContent = say('Let’s keep it clean. Try other words.', 'خلّنا نحافظ على الأسلوب. جرّب كلمات ثانية.');
+              } else {
+                msg.textContent = say('That did not go through. Try again.', 'ما وصل. جرّب مرة ثانية.');
               }
-              send.disabled = true;
-              rpc('ask_coach', { p_coach: coach.coach, p_body: text, p_show_name: false, p_name: document.getElementById('name').value })
-                .then(function (result) {
-                  send.disabled = false;
-                  if (result === 'ok') {
-                    body.value = '';
-                    msg.textContent = say('Your question is in. Their answer will show here.', 'وصل سؤالك. جوابه بيطلع هنا.');
-                  } else if (result === 'slow') {
-                    msg.textContent = say('That’s a lot of questions. Try again in a bit.', 'أرسلت أسئلة كثير. جرّب بعد شوي.');
-                  } else {
-                    msg.textContent = say('That did not go through. Try again.', 'ما وصل. جرّب مرة ثانية.');
-                  }
-                  msg.hidden = false;
-                })
-                .catch(function () {
-                  send.disabled = false;
-                  msg.textContent = say('That did not go through. Try again.', 'ما وصل. جرّب مرة ثانية.');
-                  msg.hidden = false;
-                });
+              msg.hidden = false;
             });
+          });
+        }
 
-            return rpc('coach_answers', { p_coach: coach.coach, p_limit: 30 }).then(function (answers) {
-              if (!Array.isArray(answers) || answers.length === 0) return;
-              var list = document.getElementById('answers');
-              answers.forEach(function (a) {
-                var item = document.createElement('article');
-                item.className = 'q-item';
-                var who = document.createElement('p');
-                who.className = 'q-who';
-                who.textContent = a.asker_name || say('Anonymous', 'مجهول');
-                var ask = document.createElement('p');
-                ask.className = 'q-ask';
-                ask.textContent = a.body || '';
-                var ans = document.createElement('p');
-                ans.className = 'q-ans';
-                ans.textContent = a.answer || '';
-                item.appendChild(who);
-                item.appendChild(ask);
-                item.appendChild(ans);
-                list.appendChild(item);
-              });
-              list.hidden = false;
+        // The newest three; the rest behind «كل الأجوبة».
+        function answers(id) {
+          rpc('coach_answers', { p_coach: id, p_limit: 30 }).then(function (list) {
+            if (!Array.isArray(list) || list.length === 0) return;
+            var box = $('answerList');
+            list.forEach(function (q, i) {
+              var item = el('article', 'q-item');
+              item.appendChild(el('p', 'q-who', q.asker_name || say('Anonymous', 'مجهول')));
+              item.appendChild(el('p', 'q-ask', q.body || ''));
+              item.appendChild(el('p', 'q-ans', q.answer || ''));
+              item.hidden = i >= 3;
+              box.appendChild(item);
             });
-          })
-          .catch(function () {});
+            var more = $('moreAnswers');
+            if (list.length > 3) {
+              more.hidden = false;
+              more.addEventListener('click', function () {
+                box.querySelectorAll('article').forEach(function (x) { x.hidden = false; });
+                more.hidden = true;
+              });
+            }
+            $('answers').hidden = false;
+          });
+        }
+
+        // A taste of their programs: each opens its own page, which leads into the app.
+        function programs(id) {
+          rpc('author_plans_for', { p_user: id }).then(function (list) {
+            if (!Array.isArray(list) || list.length === 0) return;
+            var row = $('programRow');
+            list.slice(0, 6).forEach(function (p) {
+              var tile = el('a', 'q-tile');
+              tile.href = '/p/?id=' + encodeURIComponent(p.id);
+              var cover = stored('plan-covers', p.cover_path);
+              if (cover) tile.appendChild(img(cover, 'pic', ''));
+              else tile.appendChild(el('div', 'pic', '💪'));
+              var txt = el('div', 'txt');
+              txt.appendChild(el('b', '', p.title || ''));
+              var bits = [];
+              if (p.days_per_week) bits.push(say(p.days_per_week + ' days a week', p.days_per_week + ' أيام بالأسبوع'));
+              if (p.weeks) bits.push(say(p.weeks + ' weeks', p.weeks + ' أسابيع'));
+              if (bits.length) txt.appendChild(el('span', '', bits.join(' · ')));
+              tile.appendChild(txt);
+              row.appendChild(tile);
+            });
+            $('programs').hidden = false;
+          });
+        }
+
+        // Their store: the picture, the shop, and a code that copies right here.
+        function store(id) {
+          rpc('coach_items', { p_coach: id }).then(function (list) {
+            if (!Array.isArray(list) || list.length === 0) return;
+            var row = $('storeRow');
+            list.forEach(function (it) {
+              var tile = el('div', 'q-tile');
+              var link = /^https?:\/\//i.test(it.url || '') ? it.url : null;
+              var picture = stored('plan-covers', it.photo_path) || it.image_url;
+              var top = el(link ? 'a' : 'div');
+              if (link) {
+                top.href = link;
+                top.target = '_blank';
+                top.rel = 'noopener nofollow sponsored';
+                top.addEventListener('click', function () { rpc('tap_coach_item', { p_id: it.id }); });
+              }
+              top.style.color = 'inherit';
+              top.style.textDecoration = 'none';
+              if (picture) top.appendChild(img(picture, 'pic shop', it.name || ''));
+              else top.appendChild(el('div', 'pic shop'));
+              var txt = el('div', 'txt');
+              txt.appendChild(el('b', '', it.name || ''));
+              if (it.store) txt.appendChild(el('span', '', it.store + (link ? ' ↗' : '')));
+              top.appendChild(txt);
+              tile.appendChild(top);
+              if (it.code) {
+                var wrap = el('div', 'txt');
+                var code = el('button', 'q-code', it.code);
+                code.type = 'button';
+                code.addEventListener('click', function () {
+                  var done = function () {
+                    code.textContent = say('Copied ✓', 'نسخته ✓');
+                    setTimeout(function () { code.textContent = it.code; }, 1600);
+                  };
+                  rpc('tap_coach_item', { p_id: it.id });
+                  if (navigator.clipboard) navigator.clipboard.writeText(it.code).then(done, function () {});
+                });
+                wrap.appendChild(code);
+                tile.appendChild(wrap);
+              }
+              row.appendChild(tile);
+            });
+            $('store').hidden = false;
+          });
+        }
       })();
     </script>
     <script src="/hit.js"></script>
