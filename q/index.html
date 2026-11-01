@@ -67,6 +67,12 @@
       .q-who { margin: 0; font-size: 0.85rem; color: var(--muted, #8a8f95); }
       .q-ask { margin: 0; font-weight: 700; overflow-wrap: anywhere; }
       .q-ans { margin: 0; padding-inline-start: 10px; border-inline-start: 3px solid var(--accent, #c6f432); overflow-wrap: anywhere; white-space: pre-wrap; }
+      .q-item.lit { outline: 2px solid var(--accent, #c6f432); }
+      .q-links { display: grid; gap: 8px; }
+      .q-link { display: flex; align-items: center; gap: 12px; padding: 14px 16px; border-radius: 16px;
+        background: var(--surface, #17191c); color: inherit; text-decoration: none; font-weight: 700; min-width: 0; }
+      .q-link span { flex: 1; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+      .q-link i { font-style: normal; color: var(--muted, #8a8f95); }
       .q-more { justify-self: center; border: 0; background: none; color: var(--accent, #c6f432); font: inherit; font-weight: 700; cursor: pointer; padding: 6px; }
       .q-row { display: flex; gap: 10px; overflow-x: auto; scroll-snap-type: x mandatory; scrollbar-width: none;
         margin: 0 -16px; padding: 0 16px; }
@@ -113,6 +119,8 @@
           <p class="q-meta" id="meta" hidden></p>
           <p class="q-bio" id="bio" hidden></p>
         </div>
+        <!-- «روابطي»: the coach's own links, all the same size (owner, 2026-11-01). -->
+        <div class="q-links q-pad" id="links" hidden></div>
 
         <form class="q-box q-pad" id="form" hidden>
           <h2 data-en="Ask me 👋" data-ar="اسألني 👋">Ask me 👋</h2>
@@ -177,13 +185,16 @@
         var DEMO = location.hostname === 'localhost' && /[?&]u=demo\b/.test(location.search) ? {
           coach_by_username: { coach: 'demo', name: 'فهد السبيعي', avatar: 'a:falconer', verified: true,
             bio: 'مدرب معتمد · ٨ سنين خبرة\nتنشيف بدون حرمان 🔥' },
-          author_page_for: { photos: [], followers: 1240, specialties: ['fat_loss', 'strength'] },
+          author_page_for: { photos: [], followers: 1240, specialties: ['fat_loss', 'strength'],
+            links: [{ title: 'الاشتراكات والجداول', url: 'https://example.com/plans' }, { title: 'قناة التيليجرام', url: 'https://t.me/example' }] },
           coach_answers: [
             { asker_name: null, body: 'كم يوم أتمرن بالأسبوع وأنا مبتدئ؟', answer: '٣ أيام، جسم كامل، وزد تدريجيًا 💪' },
             { asker_name: 'عبدالله', body: 'أقدر أنشف وأنا أبني عضل بنفس الوقت؟', answer: 'إيه للمبتدئ: بروتين عالي وعجز بسيط.' },
             { asker_name: null, body: 'وش أفضل وقت للبروتين؟', answer: 'مجموع اليوم أهم من التوقيت.' },
             { asker_name: 'نورة', body: 'كارديو قبل ولا بعد الحديد؟', answer: 'بعد.' },
           ],
+          coach_answer: [{ id: '00000000-0000-0000-0000-000000000009', coach: 'demo', asker_name: null,
+            body: 'هل الرياضة تساعد بزيادة الطول؟', answer: 'تساعد إن شاء الله 🩷' }],
           author_plans_for: [
             { id: 'x1', title: 'تنشيف الصيف', days_per_week: 4, weeks: 8 },
             { id: 'x2', title: 'يومين رجل بالأسبوع', days_per_week: 2, weeks: 6 },
@@ -291,6 +302,24 @@
               $('meta').textContent = meta.join(' · ');
               $('meta').hidden = false;
             }
+            var links = (p.links || []).filter(function (l) { return l && /^https?:\/\//i.test(l.url || ''); });
+            if (links.length) {
+              var box = $('links');
+              links.slice(0, 5).forEach(function (l) {
+                var a = el('a', 'q-link');
+                a.href = l.url;
+                a.target = '_blank';
+                a.rel = 'noopener nofollow';
+                var host = (l.url.replace(/^https?:\/\//i, '').split(/[\/?#]/)[0] || '').toLowerCase();
+                var mark = /(^|\.)t\.me$|telegram/.test(host) ? '✈️' : /wa\.me|whatsapp/.test(host) ? '💬'
+                  : /instagram/.test(host) ? '📸' : /tiktok/.test(host) ? '🎵' : /youtu/.test(host) ? '▶️' : '🔗';
+                a.appendChild(el('b', '', mark));
+                a.appendChild(el('span', '', l.title || host));
+                a.appendChild(el('i', '', ar ? '‹' : '›'));
+                box.appendChild(a);
+              });
+              box.hidden = false;
+            }
           });
         }
 
@@ -330,12 +359,17 @@
         }
 
         // The newest three; the rest behind «كل الأجوبة».
+        var wanted = new URLSearchParams(location.search).get('a') || '';
         function answers(id) {
-          rpc('coach_answers', { p_coach: id, p_limit: 30 }).then(function (list) {
-            if (!Array.isArray(list) || list.length === 0) return;
+          var one = /^[0-9a-f-]{36}$/i.test(wanted) ? rpc('coach_answer', { p_id: wanted }) : Promise.resolve(null);
+          Promise.all([rpc('coach_answers', { p_coach: id, p_limit: 30 }), one]).then(function (got) {
+            var list = Array.isArray(got[0]) ? got[0] : [];
+            var shared = Array.isArray(got[1]) && got[1][0] && got[1][0].coach === id ? got[1][0] : null;
+            if (shared) list = [shared].concat(list.filter(function (q) { return q.id !== shared.id; }));
+            if (list.length === 0) return;
             var box = $('answerList');
             list.forEach(function (q, i) {
-              var item = el('article', 'q-item');
+              var item = el('article', shared && i === 0 ? 'q-item lit' : 'q-item');
               item.appendChild(el('p', 'q-who', q.asker_name || say('Anonymous', 'مجهول')));
               item.appendChild(el('p', 'q-ask', q.body || ''));
               item.appendChild(el('p', 'q-ans', q.answer || ''));
@@ -351,6 +385,7 @@
               });
             }
             $('answers').hidden = false;
+            if (shared) box.firstChild.scrollIntoView({ block: 'center' });
           });
         }
 
