@@ -89,6 +89,7 @@
       .q-badges { display: flex; flex-wrap: wrap; gap: 12px; justify-content: center; align-items: center; }
       .q-badges img { height: 50px; width: auto; }
       .q-badges .play img { height: 74px; margin: -12px; }
+      .q-own { margin-top: 6px; font-size: 0.9rem; color: var(--muted, #8a8f95); text-decoration: underline; text-underline-offset: 3px; }
       [hidden] { display: none !important; }
     </style>
     <script>
@@ -144,6 +145,8 @@
             <a class="store-badge" id="ios" href="https://apps.apple.com/app/id6804474068" aria-label="Download Grasp on the App Store"><img src="/img/app-store-badge.svg" alt="Download on the App Store" width="180" height="60" /></a>
             <a class="store-badge play" id="android" href="https://play.google.com/store/apps/details?id=com.graspapp.mobile" aria-label="Get Grasp on Google Play"><img src="/img/google-play-badge.png" alt="Get it on Google Play" width="231" height="89" /></a>
           </div>
+          <!-- A coach looking at another coach's page can have one too (owner, 2026-11-01), as Linktree and Tellonym ask at the foot of every page. -->
+          <a class="q-own" id="own" href="/get/" data-en="Coach? Make your page, free" data-ar="مدرب؟ سوّ صفحتك مجانًا">Coach? Make your page, free</a>
         </div>
         <p class="q-msg q-pad" id="gone" hidden></p>
       </div>
@@ -167,6 +170,8 @@
         var ios = /iPhone|iPad|iPod/.test(ua) || (/Macintosh/.test(ua) && navigator.maxTouchPoints > 1);
         if (ios) $('android').hidden = true;
         if (/Android/i.test(ua)) $('ios').hidden = true;
+        // The store this phone uses; a computer gets the download page.
+        $('own').href = ios ? $('ios').href : /Android/i.test(ua) ? $('android').href : '/get/';
 
         // A filled page to look at while working on it: localhost and ?u=demo only.
         var DEMO = location.hostname === 'localhost' && /[?&]u=demo\b/.test(location.search) ? {
