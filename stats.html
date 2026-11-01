@@ -406,6 +406,17 @@
       .tool { display: flex; flex-wrap: wrap; align-items: center; gap: 8px 12px; margin-bottom: 12px; font-size: 0.8rem; }
       .tool input[type='search'] { min-width: 0; width: 13rem; max-width: 100%; }
       .tool .count { color: var(--faint); margin-inline-start: auto; }
+      .co-row { display: grid; gap: 6px; padding: 12px 0; border-top: 1px solid var(--line, rgba(255,255,255,.08)); }
+      .co-row:first-of-type { border-top: 0; }
+      .co-head { display: flex; gap: 10px; align-items: baseline; flex-wrap: wrap; }
+      .co-bio { margin: 0; overflow-wrap: anywhere; }
+      .co-links { display: flex; gap: 12px; flex-wrap: wrap; font-size: 0.85rem; }
+      .co-links a { color: var(--accent); text-decoration: none; }
+      .co-acts { display: flex; gap: 8px; align-items: center; flex-wrap: wrap; }
+      .co-btn { font: inherit; font-size: 0.85rem; padding: 6px 12px; border-radius: 999px; cursor: pointer;
+        border: 1px solid var(--line, rgba(255,255,255,.2)); background: transparent; color: inherit; }
+      .co-btn.primary { background: var(--accent); color: #0d0e10; border-color: transparent; font-weight: 700; }
+      .co-btn[disabled] { opacity: .5; cursor: default; }
       .chip {
         display: inline-flex; align-items: center; gap: 6px;
         background: var(--accent-muted); color: var(--text);
@@ -1286,6 +1297,7 @@
             sm: storeMetrics, smLog: storeMetricsLog,
             behaviour: raw.behaviour || null,
             audience: raw.audience || null,
+            coaches: raw.coaches || null,
           };
         }
 
@@ -4805,6 +4817,142 @@
         }
 
         /* =================================================================
+           11. Coaches — the coach side in numbers, and the tick (owner,
+           2026-11-01: "how can I verify coaches?"), from
+           analytics.coaches_snapshot(). Every coach has every feature; the
+           tick and a place in the app's public coaches list come with
+           verification, given here. Approve and Reject call
+           public.admin_verify_coach with your own sign-in, which checks
+           analytics.admins on the server. The filters above do not apply.
+           ================================================================= */
+
+        function adminRpc(name, body) {
+          if (DEMO) return Promise.resolve('ok');
+          var session = loadSession();
+          if (!session || !session.access_token) return Promise.reject(new Error('signed-out'));
+          return fetch(SUPABASE_URL + '/rest/v1/rpc/' + name, {
+            method: 'POST',
+            headers: {
+              apikey: PUBLISHABLE_KEY,
+              Authorization: 'Bearer ' + session.access_token,
+              'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(body),
+          }).then(function (r) {
+            return r.json().then(function (j) {
+              if (!r.ok) throw new Error((j && j.message) || 'Could not save.');
+              return j;
+            });
+          });
+        }
+
+        var SOCIAL_URL = {
+          instagram: 'https://instagram.com/', tiktok: 'https://www.tiktok.com/@', snapchat: 'https://www.snapchat.com/add/',
+          x: 'https://x.com/', youtube: 'https://www.youtube.com/@',
+        };
+
+        function coachLinks(c) {
+          var box = el('div', 'co-links');
+          if (c.username) {
+            var a = el('a', null, '@' + c.username + ' · page');
+            a.href = '/q/?u=' + encodeURIComponent(c.username);
+            a.target = '_blank'; a.rel = 'noopener';
+            box.appendChild(a);
+          }
+          Object.keys(c.socials || {}).forEach(function (k) {
+            var v = String(c.socials[k] || '').replace(/^@/, '');
+            if (!v || !SOCIAL_URL[k]) return;
+            var a = el('a', null, k + ' ' + v);
+            a.href = SOCIAL_URL[k] + encodeURIComponent(v);
+            a.target = '_blank'; a.rel = 'noopener nofollow';
+            box.appendChild(a);
+          });
+          return box;
+        }
+
+        function coachNumbers(c) {
+          return [
+            fmtN(c.clients) + ' clients', fmtN(c.followers) + ' followers', fmtN(c.programs) + ' programs',
+            fmtN(c.answered) + '/' + fmtN(c.asked) + ' answered', fmtN(c.items) + ' products · ' + fmtN(c.taps) + ' taps',
+          ].join(' · ');
+        }
+
+        function rCoaches(p) {
+          var C = M.coaches;
+          if (!C || !C.totals) { card(p, 'Coaches').appendChild(el('p', 'empty', 'No coach data yet.')); return; }
+          var T = C.totals;
+          p.appendChild(el('p', 'note', 'Every coach; the filters above don’t apply. Totals leave out test accounts.'));
+          var tl = el('div', 'tiles');
+          p.appendChild(tl);
+          tile(tl, 'Coaches', fmtN(T.coaches), fmtN(T.verified) + ' verified', { lead: true });
+          tile(tl, 'Waiting for the tick', fmtN(T.pending), T.pending ? 'see below' : 'none');
+          tile(tl, 'Clients', fmtN(T.clients), fmtN(T.followers) + ' followers');
+          tile(tl, 'Questions', fmtN(T.asked), fmtN(T.answered) + ' answered · ' + fmtN(T.web_asked) + ' from the web');
+          tile(tl, 'Programs', fmtN(T.programs), 'published by coaches');
+          tile(tl, 'Products', fmtN(T.items), fmtN(T.taps) + ' taps to the store');
+          tile(tl, 'Gym teams', fmtN(T.team_joins), 'joined this month');
+
+          // The requests: who asked for the tick, with what they have.
+          var rc = card(p, 'Verification requests', C.requests.length ? 'oldest first' : null);
+          if (!C.requests.length) rc.appendChild(el('p', 'empty', 'No one is waiting.'));
+          C.requests.forEach(function (c) { rc.appendChild(coachRow(c, true)); });
+
+          var pair = row(p);
+          var all = card(pair, 'All coaches', 'verified first');
+          (C.coaches || []).forEach(function (c) { all.appendChild(coachRow(c, false)); });
+
+          var gc = card(pair, 'Gym teams this month', 'members');
+          if (!(C.gyms || []).length) gc.appendChild(el('p', 'empty', 'No gym teams yet.'));
+          else hbars(gc, C.gyms.map(function (g) {
+            var name = String(g.team || '').replace(/^x:/, '');
+            return { label: name, value: g.members, display: fmtN(g.members) };
+          }));
+        }
+
+        function coachRow(c, asking) {
+          var r = el('div', 'co-row');
+          var head = el('div', 'co-head');
+          head.appendChild(el('strong', null, (c.name || '@' + (c.username || '?')) + (c.verified ? ' ✓' : '')));
+          if (c.requested_at && !c.verified) head.appendChild(el('span', 'note', 'asked ' + String(c.requested_at).slice(0, 10)));
+          r.appendChild(head);
+          if (c.bio) r.appendChild(el('p', 'co-bio', c.bio));
+          if ((c.specialties || []).length) r.appendChild(el('p', 'note', c.specialties.join(' · ')));
+          r.appendChild(el('p', 'note', coachNumbers(c)));
+          r.appendChild(coachLinks(c));
+          var acts = el('div', 'co-acts');
+          var problem = el('span', 'note');
+          var act = function (label, approve, primary) {
+            var b = el('button', 'co-btn' + (primary ? ' primary' : ''), label);
+            b.type = 'button';
+            b.addEventListener('click', function () {
+              b.disabled = true;
+              problem.textContent = '';
+              adminRpc('admin_verify_coach', { p_user: c.user_id, p_approve: approve }).then(function () {
+                c.verified = approve;
+                c.requested_at = null;
+                if (M.coaches) {
+                  M.coaches.requests = M.coaches.requests.filter(function (x) { return x.user_id !== c.user_id; });
+                  M.coaches.totals.pending = M.coaches.requests.length;
+                  M.coaches.totals.verified += approve ? 1 : asking ? 0 : -1;
+                  (M.coaches.coaches || []).forEach(function (x) { if (x.user_id === c.user_id) { x.verified = approve; x.requested_at = null; } });
+                }
+                renderActive();
+              }).catch(function (e) {
+                b.disabled = false;
+                problem.textContent = e.message || 'Could not save.';
+              });
+            });
+            acts.appendChild(b);
+          };
+          if (asking) { act('Approve ✓', true, true); act('Reject', false, false); }
+          else if (c.verified) act('Remove tick', false, false);
+          else act('Give the tick', true, false);
+          acts.appendChild(problem);
+          r.appendChild(acts);
+          return r;
+        }
+
+        /* =================================================================
            Tabs, controls, wiring.
            ================================================================= */
 
@@ -4819,6 +4967,7 @@
           { id: 'audience', name: 'Audience', q: 'Who are they, and which of them stay?', render: rAudience },
           { id: 'quality', name: 'Quality', q: 'Is the app working for people?', render: rQuality },
           { id: 'behaviour', name: 'Behaviour', q: 'How do people use the app?', render: rBehaviour },
+          { id: 'coaches', name: 'Coaches', q: 'Who coaches on Grasp, and who gets the tick?', render: rCoaches },
         ];
         /* Tab ids from before the eight-tab layout, so old links and bookmarks still land. */
         var OLD_TABS = { growth: 'activation', website: 'stores', health: 'quality', activity: 'engagement', training: 'product', features: 'product' };
@@ -5302,6 +5451,18 @@
             },
             v2: { generated_at: iso(now), users: users, sessions: sessions, exercises: exercises, store_daily: demoStore, store_metrics: demoMetrics, store_metrics_log: demoMetricsLog, crash_rows: crashRows },
             behaviour: demoBehaviour(),
+            coaches: {
+              totals: { coaches: 6, verified: 2, pending: 2, clients: 31, followers: 2400, programs: 14, asked: 58, answered: 41, web_asked: 23, items: 22, taps: 640, team_joins: 37 },
+              requests: [
+                { user_id: 'd1', name: 'Fahad Coach', username: 'fahad.lifts', bio: 'Certified coach · 8 years · Riyadh', specialties: ['fat_loss', 'strength'], socials: { instagram: 'fahad.lifts', tiktok: 'fahadlifts' }, verified: false, requested_at: '2026-10-30T10:00:00Z', clients: 9, followers: 820, programs: 4, asked: 22, answered: 18, items: 6, taps: 210 },
+                { user_id: 'd2', name: 'Reem', username: 'reem.fit', bio: 'Women’s strength', specialties: ['women'], socials: { instagram: 'reem.fit' }, verified: false, requested_at: '2026-10-31T09:00:00Z', clients: 3, followers: 140, programs: 2, asked: 5, answered: 5, items: 2, taps: 40 },
+              ],
+              coaches: [
+                { user_id: 'd3', name: 'Saud', username: 'saud', socials: {}, verified: true, clients: 12, followers: 900, programs: 5, asked: 20, answered: 14, items: 8, taps: 300 },
+                { user_id: 'd1', name: 'Fahad Coach', username: 'fahad.lifts', socials: { instagram: 'fahad.lifts' }, verified: false, requested_at: '2026-10-30T10:00:00Z', clients: 9, followers: 820, programs: 4, asked: 22, answered: 18, items: 6, taps: 210 },
+              ],
+              gyms: [{ team: 'fitness_time', members: 14 }, { team: 'bfit', members: 9 }, { team: 'x:Iron Temple', members: 4 }, { team: 'home', members: 10 }],
+            },
             audience: {
               people: 110, median_age: 29,
               groups: {
