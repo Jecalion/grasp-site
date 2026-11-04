@@ -1298,6 +1298,7 @@
             behaviour: raw.behaviour || null,
             audience: raw.audience || null,
             coaches: raw.coaches || null,
+            invites: raw.invites || null,
           };
         }
 
@@ -4953,6 +4954,46 @@
         }
 
         /* =================================================================
+           Invites — who opens the friend and crew links, and who joins.
+           Opens and store presses are anonymous daily counts of /f/ and /c/.
+           Joined is a link that made a new friend or crew member; it runs
+           low for new people, because the stores drop the link on install.
+           ================================================================= */
+
+        var INVITE_LINKS = { friend: 'Friend link', crew: 'Crew link' };
+        var INVITE_SOURCES = {
+          leaderboard: 'Leaderboard', friends: 'Friends page', profile: 'Profile', summary: 'After a workout',
+          account: 'Account', crew: 'Crews',
+        };
+
+        function rInvites(p) {
+          var I = M.invites;
+          if (!I || !I.totals) { card(p, 'Invites').appendChild(el('p', 'empty', 'No invite data yet.')); return; }
+          var T = I.totals;
+          p.appendChild(el('p', 'note', 'Every invite since counting began' + (T.since ? ' on ' + String(T.since).slice(0, 10) : '') + '; the filters above don’t apply.'));
+          var tl = el('div', 'tiles');
+          p.appendChild(tl);
+          tile(tl, 'Link clicks', fmtN(T.opens), fmtN(T.opens_7d) + ' in 7 days', { lead: true });
+          tile(tl, 'Went to the store', fmtN(T.store), T.opens ? Math.round((T.store / T.opens) * 100) + '% of clicks' : 'no clicks yet');
+          tile(tl, 'Joined through a link', fmtN(T.joined), fmtN(T.joined_7d) + ' in 7 days');
+          tile(tl, 'New people', fmtN(T.new_people), 'of those who joined');
+
+          var r1 = row(p);
+          hbars(card(r1, 'Which link'), (I.links || []).map(function (l) {
+            return { label: INVITE_LINKS[l.kind] || l.kind, value: Number(l.opens) || 0, sub: fmtN(l.joined) + ' joined' };
+          }), { emptyText: 'No clicks yet.' });
+          var inApp = (I.sources || []).filter(function (r) { return INVITE_SOURCES[r.name]; });
+          hbars(card(r1, 'Shared from', 'needs the next app build'), inApp.map(function (r) {
+            return { label: INVITE_SOURCES[r.name], value: Number(r.opens) || 0, sub: Number(r.store) ? r.store + ' to the store' : '' };
+          }), { emptyText: 'Links carry their page from the next app build.' });
+          hbars(card(p, 'Who brought the most people'), (I.people || []).map(function (r) {
+            return { label: r.name || r.username || 'Unknown', value: Number(r.joined) || 0, sub: Number(r.new_people) ? r.new_people + ' new' : '' };
+          }), { emptyText: 'Nobody has joined through a link yet.' });
+          p.appendChild(el('p', 'said', 'Clicks are page opens, not people. Joined runs low for new people: the stores drop the link on install, so they only count if they open it again in the app.'));
+        }
+
+
+        /* =================================================================
            Tabs, controls, wiring.
            ================================================================= */
 
@@ -4968,6 +5009,7 @@
           { id: 'quality', name: 'Quality', q: 'Is the app working for people?', render: rQuality },
           { id: 'behaviour', name: 'Behaviour', q: 'How do people use the app?', render: rBehaviour },
           { id: 'coaches', name: 'Coaches', q: 'Who coaches on Grasp, and who gets the tick?', render: rCoaches },
+          { id: 'invites', name: 'Invites', q: 'Do people bring their friends?', render: rInvites },
         ];
         /* Tab ids from before the eight-tab layout, so old links and bookmarks still land. */
         var OLD_TABS = { growth: 'activation', website: 'stores', health: 'quality', activity: 'engagement', training: 'product', features: 'product' };
@@ -5451,6 +5493,12 @@
             },
             v2: { generated_at: iso(now), users: users, sessions: sessions, exercises: exercises, store_daily: demoStore, store_metrics: demoMetrics, store_metrics_log: demoMetricsLog, crash_rows: crashRows },
             behaviour: demoBehaviour(),
+            invites: {
+              totals: { opens: 86, opens_7d: 24, store: 31, joined: 9, joined_7d: 3, new_people: 4, since: '2026-11-04' },
+              links: [{ kind: 'friend', opens: 61, store: 22, joined: 6 }, { kind: 'crew', opens: 25, store: 9, joined: 3 }],
+              sources: [{ name: 'leaderboard', opens: 34, store: 13 }, { name: 'friends', opens: 21, store: 8 }, { name: 'direct', opens: 31, store: 10 }],
+              people: [{ name: 'Fahad', username: 'fahad', joined: 4, new_people: 2 }, { name: 'Reem', username: 'reem', joined: 2, new_people: 1 }],
+            },
             coaches: {
               totals: { coaches: 6, verified: 2, pending: 2, clients: 31, followers: 2400, programs: 14, asked: 58, answered: 41, web_asked: 23, items: 22, taps: 640, team_joins: 37 },
               requests: [
