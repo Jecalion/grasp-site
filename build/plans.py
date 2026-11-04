@@ -67,6 +67,7 @@ S = {
         'hub_title': 'Home Workout Plans: Dumbbells, Bodyweight, Bands and More',
         'hub_h1': 'Home workout plans',
         'hub_p': 'Simple, free plans for beginners training at home. Pick your equipment and how many days a week.',
+        'hub_pick': 'Pick your days',
         'hub_item': '{days} days a week', 'train_on': 'Train on',
         'level': {'beginner': 'Beginner', 'intermediate': 'Intermediate'},
         'used_h': 'Used in these workout plans',
@@ -106,6 +107,7 @@ S = {
         'hub_title': 'جداول تمارين في البيت: دمبل، بدون أدوات، حبال مقاومة وغيرها',
         'hub_h1': 'جداول تمارين في البيت',
         'hub_p': 'جداول بسيطة ومجانية للمبتدئين في البيت. اختر أدواتك وكم يوم في الأسبوع.',
+        'hub_pick': 'اختر عدد الأيام',
         'hub_item': '{days} أيام في الأسبوع', 'train_on': 'أيام التمرين',
         'level': {'beginner': 'مبتدئ', 'intermediate': 'متوسط'},
         'used_h': 'موجود في جداول التمارين هذي',
@@ -330,11 +332,12 @@ def hub_page(pages, lang):
         items = [(k, p) for k, p in pages.items() if p['setup'] == setup]
         if not items:
             continue
+        items.sort(key=lambda kp: kp[1]['days'])
         li = ''.join(f'<li><a href="{ppath(lang, k)}"><b>{p["days"]}</b><small>{s["hub_item"].format(days=p["days"]).replace(str(p["days"]), "", 1).strip()}</small></a></li>'
-                     for k, p in sorted(items, key=lambda kp: kp[1]['days']))
+                     for k, p in items)
         gear = items[0][1]['equipment'] or ['bodyweight_only']
         icons = ''.join(X.eq_icon(g) for g in gear)
-        groups.append(f'        <section class="setup-card" id="{setup}"><div class="setup-head"><span class="hero-gear">{icons}</span><h2>{SETUPS[setup][lang]}</h2></div><ul class="plan-tiles">{li}</ul></section>')
+        groups.append(f'        <section class="setup-card" id="{setup}"><div class="setup-head"><span class="hero-gear">{icons}</span><h2><a class="setup-link" href="{ppath(lang, items[0][0])}">{SETUPS[setup][lang]}</a></h2></div><p class="setup-pick">{s["hub_pick"]}</p><ul class="plan-tiles">{li}</ul></section>')
     ld = {'@context': 'https://schema.org', '@type': 'CollectionPage', 'name': s['hub_h1'], 'inLanguage': lang,
           'description': s['hub_p']}
     body = f'''        <h1>{s['hub_h1']}</h1>
